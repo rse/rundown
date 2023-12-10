@@ -7,6 +7,7 @@
     "repository":                 "git+https://github.com/rse/rundown.git",
     "bugs":                       { "url":  "http://github.com/rse/rundown/issues" },
     "version":                    "0.9.0",
+    "stdver":                     "0.9.0-EA",
     "license":                    "GPL-3.0-only",
     "bin":                        { "rundown": "rundown.js" },
     "author": {
