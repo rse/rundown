@@ -1,0 +1,47 @@
+{
+    "name":                       "@rse/rundown",
+    "private":                    false,
+    "description":                "Generate Rundown Scripts for Teleprompting",
+    "keywords":                   [ "rundown", "cue", "prompter" ],
+    "homepage":                   "http://github.com/rse/rundown",
+    "repository":                 "git+https://github.com/rse/rundown.git",
+    "bugs":                       { "url":  "http://github.com/rse/rundown/issues" },
+    "version":                    "0.9.0",
+    "license":                    "GPL-3.0-only",
+    "bin":                        { "rundown": "rundown.js" },
+    "author": {
+        "name":                   "Dr. Ralf S. Engelschall",
+        "email":                  "rse@engelschall.com",
+        "url":                    "http://engelschall.com"
+    },
+    "devDependencies": {
+        "eslint":                 "8.55.0",
+        "eslint-config-standard": "17.1.0",
+        "eslint-plugin-promise":  "6.1.1",
+        "eslint-plugin-import":   "2.29.0",
+        "eslint-plugin-node":     "11.1.0",
+        "npm-run-all":            "4.1.5",
+        "shx":                    "0.3.4",
+        "pkg":                    "5.8.1",
+        "remark-cli":             "12.0.0",
+        "remark":                 "15.0.1",
+        "remark-man":             "9.0.0"
+    },
+    "dependencies": {
+        "cli-io":                 "0.9.11",
+        "yargs":                  "17.7.2",
+        "@shy1118/mammoth":       "1.6.3",
+        "cheerio":                "1.0.0-rc.12"
+    },
+    "scripts": {
+        "prepublishOnly":         "npm-run-all -s lint",
+        "build":                  "npm-run-all -s lint man:build pkg:build",
+        "clean":                  "npm-run-all -s      man:clean pkg:clean",
+        "lint":                   "eslint --config eslint.yaml rundown.js",
+        "man:build":              "remark --quiet --use remark-man --output rundown.1 rundown.md",
+        "man:clean":              "shx rm -f rundown.1",
+        "pkg:build":              "pkg -t node18-win .",
+        "pkg:clean":              "shx rm -f rundown.exe",
+        "test":                   "node rundown.js -f qprompt -o sample.html sample.docx"
+    }
+}
