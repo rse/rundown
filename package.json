@@ -4,7 +4,7 @@
     "description":                "Generate Rundown Scripts for Teleprompting",
     "keywords":                   [ "rundown", "cue", "prompter" ],
     "homepage":                   "http://github.com/rse/rundown",
-    "repository":                 "git+https://github.com/rse/rundown.git",
+    "repository":                 { "type": "git", "url": "git+https://github.com/rse/rundown.git" },
     "bugs":                       { "url":  "http://github.com/rse/rundown/issues" },
     "version":                    "0.9.0",
     "stdver":                     "0.9.0-EA",
