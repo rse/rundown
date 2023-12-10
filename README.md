@@ -1,4 +1,6 @@
 
+<img src="https://raw.githubusercontent.com/rse/rundown/master/rundown-logo.svg" width="200" align="right" alt=""/>
+
 Rundown
 =======
 
