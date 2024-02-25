@@ -64,15 +64,18 @@ app.on("ready", () => {
 
     let proc = null
     electron.ipcMain.handle("rundown.start", async (ev, input, output, extract, format) => {
+        const x = app.getPath("exe") + ":" + process.env.PORTABLE_EXECUTABLE_FILE + ":" + process.env.PORTABLE_EXECUTABLE_APP_FILENAME
+        mainWindow.webContents.send("rundown.log", `x: ${x}`)
+
         /*  determine CLI program path  */
         let program
-        if      (os.platform() === "linux"  && os.arch() === "x64") program = "rundown-lnx-x64"
-        else if (os.platform() === "darwin" && os.arch() === "x64") program = "rundown-mac-x64"
-        else if (os.platform() === "win32"  && os.arch() === "x64") program = "rundown-win-x64.exe"
+        if      (os.platform() === "linux"  && os.arch() === "x64") program = "rundown-cli-lnx-x64"
+        else if (os.platform() === "darwin" && os.arch() === "x64") program = "rundown-cli-mac-x64"
+        else if (os.platform() === "win32"  && os.arch() === "x64") program = "rundown-cli-win-x64.exe"
         else
             throw new Error("unsupported platform")
         let p1 = path.resolve(`./${program}`)
-        let p2 = path.resolve(`../${program}`)
+        let p2 = path.resolve(`../cli/${program}`)
         let p3 = path.join(app.getAppPath(), program).replace("app.asar", "app.asar.unpacked")
         let p
         if      (await fs.promises.access(p1, fs.constants.F_OK).then(() => true).catch(() => false)) p = p1

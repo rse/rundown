@@ -1,5 +1,5 @@
 {
-    "name":                  "Rundown",
+    "name":                  "rundown-gui",
     "version":               "0.0.0",
     "description":           "Generate Rundown Scripts for Teleprompting",
     "keywords":              [],
@@ -36,11 +36,11 @@
     },
     "build": {
         "appId":                         "com.engelschall.apps.rundown",
-        "productName":                   "Rundown",
+        "productName":                   "rundown-gui",
         "asar":                          true,
-        "asarUnpack":                    [ "rundown-mac-x64",
-                                           "rundown-win-x64.exe",
-                                           "rundown-lnx-x64" ],
+        "asarUnpack":                    [ "rundown-cli-mac-x64",
+                                           "rundown-cli-win-x64.exe",
+                                           "rundown-cli-lnx-x64" ],
         "removePackageScripts":          true,
         "compression":                   "normal",
         "directories": {
@@ -82,7 +82,7 @@
         "linux": {
             "category":                  "AudioVideo",
             "target":                    [ { "target": "AppImage" } ],
-            "executableName":            "Rundown",
+            "executableName":            "rundown-gui",
             "icon":                      "app-ui-icon.png",
             "files": [                   "!*.ai",
                                          "!node_modules/electron-builder/**",
@@ -99,7 +99,7 @@
         },
         "portable": {
             "useZip":                    true,
-            "artifactName":              "Rundown.exe"
+            "artifactName":              "rundown-gui.exe"
         }
     }
 }

@@ -36,7 +36,7 @@ const zip       = require("cross-zip")
         arch2 = "a64"
     if (os.platform() === "win32") {
         /*  embed CLI program  */
-        shell.cp(path.join(__dirname, "..", "rundown-win-x64.exe"), "rundown-win-x64.exe") 
+        shell.cp(path.join(__dirname, "..", "rundown-cli-win-x64.exe"), "rundown-cli-win-x64.exe")
 
         /*  run Electron-Builder to package the application  */
         console.log("++ packaging App as an Electron distribution for Windows platform")
@@ -52,7 +52,7 @@ const zip       = require("cross-zip")
     }
     else if (os.platform() === "darwin") {
         /*  embed CLI program  */
-        shell.cp(path.join(__dirname, "..", "rundown-mac-x64"), "rundown-mac-x64") 
+        shell.cp(path.join(__dirname, "..", "rundown-cli-mac-x64"), "rundown-cli-mac-x64")
 
         /*  run Electron-Builder to package the application  */
         console.log("++ packaging App as an Electron distribution for macOS platform")
@@ -69,7 +69,7 @@ const zip       = require("cross-zip")
     }
     else if (os.platform() === "linux") {
         /*  embed CLI program  */
-        shell.cp(path.join(__dirname, "..", "rundown-lnx-x64"), "rundown-lnx-x64") 
+        shell.cp(path.join(__dirname, "..", "rundown-cli-lnx-x64"), "rundown-cli-lnx-x64")
 
         /*  run Electron-Builder to package the application  */
         console.log("++ packaging App as an Electron distribution for Linux platform")
