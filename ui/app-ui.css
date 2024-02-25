@@ -1,0 +1,217 @@
+/*
+**  Rundown - Generate Rundown Scripts for Teleprompting
+**  Copyright (c) 2023-2024 Dr. Ralf S. Engelschall <rse@engelschall.com>
+**  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
+*/
+
+@import "node_modules/typopro-web/web/TypoPRO-SourceSansPro/TypoPRO-SourceSansPro.css";
+@import "node_modules/typopro-web/web/TypoPRO-Hack/TypoPRO-Hack.css";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+}
+body {
+    background-color: #113355;
+    color: #ffffff;
+    font-family: "TypoPRO Source Sans Pro";
+    font-size: 11pt;
+    padding: 20px;
+    height: calc(100% - 40px);
+    width: calc(100% - 40px);
+    user-select: none;
+    cursor: default;
+}
+
+a,
+a:visited {
+    color: #99ccff;
+    text-decoration: none;
+}
+a:hover {
+    color: #bbeeff;
+}
+
+.canvas {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.canvas .canvas-top {
+    flex: 0;
+    height: 240px;
+}
+.canvas .canvas-bottom {
+    margin-top: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.head {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+.head > div.title {
+    flex: 1;
+    font-weight: bold;
+    font-size: 38pt;
+    line-height: 38pt;
+    letter-spacing: -2.0px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+    color: #99ccff;
+    padding-top: 4px;
+}
+.head > img.logo {
+    flex: 0;
+    height: 50px;
+}
+
+div.form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+div.form > .left {
+    flex: 1;
+}
+div.form > .right {
+    flex: 0;
+}
+
+div.form .row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 4px;
+}
+
+label {
+    white-space: nowrap;
+    width: 180px;
+}
+
+input {
+    background-color: #336699;
+    color: #ffffff;
+    border: 1px solid #6699cc;
+    border-radius: 2px;
+    padding: 2px;
+    font-size: 100%;
+}
+input:focus {
+    background-color: #6699cc;
+    border: 1px solid #99ccff;
+    outline: none;
+}
+input#inputfile,
+input#outputfile {
+    margin-right: 8px;
+}
+
+button {
+    background-color: #6699cc;
+    border: 1px solid #99ccff;
+    border-radius: 2px;
+    color: #ffffff;
+    padding: 2px;
+    font-size: 100%;
+}
+button:focus {
+    outline: none;
+}
+button:active {
+    background-color: #99ccff;
+}
+button:hover {
+    background-color: #99ccff;
+}
+
+input#input,
+input#output,
+input#extract,
+input#format {
+    flex: 1;
+}
+button#inputchoose,
+button#outputchoose {
+    width: 80px;
+    margin-left: 4px;
+}
+
+button#startstop {
+    height: 100%;
+    width: 120px;
+    font-weight: bold;
+    font-size: 120%;
+    margin-left: 10px;
+}
+button#startstop.stop {
+    color: #336699;
+}
+button#startstop.start > span.start {
+    display: inline;
+}
+button#startstop.stop > span.stop {
+    display: inline;
+}
+button#startstop.start > span.stop {
+    display: none;
+}
+button#startstop.stop > span.start {
+    display: none;
+}
+
+div#progress {
+    margin-top: 10px;
+    border-radius: 2px;
+    width: calc(100% - 2px);
+    height: 20px;
+    background-color: #336699;
+    border: 1px solid #6699cc;
+    position: relative;
+}
+div#progress > .bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 20px;
+    background-color: #99ccff;
+    border: 0px;
+}
+div#progress > .percent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: center;
+    width: 100%;
+}
+
+div#logbook {
+    margin-top: 10px;
+    height: calc(100vh - 310px);
+    border-radius: 2px;
+    font-family: "TypoPRO Hack";
+    background-color: #336699;
+    border: 1px solid #6699cc;
+    color: #ffffff;
+    white-space: pre-wrap;
+    font-size: 9pt;
+    user-select: text;
+    overflow: scroll;
+}
+
+div#copyright {
+    margin-top: 10px;
+    font-weight: 200;
+    line-height: 110%;
+    color: #99ccff;
+}
+

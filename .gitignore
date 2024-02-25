@@ -6,3 +6,7 @@ rundown-win-x64.exe
 rundown-mac-x64
 rundown-lnx-x64
 sample.html
+ui/dist
+ui/rundown-win-x64.exe
+ui/rundown-mac-x64
+ui/rundown-lnx-x64

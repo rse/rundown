@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+**
+**  Rundown - Generate Rundown Scripts for Teleprompting
+**  Copyright (c) 2023-2024 Dr. Ralf S. Engelschall <rse@engelschall.com>
+**  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
+**
+-->
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+        <title>Rundown</title>
+        <link rel="stylesheet" type="text/css" href="app-ui.css"/>
+        <script type="text/javascript" src="./node_modules/jquery/dist/jquery.js"></script>
+        <script type="module" src="app-ui.js"></script>
+    </head>
+    <body>
+        <div class="canvas">
+            <div class="canvas-top">
+                <div class="head">
+                    <div class="title">Rundown Generator</div>
+                    <img class="logo" src="app-ui-logo.svg"/>
+                </div>
+                <div class="form">
+                    <div class="left">
+                        <div class="row">
+                            <label for="input">Input File [Path]:</label>
+                            <input type="text" id="input" value="sample.docx"/>
+                            <button type="button" id="inputchoose">Choose</button>
+                        </div>
+                        <div class="row">
+                            <label for="extract">Input Extract [CSS Selector]:</label>
+                            <input type="text" id="extract" value="table:last tr:gt(0) td:last"/>
+                        </div>
+                        <div class="row">
+                            <label for="format">Output Format [Id]:</label>
+                            <input type="text" id="format" value="qprompt"/>
+                        </div>
+                        <div class="row">
+                            <label for="output">Output File [Path]:</label>
+                            <input type="text" id="output" value="sample.html"/>
+                            <button type="button" id="outputchoose">Choose</button>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <button type="button" id="startstop" class="start">
+                            <span class="start">GENERATE</span>
+                            <span class="stop">STOP</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="progress">
+                    <div class="bar"></div>
+                    <div class="percent">0%</div>
+                </div>
+            </div>
+            <div class="canvas-bottom">
+                <div id="logbook"></div>
+                <div id="copyright">
+                    Copyright &copy; 2023-2024 Dr. Ralf S. Engelschall<br/>
+                    Licensed under GPL 3.0
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
