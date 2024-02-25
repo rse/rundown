@@ -8,29 +8,29 @@
 const $ = jQuery
 $(async () => {
     /*  fill input fields with reasonable defaults and remember values  */
-    let cwd = await app.cwd()
-    let input = await config.get("input", `${cwd}/sample.docx`)
+    const cwd = await app.cwd()
+    const input = await config.get("input", `${cwd}/sample.docx`)
     $("#input").val(input)
     $("#input").on("change keyup", async () => {
-        let input = $("#input").val()
+        const input = $("#input").val()
         await config.set("input", input)
     })
-    let extract = await config.get("extract", "body")
+    const extract = await config.get("extract", "body")
     $("#extract").val(extract)
     $("#extract").on("change keyup", async () => {
-        let extract = $("#extract").val()
+        const extract = $("#extract").val()
         await config.set("extract", extract)
     })
-    let format = await config.get("format", "qprompt")
+    const format = await config.get("format", "qprompt")
     $("#format").val(format)
     $("#format").on("change keyup", async () => {
-        let format = $("#format").val()
+        const format = $("#format").val()
         await config.set("format", format)
     })
-    let output = await config.get("output", `${cwd}/sample.html`)
+    const output = await config.get("output", `${cwd}/sample.html`)
     $("#output").val(output)
     $("#output").on("change keyup", async () => {
-        let output = $("#output").val()
+        const output = $("#output").val()
         await config.set("output", output)
     })
 
@@ -40,7 +40,7 @@ $(async () => {
         const result = await app.dialog("showOpenDialog", {
             properties: [ "openFile" ],
             filters: [ { name: "Word", extensions: [ "docx", "doc" ] } ],
-            defaultPath: filename,
+            defaultPath: filename
         })
         if (!result.canceled) {
             $("#input").val(result.filePaths[0])
@@ -64,14 +64,14 @@ $(async () => {
     })
 
     /*  provide a convenient logging function  */
-    const logbook = []
+    let logbook = []
     const logwindow = 500
     const logmsg = (msg) => {
         logbook.push(msg)
-        let n = logbook.length
+        const n = logbook.length
         if (n > logwindow)
             logbook = logbook.slice(n - logwindow)
-        var output = $("#logbook")
+        const output = $("#logbook")
         output.html(logbook.join("\n"))
         output.scrollTop(output.prop("scrollHeight"))
     }
@@ -86,8 +86,8 @@ $(async () => {
     /*  connect the start button to the main action  */
     let mode = "start"
     rundown.on("percent", (ev, percent) => {
-        let max = $("#progress").innerWidth()
-        let now = max * percent
+        const max = $("#progress").innerWidth()
+        const now = max * percent
         $("#progress > .bar").width(now)
         $("#progress > .percent").html(Math.ceil(percent) + "%")
     })
@@ -97,10 +97,10 @@ $(async () => {
     $("#startstop").on("click", () => {
         if (mode === "start") {
             /*  fetch input fields  */
-            let input   = $("#input").val()
-            let extract = $("#extract").val()
-            let format  = $("#format").val()
-            let output  = $("#output").val()
+            const input   = $("#input").val()
+            const extract = $("#extract").val()
+            const format  = $("#format").val()
+            const output  = $("#output").val()
 
             /*  deactivate button  */
             mode = "stop"

@@ -23,10 +23,10 @@ app.on("ready", () => {
     electron.ipcMain.handle("app.dialog",  (ev, method, params) => electron.dialog[method](params))
 
     electron.ipcMain.handle("config.load", (ev, ...args) => config.load(...args))
-    electron.ipcMain.handle("config.save", (ev, ...args) => void(config.save(...args)))
+    electron.ipcMain.handle("config.save", (ev, ...args) => void (config.save(...args)))
     electron.ipcMain.handle("config.get",  (ev, ...args) => config.get(...args))
-    electron.ipcMain.handle("config.set",  (ev, ...args) => void(config.set(...args)))
-    electron.ipcMain.handle("config.del",  (ev, ...args) => void(config.del(...args)))
+    electron.ipcMain.handle("config.set",  (ev, ...args) => void (config.set(...args)))
+    electron.ipcMain.handle("config.del",  (ev, ...args) => void (config.del(...args)))
 
     let mainWindow = new electron.BrowserWindow({
         show:       false,
@@ -43,7 +43,7 @@ app.on("ready", () => {
             nodeIntegrationInWorker: true
         }
     })
-    mainWindow.loadURL(`file://${__dirname}/app-ui.html`)
+    mainWindow.loadURL(`file://${path.join(__dirname, "app-ui.html")}`)
     if (process.env.DEBUG)
         mainWindow.webContents.openDevTools()
     mainWindow.on("ready-to-show", () => {
@@ -53,7 +53,7 @@ app.on("ready", () => {
         mainWindow = null
     })
     const updateBounds = () => {
-        let bounds = mainWindow.getBounds()
+        const bounds = mainWindow.getBounds()
         config.set("window-x",      bounds.x)
         config.set("window-y",      bounds.y)
         config.set("window-width",  bounds.width)
@@ -71,9 +71,9 @@ app.on("ready", () => {
         else if (os.platform() === "win32"  && os.arch() === "x64") program = "rundown-cli-win-x64.exe"
         else
             throw new Error("unsupported platform")
-        let p1 = path.resolve(`./${program}`)
-        let p2 = path.resolve(`../cli/${program}`)
-        let p3 = path.join(app.getAppPath(), program).replace("app.asar", "app.asar.unpacked")
+        const p1 = path.resolve(`./${program}`)
+        const p2 = path.resolve(`../cli/${program}`)
+        const p3 = path.join(app.getAppPath(), program).replace("app.asar", "app.asar.unpacked")
         let p
         if      (await fs.promises.access(p1, fs.constants.F_OK).then(() => true).catch(() => false)) p = p1
         else if (await fs.promises.access(p2, fs.constants.F_OK).then(() => true).catch(() => false)) p = p2
@@ -104,7 +104,6 @@ app.on("ready", () => {
         mainWindow.webContents.send("rundown.percent", 0)
         proc = null
     })
-
 })
 
 app.on("window-all-closed", () => {
