@@ -20,6 +20,7 @@ const pkg     = require("./package")
             "Usage: $0 " +
             "[-h|--help] " +
             "[-V|--version] " +
+            "[-v|--verbose <level>] " +
             "[-e|--extract <css-selector-chain>] " +
             "[-f|--format qprompt|autocue] " +
             "[-o|--output <output-file>|-] " +
@@ -29,8 +30,8 @@ const pkg     = require("./package")
             .describe("h", "show usage help")
         .boolean("V").alias("V", "version").default("V", false)
             .describe("V", "show program version information")
-        .number("v").nargs("v", 1).alias("v", "log-level").default("v", "warning")
-            .describe("v", "level for verbose logging (0-3)")
+        .string("v").nargs("v", 1).alias("v", "log-level").default("v", "warning")
+            .describe("v", "level for verbose logging ('none', 'error', 'warning', 'info', 'debug')")
         .string("e").nargs("e", 1).alias("e", "extract").default("e", "table:last tr:gt(0) td:last")
             .describe("e", "input extraction via CSS selector chain")
         .string("f").nargs("f", 1).alias("f", "format").default("f", "qprompt")
