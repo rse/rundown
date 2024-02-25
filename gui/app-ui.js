@@ -77,8 +77,10 @@ $(async () => {
     }
 
     /*  log initial hints  */
-    logmsg("## Please choose the input Microsoft Word file and an output file and press START.")
-    logmsg("## Optionally configure your input extraction and output format, please.")
+    logmsg("## Please choose the input Microsoft Word file and an output file and press GENERATE.")
+    logmsg("## Optionally configure your input extraction by using CSS selector \"body\" for entire")
+    logmsg("## document or \"table:last tr:gt(0) td:last\" for last column of last table only.")
+    logmsg("## Optionally configure your output format by using \"qprompt\" or \"autocue\".")
     logmsg("")
 
     /*  connect the start button to the main action  */
