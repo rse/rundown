@@ -1,6 +1,6 @@
 /*
 **  Rundown - Generate Rundown Scripts for Teleprompting
-**  Copyright (c) 2023 Dr. Ralf S. Engelschall <rse@engelschall.com>
+**  Copyright (c) 2023-2024 Dr. Ralf S. Engelschall <rse@engelschall.com>
 **  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
 */
 
@@ -47,7 +47,7 @@ const pkg     = require("./package")
     if (args.version) {
         process.stderr.write(`${pkg.name} ${pkg.version} <${pkg.homepage}>\n`)
         process.stderr.write(`${pkg.description}\n`)
-        process.stderr.write(`Copyright (c) 2023 ${pkg.author.name} <${pkg.author.url}>\n`)
+        process.stderr.write(`Copyright (c) 2023-2024 ${pkg.author.name} <${pkg.author.url}>\n`)
         process.stderr.write(`Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
         process.exit(0)
     }

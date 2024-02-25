@@ -45,6 +45,6 @@ $ rundown -f qprompt -e "table:last tr:gt(0) td:last" -o sample.html sample.docx
 License
 -------
 
-Copyright &copy; 2023 Dr. Ralf S. Engelschall (http://engelschall.com/)<br/>
+Copyright &copy; 2023-2024 Dr. Ralf S. Engelschall (http://engelschall.com/)<br/>
 Licensed under [GPL 3.0](https://spdx.org/licenses/GPL-3.0-only)
 
