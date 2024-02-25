@@ -1,5 +1,8 @@
 ~$*
 node_modules
+dst
 rundown.1
-rundown.exe
+rundown-win-x64.exe
+rundown-mac-x64
+rundown-lnx-x64
 sample.html
