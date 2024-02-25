@@ -16,14 +16,15 @@
         "url":                    "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                 "8.55.0",
+        "eslint":                 "8.57.0",
         "eslint-config-standard": "17.1.0",
         "eslint-plugin-promise":  "6.1.1",
-        "eslint-plugin-import":   "2.29.0",
+        "eslint-plugin-import":   "2.29.1",
         "eslint-plugin-node":     "11.1.0",
         "npm-run-all":            "4.1.5",
         "shx":                    "0.3.4",
-        "pkg":                    "5.8.1",
+        "@yao-pkg/pkg":           "5.11.4",
+        "@vercel/ncc":            "0.38.1",
         "remark-cli":             "12.0.0",
         "remark":                 "15.0.1",
         "remark-man":             "9.0.0"
@@ -41,8 +42,13 @@
         "lint":                   "eslint --config eslint.yaml rundown.js",
         "man:build":              "remark --quiet --use remark-man --output rundown.1 rundown.md",
         "man:clean":              "shx rm -f rundown.1",
-        "pkg:build":              "pkg -t node18-win .",
-        "pkg:clean":              "shx rm -f rundown.exe",
+        "package":                "npm-run-all -s package:bundle package:gen package:mv:lnx package:mv:win package:mv:mac",
+        "package:bundle":         "ncc build rundown.js -o dst",
+        "package:gen":            "pkg -t node20-linux-x64,node20-win-x64,node20-macos-x64 dst/index.js",
+        "package:mv:lnx":         "shx mv index-linux   rundown-lnx-x64",
+        "package:mv:win":         "shx mv index-win.exe rundown-win-x64.exe",
+        "package:mv:mac":         "shx mv index-macos   rundown-mac-x64",
+        "package:clean":          "shx rm -f rundown-lnx-x64 rundown-win-x64.exe rundown-mac-x64",
         "test":                   "node rundown.js -f qprompt -o sample.html sample.docx"
     }
 }
