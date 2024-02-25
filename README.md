@@ -1,5 +1,5 @@
 
-<img src="https://raw.githubusercontent.com/rse/rundown/master/rundown-logo.svg" width="200" align="right" alt=""/>
+<img src="https://raw.githubusercontent.com/rse/rundown/master/etc/rundown-logo.svg" width="200" align="right" alt=""/>
 
 Rundown
 =======
@@ -32,7 +32,7 @@ $ npm install -g @rse/rundown
 Usage
 -----
 
-The [Unix manual page](https://github.com/rse/rundown/blob/master/rundown.md) contain
+The [Unix manual page](https://github.com/rse/rundown/blob/master/cli/rundown.md) contain
 detailed usage information.
 
 Example
