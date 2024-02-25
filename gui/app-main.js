@@ -64,9 +64,6 @@ app.on("ready", () => {
 
     let proc = null
     electron.ipcMain.handle("rundown.start", async (ev, input, output, extract, format) => {
-        const x = app.getPath("exe") + ":" + process.env.PORTABLE_EXECUTABLE_FILE + ":" + process.env.PORTABLE_EXECUTABLE_APP_FILENAME
-        mainWindow.webContents.send("rundown.log", `x: ${x}`)
-
         /*  determine CLI program path  */
         let program
         if      (os.platform() === "linux"  && os.arch() === "x64") program = "rundown-cli-lnx-x64"
