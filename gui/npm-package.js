@@ -36,7 +36,7 @@ const zip       = require("cross-zip")
         arch2 = "a64"
     if (os.platform() === "win32") {
         /*  embed CLI program  */
-        shell.cp(path.join(__dirname, "..", "rundown-cli-win-x64.exe"), "rundown-cli-win-x64.exe")
+        shell.cp(path.join(__dirname, "..", "cli", "rundown-cli-win-x64.exe"), "rundown-cli-win-x64.exe")
 
         /*  run Electron-Builder to package the application  */
         console.log("++ packaging App as an Electron distribution for Windows platform")
@@ -46,13 +46,14 @@ const zip       = require("cross-zip")
         /*  pack application into a distribution archive
             (notice: under macOS the ZIP does NOT automatically use a top-level directory)  */
         console.log("++ packing App into ZIP distribution archive")
+        shell.mv("dst/rundown-gui.exe", "dst/rundown.exe")
         zip.zipSync(
             path.join(__dirname, "dst/Rundown.exe"),
             path.join(__dirname, `dst/Rundown-win-${arch2}.zip`))
     }
     else if (os.platform() === "darwin") {
         /*  embed CLI program  */
-        shell.cp(path.join(__dirname, "..", "rundown-cli-mac-x64"), "rundown-cli-mac-x64")
+        shell.cp(path.join(__dirname, "..", "cli", "rundown-cli-mac-x64"), "rundown-cli-mac-x64")
 
         /*  run Electron-Builder to package the application  */
         console.log("++ packaging App as an Electron distribution for macOS platform")
@@ -62,14 +63,14 @@ const zip       = require("cross-zip")
         /*  pack application into a distribution archive
             (notice: under macOS the ZIP DOES automatically use a top-level directory)  */
         console.log("++ packing App into ZIP distribution archive")
-        shell.mv("dst/mac/Rundown.app", "dst/Rundown.app")
+        shell.mv("dst/mac/rundown-gui.app", "dst/Rundown.app")
         zip.zipSync(
             path.join(__dirname, "dst/Rundown.app"),
             path.join(__dirname, `dst/Rundown-mac-${arch2}.zip`))
     }
     else if (os.platform() === "linux") {
         /*  embed CLI program  */
-        shell.cp(path.join(__dirname, "..", "rundown-cli-lnx-x64"), "rundown-cli-lnx-x64")
+        shell.cp(path.join(__dirname, "..", "cli", "rundown-cli-lnx-x64"), "rundown-cli-lnx-x64")
 
         /*  run Electron-Builder to package the application  */
         console.log("++ packaging App as an Electron distribution for Linux platform")
@@ -78,7 +79,7 @@ const zip       = require("cross-zip")
 
         /*  pack application into a distribution archive  */
         console.log("++ packing App into ZIP distribution archive")
-        shell.mv("dst/Rundown-*.AppImage", "dst/Rundown")
+        shell.mv("dst/rundown-gui-*.AppImage", "dst/Rundown")
         zip.zipSync(
             path.join(__dirname, "dst/Rundown"),
             path.join(__dirname, `dst/Rundown-lnx-${arch2}.zip`))
