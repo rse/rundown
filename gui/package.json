@@ -44,7 +44,7 @@
         "removePackageScripts":          true,
         "compression":                   "normal",
         "directories": {
-            "output":                    "dist"
+            "output":                    "dst"
         },
         "mac": {
             "target":                    [ { "target": "dir" } ],

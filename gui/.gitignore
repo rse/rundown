@@ -1,0 +1,9 @@
+~$*
+node_modules
+dst
+rundown-cli-win-x64.exe
+rundown-cli-mac-x64
+rundown-cli-lnx-x64
+rundown-gui-win-x64.exe
+rundown-gui-mac-x64
+rundown-gui-lnx-x64

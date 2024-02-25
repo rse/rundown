@@ -18,7 +18,7 @@ const zip       = require("cross-zip")
 ;(async () => {
     /*  remove previously generated files  */
     console.log("++ cleanup")
-    shell.rm("-rf", "dist")
+    shell.rm("-rf", "dst")
 
     /*  reduce the size of the development tree  */
     console.log("++ reducing source-tree")
@@ -47,8 +47,8 @@ const zip       = require("cross-zip")
             (notice: under macOS the ZIP does NOT automatically use a top-level directory)  */
         console.log("++ packing App into ZIP distribution archive")
         zip.zipSync(
-            path.join(__dirname, "dist/Rundown.exe"),
-            path.join(__dirname, `dist/Rundown-win-${arch2}.zip`))
+            path.join(__dirname, "dst/Rundown.exe"),
+            path.join(__dirname, `dst/Rundown-win-${arch2}.zip`))
     }
     else if (os.platform() === "darwin") {
         /*  embed CLI program  */
@@ -62,10 +62,10 @@ const zip       = require("cross-zip")
         /*  pack application into a distribution archive
             (notice: under macOS the ZIP DOES automatically use a top-level directory)  */
         console.log("++ packing App into ZIP distribution archive")
-        shell.mv("dist/mac/Rundown.app", "dist/Rundown.app")
+        shell.mv("dst/mac/Rundown.app", "dst/Rundown.app")
         zip.zipSync(
-            path.join(__dirname, "dist/Rundown.app"),
-            path.join(__dirname, `dist/Rundown-mac-${arch2}.zip`))
+            path.join(__dirname, "dst/Rundown.app"),
+            path.join(__dirname, `dst/Rundown-mac-${arch2}.zip`))
     }
     else if (os.platform() === "linux") {
         /*  embed CLI program  */
@@ -78,10 +78,10 @@ const zip       = require("cross-zip")
 
         /*  pack application into a distribution archive  */
         console.log("++ packing App into ZIP distribution archive")
-        shell.mv("dist/Rundown-*.AppImage", "dist/Rundown")
+        shell.mv("dst/Rundown-*.AppImage", "dst/Rundown")
         zip.zipSync(
-            path.join(__dirname, "dist/Rundown"),
-            path.join(__dirname, `dist/Rundown-lnx-${arch2}.zip`))
+            path.join(__dirname, "dst/Rundown"),
+            path.join(__dirname, `dst/Rundown-lnx-${arch2}.zip`))
     }
 })().catch((err) => {
     console.log(`** npm: package: ERROR: ${err}`)
