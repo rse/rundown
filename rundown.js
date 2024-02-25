@@ -104,6 +104,10 @@ const pkg     = require("./package")
         if ($(node).contents().length === 0)
             $(node).remove()
     })
+    $("a").each((i, node) => {
+        if ($(node).contents().length === 0)
+            $(node).remove()
+    })
 
     /*  extract information from HTML via recursive CSS selector chaining  */
     const extract = (entries, base, selectors) => {
