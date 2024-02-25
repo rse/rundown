@@ -45,10 +45,10 @@
         "package":                "npm-run-all -s package:bundle package:gen package:mv:lnx package:mv:win package:mv:mac",
         "package:bundle":         "ncc build rundown.js -o dst",
         "package:gen":            "pkg -t node20-linux-x64,node20-win-x64,node20-macos-x64 dst/index.js",
-        "package:mv:lnx":         "shx mv index-linux   rundown-lnx-x64",
-        "package:mv:win":         "shx mv index-win.exe rundown-win-x64.exe",
-        "package:mv:mac":         "shx mv index-macos   rundown-mac-x64",
-        "package:clean":          "shx rm -f rundown-lnx-x64 rundown-win-x64.exe rundown-mac-x64",
+        "package:mv:lnx":         "shx mv index-linux   rundown-cli-lnx-x64",
+        "package:mv:win":         "shx mv index-win.exe rundown-cli-win-x64.exe",
+        "package:mv:mac":         "shx mv index-macos   rundown-cli-mac-x64",
+        "package:clean":          "shx rm -f rundown-cli-lnx-x64 rundown-cli-win-x64.exe rundown-cli-mac-x64",
         "test":                   "node rundown.js -f qprompt -o sample.html sample.docx"
     }
 }
