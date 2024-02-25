@@ -51,14 +51,15 @@ $(async () => {
     /*  connect the output to a file chooser  */
     $("#outputchoose").on("click", async () => {
         const filename = $("#output").val()
-        const result = await app.dialog("showOpenDialog", {
-            properties: [ "openFile" ],
+        const result = await app.dialog("showSaveDialog", {
+            properties: [ "showOverwriteConfirmation" ],
             filters: [ { name: "HTML/XML", extensions: [ "html", "xml" ] } ],
             defaultPath: filename
         })
         if (!result.canceled) {
-            $("#output").val(result.filePaths[0])
-            await config.set("output", result.filePaths[0])
+            console.log(result)
+            $("#output").val(result.filePath)
+            await config.set("output", result.filePath)
         }
     })
 
