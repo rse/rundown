@@ -23,22 +23,22 @@
         "eslint-plugin-node":     "11.1.0",
         "npm-run-all":            "4.1.5",
         "shx":                    "0.3.4",
-        "@yao-pkg/pkg":           "5.11.4",
+        "@yao-pkg/pkg":           "5.12.1",
         "@vercel/ncc":            "0.38.1",
-        "remark-cli":             "12.0.0",
+        "remark-cli":             "12.0.1",
         "remark":                 "15.0.1",
         "remark-man":             "9.0.0"
     },
     "dependencies": {
-        "cli-io":                 "0.9.11",
+        "cli-io":                 "0.9.12",
         "yargs":                  "17.7.2",
         "@shy1118/mammoth":       "1.6.3",
-        "cheerio":                "1.0.0-rc.12"
+        "cheerio":                "1.0.0"
     },
     "scripts": {
         "prepublishOnly":         "npm-run-all -s lint",
-        "build":                  "npm-run-all -s lint man:build pkg:build",
-        "clean":                  "npm-run-all -s      man:clean pkg:clean",
+        "build":                  "npm-run-all -s lint man:build package",
+        "clean":                  "npm-run-all -s      man:clean package:clean",
         "lint":                   "eslint --config eslint.yaml rundown.js",
         "man:build":              "remark --quiet --use remark-man --output rundown.1 rundown.md",
         "man:clean":              "shx rm -f rundown.1",
