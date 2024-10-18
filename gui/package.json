@@ -8,18 +8,20 @@
         "url":                    "http://engelschall.com/"
     },
     "devDependencies": {
-        "electron":               "32.0.1",
-        "electron-builder":       "24.13.3",
+        "electron":               "33.0.1",
+        "electron-builder":       "25.1.8",
         "electron-notarize":      "1.2.2",
-        "nodemon":                "3.1.4",
+        "nodemon":                "3.1.7",
         "shelljs":                "0.8.5",
         "cross-zip":              "4.0.1",
         "glob":                   "11.0.0",
-        "eslint":                 "8.57.0",
-        "eslint-config-standard": "17.1.0",
-        "eslint-plugin-promise":  "6.1.1",
-        "eslint-plugin-import":   "2.29.1",
-        "eslint-plugin-node":     "11.1.0"
+        "eslint":                 "9.12.0",
+        "@eslint/js":             "9.12.0",
+        "eslint-plugin-n":        "17.11.1",
+        "eslint-plugin-promise":  "7.1.0",
+        "eslint-plugin-import":   "2.31.0",
+        "neostandard":            "0.11.6",
+        "globals":                "15.11.0"
     },
     "dependencies": {
         "execa":                  "5.1.1",
@@ -35,7 +37,7 @@
         "app-category-type":      "com.engelschall.apps"
     },
     "scripts": {
-        "lint":                   "eslint --config eslint.yaml app-*.js",
+        "lint":                   "eslint --config eslint.mjs app-*.js",
         "start":                  "electron app-main.js",
         "start-dev":              "DEBUG=1 nodemon --exec \"npm start\" --watch . --ext html,css,js",
         "package":                "node npm-package.js"
