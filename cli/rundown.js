@@ -15,7 +15,7 @@ const pkg     = require("./package")
 ;(async () => {
     /*  parse command-line arguments  */
     const args = yargs()
-        /* eslint indent: off */
+        /* eslint @stylistic/indent: off */
         .usage(
             "Usage: $0 " +
             "[-h|--help] " +
