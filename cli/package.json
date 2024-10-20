@@ -51,6 +51,6 @@
         "package:mv:win":         "shx mv index-win.exe rundown-cli-win-x64.exe",
         "package:mv:mac":         "shx mv index-macos   rundown-cli-mac-x64",
         "package:clean":          "shx rm -f rundown-cli-lnx-x64 rundown-cli-win-x64.exe rundown-cli-mac-x64",
-        "test":                   "node rundown.js -f qprompt -o sample.html sample.docx"
+        "test":                   "node rundown.js -f qprompt -o ../etc/sample.html ../etc/sample.docx"
     }
 }
