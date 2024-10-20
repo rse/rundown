@@ -1,6 +1,7 @@
 ~$*
 node_modules
-dst
+dst-stage1
+dst-stage2
 rundown.1
 rundown-cli-win-x64.exe
 rundown-cli-mac-x64

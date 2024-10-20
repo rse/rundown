@@ -5,16 +5,18 @@
 */
 
 /*  external requirements  */
-const CLIio   = require("cli-io")
-const yargs   = require("yargs")
-const mammoth = require("@shy1118/mammoth")
-const cheerio = require("cheerio")
-const pkg     = require("./package")
+import CLIio                       from "cli-io"
+import yargs                       from "yargs"
+import mammoth                     from "@shy1118/mammoth"
+import * as cheerio                from "cheerio"
+import pkg                         from "../package.json" with { type: "json" }
+import type { BasicAcceptedElems } from "cheerio"
+import type { AnyNode }            from "domhandler"
 
 /*  establish asynchronous environment  */
 ;(async () => {
     /*  parse command-line arguments  */
-    const args = yargs()
+    const args = await yargs()
         /* eslint @stylistic/indent: off */
         .usage(
             "Usage: $0 " +
@@ -65,7 +67,7 @@ const pkg     = require("./package")
     if (args._.length !== 1)
         throw new Error("missing input file")
     cli.log("info", `reading input "${args._[0]}"`)
-    const input = await cli.input(args._[0], { encoding: null })
+    const input = await cli.input(args._[0] as string, { encoding: null })
 
     /*  convert DOCX to HTML  */
     const result = await mammoth.convertToHtml({ buffer: input }, {
@@ -97,7 +99,7 @@ const pkg     = require("./package")
             $(node).css("color", "red")
         if ($(node).css("background-color") && !$(node).css("color"))
             $(node).css("color", "black")
-        if (Object.keys($(node).css()).length === 0)
+        if (Object.keys($(node).css() ?? {}).length === 0)
             $(node).removeAttr("style")
     })
     $("p, span, mark").each((i, node) => {
@@ -110,15 +112,15 @@ const pkg     = require("./package")
     })
 
     /*  extract information from HTML via recursive CSS selector chaining  */
-    const extract = (entries, base, selectors) => {
+    const extract = (entries: BasicAcceptedElems<AnyNode>[], base: BasicAcceptedElems<AnyNode>, selectors: string[]) => {
         if (selectors.length === 0)
             entries.push(base)
         else
             for (const sub of $(base).find(selectors[0]))
                 extract(entries, sub, selectors.slice(1))
     }
-    const selectors = args.extract.split(/\s+/)
-    const entries = []
+    const selectors = (args.extract ?? "").split(/\s+/)
+    const entries: BasicAcceptedElems<AnyNode>[] = []
     extract(entries, $.root(), selectors)
 
     /*  generate output  */
@@ -127,8 +129,8 @@ const pkg     = require("./package")
         /*
          *  ==== QPROMPT (HTML) ====
          */
-        const convert = (nodes) => {
-            return $(nodes).html()
+        const convert = (nodes: BasicAcceptedElems<AnyNode>) => {
+            return ($(nodes).html() ?? "")
                 .replace(/à/g, "&rarr;")
                 .replace(/-&gt;/g, "&rarr;")
         }
@@ -188,7 +190,7 @@ const pkg     = require("./package")
 
     /*  write output  */
     cli.log("info", `writing output "${args.output}"`)
-    await cli.output(args.output, output)
+    await cli.output(args.output!, output)
 
     /*  die gracefully  */
     process.exit(0)

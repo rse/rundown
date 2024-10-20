@@ -1,0 +1,32 @@
+##
+##  Rundown - Generate Rundown Scripts for Teleprompting
+##  Copyright (c) 2023-2024 Dr. Ralf S. Engelschall <rse@engelschall.com>
+##  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
+##
+
+scripts:
+    #   static code analysis (linting)
+    lint-watch:           nodemon --exec "npm start lint" --watch src --ext ts
+    lint: >               
+                          eslint --config etc/eslint.mjs src/**/*.ts &&
+                          markdownlint-cli2 --config etc/.markdownlint.yaml src/**/*.md
+
+    #   code compilation/transpiling (building)
+    build-watch:          nodemon --exec "npm start build" --watch src --ext ts,1
+    build:                npm start lint build:cmd build:man build:pkg
+    build:cmd:            vite --config etc/vite.mts build --mode production
+    build:man:            shx mkdir -p dst-stage3 && remark --quiet --use remark-man --output dst-stage3/rundown.1 src/rundown.md
+    build:pkg: >
+                          pkg --public --no-bytecode -t node20-linux-x64,node20-win-x64,node20-macos-x64 dst-stage2/rundown.js &&
+                          shx mkdir -p dst-stage3 &&
+                          shx mv rundown-linux   dst-stage3/rundown-cli-lnx-x64 &&
+                          shx mv rundown-win.exe dst-stage3/rundown-cli-win-x64.exe &&
+                          shx mv rundown-macos   dst-stage3/rundown-cli-mac-x64
+
+    #   testing
+    test:                 node dst-stage1/rundown.js -f qprompt -o ../etc/sample.html ../etc/sample.docx
+
+    #   cleanup
+    clean:                shx rm -rf dst-stage1 dst-stage2 dst-stage3
+    clean-dist:           npm start clean && shx rm -rf node_modules
+
