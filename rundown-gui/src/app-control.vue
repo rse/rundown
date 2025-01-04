@@ -9,11 +9,39 @@
 <template>
     <div class="app-control">
         <div class="buttons">
-            <div class="button"
-                v-on:click="doOpen">
-                <div class="button-icon"><i class="fas fa-home"></i></div>
-                <div class="button-text">OPEN</div>
-            </div>
+            <app-button icon-series="solid" icon="file-export"
+                text="SAVE" text2="Sample"
+                v-bind:disabled="autoloadActivated || autoreloadActivated"
+                v-on:click="doSampleSave"/>
+            <app-button icon-series="solid" icon="file-import"
+                text="LOAD" text2="Sample"
+                v-bind:disabled="autoloadActivated || autoreloadActivated"
+                v-on:click="doSampleLoad"/>
+            <app-button icon-series="regular" icon="folder-open"
+                text="LOAD" text2="Document"
+                v-bind:disabled="autoloadActivated || autoreloadActivated"
+                v-on:click="doDocumentLoad"/>
+            <app-button icon-series="solid" icon="arrows-rotate"
+                text="RELOAD" text2="Document"
+                v-bind:disabled="autoloadActivated || autoreloadActivated || !hostIsApp"
+                v-on:click="doDocumentReload"/>
+            <app-button icon-series="solid" icon="eye"
+                text="AUTOLOAD" text2="Document"
+                v-bind:activated="autoloadActivated"
+                v-bind:disabled="autoreloadActivated || !hostIsApp"
+                v-on:click="doDocumentAutoLoad"/>
+            <app-button icon-series="solid" icon="eye"
+                text="AUTORELOAD" text2="Document"
+                v-bind:activated="autoreloadActivated"
+                v-bind:disabled="autoloadActivated || !hostIsApp"
+                v-on:click="doDocumentAutoReload"/>
+            <app-button icon-series="solid" icon="expand"
+                text="TOGGLE" text2="Fullscreen"
+                v-on:click="doFullscreenToggle"/>
+            <app-button icon-series="solid" icon="circle-xmark"
+                text="QUIT" text2="Application"
+                v-bind:disabled="!hostIsApp"
+                v-on:click="doAppQuit"/>
         </div>
         <div class="documents">
         </div>
@@ -45,42 +73,6 @@
         flex-direction: row
         justify-content: center
         align-items: center
-        .button
-            width: 4vw
-            display: flex
-            flex-direction: column
-            justify-content: center
-            align-items: center
-            border: 0.1vw solid
-            border-left-color:   var(--color-std-bg-4)
-            border-top-color:    var(--color-std-bg-4)
-            border-right-color:  var(--color-std-bg-2)
-            border-bottom-color: var(--color-std-bg-2)
-            background-color:    var(--color-std-bg-3)
-            color:               var(--color-std-fg-3)
-            margin: 0.2vw
-            .button-icon
-                width: 100%
-                font-size: 2.0vw
-                display: flex
-                flex-direction: row
-                justify-content: center
-                align-items: center
-            .button-text
-                margin-top: 0.1vw
-                width: 100%
-                font-size: 0.8vw
-                display: flex
-                flex-direction: row
-                justify-content: center
-                align-items: center
-            &:hover
-                border-left-color:   var(--color-std-bg-5)
-                border-top-color:    var(--color-std-bg-5)
-                border-right-color:  var(--color-std-bg-3)
-                border-bottom-color: var(--color-std-bg-3)
-                background-color:    var(--color-std-bg-4)
-                color:               var(--color-std-fg-4)
     .documents
         display: flex
         flex-direction: column
@@ -90,19 +82,28 @@
 
 <script setup lang="ts">
 import { defineComponent } from "vue"
+import appButton from "./app-widget-button.vue"
 </script>
 
 <script lang="ts">
 export default defineComponent({
     name: "app-control",
     components: {
+        "app-button": appButton
     },
     props: {
-        options:    { type: Object, default: new Map<string, string | boolean>() }
+        options: { type: Object, default: new Map<string, string | boolean>() }
     },
     emits: [ "log", "command" ],
     data: () => ({
+        hostIsApp:           false,
+        autoloadActivated:   false,
+        autoreloadActivated: false
     }),
+    async created () {
+        const g = window as any
+        this.hostIsApp = (typeof g.rundown === "object" && g.rundown !== null)
+    },
     async mounted () {
         this.log("INFO", "starting control")
         this.$emit("command", "foo")
@@ -111,8 +112,39 @@ export default defineComponent({
         log (level: string, msg: string) {
             this.$emit("log", level, msg)
         },
-        doOpen () {
-            this.log("info", "OPEN")
+        doSampleSave () {
+            this.log("info", "Sample Save")
+        },
+        doSampleLoad () {
+            this.log("info", "Sample Load")
+        },
+        doDocumentLoad () {
+            if (this.autoloadActivated || this.autoreloadActivated)
+                return
+            this.log("info", "Document Load")
+        },
+        doDocumentReload () {
+            if (this.autoloadActivated || this.autoreloadActivated)
+                return
+            this.log("info", "Document Reload")
+        },
+        doDocumentAutoLoad () {
+            if (this.autoreloadActivated)
+                return
+            this.log("info", "Document Auto Load")
+            this.autoloadActivated = !this.autoloadActivated
+        },
+        doDocumentAutoReload () {
+            if (this.autoloadActivated)
+                return
+            this.log("info", "Document Auto Reload")
+            this.autoreloadActivated = !this.autoreloadActivated
+        },
+        doFullscreenToggle () {
+            this.log("info", "Fullscreen Toggle")
+        },
+        doAppQuit () {
+            this.log("info", "App Quit")
         }
     }
 })
