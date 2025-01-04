@@ -52,10 +52,10 @@ export default defineComponent({
                 </body>
             </html>
         `
-        const iframe = this.$refs.viewport
-        iframe.contentWindow.document.open()
-        iframe.contentWindow.document.write(html)
-        iframe.contentWindow.document.close()
+        const iframe = this.$refs.viewport as HTMLIFrameElement
+        iframe.contentWindow!.document.open()
+        iframe.contentWindow!.document.write(html)
+        iframe.contentWindow!.document.close()
     },
     methods: {
         log (level: string, msg: string) {

@@ -26,4 +26,5 @@ rules:
     stylus/at-rule-name-space-after: null
     stylus/selector-pseudo-class-case: null
     stylus/no-eol-whitespace: null
+    stylus/number-no-trailing-zeros: null
 
