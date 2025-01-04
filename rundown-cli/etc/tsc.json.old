@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+		"outDir":                  "../dst-stage1",
+        "target":                  "ESNext",
+        "module":                  "ESNext",
+        "moduleResolution":        "Bundler",
+        "useDefineForClassFields": true,
+        "composite":               false,
+        "strict":                  true,
+        "resolveJsonModule":       true,
+        "isolatedModules":         true,
+        "esModuleInterop":         true,
+        "lib":                     [ "ESNext" ],
+        "skipLibCheck":            true,
+        "noEmit":                  false,
+        "types":                   [ "node" ],
+        "rootDir":                 "../src"
+    },
+	"include": [
+		"../src/**/*.ts",
+		"../src/**/*.d.ts",
+		"../package.json"
+    ]
+}

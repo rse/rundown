@@ -10,10 +10,11 @@
         "resolveJsonModule":       true,
         "isolatedModules":         true,
         "esModuleInterop":         true,
-        "lib":                     [ "ESNext", "dom" ],
+        "lib":                     [ "es2020", "dom", "dom.iterable" ],
         "skipLibCheck":            true,
+        "declaration":             true,
         "noEmit":                  false,
-        "types":                   [],
+        "types":                   [ "vite/client", "node" ],
         "rootDir":                 "../src"
     },
 	"include": [

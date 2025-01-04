@@ -1,0 +1,22 @@
+##
+##  Rundown - Generate Rundown Scripts for Teleprompting
+##  Copyright (c) 2023-2025 Dr. Ralf S. Engelschall <rse@engelschall.com>
+##  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
+##
+
+scripts:
+    #   static code analysis (linting)
+    lint-watch:           nodemon --exec "npm start lint" --watch src --ext ts
+    lint: >               
+                          eslint --config etc/eslint.mjs src/**/*.ts
+
+    #   code compilation/transpiling (building)
+    build-watch:          nodemon --exec "npm start build" --watch src --ext ts,1
+    build:                npm start lint build-esm build-umd
+    build-esm:            VITE_BUILD_FORMATS=esm,cjs vite --config etc/vite.mts build --mode production
+    build-umd:            VITE_BUILD_FORMATS=umd     vite --config etc/vite.mts build --mode production
+
+    #   cleanup
+    clean:                shx rm -rf dst-stage1 dst-stage2
+    clean-dist:           npm start clean && shx rm -rf node_modules
+

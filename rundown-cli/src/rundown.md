@@ -7,7 +7,6 @@
 \[`-h`|`--help`\]
 \[`-V`|`--version`\]
 \[`-e`|`--extract` *css-selector-chain*\]
-\[`-f`|`--format` `qprompt`|`autocue`]
 \[`-o`|`--output` *output-file*|`-`]
 *input-file*|`-`
 
@@ -33,9 +32,6 @@ The following command-line options and arguments exist:
   document with the help of a CSS selector chain like `body` or
   `table:last tr:gt(0) td:last`.
 
-- \[`-f`|`--format` `qprompt`|`autocue`\]:
-  Generate the output for *QPrompt* (HTML) or *Autocue Explorer/Pioneer* (XML).
-
 - \[`-o`|`--output` *output-file*|`-`\]:
   Write the output to a file or `stdout`.
 
@@ -49,14 +45,14 @@ The following are examples of using `rundown`(1):
 - read DOCX file and generate script for *QPrompt*:
 
     ```sh
-    $ rundown -f qprompt -o sample.html sample.docx
+    $ rundown -o sample.html sample.docx
     ```
 
 - read DOCX file, extract text from last column (of all rows, except the
   heading one) of the last table, and generate script for *QPrompt*:
 
     ```sh
-    $ rundown -f qprompt -e "table:last tr:gt(0) td:last" -o sample.html sample.docx
+    $ rundown -e "table:last tr:gt(0) td:last" -o sample.html sample.docx
     ```
 
 ## HISTORY
