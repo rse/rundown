@@ -7,7 +7,7 @@
 -->
 
 <template>
-    <div class="app-button" v-bind:class="{ disabled, activated }"
+    <div class="app-button" v-bind:class="{ disabled, activated, horizontal: direction === 'horizontal' }"
         v-on:click="click">
         <div class="app-button-icon">
             <i v-bind:class="[ `fa-${iconSeries}`, `fa-${icon}` ]"></i>
@@ -23,12 +23,14 @@
 
 <style lang="stylus">
 .app-button
-    width: 5vw
+    width: auto
+    min-width: 5vw
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
     border: 0.1vw solid
+    border-radius:       0.5vw
     border-left-color:   var(--color-std-bg-4)
     border-top-color:    var(--color-std-bg-4)
     border-right-color:  var(--color-std-bg-2)
@@ -88,6 +90,16 @@
     &.disabled .app-button-text,
     &.disabled .app-button-text2
         color:               var(--color-std-fg-1)
+    &.horizontal
+        flex-direction: row
+        .app-button-icon
+            font-size: 1.0vw
+        .app-button-text
+            margin-top:  0.2vw
+            margin-left: 0.5vw
+        .app-button-text2
+            margin-top:  0.2vw
+            margin-left: 0.3vw
 </style>
 
 <script setup lang="ts">
@@ -98,6 +110,7 @@ import { defineComponent } from "vue"
 export default defineComponent({
     name: "app-button",
     props: {
+        direction:  { type: String,  default: "vertical" },
         iconSeries: { type: String,  default: "solid" },
         icon:       { type: String,  default: "circle-question" },
         text:       { type: String,  default: "unknown" },
