@@ -8,7 +8,7 @@
 
 <template>
     <div class="app-input" v-bind:class="{ disabled, labeled: label !== '' }">
-        <div v-if="label !== ''" class="label">{{ label }}:</div>
+        <div v-if="label !== ''" class="label">{{ label }}</div>
         <input ref="input"
             type="text"
             v-bind:disabled="disabled"
@@ -24,8 +24,8 @@
     border-radius:           0.5vw
     border-left-color:       var(--color-std-bg-1)
     border-top-color:        var(--color-std-bg-1)
-    border-right-color:      var(--color-std-bg-3)
-    border-bottom-color:     var(--color-std-bg-3)
+    border-right-color:      var(--color-std-bg-4)
+    border-bottom-color:     var(--color-std-bg-4)
     background-color:        var(--color-std-bg-2)
     color:                   var(--color-std-fg-2)
     margin:                  0.2vw
@@ -33,32 +33,37 @@
     flex-direction:          row
     justify-content:         center
     align-items:             center
+    height:                  1.8vw
     .label
         white-space:         nowrap
+        border-top-left-radius: 0.5vw
+        border-bottom-left-radius: 0.5vw
         border-left-color:   var(--color-std-bg-3)
         border-top-color:    var(--color-std-bg-3)
         border-right-color:  var(--color-std-bg-5)
         border-bottom-color: var(--color-std-bg-5)
         background-color:    var(--color-std-bg-3)
-        color:               var(--color-std-fg-4)
+        color:               var(--color-std-fg-2)
+        font-family:         var(--font-family)
+        font-size:           0.8vw
+        padding-top:         0.2vw
+        padding-bottom:      0.2vw
+        padding-left:        0.4vw
+        padding-right:       0.4vw
+        height:              calc(1.8vw - 0.6vw)
+    input
+        width:               calc(100% - 0.4vw)
+        border:              0
+        outline:             none
+        background-color:    transparent
+        color:               var(--color-std-fg-3)
         font-family:         var(--font-family)
         font-size:           1.0vw
         padding-top:         0.2vw
         padding-bottom:      0.2vw
         padding-left:        0.4vw
         padding-right:       0.4vw
-    input
-        width:               100%
-        border:              0
-        outline:             none
-        background-color:    transparent
-        color:               var(--color-std-fg-3)
-        font-family:         var(--font-family)
-        font-size:           1.2vw
-        padding-top:         0.2vw
-        padding-bottom:      0.2vw
-        padding-left:        0.4vw
-        padding-right:       0.4vw
+        user-select:         text
     &:hover
         border-left-color:   var(--color-std-bg-3)
         border-top-color:    var(--color-std-bg-3)
@@ -66,14 +71,40 @@
         border-bottom-color: var(--color-std-bg-5)
         background-color:    var(--color-std-bg-4)
         color:               var(--color-std-fg-4)
-    &.disabled
-        background-color:    var(--color-std-bg-3)
-    &:hover .label,
+    &:hover .label
+        border-left-color:   var(--color-std-bg-4)
+        border-top-color:    var(--color-std-bg-4)
+        border-right-color:  var(--color-std-bg-5)
+        border-bottom-color: var(--color-std-bg-5)
+        background-color:    var(--color-std-bg-5)
+        color:               var(--color-std-fg-4)
     &:hover input
         color:               var(--color-std-fg-4)
-    &.disabled .label,
+    &:has(input:focus)
+        border-left-color:   var(--color-acc-bg-2)
+        border-top-color:    var(--color-acc-bg-2)
+        border-right-color:  var(--color-acc-bg-4)
+        border-bottom-color: var(--color-acc-bg-4)
+        background-color:    var(--color-acc-bg-3)
+        color:               var(--color-acc-fg-3)
+    input:focus
+        color:               var(--color-acc-fg-5)
+    &:has(input:focus) .label
+        border-left-color:   var(--color-acc-bg-3)
+        border-top-color:    var(--color-acc-bg-3)
+        border-right-color:  var(--color-acc-bg-4)
+        border-bottom-color: var(--color-acc-bg-4)
+        background-color:    var(--color-acc-bg-4)
+        color:               var(--color-acc-fg-5)
+    &.disabled
+        background-color:    var(--color-std-bg-2)
+    &.disabled .label
+        background-color:    var(--color-std-bg-3)
+        color:               var(--color-std-fg-0)
     &.disabled input
-        color:               var(--color-std-fg-1)
+        background-color:    var(--color-std-bg-2)
+        color:               var(--color-std-fg-0)
+        user-select:         none
 </style>
 
 <script setup lang="ts">

@@ -61,3 +61,24 @@ html
     font-size: var(--font-size)
     font-weight: normal
     user-select: none
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking
+    background-color: var(--color-std-bg-5)
+    opacity: 0.9
+.ps__thumb-x
+    background-color: var(--color-std-fg-3)
+.ps__thumb-y
+    background-color: var(--color-std-fg-3)
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-x.ps--clicking .ps__thumb-x
+    background-color: var(--color-acc-fg-3)
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y
+    background-color: var(--color-acc-fg-3)

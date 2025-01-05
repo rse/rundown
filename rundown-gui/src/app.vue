@@ -101,8 +101,10 @@ export default defineComponent({
                 })`
             console.log(output)
         },
-        command (arg: any) {
-            this.log("INFO", `command: ${arg}`, { foo: "bar", baz: 42 })
+        command (action: string, data: { [ key: string ]: any } | null = null) {
+            this.log("INFO", `command: ${action}`, data)
+            if (action === "zoom" && data !== null && typeof data.mode === "string")
+                (this.$refs.viewport as any).zoom(data.mode)
         }
     }
 })

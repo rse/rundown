@@ -21,6 +21,7 @@ rules:
     stylus/media-feature-colon: null
     stylus/single-line-comment: null
     stylus/selector-list-comma: "always"
+    color-hex-length: null
 
     #   to get rid of deprecation warnings in "stylelint-stylus"
     stylus/at-rule-name-space-after: null

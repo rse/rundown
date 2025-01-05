@@ -10,18 +10,7 @@
     <div class="app-control">
         <div ref="panelOuter" class="panel-outer">
             <div ref="panelInner" class="panel-inner">
-                <div class="api">
-                    <app-input
-                        class="api-addr" ref="apiAddr"
-                        label="API IP Address"
-                        v-model="apiAddr"
-                        v-bind:disabled="apiEnabled"/>
-                    <app-input
-                        class="api-port" ref="apiPort"
-                        label="API TCP Port"
-                        v-model="apiPort"
-                        v-bind:disabled="apiEnabled"/>
-                </div>
+                <img class="icon" v-bind:src="appIcon"/>
                 <div class="buttons">
                     <app-button icon-series="regular" icon="folder-open"
                         text="LOAD" text2="Document"
@@ -74,6 +63,18 @@
                         text="TOGGLE" text2="Fullscreen"
                         v-on:click="doFullscreenToggle"/>
                 </div>
+                <div class="api">
+                    <app-input
+                        class="api-addr" ref="apiAddr"
+                        label="API IP Address"
+                        v-model="apiAddr"
+                        v-bind:disabled="apiEnabled"/>
+                    <app-input
+                        class="api-port" ref="apiPort"
+                        label="API TCP Port"
+                        v-model="apiPort"
+                        v-bind:disabled="apiEnabled"/>
+                </div>
                 <div class="documents">
                     <div class="document-list">
                         <div class="list-title">
@@ -84,70 +85,70 @@
                             <div class="entry-position">Position</div>
                             <div class="entry-actions">Actions</div>
                         </div>
-                        <div v-for="(document, idx) of documents" v-bind:key="document.name"
-                            class="list-entry" v-bind:class="{ odd: idx % 2 !== 0 }">
-                            <div class="entry-main"
-                                v-bind:class="{
-                                    selected: document === documentSelected,
-                                    opened: document === documentOpened }"
-                                v-on:dblclick.stop="listEntryAction(document, idx, 'open')"
-                                v-on:click.stop="listEntryAction(document, idx, 'select')">
-                                <div class="entry-name">{{ document.name ?? "" }}</div>
-                                <div class="entry-timestamp">{{ moment(document.timestamp).format("yyyy-MM-DD HH:mm:ss") }}</div>
-                                <div class="entry-sections">{{ document.sections }}</div>
-                                <div class="entry-chunks">{{ document.chunks }}</div>
-                                <div class="entry-position">{{ document.position ? (document.position * 100).toFixed(0) + "%" : "" }}</div>
-                                <div class="entry-actions">
-                                    <div class="action"
-                                        v-on:click.stop="(el) => listEntryAction(document, idx, 'delete')">
-                                        <i class="fa-solid fa-square-minus"></i>
-                                    </div>
-                                    <div class="action"
-                                        v-bind:class="{ disabled: idx === 0 }"
-                                        v-on:click.stop="(el) => listEntryAction(document, idx, 'move-up')">
-                                        <i class="fa-solid fa-square-caret-up"></i>
-                                    </div>
-                                    <div class="action"
-                                        v-bind:class="{ disabled: idx === documents.length - 1 }"
-                                        v-on:click.stop="(el) => listEntryAction(document, idx, 'move-down')">
-                                        <i class="fa-solid fa-square-caret-down"></i>
-                                    </div>
-                                    <div class="action"
-                                        v-bind:class="{ disabled: document === documentOpened }"
-                                        v-on:click.stop="(el) => listEntryAction(document, idx, 'open')">
-                                        <i class="fa-solid fa-square-check"></i>
+                        <div ref="listBody" class="list-body">
+                            <div v-for="(document, idx) of documents" v-bind:key="document.name"
+                                class="list-entry" v-bind:class="{ odd: idx % 2 !== 0 }">
+                                <div class="entry-main"
+                                    v-bind:class="{
+                                        selected: document === documentSelected,
+                                        opened: document === documentOpened }"
+                                    v-on:click="listEntryAction(document, idx, 'select')">
+                                    <div class="entry-name">{{ document.name ?? "" }}</div>
+                                    <div class="entry-timestamp">{{ moment(document.timestamp).format("yyyy-MM-DD HH:mm:ss") }}</div>
+                                    <div class="entry-sections">{{ document.sections }}</div>
+                                    <div class="entry-chunks">{{ document.chunks }}</div>
+                                    <div class="entry-position">{{ document.position ? (document.position * 100).toFixed(0) + "%" : "" }}</div>
+                                    <div class="entry-actions">
+                                        <div class="action"
+                                            v-on:click.stop="(el) => listEntryAction(document, idx, 'delete')">
+                                            <i class="fa-solid fa-square-minus"></i>
+                                        </div>
+                                        <div class="action"
+                                            v-bind:class="{ disabled: idx === 0 }"
+                                            v-on:click.stop="(el) => listEntryAction(document, idx, 'move-up')">
+                                            <i class="fa-solid fa-square-caret-up"></i>
+                                        </div>
+                                        <div class="action"
+                                            v-bind:class="{ disabled: idx === documents.length - 1 }"
+                                            v-on:click.stop="(el) => listEntryAction(document, idx, 'move-down')">
+                                            <i class="fa-solid fa-square-caret-down"></i>
+                                        </div>
+                                        <div class="action"
+                                            v-bind:class="{ disabled: document === documentOpened }"
+                                            v-on:click.stop="(el) => listEntryAction(document, idx, 'open')">
+                                            <i class="fa-solid fa-square-check"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div v-if="document.updates" class="entry-updates">
-                                <div v-for="(documentU, idxU) of document.updates" v-bind:key="document.name! + documentU.timestamp"
-                                    class="list-entry">
-                                    <div class="entry-main"
-                                        v-bind:class="{
-                                            selected: documentU === documentSelected,
-                                            opened: documentU === documentOpened }"
-                                        v-on:dblclick.stop="listEntryUpdateAction(document, idx, documentU, idxU, 'open')"
-                                        v-on:click.stop="listEntryUpdateAction(document, idx, documentU, idxU, 'select')">
-                                        <div class="entry-name"></div>
-                                        <div class="entry-timestamp">{{ moment(documentU.timestamp).format("yyyy-MM-DD HH:mm:ss") }}</div>
-                                        <div class="entry-sections">{{ documentU.sections }}</div>
-                                        <div class="entry-chunks">{{ documentU.chunks }}</div>
-                                        <div class="entry-position"></div>
-                                        <div class="entry-actions">
-                                            <div class="action"
-                                                v-on:click.stop="(el) => listEntryUpdateAction(document, idx, documentU, idxU, 'delete')">
-                                                <i class="fa-solid fa-square-minus"></i>
-                                            </div>
-                                            <div class="action disabled">
-                                                <i class="fa-solid fa-square-caret-up"></i>
-                                            </div>
-                                            <div class="action disabled">
-                                                <i class="fa-solid fa-square-caret-down"></i>
-                                            </div>
-                                            <div class="action"
-                                                v-bind:class="{ disabled: documentU === documentOpened }"
-                                                v-on:click.stop="(el) => listEntryUpdateAction(document, idx, documentU, idxU, 'open')">
-                                                <i class="fa-solid fa-square-check"></i>
+                                <div v-if="document.updates" class="entry-updates">
+                                    <div v-for="(documentU, idxU) of document.updates" v-bind:key="document.name! + documentU.timestamp"
+                                        class="list-entry">
+                                        <div class="entry-main"
+                                            v-bind:class="{
+                                                selected: documentU === documentSelected,
+                                                opened: documentU === documentOpened }"
+                                            v-on:click="listEntryUpdateAction(document, idx, documentU, idxU, 'select')">
+                                            <div class="entry-name"></div>
+                                            <div class="entry-timestamp">{{ moment(documentU.timestamp).format("yyyy-MM-DD HH:mm:ss") }}</div>
+                                            <div class="entry-sections">{{ documentU.sections }}</div>
+                                            <div class="entry-chunks">{{ documentU.chunks }}</div>
+                                            <div class="entry-position"></div>
+                                            <div class="entry-actions">
+                                                <div class="action"
+                                                    v-on:click.stop="(el) => listEntryUpdateAction(document, idx, documentU, idxU, 'delete')">
+                                                    <i class="fa-solid fa-square-minus"></i>
+                                                </div>
+                                                <div class="action disabled">
+                                                    <i class="fa-solid fa-square-caret-up"></i>
+                                                </div>
+                                                <div class="action disabled">
+                                                    <i class="fa-solid fa-square-caret-down"></i>
+                                                </div>
+                                                <div class="action"
+                                                    v-bind:class="{ disabled: documentU === documentOpened }"
+                                                    v-on:click.stop="(el) => listEntryUpdateAction(document, idx, documentU, idxU, 'open')">
+                                                    <i class="fa-solid fa-square-check"></i>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -161,6 +162,7 @@
                 <div v-show="!panelOpen" class="latch-down"><i class="fa-solid fa-angles-down"></i></div>
                 <div v-show="panelOpen" class="latch-up"><i class="fa-solid fa-angles-up"></i></div>
             </div>
+            <div class="latch-overlay"></div>
         </div>
     </div>
 </template>
@@ -168,28 +170,33 @@
 <style lang="stylus">
 .app-control
     width:  100vw
-    height: auto
+    height: 100vh
     margin: 0
     padding: 0
     .panel-outer
-        width: 50vw
+        width: 38vw
         margin-left: auto
         margin-right: auto
         .panel-inner
-            width: 50vw
+            box-shadow: 0 0 1vw #111111
+            width: 38vw
             height: auto
             display: flex
             flex-direction: column
             justify-content: center
             align-items: center
             border: 0.1vw solid
-            border-radius: 0.3vw
+            border-bottom-left-radius:  0.5vw
+            border-bottom-right-radius: 0.5vw
             border-left-color:   var(--color-std-bg-4)
             border-top-color:    var(--color-std-bg-4)
             border-right-color:  var(--color-std-bg-2)
             border-bottom-color: var(--color-std-bg-2)
             background-color:    var(--color-std-bg-3)
-            padding: 1vw
+            padding: 1vw 1vw 1.5vw 1vw
+            .icon
+                width: 8vw
+                margin-bottom: 1vw
             .buttons
                 width: 100%
                 display: flex
@@ -197,6 +204,7 @@
                 justify-content: center
                 align-items: center
             .api
+                margin-top: 1vw
                 display: flex
                 flex-direction: row
                 justify-content: center
@@ -206,20 +214,22 @@
                 .api-port
                     width: 40%
             .documents
+                margin-top: 1vw
                 display: flex
                 flex-direction: column
                 justify-content: center
                 align-items: center
         .documents
-            width: 70%
+            width: 35vw
             .document-list
-                width: 100%
+                width: calc(100% - 0.2vw)
+                height: 10vw
                 display: flex
                 flex-direction: column
-                justify-content: center
+                justify-content: flex-start
                 align-items: center
                 border: 0.1vw solid
-                border-radius: 0.3vw
+                border-radius: 0.5vw
                 border-left-color:   var(--color-std-bg-2)
                 border-top-color:    var(--color-std-bg-2)
                 border-right-color:  var(--color-std-bg-4)
@@ -233,20 +243,34 @@
                     flex-direction: row
                     justify-content: center
                     align-items: center
-                    padding: 0.1vw 0.5vw 0.1vw 0.5vw
+                    padding: 0.1vw 0.1vw 0.1vw 0.1vw
                     background-color: var(--color-std-bg-3)
+                    border-top-left-radius:  0.5vw
+                    border-top-right-radius: 0.5vw
+                    font-size: 0.8vw
                     .entry-name
-                        width: calc(40% - 1vw)
+                        width: calc(35% - 0.2vw - 0.4vw)
+                        padding-left: 0.4vw
                     .entry-timestamp
-                        width: 20%
+                        width: calc(20% - 0.4vw)
+                        padding-left: 0.4vw
                     .entry-sections
-                        width: 10%
+                        width: calc(10% - 0.4vw)
+                        padding-left: 0.4vw
                     .entry-chunks
-                        width: 10%
+                        width: calc(10% - 0.4vw)
+                        padding-left: 0.4vw
                     .entry-position
-                        width: 10%
+                        width: calc(10% - 0.4vw)
+                        padding-left: 0.4vw
                     .entry-actions
-                        width: 10%
+                        width: calc(15% - 0.4vw)
+                        padding-left: 0.4vw
+                .list-body
+                    position: relative
+                    width: 100%
+                    height: 10vw
+                    overflow: auto
                 .list-entry
                     width: 100%
                     display: flex
@@ -257,7 +281,7 @@
                         background-color: var(--color-std-bg-1)
                     .entry-main
                         width: calc(100% - 0.2vw)
-                        padding: 0.1vw 0.5vw 0.1vw 0.5vw
+                        padding: 0.1vw 0.1vw 0.1vw 0.1vw
                         display: flex
                         flex-direction: row
                         justify-content: center
@@ -281,28 +305,33 @@
                                     &.disabled
                                         color: var(--color-sig-fg-1)
                     .entry-updates
-                        width: calc(100% - 0.2vw)
-                        padding: 0.1vw 0.5vw 0.1vw 0.5vw
+                        width: 100%
                         display: flex
                         flex-direction: column
                         justify-content: center
                         align-items: center
                     .entry-name
-                        width: calc(40% - 1vw)
+                        width: calc(35% - 0.2vw - 0.4vw)
+                        padding-left: 0.4vw
                     .entry-timestamp
-                        width: 20%
-                        font-size: 75%
+                        width: calc(20% - 0.4vw)
+                        padding-left: 0.4vw
+                        font-size: 0.75vw
                     .entry-sections
-                        width: 10%
+                        width: calc(10% - 0.4vw)
+                        padding-left: 0.4vw
                         text-align: center
                     .entry-chunks
-                        width: 10%
+                        width: calc(10% - 0.4vw)
+                        padding-left: 0.4vw
                         text-align: center
                     .entry-position
-                        width: 10%
+                        width: calc(10% - 0.4vw)
+                        padding-left: 0.4vw
                         text-align: center
                     .entry-actions
-                        width: 10%
+                        width: calc(15% - 0.4vw)
+                        padding-left: 0.4vw
                         display: flex
                         flex-direction: row
                         justify-content: flex-start
@@ -314,6 +343,7 @@
                             &.disabled
                                 color: var(--color-std-fg-1)
         .latch
+            box-shadow: 0 0 0.5vw #111111
             position: relative
             left: calc(50% - 2vw)
             top: -0.1vw
@@ -340,6 +370,14 @@
                 border-bottom-color: var(--color-std-bg-3)
                 background-color:    var(--color-std-bg-4)
                 color:               var(--color-std-fg-4)
+        .latch-overlay
+            position: relative
+            left: calc(50% - 2.0vw)
+            top: -3.2vw
+            width: 4.2vw
+            height: 1.5vw
+            background-color:    var(--color-std-bg-3)
+            z-index: 200
 </style>
 
 <script setup lang="ts">
@@ -347,8 +385,10 @@ import { defineComponent } from "vue"
 import moment              from "moment"
 import Anime               from "animejs"
 import Mousetrap           from "mousetrap"
+import PerfectScrollbar    from "perfect-scrollbar"
 import appWidgetButton     from "./app-widget-button.vue"
 import appWidgetInput      from "./app-widget-input.vue"
+import appLogo             from "./app-logo.svg?url"
 </script>
 
 <script lang="ts">
@@ -372,6 +412,7 @@ export default defineComponent({
     },
     emits: [ "log", "command" ],
     data: () => ({
+        appIcon:             appLogo,
         panelOpen:           true,
         hostIsApp:           false,
         autoloadActivated:   false,
@@ -393,7 +434,8 @@ export default defineComponent({
             { name: "test3", timestamp: new Date(), sections: 1, chunks: 2, position: 0.3 },
         ] as Document[],
         documentSelected:    null as Document | null,
-        documentOpened:      null as Document | null
+        documentOpened:      null as Document | null,
+        ps: null as PerfectScrollbar | null
     }),
     async created () {
         const g = window as any
@@ -401,6 +443,13 @@ export default defineComponent({
     },
     async mounted () {
         this.log("INFO", "starting control")
+
+        /*  activate perfect scrolling  */
+        const container = this.$refs.listBody as HTMLElement
+        this.ps = new PerfectScrollbar(container, {
+            suppressScrollX: true,
+            scrollXMarginOffset: 100
+        })
 
         Mousetrap.bind("ctrl+p",       () => { this.panelToggle() })
         Mousetrap.bind("ctrl+s",       () => { this.doSampleSave() })
@@ -415,12 +464,13 @@ export default defineComponent({
         Mousetrap.bind("ctrl+f",       () => { this.doFullscreenToggle() })
         Mousetrap.bind("ctrl+a",       () => { this.doApiToggle() })
         Mousetrap.bind("ctrl+q",       () => { this.doAppQuit() })
-
-        this.$emit("command", "foo")
     },
     methods: {
         log (level: string, msg: string, data?: any) {
             this.$emit("log", level, msg, data)
+        },
+        command (action: string, data: { [ key: string ]: any } | null = null) {
+            this.$emit("command", action, data)
         },
         async panelToggle () {
             console.log("PANEL")
@@ -478,12 +528,15 @@ export default defineComponent({
         },
         doZoomInc () {
             this.log("info", "Zoom Inc")
+            this.command("zoom", { mode: "inc" })
         },
         doZoomSet () {
             this.log("info", "Zoom Set")
+            this.command("zoom", { mode: "set" })
         },
         doZoomDec () {
             this.log("info", "Zoom Dec")
+            this.command("zoom", { mode: "dec" })
         },
         doFullscreenToggle () {
             this.log("info", "Fullscreen Toggle")
@@ -506,10 +559,12 @@ export default defineComponent({
             else if (action === "delete") {
                 documents.splice(idx, 1)
                 if (this.documentSelected === document) {
-                    if (idx < documents.length - 1)
-                        this.documentSelected = documents[idx + 1]
+                    if (idx <= documents.length - 1)
+                        this.documentSelected = documents[idx]
+                    else if (idx > 0 && idx > documents.length - 1)
+                        this.documentSelected = documents[idx - 1]
                     else
-                        this.documentSelected = documents[documents.length - 1]
+                        this.documentSelected = null
                 }
             }
             else if (action === "move-up" && idx > 0) {
@@ -531,10 +586,12 @@ export default defineComponent({
             else if (action === "delete") {
                 documentsU.splice(idxU, 1)
                 if (this.documentSelected === documentU) {
-                    if (idxU < documentsU.length - 1)
-                        this.documentSelected = documentsU[idxU + 1]
+                    if (idxU <= documentsU.length - 1)
+                        this.documentSelected = documentsU[idxU]
+                    else if (idxU > 0 && idxU > documentsU.length - 1)
+                        this.documentSelected = documentsU[idxU - 1]
                     else
-                        this.documentSelected = documentsU[documentsU.length - 1]
+                        this.documentSelected = null
                 }
             }
             else if (action === "move-up" && idxU > 0) {

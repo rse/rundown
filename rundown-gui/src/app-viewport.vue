@@ -8,7 +8,10 @@
 
 <template>
     <div class="app-viewport">
-        <iframe ref="viewport" class="viewport"></iframe>
+        <iframe ref="viewport"
+            class="viewport"
+            v-bind:style="`zoom: ${zoomLevel}`">
+        </iframe>
     </div>
 </template>
 
@@ -39,6 +42,7 @@ export default defineComponent({
     },
     emits: [ "log" ],
     data: () => ({
+        zoomLevel: 1.0
     }),
     async mounted () {
         this.log("INFO", "starting viewport")
@@ -63,6 +67,15 @@ export default defineComponent({
         },
         update (data: string) {
             this.log("INFO", "UPDATE")
+        },
+        zoom (mode: "inc" | "set" | "dec") {
+            if (mode === "set")
+                this.zoomLevel = 1.0
+            else if (mode === "dec")
+                this.zoomLevel -= this.zoomLevel > 0.5 ? 0.1 : 0.0
+            else if (mode === "inc")
+                this.zoomLevel += this.zoomLevel < 1.5 ? 0.1 : 0.0
+            this.log("INFO", `ZOOM: ${mode}`)
         }
     }
 })

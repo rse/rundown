@@ -37,7 +37,7 @@
     border-bottom-color: var(--color-std-bg-2)
     background-color:    var(--color-std-bg-3)
     color:               var(--color-std-fg-3)
-    padding: 0.2vw
+    padding: 0.3vw
     margin:  0.2vw
     .app-button-icon
         width: 100%
@@ -69,23 +69,28 @@
         border-right-color:  var(--color-acc-bg-2)
         border-bottom-color: var(--color-acc-bg-2)
         background-color:    var(--color-acc-bg-3)
-        color:               var(--color-acc-fg-3)
-    &:hover
-        border-left-color:   var(--color-std-bg-5)
-        border-top-color:    var(--color-std-bg-5)
-        border-right-color:  var(--color-std-bg-3)
-        border-bottom-color: var(--color-std-bg-3)
-        background-color:    var(--color-std-bg-4)
-        color:               var(--color-std-fg-4)
-    &.activated:hover
-        border-left-color:   var(--color-acc-bg-5)
-        border-top-color:    var(--color-acc-bg-5)
-        border-right-color:  var(--color-acc-bg-3)
-        border-bottom-color: var(--color-acc-bg-3)
-        background-color:    var(--color-acc-bg-4)
         color:               var(--color-acc-fg-4)
+    &:hover
+        border-left-color:   var(--color-std-bg-4)
+        border-top-color:    var(--color-std-bg-4)
+        border-right-color:  var(--color-std-bg-2)
+        border-bottom-color: var(--color-std-bg-2)
+        background-color:    var(--color-std-bg-5)
+        color:               var(--color-std-fg-5)
+    &.activated:hover
+        border-left-color:   var(--color-acc-bg-4)
+        border-top-color:    var(--color-acc-bg-4)
+        border-right-color:  var(--color-acc-bg-2)
+        border-bottom-color: var(--color-acc-bg-2)
+        background-color:    var(--color-acc-bg-5)
+        color:               var(--color-acc-fg-5)
     &.disabled
+        border-left-color:   var(--color-std-bg-4)
+        border-top-color:    var(--color-std-bg-4)
+        border-right-color:  var(--color-std-bg-2)
+        border-bottom-color: var(--color-std-bg-2)
         background-color:    var(--color-std-bg-3)
+        color:               var(--color-std-fg-3)
     &.disabled .app-button-icon,
     &.disabled .app-button-text,
     &.disabled .app-button-text2
