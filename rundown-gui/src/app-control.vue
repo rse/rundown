@@ -79,77 +79,45 @@
                     <div class="document-list">
                         <div class="list-title">
                             <div class="entry-name">Name</div>
+                            <div class="entry-position">Position</div>
                             <div class="entry-timestamp">Timestamp</div>
                             <div class="entry-sections">Sections</div>
                             <div class="entry-chunks">Chunks</div>
-                            <div class="entry-position">Position</div>
                             <div class="entry-actions">Actions</div>
                         </div>
                         <div ref="listBody" class="list-body">
-                            <div v-for="(document, idx) of documents" v-bind:key="document.name"
-                                class="list-entry" v-bind:class="{ odd: idx % 2 !== 0 }">
-                                <div class="entry-main"
+                            <div v-for="(documentSet, dsIdx) of documentSets"
+                                v-bind:key="documentSet.name"
+                                class="list-entry"
+                                v-bind:class="{ odd: dsIdx % 2 !== 0 }">
+                                <div v-for="(document, dIdx) of documentSet.documents"
+                                    v-bind:key="document.timestamp.toString()"
+                                    class="entry-document"
                                     v-bind:class="{
                                         selected: document === documentSelected,
                                         opened: document === documentOpened }"
-                                    v-on:click="listEntryAction(document, idx, 'select')">
-                                    <div class="entry-name">{{ document.name ?? "" }}</div>
+                                    v-on:click="documentAction(documentSet, dsIdx, document, dIdx, 'select')">
+                                    <div class="entry-name">{{ dIdx === 0 ? documentSet.name : "" }}</div>
+                                    <div class="entry-position">{{ dIdx === 0 ? (documentSet.position * 100).toFixed(0) + "%" : "" }}</div>
                                     <div class="entry-timestamp">{{ moment(document.timestamp).format("yyyy-MM-DD HH:mm:ss") }}</div>
                                     <div class="entry-sections">{{ document.sections }}</div>
                                     <div class="entry-chunks">{{ document.chunks }}</div>
-                                    <div class="entry-position">{{ document.position ? (document.position * 100).toFixed(0) + "%" : "" }}</div>
                                     <div class="entry-actions">
                                         <div class="action"
-                                            v-on:click.stop="(el) => listEntryAction(document, idx, 'delete')">
+                                            v-on:click.stop="(el) => documentAction(documentSet, dsIdx, document, dIdx, 'delete')">
                                             <i class="fa-solid fa-square-minus"></i>
                                         </div>
-                                        <div class="action"
-                                            v-bind:class="{ disabled: idx === 0 }"
-                                            v-on:click.stop="(el) => listEntryAction(document, idx, 'move-up')">
+                                        <div v-if="dIdx === 0"
+                                            class="action"
+                                            v-bind:class="{ disabled: dsIdx === 0 }"
+                                            v-on:click.stop="(el) => documentSetAction(documentSet, dsIdx, 'move-up')">
                                             <i class="fa-solid fa-square-caret-up"></i>
                                         </div>
-                                        <div class="action"
-                                            v-bind:class="{ disabled: idx === documents.length - 1 }"
-                                            v-on:click.stop="(el) => listEntryAction(document, idx, 'move-down')">
+                                        <div v-if="dIdx === 0"
+                                            class="action"
+                                            v-bind:class="{ disabled: dsIdx === documentSets.length - 1 }"
+                                            v-on:click.stop="(el) => documentSetAction(documentSet, dsIdx, 'move-down')">
                                             <i class="fa-solid fa-square-caret-down"></i>
-                                        </div>
-                                        <div class="action"
-                                            v-bind:class="{ disabled: document === documentOpened }"
-                                            v-on:click.stop="(el) => listEntryAction(document, idx, 'open')">
-                                            <i class="fa-solid fa-square-check"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-if="document.updates" class="entry-updates">
-                                    <div v-for="(documentU, idxU) of document.updates" v-bind:key="document.name! + documentU.timestamp"
-                                        class="list-entry">
-                                        <div class="entry-main"
-                                            v-bind:class="{
-                                                selected: documentU === documentSelected,
-                                                opened: documentU === documentOpened }"
-                                            v-on:click="listEntryUpdateAction(document, idx, documentU, idxU, 'select')">
-                                            <div class="entry-name"></div>
-                                            <div class="entry-timestamp">{{ moment(documentU.timestamp).format("yyyy-MM-DD HH:mm:ss") }}</div>
-                                            <div class="entry-sections">{{ documentU.sections }}</div>
-                                            <div class="entry-chunks">{{ documentU.chunks }}</div>
-                                            <div class="entry-position"></div>
-                                            <div class="entry-actions">
-                                                <div class="action"
-                                                    v-on:click.stop="(el) => listEntryUpdateAction(document, idx, documentU, idxU, 'delete')">
-                                                    <i class="fa-solid fa-square-minus"></i>
-                                                </div>
-                                                <div class="action disabled">
-                                                    <i class="fa-solid fa-square-caret-up"></i>
-                                                </div>
-                                                <div class="action disabled">
-                                                    <i class="fa-solid fa-square-caret-down"></i>
-                                                </div>
-                                                <div class="action"
-                                                    v-bind:class="{ disabled: documentU === documentOpened }"
-                                                    v-on:click.stop="(el) => listEntryUpdateAction(document, idx, documentU, idxU, 'open')">
-                                                    <i class="fa-solid fa-square-check"></i>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -251,18 +219,21 @@
                     .entry-name
                         width: calc(35% - 0.2vw - 0.4vw)
                         padding-left: 0.4vw
+                    .entry-position
+                        width: calc(10% - 0.4vw)
+                        padding-left: 0.4vw
+                        text-align: right
                     .entry-timestamp
                         width: calc(20% - 0.4vw)
                         padding-left: 0.4vw
                     .entry-sections
                         width: calc(10% - 0.4vw)
                         padding-left: 0.4vw
+                        text-align: right
                     .entry-chunks
                         width: calc(10% - 0.4vw)
                         padding-left: 0.4vw
-                    .entry-position
-                        width: calc(10% - 0.4vw)
-                        padding-left: 0.4vw
+                        text-align: right
                     .entry-actions
                         width: calc(15% - 0.4vw)
                         padding-left: 0.4vw
@@ -279,13 +250,22 @@
                     align-items: center
                     &.odd
                         background-color: var(--color-std-bg-1)
-                    .entry-main
+                    .entry-documentset
                         width: calc(100% - 0.2vw)
                         padding: 0.1vw 0.1vw 0.1vw 0.1vw
                         display: flex
                         flex-direction: row
                         justify-content: center
                         align-items: center
+                    .entry-document
+                        width: calc(100% - 0.2vw)
+                        padding: 0.1vw 0.1vw 0.1vw 0.1vw
+                        display: flex
+                        flex-direction: row
+                        justify-content: center
+                        align-items: center
+                        &:hover
+                            background-color: var(--color-std-bg-4)
                         &.selected
                             background-color: var(--color-acc-bg-3)
                             color: var(--color-acc-fg-3)
@@ -304,15 +284,13 @@
                                         color: var(--color-sig-fg-5)
                                     &.disabled
                                         color: var(--color-sig-fg-1)
-                    .entry-updates
-                        width: 100%
-                        display: flex
-                        flex-direction: column
-                        justify-content: center
-                        align-items: center
                     .entry-name
                         width: calc(35% - 0.2vw - 0.4vw)
                         padding-left: 0.4vw
+                    .entry-position
+                        width: calc(10% - 0.4vw)
+                        padding-left: 0.4vw
+                        text-align: right
                     .entry-timestamp
                         width: calc(20% - 0.4vw)
                         padding-left: 0.4vw
@@ -320,15 +298,11 @@
                     .entry-sections
                         width: calc(10% - 0.4vw)
                         padding-left: 0.4vw
-                        text-align: center
+                        text-align: right
                     .entry-chunks
                         width: calc(10% - 0.4vw)
                         padding-left: 0.4vw
-                        text-align: center
-                    .entry-position
-                        width: calc(10% - 0.4vw)
-                        padding-left: 0.4vw
-                        text-align: center
+                        text-align: right
                     .entry-actions
                         width: calc(15% - 0.4vw)
                         padding-left: 0.4vw
@@ -341,7 +315,9 @@
                             &:hover
                                 color: var(--color-std-fg-5)
                             &.disabled
-                                color: var(--color-std-fg-1)
+                                color: var(--color-std-fg-0)
+                        .action:first-child
+                            margin-right: 0.8vw
         .latch
             box-shadow: 0 0 0.5vw #111111
             position: relative
@@ -393,13 +369,16 @@ import appLogo             from "./app-logo.svg?url"
 
 <script lang="ts">
 interface Document {
-    name?:     string
     timestamp: Date
     sections:  number
     chunks:    number
-    position?: number
     data?:     any
-    updates?:  Document[]
+}
+interface DocumentSet {
+    id:        number
+    name:      string
+    position:  number
+    documents: Document[]
 }
 export default defineComponent({
     name: "app-control",
@@ -420,19 +399,26 @@ export default defineComponent({
         apiAddr:             "0.0.0.0",
         apiPort:             "8888",
         apiEnabled:          false,
-        documents:           [
-            { name: "test0", timestamp: new Date(), sections: 1, chunks: 2, position: 0.3 },
+        documentSets:        [
             {
-                name: "test1", timestamp: new Date(), sections: 1, chunks: 2, position: 0.3, updates:
-                [
+                id: 1, name: "test1", position: 0.3, documents: [
                     { timestamp: new Date(), sections: 1, chunks: 2 },
                     { timestamp: new Date(), sections: 1, chunks: 2 },
                     { timestamp: new Date(), sections: 1, chunks: 2 }
-                ]
+                ] as Document[]
             },
-            { name: "test2", timestamp: new Date(), sections: 1, chunks: 2, position: 0.3 },
-            { name: "test3", timestamp: new Date(), sections: 1, chunks: 2, position: 0.3 },
-        ] as Document[],
+            {
+                id: 2, name: "test2", position: 0.5, documents: [
+                    { timestamp: new Date(), sections: 1, chunks: 2 },
+                    { timestamp: new Date(), sections: 1, chunks: 2 }
+                ] as Document[]
+            },
+            {
+                id: 3, name: "test3", position: 0.7, documents: [
+                    { timestamp: new Date(), sections: 1, chunks: 2 },
+                ] as Document[]
+            }
+        ] as DocumentSet[],
         documentSelected:    null as Document | null,
         documentOpened:      null as Document | null,
         ps: null as PerfectScrollbar | null
@@ -550,58 +536,28 @@ export default defineComponent({
             this.apiEnabled = !this.apiEnabled
             this.log("info", "API Toggle", { enabled: this.apiEnabled, addr: this.apiAddr, port: this.apiPort })
         },
-        listEntryAction (document: Document, idx: number, action: string) {
-            const documents = this.documents
+        documentSetAction (documentSet: DocumentSet, dsIdx: number, action: string) {
+            const documentSets = this.documentSets
+            if (action === "move-up" && dsIdx > 0) {
+                documentSets.splice(dsIdx, 1)
+                documentSets.splice(dsIdx > 0 ? dsIdx - 1 : 0, 0, documentSet)
+            }
+            else if (action === "move-down" && dsIdx < documentSets.length - 1) {
+                documentSets.splice(dsIdx, 1)
+                documentSets.splice(dsIdx < documentSets.length - 1 ? dsIdx + 1 :
+                    documentSets.length, 0, documentSet)
+            }
+        },
+        documentAction (documentSet: DocumentSet, dsIdx: number, document: Document, dIdx: number, action: string) {
+            const documents = documentSet.documents
             if (action === "select")
                 this.documentSelected = document
             else if (action === "open")
                 this.documentOpened = document
             else if (action === "delete") {
-                documents.splice(idx, 1)
-                if (this.documentSelected === document) {
-                    if (idx <= documents.length - 1)
-                        this.documentSelected = documents[idx]
-                    else if (idx > 0 && idx > documents.length - 1)
-                        this.documentSelected = documents[idx - 1]
-                    else
-                        this.documentSelected = null
-                }
-            }
-            else if (action === "move-up" && idx > 0) {
-                documents.splice(idx, 1)
-                documents.splice(idx > 0 ? idx - 1 : 0, 0, document)
-            }
-            else if (action === "move-down" && idx < documents.length - 1) {
-                documents.splice(idx, 1)
-                documents.splice(idx < documents.length - 1 ? idx + 1 :
-                    documents.length, 0, document)
-            }
-        },
-        listEntryUpdateAction (document: Document, idx: number, documentU: Document, idxU: number, action: string) {
-            const documentsU = this.documents[idx].updates!
-            if (action === "select")
-                this.documentSelected = documentU
-            else if (action === "open")
-                this.documentOpened = documentU
-            else if (action === "delete") {
-                documentsU.splice(idxU, 1)
-                if (this.documentSelected === documentU) {
-                    if (idxU <= documentsU.length - 1)
-                        this.documentSelected = documentsU[idxU]
-                    else if (idxU > 0 && idxU > documentsU.length - 1)
-                        this.documentSelected = documentsU[idxU - 1]
-                    else
-                        this.documentSelected = null
-                }
-            }
-            else if (action === "move-up" && idxU > 0) {
-                documentsU.splice(idxU, 1)
-                documentsU.splice(idxU > 0 ? idxU - 1 : 0, 0, documentU)
-            }
-            else if (action === "move-down" && idx < documentsU.length - 1) {
-                documentsU.splice(idxU, 1)
-                documentsU.splice(idxU < documentsU.length - 1 ? idxU + 1 :
-                    documentsU.length, 0, documentU)
+                documents.splice(dIdx, 1)
+                if (this.documentSelected === document)
+                    this.documentSelected = null
             }
         }
     }
