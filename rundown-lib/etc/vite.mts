@@ -80,8 +80,18 @@ export default Vite.defineConfig(({ command, mode }) => ({
                 "eventemitter2",
                 "@shy1118/mammoth",
                 "cheerio",
-                "domhandler"
-            ]
+                "domhandler",
+                "os",
+                "fs",
+                "path"
+            ],
+            onwarn (warning, warn) {
+                if (warning.message.match(/annotation that Rollup cannot interpret/))
+                    return
+                if (warning.message.match(/Use of eval.*?is strongly discouraged/))
+                    return
+                warn(warning)
+            }
         }
     }
 }))
