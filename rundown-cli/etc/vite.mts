@@ -47,6 +47,13 @@ export default Vite.defineConfig(({ command, mode }) => ({
         sourcemap:              (mode === "development"),
         minify:                 false,
         reportCompressedSize:   (mode === "production"),
+        rollupOptions: {
+            onwarn (warning, warn) {
+                if (warning.message.match(/Use of eval.*?is strongly discouraged/))
+                    return
+                warn(warning)
+            }
+        }
     }
 }))
 
