@@ -24,8 +24,8 @@ scripts:
                           shx mv rundown-macos   dst-stage3/rundown-cli-mac-x64
 
     #   testing
-    test:                 npm start lint build:cmd && node dst-stage1/rundown.js -f qprompt -o ../etc/sample.html ../etc/sample.docx
-    test2:                npm start lint build:cmd && node dst-stage1/rundown.js -f qprompt -o sample2.html sample2.docx
+    test:                 npm start lint build:cmd && node dst-stage1/rundown.js -f qprompt -o ../etc/sample.html  ../etc/sample.docx
+    test2:                npm start lint build:cmd && node dst-stage1/rundown.js -f qprompt -o ../etc/sample2.html ../etc/sample2.docx
 
     #   cleanup
     clean:                shx rm -rf dst-stage1 dst-stage2 dst-stage3
