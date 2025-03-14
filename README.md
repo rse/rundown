@@ -42,6 +42,14 @@ Example
 $ rundown -f qprompt -e "table:last tr:gt(0) td:last" -o sample.html sample.docx
 ```
 
+Architecture
+------------
+
+- [rundown-lib/](rundown-lib: base functionality)
+- [rundown-cli/](rundown-cli: command-line interface)
+- [rundown-gui/](rundown-gui: graphical user interface)
+- [rundown-app/](rundown-app: native application)
+
 License
 -------
 
