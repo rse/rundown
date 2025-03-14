@@ -10,6 +10,8 @@
         "jsx":                     "preserve",
         "resolveJsonModule":       true,
         "isolatedModules":         true,
+        "verbatimModuleSyntax":    true,
+        "noImplicitThis":          true,
         "esModuleInterop":         true,
         "lib":                     [ "ESNext", "DOM" ],
         "skipLibCheck":            true,

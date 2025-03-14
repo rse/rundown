@@ -115,7 +115,7 @@ import { defineComponent } from "vue"
 export default defineComponent({
     name: "app-input",
     props: {
-        modelValue:  { type: String,  default: "", required: true },
+        modelValue:  { type: String,  required: true },
         placeholder: { type: String,  default: "" },
         label:       { type: String,  default: "" },
         disabled:    { type: Boolean, default: false }

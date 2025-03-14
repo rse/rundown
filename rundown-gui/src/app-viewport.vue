@@ -62,10 +62,10 @@ export default defineComponent({
         iframe.contentWindow!.document.close()
     },
     methods: {
-        log (level: string, msg: string) {
-            this.$emit("log", level, msg)
+        log (level: string, msg: string, data?: any) {
+            this.$emit("log", level, `viewport: ${msg}`, data)
         },
-        update (data: string) {
+        load (data: string) {
             this.log("INFO", "UPDATE")
         },
         zoom (mode: "inc" | "set" | "dec") {

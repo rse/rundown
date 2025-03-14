@@ -15,53 +15,53 @@
                     <app-button icon-series="regular" icon="folder-open"
                         text="LOAD" text2="Document"
                         v-bind:disabled="autoloadActivated || autoreloadActivated"
-                        v-on:click="doDocumentLoad"/>
+                        v-on:click="command('control:document-load')"/>
                     <app-button icon-series="solid" icon="arrows-rotate"
                         text="RELOAD" text2="Document"
                         v-bind:disabled="autoloadActivated || autoreloadActivated || !hostIsApp"
-                        v-on:click="doDocumentReload"/>
+                        v-on:click="command('control:document-reload')"/>
                     <app-button icon-series="solid" icon="file-import"
                         text="LOAD" text2="Sample"
                         v-bind:disabled="autoloadActivated || autoreloadActivated"
-                        v-on:click="doSampleLoad"/>
+                        v-on:click="command('control:sample-load')"/>
                     <app-button icon-series="solid" icon="file-export"
                         text="SAVE" text2="Sample"
                         v-bind:disabled="autoloadActivated || autoreloadActivated"
-                        v-on:click="doSampleSave"/>
+                        v-on:click="command('control:sample-save')"/>
                     <app-button class="api-enabled"
                         icon-series="solid" icon="gamepad"
                         text="Enable" text2="API"
                         v-bind:disabled="!hostIsApp && false"
                         v-bind:activated="apiEnabled"
-                        v-on:click="doApiToggle"/>
+                        v-on:click="uiApiToggle"/>
                     <app-button icon-series="solid" icon="circle-xmark"
                         text="QUIT" text2="Application"
                         v-bind:disabled="!hostIsApp"
-                        v-on:click="doAppQuit"/>
+                        v-on:click="command('app:app-quit')"/>
                 </div>
                 <div class="buttons">
                     <app-button icon-series="solid" icon="eye"
                         text="AUTOLOAD" text2="Document"
                         v-bind:activated="autoloadActivated"
                         v-bind:disabled="autoreloadActivated || !hostIsApp"
-                        v-on:click="doDocumentAutoLoad"/>
+                        v-on:click="command('control:document-autoload-toggle')"/>
                     <app-button icon-series="solid" icon="eye"
                         text="AUTORELOAD" text2="Document"
                         v-bind:activated="autoreloadActivated"
                         v-bind:disabled="autoloadActivated || !hostIsApp"
-                        v-on:click="doDocumentAutoReload"/>
-                    <app-button icon-series="solid" icon="magnifying-glass-plus"
-                        text="INCREASE" text2="Zoom"
-                        v-on:click="doZoomInc"/>
-                    <app-button icon-series="solid" icon="magnifying-glass"
-                        text="RESET" text2="Zoom"
-                        v-on:click="doZoomSet"/>
+                        v-on:click="command('control:document-autoreload-toggle')"/>
                     <app-button icon-series="solid" icon="magnifying-glass-minus"
                         text="DECREASE" text2="Zoom"
-                        v-on:click="doZoomDec"/>
+                        v-on:click="command('viewport:zoom-change', { mode: 'dec' })"/>
+                    <app-button icon-series="solid" icon="magnifying-glass"
+                        text="RESET" text2="Zoom"
+                        v-on:click="command('viewport:zoom-change', { mode: 'set' })"/>
+                    <app-button icon-series="solid" icon="magnifying-glass-plus"
+                        text="INCREASE" text2="Zoom"
+                        v-on:click="command('viewport:zoom-change', { mode: 'inc' })"/>
                     <app-button icon-series="solid" icon="expand"
                         text="TOGGLE" text2="Fullscreen"
-                        v-on:click="doFullscreenToggle"/>
+                        v-on:click="command('control:fullscreen-toggle')"/>
                 </div>
                 <div class="api">
                     <app-input
@@ -126,7 +126,7 @@
                     </div>
                 </div>
             </div>
-            <div class="latch" v-on:click="panelToggle">
+            <div class="latch" v-on:click="command('control:panel-toggle')">
                 <div v-show="!panelOpen" class="latch-down"><i class="fa-solid fa-angles-down"></i></div>
                 <div v-show="panelOpen" class="latch-up"><i class="fa-solid fa-angles-up"></i></div>
             </div>
@@ -219,10 +219,13 @@
                     .entry-name
                         width: calc(35% - 0.2vw - 0.4vw)
                         padding-left: 0.4vw
+                        font-weight: bold
                     .entry-position
-                        width: calc(10% - 0.4vw)
+                        width: calc(10% - 0.8vw)
                         padding-left: 0.4vw
+                        padding-right: 0.4vw
                         text-align: right
+                        font-weight: bold
                     .entry-timestamp
                         width: calc(20% - 0.4vw)
                         padding-left: 0.4vw
@@ -231,8 +234,9 @@
                         padding-left: 0.4vw
                         text-align: right
                     .entry-chunks
-                        width: calc(10% - 0.4vw)
+                        width: calc(10% - 0.8vw)
                         padding-left: 0.4vw
+                        padding-right: 0.4vw
                         text-align: right
                     .entry-actions
                         width: calc(15% - 0.4vw)
@@ -287,10 +291,13 @@
                     .entry-name
                         width: calc(35% - 0.2vw - 0.4vw)
                         padding-left: 0.4vw
+                        font-weight: bold
                     .entry-position
-                        width: calc(10% - 0.4vw)
+                        width: calc(10% - 0.8vw)
                         padding-left: 0.4vw
+                        padding-right: 0.4vw
                         text-align: right
+                        font-weight: bold
                     .entry-timestamp
                         width: calc(20% - 0.4vw)
                         padding-left: 0.4vw
@@ -300,8 +307,9 @@
                         padding-left: 0.4vw
                         text-align: right
                     .entry-chunks
-                        width: calc(10% - 0.4vw)
+                        width: calc(10% - 0.8vw)
                         padding-left: 0.4vw
+                        padding-right: 0.4vw
                         text-align: right
                     .entry-actions
                         width: calc(15% - 0.4vw)
@@ -360,26 +368,16 @@
 import { defineComponent } from "vue"
 import moment              from "moment"
 import Anime               from "animejs"
-import Mousetrap           from "mousetrap"
 import PerfectScrollbar    from "perfect-scrollbar"
+
+import type { DocumentSet, Document } from "./app-control.d.ts"
+
 import appWidgetButton     from "./app-widget-button.vue"
 import appWidgetInput      from "./app-widget-input.vue"
 import appLogo             from "./app-logo.svg?url"
 </script>
 
 <script lang="ts">
-interface Document {
-    timestamp: Date
-    sections:  number
-    chunks:    number
-    data?:     any
-}
-interface DocumentSet {
-    id:        number
-    name:      string
-    position:  number
-    documents: Document[]
-}
 export default defineComponent({
     name: "app-control",
     components: {
@@ -417,6 +415,11 @@ export default defineComponent({
                 id: 3, name: "test3", position: 0.7, documents: [
                     { timestamp: new Date(), sections: 1, chunks: 2 },
                 ] as Document[]
+            },
+            {
+                id: 4, name: "test4", position: 0.7, documents: [
+                    { timestamp: new Date(), sections: 1, chunks: 2 },
+                ] as Document[]
             }
         ] as DocumentSet[],
         documentSelected:    null as Document | null,
@@ -430,36 +433,26 @@ export default defineComponent({
     async mounted () {
         this.log("INFO", "starting control")
 
-        /*  activate perfect scrolling  */
+        /*  activate improved scrolling  */
         const container = this.$refs.listBody as HTMLElement
         this.ps = new PerfectScrollbar(container, {
             suppressScrollX: true,
             scrollXMarginOffset: 100
         })
 
-        Mousetrap.bind("ctrl+p",       () => { this.panelToggle() })
-        Mousetrap.bind("ctrl+s",       () => { this.doSampleSave() })
-        Mousetrap.bind("ctrl+l",       () => { this.doSampleLoad() })
-        Mousetrap.bind("ctrl+o",       () => { this.doDocumentLoad() })
-        Mousetrap.bind("ctrl+r",       () => { this.doDocumentReload() })
-        Mousetrap.bind("ctrl+shift+o", () => { this.doDocumentAutoLoad() })
-        Mousetrap.bind("ctrl+shift+r", () => { this.doDocumentAutoReload() })
-        Mousetrap.bind("ctrl+plus",    () => { this.doZoomInc() })
-        Mousetrap.bind("ctrl+0",       () => { this.doZoomSet() })
-        Mousetrap.bind("ctrl+-",       () => { this.doZoomDec() })
-        Mousetrap.bind("ctrl+f",       () => { this.doFullscreenToggle() })
-        Mousetrap.bind("ctrl+a",       () => { this.doApiToggle() })
-        Mousetrap.bind("ctrl+q",       () => { this.doAppQuit() })
+        /*  react changes to the selected document  */
+        this.$watch("documentSelected", () => {
+            this.command("viewport:load", { data: this.documentSelected })
+        })
     },
     methods: {
         log (level: string, msg: string, data?: any) {
-            this.$emit("log", level, msg, data)
+            this.$emit("log", level, `control: ${msg}`, data)
         },
         command (action: string, data: { [ key: string ]: any } | null = null) {
             this.$emit("command", action, data)
         },
         async panelToggle () {
-            console.log("PANEL")
             this.panelOpen = !this.panelOpen
             const panelOuter = this.$refs.panelOuter as HTMLElement
             const panelInner = this.$refs.panelInner as HTMLElement
@@ -483,58 +476,46 @@ export default defineComponent({
                 })
             }
             await tl.finished
+            return this.panelOpen
         },
-        doSampleSave () {
+        sampleSave () {
             this.log("info", "Sample Save")
         },
-        doSampleLoad () {
+        sampleLoad () {
             this.log("info", "Sample Load")
         },
-        doDocumentLoad () {
+        documentLoad () {
             if (this.autoloadActivated || this.autoreloadActivated)
                 return
             this.log("info", "Document Load")
         },
-        doDocumentReload () {
+        documentReload () {
             if (this.autoloadActivated || this.autoreloadActivated)
                 return
             this.log("info", "Document Reload")
         },
-        doDocumentAutoLoad () {
+        documentAutoloadToggle () {
             if (this.autoreloadActivated)
                 return
             this.log("info", "Document Auto Load")
             this.autoloadActivated = !this.autoloadActivated
         },
-        doDocumentAutoReload () {
+        documentAutoreloadToggle () {
             if (this.autoloadActivated)
                 return
             this.log("info", "Document Auto Reload")
             this.autoreloadActivated = !this.autoreloadActivated
         },
-        doZoomInc () {
-            this.log("info", "Zoom Inc")
-            this.command("zoom", { mode: "inc" })
-        },
-        doZoomSet () {
-            this.log("info", "Zoom Set")
-            this.command("zoom", { mode: "set" })
-        },
-        doZoomDec () {
-            this.log("info", "Zoom Dec")
-            this.command("zoom", { mode: "dec" })
-        },
-        doFullscreenToggle () {
+        fullscreenToggle () {
             this.log("info", "Fullscreen Toggle")
         },
-        doAppQuit () {
-            this.log("info", "App Quit")
-        },
-        doApiToggle () {
-            // if (!this.hostIsApp)
-            //     return
+        uiApiToggle () {
             this.apiEnabled = !this.apiEnabled
-            this.log("info", "API Toggle", { enabled: this.apiEnabled, addr: this.apiAddr, port: this.apiPort })
+            this.command("app:api-toggle", {
+                enabled: this.apiEnabled,
+                addr:    this.apiAddr,
+                port:    this.apiPort
+            })
         },
         documentSetAction (documentSet: DocumentSet, dsIdx: number, action: string) {
             const documentSets = this.documentSets

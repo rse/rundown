@@ -87,6 +87,7 @@ export default [
             "vue/first-attribute-linebreak":                      "off",
             "vue/attributes-order":                               "off",
             "vue/component-definition-name-casing":               "off",
+            "vue/block-order":                                    "off",
 
             "@typescript-eslint/no-empty-function":               "off",
             "@typescript-eslint/no-explicit-any":                 "off",
