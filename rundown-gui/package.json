@@ -43,7 +43,7 @@
         "vite":                             "6.2.2",
         "@typescript-eslint/eslint-plugin": "8.26.1",
         "@typescript-eslint/parser":        "8.26.1",
-        "@vitejs/plugin-vue":               "5.2.1",
+        "@vitejs/plugin-vue":               "5.2.3",
         "@rollup/plugin-yaml":              "4.1.2",
         "vite-plugin-node-polyfills":       "0.23.0",
         "vite-plugin-static-copy":          "2.3.0",
