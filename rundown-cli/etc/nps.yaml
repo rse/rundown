@@ -17,7 +17,7 @@ scripts:
     build:cmd:            vite --config etc/vite.mts build --mode production
     build:man:            shx mkdir -p dst-stage3 && remark --quiet --use remark-man --output dst-stage3/rundown.1 src/rundown.md
     build:pkg: >
-                          pkg --public -c package.json --sea -t node22-linux-x64,node22-win-x64,node22-macos-x64 dst-stage2/rundown.js &&
+                          pkg --sea --public -c package.json --sea -t node22-linux-x64,node22-win-x64,node22-macos-x64 dst-stage2/rundown.js &&
                           shx mkdir -p dst-stage3 &&
                           shx mv rundown-linux   dst-stage3/rundown-cli-lnx-x64 &&
                           shx mv rundown-win.exe dst-stage3/rundown-cli-win-x64.exe &&
