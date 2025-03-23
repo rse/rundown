@@ -16,8 +16,8 @@
         "url":                          "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                       "9.22.0",
-        "@eslint/js":                   "9.22.0",
+        "eslint":                       "9.23.0",
+        "@eslint/js":                   "9.23.0",
         "eslint-plugin-n":              "17.16.2",
         "eslint-plugin-promise":        "7.2.1",
         "eslint-plugin-import":         "2.31.0",
@@ -40,7 +40,7 @@
         "nps":                          "5.10.0",
         "markdownlint":                 "0.37.4",
         "markdownlint-cli2":            "0.17.2",
-        "@types/node":                  "22.13.10"
+        "@types/node":                  "22.13.11"
     },
     "dependencies": {
         "cli-io":                       "0.9.13",
