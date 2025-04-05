@@ -42,6 +42,30 @@ Example
 $ rundown -f qprompt -e "table:last tr:gt(0) td:last" -o sample.html sample.docx
 ```
 
+Design Criterias
+----------------
+
+- Allow director plan preparation to be done in a fully *collabortively edited* Word document
+- Keep table-format in Word-based director plan
+
+- Consistently use Word *styles* in director plan for unambiguous semantics and conversion 
+- Support all *necessary markups* from the years of experience at msg Filmstudio
+- Distinguish between control and content (teams) in director plan
+
+- Allow directory plan to be *automatically* converted into the teleprompter view
+- Intentionally do *not support any editing* of the teleprompter view
+- Allow teleprompter view to be *updated within a minute*, even during dry-runs and just before going live
+
+- Use light-mode in director plan to support printing
+- Use dark-mode in teleprompter view to avoid outshine effects on cameras
+- Align light-mode directory plan and dark-mode teleprompter view as close as possible
+- Use strong typographic conventions in both directory plan and teleprompter view
+
+- Always show an active speaker indicator in teleprompter view
+- Always show a progress indicator in teleprompter view
+- Support view size adjustments in teleprompter view
+- Ensure that lines do not become too wide in teleprompter views to avoid too much wandering of the eyes
+
 Architecture
 ------------
 
