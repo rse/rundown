@@ -94,7 +94,7 @@
     &.disabled .app-button-icon,
     &.disabled .app-button-text,
     &.disabled .app-button-text2
-        color:               var(--color-std-fg-1)
+        color:               var(--color-std-fg-0)
     &.horizontal
         flex-direction: row
         .app-button-icon

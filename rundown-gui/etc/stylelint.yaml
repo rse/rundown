@@ -17,6 +17,7 @@ rules:
     no-descending-specificity: null
     custom-property-empty-line-before: null
     media-feature-range-notation: null
+    length-zero-no-unit: null
     stylus/declaration-colon: null
     stylus/media-feature-colon: null
     stylus/single-line-comment: null

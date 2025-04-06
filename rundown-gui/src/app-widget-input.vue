@@ -45,8 +45,8 @@
         background-color:    var(--color-std-bg-3)
         color:               var(--color-std-fg-2)
         font-family:         var(--font-family)
-        font-size:           0.8vw
-        padding-top:         0.2vw
+        font-size:           1.0vw
+        padding-top:         0.0vw
         padding-bottom:      0.2vw
         padding-left:        0.4vw
         padding-right:       0.4vw
@@ -58,7 +58,7 @@
         background-color:    transparent
         color:               var(--color-std-fg-3)
         font-family:         var(--font-family)
-        font-size:           1.0vw
+        font-size:           1.1vw
         padding-top:         0.2vw
         padding-bottom:      0.2vw
         padding-left:        0.4vw

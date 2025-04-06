@@ -31,7 +31,7 @@
                     <app-button class="api-enabled"
                         icon-series="solid" icon="gamepad"
                         text="Enable" text2="API"
-                        v-bind:disabled="!hostIsApp && false"
+                        v-bind:disabled="!hostIsApp || apiAddr === '' || apiPort === ''"
                         v-bind:activated="apiEnabled"
                         v-on:click="uiApiToggle"/>
                     <app-button icon-series="solid" icon="circle-xmark"
@@ -41,12 +41,12 @@
                 </div>
                 <div class="buttons">
                     <app-button icon-series="solid" icon="eye"
-                        text="AUTOLOAD" text2="Document"
+                        text="AUTOLOAD" text2="Documents"
                         v-bind:activated="autoloadActivated"
                         v-bind:disabled="autoreloadActivated || !hostIsApp"
                         v-on:click="command('control:document-autoload-toggle')"/>
                     <app-button icon-series="solid" icon="eye"
-                        text="AUTORELOAD" text2="Document"
+                        text="AUTORELOAD" text2="Documents"
                         v-bind:activated="autoreloadActivated"
                         v-bind:disabled="autoloadActivated || !hostIsApp"
                         v-on:click="command('control:document-autoreload-toggle')"/>
@@ -93,9 +93,7 @@
                                 <div v-for="(document, dIdx) of documentSet.documents"
                                     v-bind:key="document.timestamp.toString()"
                                     class="entry-document"
-                                    v-bind:class="{
-                                        selected: document === documentSelected,
-                                        opened: document === documentOpened }"
+                                    v-bind:class="{ selected: document === documentSelected }"
                                     v-on:click="documentAction(documentSet, dsIdx, document, dIdx, 'select')">
                                     <div class="entry-name">{{ dIdx === 0 ? documentSet.name : "" }}</div>
                                     <div class="entry-position">{{ dIdx === 0 ? (documentSet.position * 100).toFixed(0) + "%" : "" }}</div>
@@ -191,7 +189,7 @@
             width: 35vw
             .document-list
                 width: calc(100% - 0.2vw)
-                height: 10vw
+                height: 15vw
                 display: flex
                 flex-direction: column
                 justify-content: flex-start
@@ -217,15 +215,13 @@
                     border-top-right-radius: 0.5vw
                     font-size: 0.8vw
                     .entry-name
-                        width: calc(35% - 0.2vw - 0.4vw)
+                        width: calc(30% - 0.2vw - 0.4vw)
                         padding-left: 0.4vw
-                        font-weight: bold
                     .entry-position
                         width: calc(10% - 0.8vw)
                         padding-left: 0.4vw
                         padding-right: 0.4vw
                         text-align: right
-                        font-weight: bold
                     .entry-timestamp
                         width: calc(20% - 0.4vw)
                         padding-left: 0.4vw
@@ -239,12 +235,12 @@
                         padding-right: 0.4vw
                         text-align: right
                     .entry-actions
-                        width: calc(15% - 0.4vw)
+                        width: calc(20% - 0.4vw)
                         padding-left: 0.4vw
                 .list-body
                     position: relative
                     width: 100%
-                    height: 10vw
+                    height: 15vw
                     overflow: auto
                 .list-entry
                     width: 100%
@@ -252,6 +248,7 @@
                     flex-direction: column
                     justify-content: center
                     align-items: center
+                    font-size: 1.1vw
                     &.odd
                         background-color: var(--color-std-bg-1)
                     .entry-documentset
@@ -279,17 +276,8 @@
                                         color: var(--color-acc-fg-5)
                                     &.disabled
                                         color: var(--color-acc-fg-1)
-                        &.opened
-                            background-color: var(--color-sig-bg-3)
-                            color: var(--color-sig-fg-3)
-                            .entry-actions
-                                .action
-                                    &:hover
-                                        color: var(--color-sig-fg-5)
-                                    &.disabled
-                                        color: var(--color-sig-fg-1)
                     .entry-name
-                        width: calc(35% - 0.2vw - 0.4vw)
+                        width: calc(30% - 0.2vw - 0.4vw)
                         padding-left: 0.4vw
                         font-weight: bold
                     .entry-position
@@ -297,7 +285,6 @@
                         padding-left: 0.4vw
                         padding-right: 0.4vw
                         text-align: right
-                        font-weight: bold
                     .entry-timestamp
                         width: calc(20% - 0.4vw)
                         padding-left: 0.4vw
@@ -312,7 +299,7 @@
                         padding-right: 0.4vw
                         text-align: right
                     .entry-actions
-                        width: calc(15% - 0.4vw)
+                        width: calc(20% - 0.4vw)
                         padding-left: 0.4vw
                         display: flex
                         flex-direction: row
@@ -370,7 +357,7 @@ import moment              from "moment"
 import Anime               from "animejs"
 import PerfectScrollbar    from "perfect-scrollbar"
 
-import type { DocumentSet, Document } from "./app-control.d.ts"
+import type { DocumentSet, Document, AppControl } from "./app-control.d.ts"
 
 import appWidgetButton     from "./app-widget-button.vue"
 import appWidgetInput      from "./app-widget-input.vue"
@@ -378,6 +365,20 @@ import appLogo             from "./app-logo.svg?url"
 </script>
 
 <script lang="ts">
+interface Data {
+    appIcon:             string
+    panelOpen:           boolean
+    hostIsApp:           boolean
+    autoloadActivated:   boolean
+    autoreloadActivated: boolean
+    apiAddr:             string
+    apiPort:             string
+    apiEnabled:          boolean
+    documentSets:        DocumentSet[]
+    documentSetSelected: DocumentSet | null
+    documentSelected:    Document    | null
+    ps:                  PerfectScrollbar | null
+}
 export default defineComponent({
     name: "app-control",
     components: {
@@ -388,44 +389,53 @@ export default defineComponent({
         options: { type: Object, default: new Map<string, string | boolean>() }
     },
     emits: [ "log", "command" ],
-    data: () => ({
-        appIcon:             appLogo,
-        panelOpen:           true,
-        hostIsApp:           false,
-        autoloadActivated:   false,
-        autoreloadActivated: false,
-        apiAddr:             "0.0.0.0",
-        apiPort:             "8888",
-        apiEnabled:          false,
-        documentSets:        [
-            {
-                id: 1, name: "test1", position: 0.3, documents: [
-                    { timestamp: new Date(), sections: 1, chunks: 2 },
-                    { timestamp: new Date(), sections: 1, chunks: 2 },
-                    { timestamp: new Date(), sections: 1, chunks: 2 }
-                ] as Document[]
-            },
-            {
-                id: 2, name: "test2", position: 0.5, documents: [
-                    { timestamp: new Date(), sections: 1, chunks: 2 },
-                    { timestamp: new Date(), sections: 1, chunks: 2 }
-                ] as Document[]
-            },
-            {
-                id: 3, name: "test3", position: 0.7, documents: [
-                    { timestamp: new Date(), sections: 1, chunks: 2 },
-                ] as Document[]
-            },
-            {
-                id: 4, name: "test4", position: 0.7, documents: [
-                    { timestamp: new Date(), sections: 1, chunks: 2 },
-                ] as Document[]
-            }
-        ] as DocumentSet[],
-        documentSelected:    null as Document | null,
-        documentOpened:      null as Document | null,
-        ps: null as PerfectScrollbar | null
-    }),
+    data (): Data {
+        return {
+            appIcon:             appLogo,
+            panelOpen:           true,
+            hostIsApp:           false,
+            autoloadActivated:   false,
+            autoreloadActivated: false,
+            apiAddr:             "0.0.0.0",
+            apiPort:             "8888",
+            apiEnabled:          false,
+            documentSets:        [
+                {
+                    id: 1, name: "test1", position: 0.3, documents: [
+                        { timestamp: new Date(), sections: 1, chunks: 2 },
+                        { timestamp: new Date(), sections: 1, chunks: 2 },
+                        { timestamp: new Date(), sections: 1, chunks: 2 }
+                    ] as Document[]
+                },
+                {
+                    id: 2, name: "test2", position: 0.5, documents: [
+                        { timestamp: new Date(), sections: 1, chunks: 2 },
+                        { timestamp: new Date(), sections: 1, chunks: 2 }
+                    ] as Document[]
+                },
+                {
+                    id: 3, name: "test3", position: 0.7, documents: [
+                        { timestamp: new Date(), sections: 1, chunks: 2 },
+                    ] as Document[]
+                },
+                {
+                    id: 4, name: "test4", position: 0.7, documents: [
+                        { timestamp: new Date(), sections: 1, chunks: 2 },
+                    ] as Document[]
+                },
+                {
+                    id: 5, name: "test5", position: 0.0, documents: [
+                        { timestamp: new Date(), sections: 1, chunks: 2 },
+                        { timestamp: new Date(), sections: 1, chunks: 2 },
+                        { timestamp: new Date(), sections: 1, chunks: 2 }
+                    ] as Document[]
+                }
+            ],
+            documentSetSelected: null,
+            documentSelected:    null,
+            ps: null
+        }
+    },
     async created () {
         const g = window as any
         this.hostIsApp = (typeof g.rundown === "object" && g.rundown !== null)
@@ -446,68 +456,44 @@ export default defineComponent({
         })
     },
     methods: {
+        /*  ==== INTERNAL API ====  */
+
         log (level: string, msg: string, data?: any) {
             this.$emit("log", level, `control: ${msg}`, data)
         },
         command (action: string, data: { [ key: string ]: any } | null = null) {
             this.$emit("command", action, data)
         },
-        async panelToggle () {
-            this.panelOpen = !this.panelOpen
-            const panelOuter = this.$refs.panelOuter as HTMLElement
-            const panelInner = this.$refs.panelInner as HTMLElement
-            const tl = Anime.timeline({
-                targets:  panelOuter,
-                duration: 500,
-                autoplay: true
-            })
-            if (this.panelOpen) {
-                /*  open panel  */
-                tl.add({
-                    easing:     "spring(1, 80, 10, 0)",
-                    translateY: [ -panelInner.clientHeight, 0 ]
-                })
-            }
-            else {
-                /*  close panel  */
-                tl.add({
-                    easing:     "spring(1, 80, 10, 0)",
-                    translateY: [ 0, -panelInner.clientHeight ]
-                })
-            }
-            await tl.finished
-            return this.panelOpen
-        },
         sampleSave () {
-            this.log("info", "Sample Save")
+            this.log("INFO", "Sample Save")
         },
         sampleLoad () {
-            this.log("info", "Sample Load")
+            this.log("INFO", "Sample Load")
         },
         documentLoad () {
             if (this.autoloadActivated || this.autoreloadActivated)
                 return
-            this.log("info", "Document Load")
+            this.log("INFO", "Document Load")
         },
         documentReload () {
             if (this.autoloadActivated || this.autoreloadActivated)
                 return
-            this.log("info", "Document Reload")
+            this.log("INFO", "Document Reload")
         },
         documentAutoloadToggle () {
             if (this.autoreloadActivated)
                 return
-            this.log("info", "Document Auto Load")
+            this.log("INFO", "Document Auto Load")
             this.autoloadActivated = !this.autoloadActivated
         },
         documentAutoreloadToggle () {
             if (this.autoloadActivated)
                 return
-            this.log("info", "Document Auto Reload")
+            this.log("INFO", "Document Auto Reload")
             this.autoreloadActivated = !this.autoreloadActivated
         },
         fullscreenToggle () {
-            this.log("info", "Fullscreen Toggle")
+            this.log("INFO", "Fullscreen Toggle")
         },
         uiApiToggle () {
             this.apiEnabled = !this.apiEnabled
@@ -531,14 +517,132 @@ export default defineComponent({
         },
         documentAction (documentSet: DocumentSet, dsIdx: number, document: Document, dIdx: number, action: string) {
             const documents = documentSet.documents
-            if (action === "select")
+            if (action === "select") {
+                this.documentSetSelected = documentSet
                 this.documentSelected = document
-            else if (action === "open")
-                this.documentOpened = document
+            }
             else if (action === "delete") {
                 documents.splice(dIdx, 1)
-                if (this.documentSelected === document)
-                    this.documentSelected = null
+                if (this.documentSelected === document) {
+                    this.documentSetSelected = null
+                    this.documentSelected    = null
+                }
+            }
+        },
+
+        /*  ==== EXTERNAL API ====  */
+
+        /*  determine wheter panel is already opened  */
+        panelOpened (this: Data & AppControl) {
+            return this.panelOpen
+        },
+
+        /*  toggle panel opening state  */
+        async panelToggle (this: Data & AppControl & { $refs: any }) {
+            const panelOuter = this.$refs.panelOuter as HTMLElement
+            const panelInner = this.$refs.panelInner as HTMLElement
+            const tl = Anime.timeline({
+                targets:  panelOuter,
+                duration: 500,
+                autoplay: true
+            })
+            if (!this.panelOpen)
+                /*  open panel  */
+                tl.add({
+                    easing:     "spring(1, 80, 10, 0)",
+                    translateY: [ -panelInner.clientHeight, 0 ]
+                })
+            else
+                /*  close panel  */
+                tl.add({
+                    easing:     "spring(1, 80, 10, 0)",
+                    translateY: [ 0, -panelInner.clientHeight ]
+                })
+            await tl.finished
+            this.panelOpen = !this.panelOpen
+            return this.panelOpen
+        },
+
+        /*  determine available document sets  */
+        docSetsList (this: Data & AppControl) {
+            return this.documentSets
+        },
+
+        /*  determine available documents in selected document set  */
+        docList (this: Data & AppControl) {
+            if (this.documentSetSelected === null)
+                throw new Error("still no document set selected")
+            return this.documentSetSelected.documents
+        },
+
+        /*  select document set by id  */
+        docSetSelectById (this: Data & AppControl, id: number) {
+            const documentSet = this.documentSets.find((documentSet) => documentSet.id === id)
+            if (!documentSet)
+                throw new Error("invalid document set id")
+            this.documentSetSelected = documentSet
+            this.docSelectByDirection("last")
+        },
+
+        /*  select document set by direction  */
+        docSetSelectByDirection (this: Data & AppControl, direction: "first" | "prev" | "next" | "last") {
+            if (this.documentSets.length === 0)
+                throw new Error("no document sets loaded at all")
+            if (direction === "first") {
+                this.documentSetSelected = this.documentSets[0]
+                this.docSelectByDirection("last")
+            }
+            else if (direction === "last") {
+                this.documentSetSelected = this.documentSets[this.documentSets.length - 1]
+                this.docSelectByDirection("last")
+            }
+            else {
+                if (this.documentSetSelected === null)
+                    throw new Error("relative directions need an already selected document set")
+                const idx = this.documentSets.findIndex((documentSet) =>
+                    documentSet === this.documentSetSelected)
+                if (direction === "prev" && idx > 0) {
+                    this.documentSetSelected = this.documentSets[idx - 1]
+                    this.docSelectByDirection("last")
+                }
+                else if (direction === "next" && idx < this.documentSets.length - 1) {
+                    this.documentSetSelected = this.documentSets[idx + 1]
+                    this.docSelectByDirection("last")
+                }
+            }
+        },
+
+        /*  select document in selected document set by id  */
+        docSelectById (this: Data & AppControl, id: number) {
+            if (this.documentSetSelected === null)
+                throw new Error("still no document set selected")
+            const document = this.documentSetSelected.documents.find(
+                (document) => document.id === id)
+            if (!document)
+                throw new Error("no such document in currently selected document set")
+            this.documentSelected = document
+        },
+
+        /*  select document in selected document set by direction  */
+        docSelectByDirection (this: Data & AppControl, direction: "first" | "prev" | "next" | "last") {
+            const documentSet = this.documentSetSelected
+            if (documentSet === null)
+                throw new Error("no document set selected")
+            const documents = documentSet.documents
+            if (documents.length === 0)
+                throw new Error("no documents in selected document set")
+            if (direction === "first")
+                this.documentSelected = documents[0]
+            else if (direction === "last")
+                this.documentSelected = documents[documents.length - 1]
+            else {
+                if (this.documentSelected === null)
+                    throw new Error("relative directions need an already selected document")
+                const idx = documents.findIndex((document) => document === this.documentSelected)
+                if (direction === "prev" && idx > 0)
+                    this.documentSelected = documents[idx - 1]
+                else if (direction === "next" && idx < documents.length - 1)
+                    this.documentSelected = documents[idx + 1]
             }
         }
     }
