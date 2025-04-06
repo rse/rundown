@@ -16,9 +16,9 @@
         "url":                          "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                       "9.23.0",
-        "@eslint/js":                   "9.23.0",
-        "eslint-plugin-n":              "17.16.2",
+        "eslint":                       "9.24.0",
+        "@eslint/js":                   "9.24.0",
+        "eslint-plugin-n":              "17.17.0",
         "eslint-plugin-promise":        "7.2.1",
         "eslint-plugin-import":         "2.31.0",
         "neostandard":                  "0.12.1",
@@ -26,13 +26,13 @@
         "npm-run-all":                  "4.1.5",
         "shx":                          "0.4.0",
         "@yao-pkg/pkg":                 "6.3.2",
-        "vite":                         "6.2.2",
+        "vite":                         "6.2.5",
         "vite-plugin-node-polyfills":   "0.23.0",
         "vite-plugin-static-copy":      "2.3.0",
         "@liuli-util/vite-plugin-node": "0.9.0",
         "@wroud/vite-plugin-tsc":       "0.11.6",
         "rollup-plugin-node-externals": "8.0.0",
-        "typescript":                   "5.8.2",
+        "typescript":                   "5.8.3",
         "@vercel/ncc":                  "0.38.3",
         "remark-cli":                   "12.0.1",
         "remark":                       "15.0.1",
@@ -40,7 +40,7 @@
         "nps":                          "5.10.0",
         "markdownlint":                 "0.37.4",
         "markdownlint-cli2":            "0.17.2",
-        "@types/node":                  "22.13.11"
+        "@types/node":                  "22.14.0"
     },
     "dependencies": {
         "cli-io":                       "0.9.13",
