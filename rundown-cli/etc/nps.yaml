@@ -25,6 +25,7 @@ scripts:
 
     #   testing
     test:                 npm start lint build:cmd && node dst-stage2/rundown.js -o ../etc/sample.html ../etc/sample.docx
+    serve:                serve -l 9999 ../etc/
 
     #   cleanup
     clean:                shx rm -rf dst-stage1 dst-stage2 dst-stage3

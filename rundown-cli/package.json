@@ -40,7 +40,8 @@
         "nps":                          "5.10.0",
         "markdownlint":                 "0.37.4",
         "markdownlint-cli2":            "0.17.2",
-        "@types/node":                  "22.14.0"
+        "@types/node":                  "22.14.0",
+        "serve":                        "14.2.4"
     },
     "dependencies": {
         "cli-io":                       "0.9.13",
