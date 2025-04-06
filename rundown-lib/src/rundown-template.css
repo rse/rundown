@@ -270,6 +270,15 @@ ul li::after {
     justify-content: center;
 }
 
+li ul li::after {
+    top: 0.40rem;
+    width: 1.20rem;
+    height: 1.20rem;
+    background-color: transparent;
+    border: 0.20rem solid var(--color-acc-bg-3);
+    color: var(--color-acc-fg-3);
+}
+
 ol {
     padding: 0;
     margin: 0;
@@ -297,6 +306,15 @@ ol li::after {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+li ol li::after {
+    top: 0.40rem;
+    width: 1.20rem;
+    height: 1.20rem;
+    background-color: transparent;
+    border: 0.20rem solid var(--color-acc-bg-3);
+    color: var(--color-acc-fg-3);
 }
 
 mark {
