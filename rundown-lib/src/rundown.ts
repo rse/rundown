@@ -107,7 +107,8 @@ export default class Rundown extends EventEmitter {
         const extract = (
             entries:   BasicAcceptedElems<AnyNode>[],
             base:      BasicAcceptedElems<AnyNode>,
-            selectors: string[]) => {
+            selectors: string[]
+        ) => {
             if (selectors.length === 0)
                 entries.push(base)
             else
