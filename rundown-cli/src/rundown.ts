@@ -33,7 +33,7 @@ import pkgJSON                     from "../package.json?raw" with { type: "json
             .describe("V", "show program version information")
         .string("v").nargs("v", 1).alias("v", "log-level").default("v", "warning")
             .describe("v", "level for verbose logging ('none', 'error', 'warning', 'info', 'debug')")
-        .string("e").nargs("e", 1).alias("e", "extract").default("e", "table:last tr:gt(0) td:nth-last-child(-n+2)")
+        .string("e").nargs("e", 1).alias("e", "extract").default("e", "table:has(tr:first-child:has(*:contains('Control/Video'))) tr:gt(0) td:nth-last-child(-n+2)")
             .describe("e", "input extraction via CSS selector chain")
         .string("o").nargs("o", 1).alias("o", "output").default("o", "-")
             .describe("o", "output file")
