@@ -39,7 +39,7 @@ Example
 --------
 
 ```
-$ rundown -f qprompt -e "table:last tr:gt(0) td:last" -o sample.html sample.docx
+$ rundown -o sample.html sample.docx
 ```
 
 Design Criterias
