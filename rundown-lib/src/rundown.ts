@@ -28,17 +28,17 @@ export default class Rundown extends EventEmitter {
         /*  convert DOCX to HTML  */
         const result = await mammoth.convertToHtml({ buffer: input }, {
             styleMap: [
-                "p[style-name='Rundown: Chat']                 => div.rundown-chat",
                 "p[style-name='Rundown: Speaker']              => div.rundown-speaker",
 
                 "p[style-name='Rundown: Content: Part']        => div.rundown-part",
-                "p[style-name='Rundown: Content: Description'] => div.rundown-description",
+                "p[style-name='Rundown: Content: Chat']        => div.rundown-chat",
                 "p[style-name='Rundown: Content: Control']     => div.rundown-control",
                 "p[style-name='Rundown: Content: Hint']        => div.rundown-hint",
+                "p[style-name='Rundown: Content: Description'] => div.rundown-description",
 
+                "r[style-name='Rundown: Content: Emphasis']    => span.rundown-emphasis",
                 "r[style-name='Rundown: Content: KeyMessage']  => span.rundown-keymessage",
                 "r[style-name='Rundown: Content: KeyWord']     => span.rundown-keyword",
-                "r[style-name='Rundown: Content: Emphasis']    => span.rundown-emphasis",
 
                 "r[style-name='Rundown: Control: Enforce']     => span.rundown-control-enforce",
                 "r[style-name='Rundown: Control: Apply']       => span.rundown-control-apply",
