@@ -28,6 +28,9 @@ scripts:
                           npm start lint build:cmd &&
                           node dst-stage2/rundown.js \
                               -o ../etc/sample.html ../etc/sample.docx
+    test2: >
+                          npm start lint build:cmd &&
+                          node dst-stage2/rundown.js -v info -a 127.0.0.1 -p 9991 ../etc
     serve:                serve -l 9999 ../etc/
 
     #   cleanup

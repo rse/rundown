@@ -56,7 +56,8 @@
         "domhandler":                    "5.0.3",
         "csso":                          "5.0.5",
         "svgo":                          "3.3.2",
-        "terser":                        "5.39.0"
+        "terser":                        "5.39.0",
+        "@opensumi/reconnecting-websocket": "4.4.0"
     },
     "overrides": {
         "vite-plugin-node-polyfills":    { "vite": "^6.0.0" }

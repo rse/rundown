@@ -176,5 +176,23 @@ document.addEventListener("DOMContentLoaded", () => {
             document.documentElement.style.fontSize = `${fontSize}pt`
         }
     })
+
+    const ws = new ReconnectingWebSocket(document.location.href + "events", [], {
+        reconnectionDelayGrowFactor: 1.3,
+        maxReconnectionDelay:        4000,
+        minReconnectionDelay:        1000,
+        connectionTimeout:           4000,
+        minUptime:                   5000
+    })
+    ws.addEventListener("open", (ev: Event) => {
+        ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
+    })
+    ws.addEventListener("message", (ev: MessageEvent) => {
+        const event = JSON.parse(ev.data)
+        if (event?.event === "RELOAD") {
+            console.log("RELOADING")
+            window.location.reload()
+        }
+    })
 })
 

@@ -10,7 +10,7 @@
     "stdver":                           "0.9.1-EA",
     "license":                          "GPL-3.0-only",
     "bin":                              { "rundown": "rundown.js" },
-    "author": {                         
+    "author": {
         "name":                         "Dr. Ralf S. Engelschall",
         "email":                        "rse@engelschall.com",
         "url":                          "http://engelschall.com"
@@ -46,7 +46,22 @@
     "dependencies": {
         "cli-io":                       "0.9.13",
         "yargs":                        "17.7.2",
+        "@hapi/hapi":                   "21.4.0",
+        "@hapi/boom":                   "10.0.1",
+        "@hapi/inert":                  "7.1.0",
+        "hapi-plugin-header":           "1.1.8",
+        "hapi-plugin-traffic":          "1.1.8",
+        "hapi-plugin-websocket":        "2.4.9",
+        "hapi-plugin-ducky":            "1.1.9",
+        "chokidar":                     "4.0.3",
+        "tmp":                          "0.2.3",
+
+        "@types/node":                  "22.14.0",
         "@types/yargs":                 "17.0.33",
+        "@types/hapi__inert":           "7.1.0",
+        "@types/ws":                    "8.18.1",
+        "@types/tmp":                   "0.2.6",
+
         "rundown-lib":                  "../rundown-lib"
     },
     "overrides": {

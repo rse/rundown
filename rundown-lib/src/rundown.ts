@@ -20,6 +20,7 @@ import templateFonts               from "./rundown-fonts.css?raw"
 import templateHTML                from "./rundown-template.html?raw"
 import templateCSS                 from "./rundown-template.css?raw"
 import templateJS                  from "./rundown-template.js?raw"
+import reconnectingWebSockets      from "@opensumi/reconnecting-websocket/dist/reconnecting-websocket-iife.js?raw"
 import shapeFlow                   from "./rundown-shape-flow.svg?raw"
 
 /*  the library API  */
@@ -192,7 +193,8 @@ export default class Rundown extends EventEmitter {
         }).css
         const svg = SVGO.optimize(shapeFlow, {
         }).data
-        const js = (await minify(templateJS, {
+        const jsInput = reconnectingWebSockets + templateJS
+        const js = (await minify(jsInput, {
             mangle:      false
         })).code!
 
