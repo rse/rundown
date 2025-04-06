@@ -17,7 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
         if (sections.length === 0)
             return
-        let min = { section: null, chunk: null, distance: Number.MAX_VALUE } as { section: Element | null, chunk: Element | null, distance: number }
+        let min = { section: null, chunk: null, distance: Number.MAX_VALUE } as
+            { section: Element | null, chunk: Element | null, distance: number }
         let i = 1
         for (const section of sections) {
             const sec = section.getBoundingClientRect()
@@ -133,9 +134,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let fontSize = 20
     const doAutoScroll = () => {
         if (!paused && speed !== 0) {
-            window.scroll({
-                top: window.scrollY + (vp.h / 1000) * speed
-            })
+            const delta = Math.sign(speed) * 0.50 * Math.pow(Math.abs(speed), 1.5)
+            if (   (delta < 0 && window.scrollY > 0)
+                || (delta > 0 && window.scrollY < document.body.scrollHeight))
+                window.scroll({ top: window.scrollY + delta })
+            else
+                speed = 0
         }
         window.requestAnimationFrame(doAutoScroll)
     }
@@ -145,25 +149,25 @@ document.addEventListener("DOMContentLoaded", () => {
             paused = !paused
             event.preventDefault()
         }
-        else if (event.code === "ArrowDown") {
+        else if (event.code === "ArrowDown" || event.key === "w") {
             if (paused) paused = false
-            speed += 1
-            if (speed > 10) speed = 10
-            event.preventDefault()
-        }
-        else if (event.code === "ArrowUp") {
-            if (paused) paused = false
-            speed -= 1.0
+            speed -= 1
             if (speed < -10) speed = -10
             event.preventDefault()
         }
+        else if (event.code === "ArrowUp" || event.key === "s") {
+            if (paused) paused = false
+            speed += 1.0
+            if (speed > 10) speed = 10
+            event.preventDefault()
+        }
         else if (event.key === "-") {
-            fontSize -= 0.5
+            fontSize -= 0.25
             if (fontSize < 15) fontSize = 15
             document.documentElement.style.fontSize = `${fontSize}pt`
         }
         else if (event.key === "+") {
-            fontSize += 0.5
+            fontSize += 0.25
             if (fontSize > 25) fontSize = 25
             document.documentElement.style.fontSize = `${fontSize}pt`
         }
