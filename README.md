@@ -71,10 +71,10 @@ Design Criterias
 Architecture
 ------------
 
-- [rundown-lib/](rundown-lib: base functionality)
-- [rundown-cli/](rundown-cli: command-line interface)
-- [rundown-gui/](rundown-gui: graphical user interface)
-- [rundown-app/](rundown-app: native application)
+- [rundown-lib: base functionality](rundown-lib/)
+- [rundown-cli: command-line interface](rundown-cli/)
+- [rundown-gui: graphical user interface](rundown-gui/)
+- [rundown-app: native application](rundown-app/)
 
 License
 -------
