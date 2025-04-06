@@ -339,13 +339,13 @@ mark {
 .overlay1 {
     top: 0;
     left: 0;
-    background: linear-gradient(180deg, #000000ff 0%, #111111a0 30%, #22222290 100%);
+    background: linear-gradient(180deg, #000000ff 0%, #111111a0 30%, #22222280 100%);
 }
 
 .overlay3 {
     bottom: 0;
     left: 0;
-    background: linear-gradient(0deg, #000000ff 0%, #111111a0 30%, #22222290 100%);
+    background: linear-gradient(0deg, #000000ff 0%, #111111a0 30%, #22222280 100%);
 }
 
 .overlay2 {
@@ -379,3 +379,7 @@ mark {
     height: 100%;
 }
 
+.overlay2 .arrow-right svg path,
+.overlay2 .arrow-left  svg path {
+    fill: var(--color-sig-bg-1) !important;
+}
