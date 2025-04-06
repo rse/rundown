@@ -22,6 +22,8 @@ for teleprompting. It can read *Microsoft Word* format files (`*.docx`),
 extract text from it, and generate HTML/XML output for use in the
 teleprompting applications *QPrompt* and *Autocue Explorer/Pioneer*.
 
+![screenshot](doc/screenshot.png)
+
 Installation
 ------------
 
