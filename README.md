@@ -17,10 +17,10 @@ Rundown
 Abstract
 --------
 
-`rundown`(1) is a small command-line tool to generate *rundown scripts*
-for teleprompting. It can read *Microsoft Word* format files (`*.docx`),
-extract text from it, and generate HTML/XML output for use in the
-teleprompting applications *QPrompt* and *Autocue Explorer/Pioneer*.
+`rundown`(1) is a small tool to generate *rundown scripts* for
+teleprompting. It can read *Microsoft Word* format files (`*.docx`),
+extract table text from it, and generate HTML output for use in a
+browser based teleprompting scenario.
 
 ![screenshot](doc/screenshot.png)
 
