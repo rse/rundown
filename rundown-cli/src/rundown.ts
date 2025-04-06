@@ -11,7 +11,7 @@ import Rundown                     from "rundown-lib"
 
 /*  internal dependencies  */
 // @ts-ignore
-import pkgJSON                     from "../package.json?raw"
+import pkgJSON                     from "../package.json?raw" with { type: "json" }
 
 /*  establish asynchronous environment  */
 ;(async () => {
