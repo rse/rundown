@@ -37,7 +37,7 @@
         "shx":                           "0.4.0",
         "mkdirp":                        "3.0.1",
         "vite":                          "6.2.5",
-        "vite-plugin-static-copy":       "2.3.0",
+        "vite-plugin-static-copy":       "2.3.1",
         "vite-plugin-singlefile":        "2.2.0",
         "vite-plugin-node-polyfills":    "0.23.0",
         "@m5nv/vite-plugin-run-task":    "1.0.2",
