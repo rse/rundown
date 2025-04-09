@@ -20,13 +20,9 @@ import Rundown                     from "rundown-lib"
 // @ts-ignore
 import pkgJSON                     from "../package.json?raw" with { type: "json" }
 
-type wsPeerCtx = {
-    id: string
-}
-type wsPeerInfo = {
-    ctx:   wsPeerCtx
-    ws:    WebSocket
-}
+/*  internal Websocket information  */
+type wsPeerCtx  = { id: string }
+type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
 /*  establish asynchronous environment  */
 ;(async () => {
@@ -123,7 +119,7 @@ type wsPeerInfo = {
         await server.register({ plugin: HAPITraffic })
         await server.register({ plugin: HAPIWebSocket })
 
-        /*  hook into network service logging  */
+        /*  hook into network service for logging  */
         server.events.on("response", (request: HAPI.Request) => {
             const traffic = request.traffic()
             let protocol = `HTTP/${request.raw.req.httpVersion}`
@@ -192,10 +188,11 @@ type wsPeerInfo = {
                 }
             },
             handler: (request: HAPI.Request, h: HAPI.ResponseToolkit) => {
-                /*  on WebSocket message transfer  */
                 return h.response().code(204)
             }
         })
+
+        /*  notify connected client  */
         const notifyClient = (event: string) => {
             const msg = JSON.stringify({ event })
             for (const [ id, info ] of wsPeers.entries()) {
@@ -204,10 +201,13 @@ type wsPeerInfo = {
             }
         }
 
+        /*  internal state  */
         const files = new Map<string, fs.Stats>()
         let convertedFile = ""
         let convertedTime = 0
         const tmpfile = tmp.tmpNameSync({ prefix: "rundown-", postfix: ".html" })
+
+        /*  update result delivery  */
         const updateDelivery = async () => {
             const filesSorted = Array.from(files.keys()).sort((a, b) => {
                 const statA = files.get(a) as fs.Stats
@@ -236,6 +236,7 @@ type wsPeerInfo = {
             }
         })
 
+        /*  watch for directory changes  */
         const watcher = chokidar.watch(inputPath, {
             persistent: true,
             awaitWriteFinish: true,
@@ -263,6 +264,7 @@ type wsPeerInfo = {
             updateDelivery()
         })
 
+        /*  start REST/Websocket service  */
         await server.start()
     }
     else {
