@@ -379,7 +379,9 @@ mark {
     height: 100%;
 }
 
-.overlay2 .arrow-right svg path,
-.overlay2 .arrow-left  svg path {
+.overlay2 .arrow-left svg path {
+    fill: var(--color-std-bg-4) !important;
+}
+.overlay2 .arrow-right svg path {
     fill: var(--color-sig-bg-1) !important;
 }
