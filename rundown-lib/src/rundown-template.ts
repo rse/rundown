@@ -289,7 +289,10 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     /*  connect to the origin server to get notified of document changes  */
-    const ws = new ReconnectingWebSocket(document.location.href + "events", [], {
+    let url = document.location.href
+    url = url.replace(/\/[^/]*$/, "")
+    url = url + "/events"
+    const ws = new ReconnectingWebSocket(url, [], {
         reconnectionDelayGrowFactor: 1.3,
         maxReconnectionDelay:        4000,
         minReconnectionDelay:        1000,
