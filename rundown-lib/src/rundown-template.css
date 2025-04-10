@@ -394,3 +394,23 @@ mark {
 .overlay2 .arrow-right svg path {
     fill: var(--color-sig-bg-1) !important;
 }
+
+.overlay4 {
+    position: fixed;
+    z-index: 2000;
+    top: 1rem;
+    right: 1rem;
+    background-color: #990000;
+    color: #ffffff;
+    border-radius: 0.5rem;
+    text-align: center;
+    padding: 0.5rem 1.0rem 0.5rem 1.0rem;
+    font-size: 100%;
+    font-weight: bold;
+    box-shadow: 0 0 2rem #000000;
+    display: none;
+}
+
+.overlay4.active {
+    display: block;
+}

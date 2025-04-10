@@ -10,18 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const view    = { w: 0, h: 0 }
     const content = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
 
-    /*  determine all visible rundown section  */
-    const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
-
-    /*  determine all rundown chunks  */
-    const chunks = document.querySelectorAll(".rundown-chunk:not(.disabled)")
-
     /*  update the rendering  */
     const updateRendering = () => {
         /*  ensure we can scroll to the content top and bottom
             with the focus-point still in the middle of the viewport  */
         document.body.style.marginTop    = `${view.h / 2}px`
         document.body.style.marginBottom = `${view.h / 2}px`
+
+        /*  determine all visible rundown section  */
+        const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
 
         /*  adjust the position of the moving part tab (right-hand side)  */
         let min = { section: null, chunk: null, distance: Number.MAX_VALUE } as
@@ -69,6 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     section.classList.remove("active")
             }
         }
+
+        /*  determine all rundown chunks  */
+        const chunks = document.querySelectorAll(".rundown-chunk:not(.disabled)")
 
         /*  calculate the position of the moving speaker tab (left-hand side)  */
         min = { section: null, chunk: null, distance: Number.MAX_VALUE }
@@ -157,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*  scroll to previous/next sibling section upwards/downwards  */
     const scrollToSiblingSection = (direction: "up" | "down") => {
+        const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
         const min = { section: null, distance: Number.MAX_VALUE } as
             { section: Element | null, distance: number }
         const pivot = view.h / 2
@@ -191,6 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*  scroll to previous/next sibling chunk upwards/downwards  */
     const scrollToSiblingChunk = (direction: "up" | "down") => {
+        const chunks = document.querySelectorAll(".rundown-chunk:not(.disabled)")
         const min = { chunk: null, distance: Number.MAX_VALUE } as
             { chunk: Element | null, distance: number }
         const pivot = view.h / 2
@@ -304,11 +306,54 @@ document.addEventListener("DOMContentLoaded", () => {
         ws.addEventListener("open", (ev: Event) => {
             ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
         })
-        ws.addEventListener("message", (ev: MessageEvent) => {
+        ws.addEventListener("message", async (ev: MessageEvent) => {
             const event = JSON.parse(ev.data)
-            if (event?.event === "RELOAD")
-                window.location.reload()
+            if (event?.event === "RELOAD") {
+                /*  show overlay  */
+                const overlay = document.querySelector(".overlay4")
+                anime.animate(".overlay4", {
+                    opacity: { from: 0.0, to: 1.0 },
+                    ease: "outSine",
+                    duration: 250,
+                    onBegin: () => {
+                        overlay!.classList.add("active")
+                    }
+                })
+
+                /*  fetch new content  */
+                let url = document.location.href
+                url = url.replace(/#live$/, "")
+                const response = await axios({
+                    method: "GET",
+                    url,
+                    responseType: "document"
+                })
+
+                /*  update content  */
+                const contentOld = document.querySelector(".content")!
+                const contentNew = response.data.querySelector(".content")!
+                contentOld.innerHTML = contentNew.innerHTML
+
+                /*  update once  */
+                setTimeout(() => {
+                    tickOnce()
+                    setTimeout(() => {
+                        /*  hide overlay  */
+                        anime.animate(".overlay4", {
+                            opacity: { from: 1.0, to: 0.0 },
+                            ease: "inSine",
+                            duration: 250,
+                            onComplete: () => {
+                                overlay!.classList.remove("active")
+                            }
+                        })
+
+                        /*  update once again  */
+                        tickOnce()
+                    }, 1000)
+                }, 10)
+            }
         })
     }
-})
+}, { once: true })
 

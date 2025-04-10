@@ -58,6 +58,8 @@
         "csso":                          "5.0.5",
         "svgo":                          "3.3.2",
         "terser":                        "5.39.0",
+        "axios":                         "1.8.4",
+        "animejs":                       "4.0.1",
         "@opensumi/reconnecting-websocket": "4.4.0"
     },
     "overrides": {

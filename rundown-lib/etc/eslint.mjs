@@ -40,7 +40,9 @@ export default [
                 ...globals.node,
                 ...globals.browser,
                 ...globals.commonjs,
-                ReconnectingWebSocket: true
+                ReconnectingWebSocket: true,
+                axios: true,
+                anime: true
             }
         },
         rules: {
