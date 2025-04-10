@@ -35,6 +35,12 @@ The following command-line options and arguments exist:
 - \[`-o`|`--output` *output-file*|`-`\]:
   Write the output to a file or `stdout`.
 
+- \[`-a`|`--http-addr` *ip-address*\]:
+  Listen on *ip-address* for serving the result.
+
+- \[`-p`|`--http-port` *tcp-port*\]:
+  Listen on *tcp-port* for serving the result.
+
 - *input-file*|`-`
   Read the input from a file or `stdin`.
 
@@ -49,7 +55,7 @@ The following are examples of using `rundown`(1):
     ```
 
 - read DOCX file, extract text from last column (of all rows, except the
-  heading one) of the last table, and generate script for *QPrompt*:
+  heading one) of the last table, and generate the output:
 
     ```sh
     $ rundown -e "table:last tr:gt(0) td:last" -o sample.html sample.docx
