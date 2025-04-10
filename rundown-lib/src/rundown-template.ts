@@ -155,10 +155,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     window.requestAnimationFrame(doAutoScroll)
 
+    /*  scroll to previous/next sibling section upwards/downwards  */
+    const scrollToSiblingSection = (n: number) => {
+        const min = { section: null, distance: Number.MAX_VALUE } as
+            { section: Element | null, distance: number }
+        const pivot = view.h / 2
+        for (const section of sections) {
+            const sec = section.getBoundingClientRect()
+            const distance1 = Math.abs(pivot - sec.top)
+            const distance2 = Math.abs(pivot - (sec.top + sec.height))
+            if (min.distance > distance1) {
+                min.distance = distance1
+                min.section  = section
+            }
+            if (min.distance > distance2) {
+                min.distance = distance2
+                min.section  = section
+            }
+        }
+        if (min.section !== null) {
+            const sectionsArray = Array.from(sections)
+            if (n >= 1 && n <= sectionsArray.length) {
+                const s = sectionsArray[n - 1]
+                const bb = s.getBoundingClientRect()
+                const delta = bb.top - (view.h / 2)
+                paused = true
+                speed = 0
+                window.scroll({ top: window.scrollY + delta, behavior: "smooth" })
+            }
+        }
+    }
+
     /*  scroll to previous/next sibling chunk upwards/downwards  */
     const scrollToSiblingChunk = (direction: "up" | "down") => {
-        const min = { section: null, chunk: null, distance: Number.MAX_VALUE } as
-            { section: Element | null, chunk: Element | null, distance: number }
+        const min = { chunk: null, distance: Number.MAX_VALUE } as
+            { chunk: Element | null, distance: number }
         const pivot = view.h / 2
         for (const chunk of chunks) {
             const chk     = chunk.getBoundingClientRect()
@@ -192,20 +223,20 @@ document.addEventListener("DOMContentLoaded", () => {
     /*  allow the scrolling and rendering to be controlled  */
     document.addEventListener("keydown", (event) => {
         if (event.code === "Space") {
-            paused = !paused
             event.preventDefault()
+            paused = !paused
         }
         else if (event.code === "ArrowDown" || event.key === "w") {
+            event.preventDefault()
             if (paused) paused = false
             speed -= 1
             if (speed < -10) speed = -10
-            event.preventDefault()
         }
         else if (event.code === "ArrowUp" || event.key === "s") {
+            event.preventDefault()
             if (paused) paused = false
             speed += 1.0
             if (speed > 10) speed = 10
-            event.preventDefault()
         }
         else if (event.key === "-") {
             fontSize -= 0.25
@@ -221,13 +252,17 @@ document.addEventListener("DOMContentLoaded", () => {
             fontSize = 20
             document.documentElement.style.fontSize = `${fontSize}pt`
         }
-        else if (event.code === "ArrowLeft" || event.code === "PageUp") {
-            scrollToSiblingChunk("up")
+        else if (event.key.match(/^[1-9]$/)) {
             event.preventDefault()
+            scrollToSiblingSection(parseInt(event.key))
+        }
+        else if (event.code === "ArrowLeft" || event.code === "PageUp") {
+            event.preventDefault()
+            scrollToSiblingChunk("up")
         }
         else if (event.code === "ArrowRight" || event.code === "PageDown") {
-            scrollToSiblingChunk("down")
             event.preventDefault()
+            scrollToSiblingChunk("down")
         }
     })
 
