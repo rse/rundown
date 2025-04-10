@@ -4,24 +4,31 @@
 **  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
 */
 
+/*  await the DOM...  */
 document.addEventListener("DOMContentLoaded", () => {
+    /*  internal state  */
     const doc = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
     const vp  = { w: 0, h: 0 }
 
+    /*  update the rendering  */
     const updateRendering = () => {
-        const pivot = vp.h / 2
-
-        document.body.style.marginTop = `${vp.h / 2}px`
+        /*  ensure we can scroll to the content top and buttom
+            with the focus-point still in the middle of the viewport  */
+        document.body.style.marginTop    = `${vp.h / 2}px`
         document.body.style.marginBottom = `${vp.h / 2}px`
 
+        /*  determine all visible rundown section  */
         const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
         if (sections.length === 0)
             return
+
+        /*  calculate the position of the moving part tab (right-hand side)  */
         let min = { section: null, chunk: null, distance: Number.MAX_VALUE } as
             { section: Element | null, chunk: Element | null, distance: number }
+        const pivot = vp.h / 2
         let i = 1
         for (const section of sections) {
-            const sec = section.getBoundingClientRect()
+            const sec  = section.getBoundingClientRect()
             const part = section.querySelector(".rundown-part-tab") as HTMLElement
             if (part !== null) {
                 const pt = part.getBoundingClientRect()
@@ -62,9 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        /*  determine all rundown chunks  */
         const chunks = document.querySelectorAll(".rundown-chunk:not(.disabled)")
         if (chunks.length === 0)
             return
+
+        /*  calculate the position of the moving speaker tab (left-hand side)  */
         min = { section: null, chunk: null, distance: Number.MAX_VALUE }
         for (const chunk of chunks) {
             const chk     = chunk.getBoundingClientRect()
@@ -103,15 +113,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    /*  update state once initially and on every scroll and resize event  */
     let ticking = false
     const tickOnce = () => {
+        /*  determine viewport size  */
         vp.w        = document.documentElement.clientWidth
         vp.h        = document.documentElement.clientHeight
+
+        /*  determine document size  */
         const box   = document.documentElement.getBoundingClientRect()
         doc.w       = box.width
         doc.h       = box.height - vp.h
+
+        /*  determine document scroll position  */
         doc.scrollX = window.scrollX
         doc.scrollY = window.scrollY
+
+        /*  update rendering (on next rendering possibility)  */
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 updateRendering()
@@ -120,15 +138,11 @@ document.addEventListener("DOMContentLoaded", () => {
             ticking = true
         }
     }
-    document.addEventListener("scroll", (event) => {
-        tickOnce()
-    })
-    window.addEventListener("resize", (event) => {
-        tickOnce()
-    })
-
+    document.addEventListener("scroll", (event) => { tickOnce() })
+    window.addEventListener("resize",   (event) => { tickOnce() })
     tickOnce()
 
+    /*  perform the auto-scrolling  */
     let paused = false
     let speed = 0
     let fontSize = 20
@@ -144,6 +158,8 @@ document.addEventListener("DOMContentLoaded", () => {
         window.requestAnimationFrame(doAutoScroll)
     }
     window.requestAnimationFrame(doAutoScroll)
+
+    /*  allow the scrolling and rendering to be controlled  */
     document.addEventListener("keydown", (event) => {
         if (event.code === "Space" || event.code === "ArrowLeft" || event.code === "ArrowRight") {
             paused = !paused
@@ -177,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
+    /*  connect to the origin server to get notified of document changes  */
     const ws = new ReconnectingWebSocket(document.location.href + "events", [], {
         reconnectionDelayGrowFactor: 1.3,
         maxReconnectionDelay:        4000,
@@ -189,10 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     ws.addEventListener("message", (ev: MessageEvent) => {
         const event = JSON.parse(ev.data)
-        if (event?.event === "RELOAD") {
-            console.log("RELOADING")
+        if (event?.event === "RELOAD")
             window.location.reload()
-        }
     })
 })
 
