@@ -84,8 +84,8 @@ body::-webkit-scrollbar {
 .rundown-section {
     position: relative;
     margin-bottom: 20px;
-    border-right: 1rem solid var(--color-std-bg-5);
-    border-top: 0.25rem solid var(--color-std-bg-5);
+    border-right: 1rem solid var(--color-std-bg-3);
+    border-top: 0.25rem solid var(--color-std-bg-3);
     margin-right: 5rem;
     padding-right: 2rem;
     padding-top: 1rem;
@@ -94,19 +94,28 @@ body::-webkit-scrollbar {
     border-bottom-right-radius: 0.5rem;
 }
 
+.rundown-section.active {
+    border-right: 1rem solid var(--color-std-bg-5);
+    border-top: 0.25rem solid var(--color-std-bg-5);
+}
+
 .rundown-part-tab {
     position: absolute;
     padding: 0;
     top: 0;
     right: -5.5rem;
-    background-color: var(--color-std-bg-5);
-    color: var(--color-std-fg-3);
+    background-color: var(--color-std-bg-3);
+    color: var(--color-std-fg-1);
     width: 5rem;
     height: 5.0rem;
     line-height: 3rem;
     text-align: center;
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
+}
+.rundown-section.active .rundown-part-tab {
+    background-color: var(--color-std-bg-5);
+    color: var(--color-std-fg-4);
 }
 
 .rundown-part-tab-where {
