@@ -38,7 +38,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             "[-o|--output <output-file>|-] " +
             "[-a|--http-addr <ip-address>] " +
             "[-p|--http-port <tcp-port>] " +
-            "<input-file>|-"
+            "<input-file>|-|<input-directory>"
         )
         .help("h").alias("h", "help").default("h", false)
             .describe("h", "show usage help")
