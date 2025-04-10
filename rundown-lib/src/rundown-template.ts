@@ -7,32 +7,33 @@
 /*  await the DOM...  */
 document.addEventListener("DOMContentLoaded", () => {
     /*  internal state  */
-    const doc = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
-    const vp  = { w: 0, h: 0 }
+    const view    = { w: 0, h: 0 }
+    const content = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
+
+    /*  determine all visible rundown section  */
+    const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
+
+    /*  determine all rundown chunks  */
+    const chunks = document.querySelectorAll(".rundown-chunk:not(.disabled)")
 
     /*  update the rendering  */
     const updateRendering = () => {
-        /*  ensure we can scroll to the content top and buttom
+        /*  ensure we can scroll to the content top and bottom
             with the focus-point still in the middle of the viewport  */
-        document.body.style.marginTop    = `${vp.h / 2}px`
-        document.body.style.marginBottom = `${vp.h / 2}px`
+        document.body.style.marginTop    = `${view.h / 2}px`
+        document.body.style.marginBottom = `${view.h / 2}px`
 
-        /*  determine all visible rundown section  */
-        const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
-        if (sections.length === 0)
-            return
-
-        /*  calculate the position of the moving part tab (right-hand side)  */
+        /*  adjust the position of the moving part tab (right-hand side)  */
         let min = { section: null, chunk: null, distance: Number.MAX_VALUE } as
             { section: Element | null, chunk: Element | null, distance: number }
-        const pivot = vp.h / 2
+        const pivot = view.h / 2
         let i = 1
         for (const section of sections) {
             const sec  = section.getBoundingClientRect()
             const part = section.querySelector(".rundown-part-tab") as HTMLElement
             if (part !== null) {
                 const pt = part.getBoundingClientRect()
-                if (!(sec.top + sec.height < 0 || sec.top > vp.h)) {
+                if (!(sec.top + sec.height < 0 || sec.top > view.h)) {
                     let y = 0
                     if (sec.top > pivot - (pt.height / 2))
                         y = 0
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const what  = part.querySelector(".rundown-part-tab-what")!
                 const where = part.querySelector(".rundown-part-tab-where")!
                 what.innerHTML  = `${i++}/${sections.length}`
-                where.innerHTML = `${(doc.scrollY / doc.h * 100).toFixed(0)}%`
+                where.innerHTML = `${(content.scrollY / content.h * 100).toFixed(0)}%`
             }
         }
         if (min.section !== null) {
@@ -69,11 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        /*  determine all rundown chunks  */
-        const chunks = document.querySelectorAll(".rundown-chunk:not(.disabled)")
-        if (chunks.length === 0)
-            return
-
         /*  calculate the position of the moving speaker tab (left-hand side)  */
         min = { section: null, chunk: null, distance: Number.MAX_VALUE }
         for (const chunk of chunks) {
@@ -81,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const speaker = chunk.querySelector(".rundown-speaker") as HTMLElement
             if (speaker !== null) {
                 const spk = speaker.getBoundingClientRect()
-                if (!(chk.top + chk.height < 0 || chk.top > vp.h)) {
+                if (!(chk.top + chk.height < 0 || chk.top > view.h)) {
                     let y = 0
                     if (chk.top > pivot - (spk.height / 2))
                         y = 0
@@ -116,18 +112,18 @@ document.addEventListener("DOMContentLoaded", () => {
     /*  update state once initially and on every scroll and resize event  */
     let ticking = false
     const tickOnce = () => {
-        /*  determine viewport size  */
-        vp.w        = document.documentElement.clientWidth
-        vp.h        = document.documentElement.clientHeight
+        /*  determine view size (with out extra margins)  */
+        view.w      = document.documentElement.clientWidth
+        view.h      = document.documentElement.clientHeight
 
-        /*  determine document size  */
+        /*  determine content size (without our extra margins)  */
         const box   = document.documentElement.getBoundingClientRect()
-        doc.w       = box.width
-        doc.h       = box.height - vp.h
+        content.w   = box.width
+        content.h   = box.height - view.h /* re-compensate for out extra margins */
 
-        /*  determine document scroll position  */
-        doc.scrollX = window.scrollX
-        doc.scrollY = window.scrollY
+        /*  determine content scroll position  */
+        content.scrollX = window.scrollX
+        content.scrollY = window.scrollY
 
         /*  update rendering (on next rendering possibility)  */
         if (!ticking) {
@@ -138,8 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
             ticking = true
         }
     }
-    document.addEventListener("scroll", (event) => { tickOnce() })
-    window.addEventListener("resize",   (event) => { tickOnce() })
+    document.addEventListener("scroll", (event: Event) => { tickOnce() })
+    window.addEventListener("resize",   (event: Event) => { tickOnce() })
     tickOnce()
 
     /*  perform the auto-scrolling  */
@@ -159,9 +155,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     window.requestAnimationFrame(doAutoScroll)
 
+    /*  scroll to previous/next sibling chunk upwards/downwards  */
+    const scrollToSiblingChunk = (direction: "up" | "down") => {
+        const min = { section: null, chunk: null, distance: Number.MAX_VALUE } as
+            { section: Element | null, chunk: Element | null, distance: number }
+        const pivot = view.h / 2
+        for (const chunk of chunks) {
+            const chk     = chunk.getBoundingClientRect()
+            const distance1 = Math.abs(pivot - chk.top)
+            const distance2 = Math.abs(pivot - (chk.top + chk.height))
+            if (min.distance > distance1) {
+                min.distance = distance1
+                min.chunk    = chunk
+            }
+            if (min.distance > distance2) {
+                min.distance = distance2
+                min.chunk    = chunk
+            }
+        }
+        if (min.chunk !== null) {
+            const chunksArray = Array.from(chunks)
+            let i = chunksArray.findIndex((chk) => chk === min.chunk)
+            if (direction === "up" && i > 0)
+                i--
+            else if (direction === "down" && i < chunks.length - 1)
+                i++
+            const chunk = chunksArray[i]
+            const chk = chunk.getBoundingClientRect()
+            const delta = chk.top - (view.h / 2)
+            paused = true
+            speed = 0
+            window.scroll({ top: window.scrollY + delta, behavior: "smooth" })
+        }
+    }
+
     /*  allow the scrolling and rendering to be controlled  */
     document.addEventListener("keydown", (event) => {
-        if (event.code === "Space" || event.code === "ArrowLeft" || event.code === "ArrowRight") {
+        if (event.code === "Space") {
             paused = !paused
             event.preventDefault()
         }
@@ -190,6 +220,14 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (event.key === "0") {
             fontSize = 20
             document.documentElement.style.fontSize = `${fontSize}pt`
+        }
+        else if (event.code === "ArrowLeft" || event.code === "PageUp") {
+            scrollToSiblingChunk("up")
+            event.preventDefault()
+        }
+        else if (event.code === "ArrowRight" || event.code === "PageDown") {
+            scrollToSiblingChunk("down")
+            event.preventDefault()
         }
     })
 
