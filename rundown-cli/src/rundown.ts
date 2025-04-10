@@ -138,13 +138,13 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                 "recv="     + traffic.recvPayload + "/" + traffic.recvRaw + ", " +
                 "sent="     + traffic.sentPayload + "/" + traffic.sentRaw + ", " +
                 "duration=" + traffic.timeDuration
-            cli.log("info", `HAPI: request: ${msg}`)
+            cli.log("info", `HAPI: HTTP: request: ${msg}`)
         })
         server.events.on({ name: "request", channels: [ "error" ] }, (request: HAPI.Request, event: HAPI.RequestEvent, tags: { [key: string]: true }) => {
             if (event.error instanceof Error)
-                cli.log("error", `HAPI: request-error: ${event.error.message}`)
+                cli.log("error", `HAPI: HTTP: request-error: ${event.error.message}`)
             else
-                cli.log("error", `HAPI: request-error: ${event.error}`)
+                cli.log("error", `HAPI: HTTP: request-error: ${event.error}`)
         })
         server.events.on("log", (event: HAPI.LogEvent, tags: { [key: string]: true }) => {
             if (tags.error) {
@@ -174,7 +174,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                             const id = `${args.req.socket.remoteAddress}:${args.req.socket.remotePort}`
                             ctx.id = id
                             wsPeers.set(id, { ctx, ws })
-                            cli.log("info", `WebSocket: connect: remote=${id}`)
+                            cli.log("info", `HAPI: WebSocket: connect: remote=${id}`)
                         },
 
                         /*  on WebSocket connection close  */
@@ -182,7 +182,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                             const ctx: wsPeerCtx = args.ctx
                             const id = ctx.id
                             wsPeers.delete(id)
-                            cli.log("info", `WebSocket: disconnect: remote=${id}`)
+                            cli.log("info", `HAPI: WebSocket: disconnect: remote=${id}`)
                         }
                     }
                 }
@@ -206,6 +206,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         let convertedFile = ""
         let convertedTime = 0
         const tmpfile = tmp.tmpNameSync({ prefix: "rundown-", postfix: ".html" })
+        tmp.setGracefulCleanup()
 
         /*  update result delivery  */
         const updateDelivery = async () => {
@@ -266,6 +267,20 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
         /*  start REST/Websocket service  */
         await server.start()
+        cli.log("info", `connect your browser to the URL: http://${args.httpAddr}:${args.httpPort}/#live`)
+
+        /*  await graceful shutdown  */
+        const shutdown = async (signal: string) => {
+            cli.log("warning", `received signal ${signal} -- shutting down service`)
+            await server.stop()
+            process.exit(1)
+        }
+        process.on("SIGINT", () => {
+            shutdown("SIGINT")
+        })
+        process.on("SIGTERM", () => {
+            shutdown("SIGTERM")
+        })
     }
     else {
         /*  ==== MODE 2: file single-shot mode ====  */
