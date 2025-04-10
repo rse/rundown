@@ -112,11 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
     /*  update state once initially and on every scroll and resize event  */
     let ticking = false
     const tickOnce = () => {
-        /*  determine view size (with out extra margins)  */
+        /*  determine viewport size  */
         view.w      = document.documentElement.clientWidth
         view.h      = document.documentElement.clientHeight
 
-        /*  determine content size (without our extra margins)  */
+        /*  determine content size  */
         const box   = document.documentElement.getBoundingClientRect()
         content.w   = box.width
         content.h   = box.height - view.h /* re-compensate for out extra margins */
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let i = sectionsArray.findIndex((chk) => chk === min.section)
             if (direction === "up" && i > 0)
                 i--
-            else if (direction === "down" && i < chunks.length - 1)
+            else if (direction === "down" && i < sectionsArray.length - 1)
                 i++
             const section = sectionsArray[i]
             const bb = section.getBoundingClientRect()
@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let i = chunksArray.findIndex((chk) => chk === min.chunk)
             if (direction === "up" && i > 0)
                 i--
-            else if (direction === "down" && i < chunks.length - 1)
+            else if (direction === "down" && i < chunksArray.length - 1)
                 i++
             const chunk = chunksArray[i]
             const chk = chunk.getBoundingClientRect()
@@ -225,7 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*  allow the scrolling and rendering to be controlled  */
     document.addEventListener("keydown", (event: KeyboardEvent) => {
-        console.log(event)
         if (event.code === "Space") {
             event.preventDefault()
             paused = !paused
@@ -246,6 +245,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (paused) paused = false
             speed += 1.0
             if (speed > 10) speed = 10
+        }
+        else if (event.key === "1") {
+            paused = true
+            speed = 0
+            window.scroll({ top: 0, behavior: "smooth" })
+        }
+        else if (event.key === "2") {
+            paused = true
+            speed = 0
+            window.scroll({ top: content.h, behavior: "smooth" })
         }
         else if ((event.shiftKey && event.code === "PageUp") || event.code === "Numpad1") {
             event.preventDefault()
