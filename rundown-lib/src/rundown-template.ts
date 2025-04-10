@@ -289,23 +289,26 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     /*  connect to the origin server to get notified of document changes  */
-    let url = document.location.href
-    url = url.replace(/\/[^/]*$/, "")
-    url = url + "/events"
-    const ws = new ReconnectingWebSocket(url, [], {
-        reconnectionDelayGrowFactor: 1.3,
-        maxReconnectionDelay:        4000,
-        minReconnectionDelay:        1000,
-        connectionTimeout:           4000,
-        minUptime:                   5000
-    })
-    ws.addEventListener("open", (ev: Event) => {
-        ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
-    })
-    ws.addEventListener("message", (ev: MessageEvent) => {
-        const event = JSON.parse(ev.data)
-        if (event?.event === "RELOAD")
-            window.location.reload()
-    })
+    if (document.location.hash.match(/^#live/)) {
+        let url = document.location.href
+        url = url.replace(/#live$/, "")
+        url = url.replace(/\/[^/]*$/, "")
+        url = url + "/events"
+        const ws = new ReconnectingWebSocket(url, [], {
+            reconnectionDelayGrowFactor: 1.3,
+            maxReconnectionDelay:        4000,
+            minReconnectionDelay:        1000,
+            connectionTimeout:           4000,
+            minUptime:                   5000
+        })
+        ws.addEventListener("open", (ev: Event) => {
+            ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
+        })
+        ws.addEventListener("message", (ev: MessageEvent) => {
+            const event = JSON.parse(ev.data)
+            if (event?.event === "RELOAD")
+                window.location.reload()
+        })
+    }
 })
 
