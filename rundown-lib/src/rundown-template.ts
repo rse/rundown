@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.requestAnimationFrame(doAutoScroll)
 
     /*  scroll to previous/next sibling section upwards/downwards  */
-    const scrollToSiblingSection = (n: number) => {
+    const scrollToSiblingSection = (direction: "up" | "down") => {
         const min = { section: null, distance: Number.MAX_VALUE } as
             { section: Element | null, distance: number }
         const pivot = view.h / 2
@@ -175,14 +175,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (min.section !== null) {
             const sectionsArray = Array.from(sections)
-            if (n >= 1 && n <= sectionsArray.length) {
-                const s = sectionsArray[n - 1]
-                const bb = s.getBoundingClientRect()
-                const delta = bb.top - (view.h / 2)
-                paused = true
-                speed = 0
-                window.scroll({ top: window.scrollY + delta, behavior: "smooth" })
-            }
+            let i = sectionsArray.findIndex((chk) => chk === min.section)
+            if (direction === "up" && i > 0)
+                i--
+            else if (direction === "down" && i < chunks.length - 1)
+                i++
+            const section = sectionsArray[i]
+            const bb = section.getBoundingClientRect()
+            const delta = bb.top - (view.h / 2)
+            paused = true
+            speed = 0
+            window.scroll({ top: window.scrollY + delta, behavior: "smooth" })
         }
     }
 
@@ -221,10 +224,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*  allow the scrolling and rendering to be controlled  */
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", (event: KeyboardEvent) => {
+        console.log(event)
         if (event.code === "Space") {
             event.preventDefault()
             paused = !paused
+        }
+        else if (event.code === "Escape" || (event.altKey && event.code === "ArrowUp")) {
+            event.preventDefault()
+            paused = !paused
+            speed = 0
         }
         else if (event.code === "ArrowDown" || event.key === "w") {
             event.preventDefault()
@@ -237,6 +246,22 @@ document.addEventListener("DOMContentLoaded", () => {
             if (paused) paused = false
             speed += 1.0
             if (speed > 10) speed = 10
+        }
+        else if ((event.shiftKey && event.code === "PageUp") || event.code === "Numpad1") {
+            event.preventDefault()
+            scrollToSiblingSection("up")
+        }
+        else if ((event.shiftKey && event.code === "PageDown") || event.code === "Numpad2") {
+            event.preventDefault()
+            scrollToSiblingSection("down")
+        }
+        else if (event.code === "ArrowLeft" || event.code === "PageUp") {
+            event.preventDefault()
+            scrollToSiblingChunk("up")
+        }
+        else if (event.code === "ArrowRight" || event.code === "PageDown") {
+            event.preventDefault()
+            scrollToSiblingChunk("down")
         }
         else if (event.key === "-") {
             fontSize -= 0.25
@@ -251,18 +276,6 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (event.key === "0") {
             fontSize = 20
             document.documentElement.style.fontSize = `${fontSize}pt`
-        }
-        else if (event.key.match(/^[1-9]$/)) {
-            event.preventDefault()
-            scrollToSiblingSection(parseInt(event.key))
-        }
-        else if (event.code === "ArrowLeft" || event.code === "PageUp") {
-            event.preventDefault()
-            scrollToSiblingChunk("up")
-        }
-        else if (event.code === "ArrowRight" || event.code === "PageDown") {
-            event.preventDefault()
-            scrollToSiblingChunk("down")
         }
     })
 
