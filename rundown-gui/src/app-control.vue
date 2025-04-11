@@ -354,7 +354,7 @@
 <script setup lang="ts">
 import { defineComponent } from "vue"
 import moment              from "moment"
-import Anime               from "animejs"
+import * as Anime          from "animejs"
 import PerfectScrollbar    from "perfect-scrollbar"
 
 import type { DocumentSet, Document, AppControl } from "./app-control.d.ts"
@@ -368,6 +368,7 @@ import appLogo             from "./app-logo.svg?url"
 interface Data {
     appIcon:             string
     panelOpen:           boolean
+    panelToggling:       boolean
     hostIsApp:           boolean
     autoloadActivated:   boolean
     autoreloadActivated: boolean
@@ -393,6 +394,7 @@ export default defineComponent({
         return {
             appIcon:             appLogo,
             panelOpen:           true,
+            panelToggling:       false,
             hostIsApp:           false,
             autoloadActivated:   false,
             autoreloadActivated: false,
@@ -539,26 +541,29 @@ export default defineComponent({
 
         /*  toggle panel opening state  */
         async panelToggle (this: Data & AppControl & { $refs: any }) {
+            if (this.panelToggling)
+                return
             const panelOuter = this.$refs.panelOuter as HTMLElement
             const panelInner = this.$refs.panelInner as HTMLElement
-            const tl = Anime.timeline({
-                targets:  panelOuter,
+            const tl = Anime.createTimeline({
                 duration: 500,
-                autoplay: true
+                autoplay: true,
+                onBegin:    () => { this.panelToggling = true  },
+                onComplete: () => { this.panelToggling = false }
             })
             if (!this.panelOpen)
                 /*  open panel  */
-                tl.add({
-                    easing:     "spring(1, 80, 10, 0)",
+                tl.add(panelOuter, {
+                    ease:       Anime.createSpring({ mass: 1, stiffness: 80, damping: 10, velocity: 0 }),
                     translateY: [ -panelInner.clientHeight, 0 ]
                 })
             else
                 /*  close panel  */
-                tl.add({
-                    easing:     "spring(1, 80, 10, 0)",
+                tl.add(panelOuter, {
+                    ease:       Anime.createSpring({ mass: 1, stiffness: 80, damping: 10, velocity: 0 }),
                     translateY: [ 0, -panelInner.clientHeight ]
                 })
-            await tl.finished
+            await tl.then()
             this.panelOpen = !this.panelOpen
             return this.panelOpen
         },
