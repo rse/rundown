@@ -409,7 +409,6 @@ export default defineComponent({
         },
         async uploadChange (ev: Event) {
             const files = (ev.target as any)!.files as FileList
-            console.log("CHANGE", files)
             if (files.length === 1) {
                 const file = files[0]
                 this.uploadDocument(file)
