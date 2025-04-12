@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+		"outDir":                  "../dst",
+        "target":                  "ESNext",
+        "module":                  "ESNext",
+        "moduleResolution":        "Bundler",
+        "useDefineForClassFields": true,
+        "composite":               false,
+        "strict":                  true,
+        "jsx":                     "preserve",
+        "resolveJsonModule":       true,
+        "isolatedModules":         true,
+        "verbatimModuleSyntax":    true,
+        "noImplicitThis":          true,
+        "esModuleInterop":         true,
+        "lib":                     [ "ESNext", "DOM" ],
+        "skipLibCheck":            true,
+        "noEmit":                  true,
+        "types":                   [ "vite/client" ],
+        "rootDir":                 "../src"
+    },
+    "include": [
+        "../src/**/*.d.ts",
+		"../src/**/*.ts",
+		"../src/**/*.vue"
+    ],
+    "references": [
+        { "path": "./tsc.node.json" }
+    ]
+}

@@ -1,0 +1,33 @@
+##
+##  Rundown - Generate Rundown Scripts for Teleprompting
+##  Copyright (c) 2023-2025 Dr. Ralf S. Engelschall <rse@engelschall.com>
+##  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
+##
+
+extends:
+    - "./stylelint.js"
+    - "stylelint-config-standard-vue"
+
+rules:
+    stylus/indentation: 4
+    shorthand-property-no-redundant-values: null
+    declaration-block-no-redundant-longhand-properties: null
+    unit-allowed-list: [ "px", "pt", "%", "vh", "vw", "fr", "rem", "ms", "deg" ]
+    rule-empty-line-before: null
+    no-descending-specificity: null
+    custom-property-empty-line-before: null
+    media-feature-range-notation: null
+    length-zero-no-unit: null
+    stylus/declaration-colon: null
+    stylus/media-feature-colon: null
+    stylus/single-line-comment: null
+    stylus/selector-list-comma: "always"
+    color-hex-length: null
+
+    #   to get rid of deprecation warnings in "stylelint-stylus"
+    stylus/at-rule-name-space-after: null
+    stylus/selector-pseudo-class-case: null
+    stylus/no-eol-whitespace: null
+    stylus/number-no-trailing-zeros: null
+    stylus/at-rule-empty-line-before: null
+
