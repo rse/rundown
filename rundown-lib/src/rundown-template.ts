@@ -248,12 +248,12 @@ document.addEventListener("DOMContentLoaded", () => {
             speed += 1.0
             if (speed > 10) speed = 10
         }
-        else if (event.key === "1") {
+        else if (event.key === "1" || event.key === "t") {
             paused = true
             speed = 0
             window.scroll({ top: 0, behavior: "smooth" })
         }
-        else if (event.key === "2") {
+        else if (event.key === "2" || event.key === "b") {
             paused = true
             speed = 0
             window.scroll({ top: content.h, behavior: "smooth" })
