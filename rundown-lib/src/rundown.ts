@@ -27,9 +27,14 @@ import shapeFlow                   from "./rundown-shape-flow.svg?raw"
 
 /*  the library API  */
 export default class Rundown extends EventEmitter {
-    async convert (input: Buffer, selector: string) {
+    async convert (input: Buffer | ArrayBuffer, selector: string) {
         /*  convert DOCX to HTML  */
-        const result = await mammoth.convertToHtml({ buffer: input }, {
+        const source = {} as any
+        if (input instanceof Buffer)
+            source.buffer = input
+        else if (input instanceof ArrayBuffer)
+            source.arrayBuffer = input
+        const result = await mammoth.convertToHtml(source, {
             styleMap: [
                 "r[style-name='R121: Enforce']     => span.rundown-control-enforce",
                 "r[style-name='R122: Toggle']      => span.rundown-control-toggle",
