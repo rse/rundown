@@ -24,6 +24,7 @@ import reconnectingWebSockets      from "@opensumi/reconnecting-websocket/dist/r
 import axios                       from "../node_modules/axios/dist/axios.js?raw"
 import animejs                     from "../node_modules/animejs/lib/anime.iife.js?raw"
 import shapeFlow                   from "./rundown-shape-flow.svg?raw"
+import iconSVG                     from "./app-icon.svg?raw"
 
 /*  the library API  */
 export default class Rundown extends EventEmitter {
@@ -207,14 +208,15 @@ export default class Rundown extends EventEmitter {
             restructure: false,
             sourceMap:   false
         }).css
-        const svg = SVGO.optimize(shapeFlow, {
-        }).data
+        const svg = SVGO.optimize(shapeFlow, {}).data
+        const svg2 = SVGO.optimize(iconSVG, {}).data
+        const iconUrl = `data:image/svg+xml,${encodeURIComponent(svg2)}`
         const jsInput = reconnectingWebSockets + ";\n" +
             axios + ";\n" +
             animejs + ";\n" +
             templateJS
         const js = (await minify(jsInput, {
-            mangle:      false
+            mangle: false
         })).code!
 
         /*  wrap generated HTML into stand-alone web page  */
@@ -224,6 +226,7 @@ export default class Rundown extends EventEmitter {
             .replace(/@template-css@/g, css)
             .replace(/@template-js@/g,  js)
             .replace(/@shape-flow@/g,   svg)
+            .replace(/@icon@/g,         iconUrl)
             .replace(/@content@/g,      output)
 
         return output

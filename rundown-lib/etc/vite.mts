@@ -45,7 +45,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
         viteStaticCopy({
             hook: "buildStart",
             targets: [ {
-                src: [ "src/rundown-template.{css,html}", "src/rundown-shape-flow.svg" ],
+                src: [ "src/rundown-template.{css,html}", "src/rundown-shape-flow.svg", "src/app-icon.svg" ],
                 dest: "../dst-stage1/",
                 overwrite: true
             } ],

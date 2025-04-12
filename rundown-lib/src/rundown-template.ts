@@ -6,6 +6,16 @@
 
 /*  await the DOM...  */
 document.addEventListener("DOMContentLoaded", () => {
+    /*  determine dynamic configuration options  */
+    const options = new Map<string, string>()
+    for (const opt of document.location.hash.replace(/^#/, "").split("&")) {
+        let m
+        if ((m = opt.match(/^(.+?)=(.+)$/)) !== null)
+            options.set(m[1], m[2])
+        else
+            options.set(opt, "yes")
+    }
+
     /*  internal state  */
     const view    = { w: 0, h: 0 }
     const content = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
@@ -291,9 +301,9 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     /*  connect to the origin server to get notified of document changes  */
-    if (document.location.hash.match(/^#live/)) {
+    if (options.get("live") === "yes") {
         let url = document.location.href
-        url = url.replace(/#live$/, "")
+        url = url.replace(/#.+$/, "")
         url = url.replace(/\/[^/]*$/, "")
         url = url + "/events"
         const ws = new ReconnectingWebSocket(url, [], {
@@ -353,6 +363,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     }, 1000)
                 }, 10)
             }
+        })
+    }
+
+    /*  optionally provide a pseudo exit functionality by just reloading
+        the current page, which for Rundown-Web is some sort of an exit
+        back to the menu  */
+    if (options.get("with-exit") === "yes") {
+        const overlay = document.querySelector(".overlay5")!
+        overlay.addEventListener("mouseenter", (ev: Event) => {
+            anime.animate(".overlay5", {
+                opacity: { from: 0.0, to: 1.0 },
+                ease: "outSine",
+                duration: 100
+            })
+        })
+        overlay.addEventListener("mouseleave", (ev: Event) => {
+            anime.animate(".overlay5", {
+                opacity: { from: 1.0, to: 0.0 },
+                ease: "inSine",
+                duration: 100
+            })
+        })
+        overlay.addEventListener("click", (ev: Event) => {
+            console.log("click")
+            window.location.reload()
         })
     }
 }, { once: true })
