@@ -56,29 +56,33 @@
     --color-acc-bg:   #336699;
     --color-acc-fg:   #a0d0ff;
     --font-family:    "TypoPRO Source Sans Pro", "Calibri", sans-serif;
-    --font-size:      24pt;
 }
 
 html, body {
     margin: 0;
     padding: 0;
-    font-size: 20pt;
+    font-size: 1.40vw;
 }
 
 body {
     background-color: var(--color-std-bg-0);
     color: var(--color-std-fg-5);
     font-family: var(--font-family);
-    font-size: 200%;
     font-weight: normal;
     line-height: 125%;
     margin-top: 2160px;
     margin-bottom: 2160px;
     position: relative;
+    font-size: 2.80vw;
 }
 
 body::-webkit-scrollbar {
     display: none;
+}
+
+.content {
+    font-size: 100%;
+    line-height: 125%;
 }
 
 .rundown-section {
@@ -107,11 +111,12 @@ body::-webkit-scrollbar {
     background-color: var(--color-std-bg-3);
     color: var(--color-std-fg-1);
     width: 5rem;
-    height: 5.0rem;
-    line-height: 3rem;
+    height: 4.8rem;
     text-align: center;
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
+    font-size: 2.80vw;
+    line-height: 4.20vw;
 }
 .rundown-section.active .rundown-part-tab {
     background-color: var(--color-std-bg-5);
@@ -120,7 +125,7 @@ body::-webkit-scrollbar {
 
 .rundown-part-tab-where {
     margin-top: -1.0rem;
-    font-size: 80%;
+    font-size: 2.00vw;
 }
 
 .rundown-chunk {
@@ -146,7 +151,8 @@ body::-webkit-scrollbar {
     color: var(--color-acc-fg-5);
     width: 5rem;
     height: 3rem;
-    line-height: 3rem;
+    font-size: 2.80vw;
+    line-height: 4.2vw;
     text-align: center;
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;

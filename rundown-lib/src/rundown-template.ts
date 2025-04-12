@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /*  perform the auto-scrolling  */
     let paused = false
     let speed = 0
-    let fontSize = 20
+    let fontSize = 100
     const doAutoScroll = () => {
         if (!paused && speed !== 0) {
             const delta = Math.sign(speed) * 0.50 * Math.pow(Math.abs(speed), 1.5)
@@ -285,18 +285,21 @@ document.addEventListener("DOMContentLoaded", () => {
             scrollToSiblingChunk("down")
         }
         else if (event.key === "-") {
-            fontSize -= 0.25
-            if (fontSize < 15) fontSize = 15
-            document.documentElement.style.fontSize = `${fontSize}pt`
+            fontSize -= 10
+            if (fontSize < 80) fontSize = 80
+            const content = document.querySelector("body > .content")! as HTMLDivElement
+            content.style.fontSize = `${fontSize}%`
         }
         else if (event.key === "+") {
-            fontSize += 0.25
-            if (fontSize > 25) fontSize = 25
-            document.documentElement.style.fontSize = `${fontSize}pt`
+            fontSize += 10
+            if (fontSize > 140) fontSize = 140
+            const content = document.querySelector("body > .content")! as HTMLDivElement
+            content.style.fontSize = `${fontSize}%`
         }
         else if (event.key === "0") {
-            fontSize = 20
-            document.documentElement.style.fontSize = `${fontSize}pt`
+            fontSize = 100
+            const content = document.querySelector("body > .content")! as HTMLDivElement
+            content.style.fontSize = `${fontSize}%`
         }
     })
 
