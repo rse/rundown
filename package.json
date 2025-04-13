@@ -19,9 +19,7 @@
     "workspaces": [
         "rundown-lib",
         "rundown-cli",
-        "rundown-web",
-        "rundown-gui",
-        "rundown-app"
+        "rundown-web"
     ],
     "scripts": {
         "postinstall": "nps -c etc/nps.yaml post-install",
