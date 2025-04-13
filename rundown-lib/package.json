@@ -46,7 +46,7 @@
         "typescript":                    "5.8.3",
         "nps":                           "5.10.0",
         "typopro-web":                   "4.2.7",
-        "@types/node":                   "22.14.0",
+        "@types/node":                   "22.14.1",
         "@types/csso":                   "5.0.4",
         "nodemon":                       "3.1.9"
     },                                  
