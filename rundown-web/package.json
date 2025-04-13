@@ -35,7 +35,9 @@
         "pure-uuid":                        "1.8.1",
         "urijs":                            "1.19.11",
         "ws":                               "8.18.1",
-        "awilix":                           "12.0.5"
+        "awilix":                           "12.0.5",
+
+        "patch-package":                    "8.0.0"
     },
     "devDependencies": {
         "vite":                             "6.2.6",
@@ -60,7 +62,6 @@
         "htmllint-cli":                     "0.0.7",
 
         "stmux":                            "1.8.10",
-        "patch-package":                    "8.0.0",
         "nodemon":                          "3.1.9",
         "rimraf":                           "6.0.1",
         "stylelint":                        "16.18.0",
@@ -78,7 +79,7 @@
         "cross-env":                        "7.0.3",
         "serve":                            "14.2.4",
 
-        "rundown-lib":                      "../rundown-lib"
+        "rundown-lib":                      "file:../rundown-lib"
     },
     "overrides": {
         "vite-plugin-node-polyfills":       { "vite": "^6.0.0" },
