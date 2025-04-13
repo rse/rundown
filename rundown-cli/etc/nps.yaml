@@ -23,6 +23,12 @@ scripts:
                           shx mv rundown-win.exe dst-stage3/rundown-cli-win-x64.exe &&
                           shx mv rundown-macos   dst-stage3/rundown-cli-mac-x64
 
+    #   Docker container handling
+    docker:build:         make -f etc/docker-build.make
+    docker:up:            make -f etc/docker-build.make up
+    docker:down:          make -f etc/docker-build.make down
+    docker:publish:       make -f etc/docker-build.make publish
+
     #   testing
     test: >
                           npm start lint build:cmd &&

@@ -1,0 +1,12 @@
+
+services:
+    rundown:
+        container_name: rundown
+        image:          engelschall/rundown:latest
+        init:           false
+        restart:        always
+        privileged:     false
+        command:        [ "-v", "info", "-m", "web-ui", "-a", "0.0.0.0", "-p", "8080" ]
+        ports:
+            - 8080:8080
+
