@@ -13,10 +13,12 @@ Rundown
 Abstract
 --------
 
-**Rundown** is a toolkit to rendering *rundown scripts* for
+**Rundown** is a toolkit for rendering *rundown scripts* for
 teleprompting. It reads a *Microsoft Word* format file (`*.docx`),
 extracts a particular table from it, and renders HTML output for use in
-a browser-based teleprompting scenario.
+a browser-based teleprompting scenario. It consists of a library, providing
+the base functionality, and both a command-line interface and Web user interface
+for driving the functionality.
 
 ![screenshot](doc/screenshot.png)
 
@@ -25,13 +27,12 @@ Installation
 
 ```
 $ git clone https://github.com/rse/rundown
-$ (cd rundown-lib && npm install && npm start build)
-$ (cd rundown-cli && npm install && npm start build)
-$ (cd rundown-web && npm install && npm start build)
+$ npm install
+$ npm start build
 ```
 
-Examples
---------
+Usage
+-----
 
 - Rundown CLI (One-Shot)
 
@@ -56,34 +57,45 @@ Examples
 Design Criterias
 ----------------
 
-The design of **Rundown** strictly followed the following criterias, driven by
-the experiences in the *msg Filmstudio*:
+The design of **Rundown** strictly followed the following particular design criterias, driven by
+the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
 
 - Teaming:
-    - Allow director plan preparation to be done in a fully *collabortively edited* Microsoft Word document.
-    - Keep table format in Word-based director plan people are already used to.
+    - Allow director plan preparation to be done in a fully
+      *collabortively edited* Microsoft Word document.
+    - Keep table format in Word-based director plan, people are already used to.
 
 - Markup:
-    - Consistently use Word *styles* in director plan for unambiguous semantics and conversion.
-    - Support all *necessary markups* from the years of experience.
-    - Distinguish between control and content (teams) in director plan.
+    - Consistently use Microsoft Word *styles* in director plan for
+      unambiguous semantics and conversion.
+    - Support all *necessary markups* from the years of event experience.
+    - Distinguish between control (left side of table) and content
+     (right side of table) in director plan.
 
 - Output:
-    - Allow directory plan to be *automatically* converted into the teleprompter view
-    - Intentionally do *not support any editing* of the teleprompter view
-    - Allow teleprompter view to be *updated within a minute*, even during dry-runs and just before going live
+    - Allow directory plan to be *automatically* (within a minute)
+      converted into the rendered teleprompter view.
+    - Intentionally do *not support any editing* of the rendered
+      teleprompter view, as the single source of truth is the Microsoft Word document.
+    - Allow rendered teleprompter view to be *incrementally updated*,
+      especially during event dry-runs and optionally also just before going
+      live in events.
 
 - Theming:
-    - Use light-mode in director plan to support printing
-    - Use dark-mode in teleprompter view to avoid outshine effects on cameras
-    - Align light-mode directory plan and dark-mode teleprompter view as close as possible
-    - Use strong typographic conventions in both directory plan and teleprompter view
+    - Use light-mode in Microsoft Word based director plan to also support printing.
+    - Use dark-mode in rendered teleprompter view to avoid outshine effects on cameras.
+    - Optically align light-mode directory plan and dark-mode
+      teleprompter view as close as possible.
+    - Use strong typographic conventions in both directory plan and teleprompter view.
 
 - Rendering:
-    - Always show an active speaker indicator in teleprompter view
-    - Always show a progress indicator in teleprompter view
-    - Support view size adjustments in teleprompter view
-    - Ensure that lines do not become too wide in teleprompter views to avoid too much wandering of the eyes
+    - Always show an active speaker indicator in teleprompter view, so
+      that, at any time, one knows who is currently speaking.
+    - Always show a progress indicator in teleprompter view,
+      so that, at any time, one knows where one is within the event.
+    - Support text size adjustments in teleprompter view within reasonable ranges only.
+    - Ensure that lines do not become too wide in teleprompter views,
+      to avoid too much wandering of the eyes.
 
 Architecture
 ------------
