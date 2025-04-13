@@ -9,7 +9,6 @@
     "version":                           "0.9.0",
     "stdver":                            "0.9.0-EA",
     "license":                           "GPL-3.0-only",
-    "typex":                              "module",
     "author": {                         
         "name":                          "Dr. Ralf S. Engelschall",
         "email":                         "rse@engelschall.com",
