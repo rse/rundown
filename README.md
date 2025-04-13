@@ -21,6 +21,7 @@ the base functionality, and both a command-line interface and Web user interface
 for driving the functionality.
 
 ![screenshot](doc/screenshot.png)
+![screenshot](doc/screenshot-web-2.png)
 
 Installation
 ------------
