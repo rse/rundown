@@ -148,18 +148,31 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize",   (event: Event) => { tickOnce() })
     tickOnce()
 
-    /*  perform the auto-scrolling  */
+    /*  perform the auto-scrolling
+        (notice: window.scroll needs a delta of at least 0.5px to operate)  */
     let paused = false
     let speed = 0
     let fontSize = 100
+    let carry = 0
     const doAutoScroll = () => {
         if (!paused && speed !== 0) {
-            const delta = Math.sign(speed) * 0.50 * Math.pow(Math.abs(speed), 1.5)
-            if (   (delta < 0 && window.scrollY > 0)
-                || (delta > 0 && window.scrollY < document.body.scrollHeight))
-                window.scroll({ top: window.scrollY + delta })
-            else
-                speed = 0
+            if (   (Math.sign(speed) < 0 && window.scrollY <= 0)
+                || (Math.sign(speed) > 0 && Math.abs(window.scrollY - content.h) < 0.5)) {
+                paused = true
+                speed  = 0
+            }
+            else {
+                const diff = Math.sign(speed) * 0.20 * Math.pow(Math.abs(speed), 1.5)
+                let delta = diff + carry
+                if (Math.abs(delta) < 0.50) {
+                    carry += diff
+                    delta = 0
+                }
+                else
+                    carry = 0
+                if (delta !== 0)
+                    window.scroll({ top: window.scrollY + delta })
+            }
         }
         window.requestAnimationFrame(doAutoScroll)
     }
@@ -255,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (event.code === "ArrowUp" || event.key === "s") {
             event.preventDefault()
             if (paused) paused = false
-            speed += 1.0
+            speed += 1
             if (speed > 10) speed = 10
         }
         else if (event.key === "1" || event.key === "t") {
