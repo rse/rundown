@@ -60,33 +60,43 @@ Design Criterias
 The design of **Rundown** strictly followed the following particular design criterias, driven by
 the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
 
-- **Teaming**:
-    - Allow director plan preparation to be done in a fully
+- **Input**:
+    - **Collaborative Input Editing**:
+      Allow director plan preparation to be done in a fully
       *collabortively edited* Microsoft Word document.
-    - Keep table format in Word-based director plan, people are already used to.
-
-- **Markup**:
-    - Consistently use Microsoft Word *styles* in director plan for
+    - **Table-Based Input**:
+      Keep table format in Word-based director plan, people are already used to.
+    - **Style-Based Input**:
+      Consistently use Microsoft Word *styles* in director plan for
       unambiguous semantics and conversion.
-    - Support all *necessary markups* from the years of event experience.
-    - Distinguish between control (left side of table) and content
-     (right side of table) in director plan.
+    - **Experience-Driven Markups**:
+      Support all *necessary markups* from the years of event experience.
+    - **Distinguished Control & Content**:
+      Distinguish between control (left side of table) and content
+      (right side of table) in director plan.
 
 - **Output**:
-    - Allow directory plan to be *automatically* (within a minute)
+    - **Auto-Conversion**:
+      Allow directory plan to be *automatically* (within a minute)
       converted into the rendered teleprompter view.
-    - Intentionally do *not support any editing* of the rendered
+    - **Single Source of Truth**:
+      Intentionally do *not support any editing* of the rendered
       teleprompter view, as the single source of truth is the Microsoft Word document.
-    - Allow rendered teleprompter view to be *incrementally updated*,
+    - **Incremental Rendering Updates**:
+      Allow rendered teleprompter view to be *incrementally updated*,
       especially during event dry-runs and optionally also just before going
       live in events.
 
-- **Theming**:
-    - Use light-mode in Microsoft Word based director plan to also support printing.
-    - Use dark-mode in rendered teleprompter view to avoid outshine effects on cameras.
-    - Optically align light-mode directory plan and dark-mode
+- **Style**:
+    - **Light Input**:
+      Use light-mode in Microsoft Word based director plan to also support printing.
+    - **Dark Output**:
+      Use dark-mode in rendered teleprompter view to avoid outshine effects on cameras.
+    - **Aligned Input/Output**:
+      Optically align light-mode directory plan and dark-mode
       teleprompter view as close as possible.
-    - Use strong typographic conventions in both directory plan and teleprompter view.
+    - **Strong Typography**:
+      Use strong typographic conventions in both directory plan and teleprompter view.
 
 - **Rendering**:
     - **Speaker Indicators**:
