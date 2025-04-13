@@ -1,5 +1,5 @@
 {
-    "name":                             "rundown",
+    "name":                             "rundown-cli",
     "publishConfig":                    { "access": "public" },
     "description":                      "Generate Rundown Scripts for Teleprompting (CLI)",
     "keywords":                         [ "rundown", "cue", "prompter" ],

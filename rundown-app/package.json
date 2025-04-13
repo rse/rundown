@@ -1,5 +1,5 @@
 {
-    "name":                       "rundown-gui",
+    "name":                       "rundown-app",
     "version":                    "0.9.1",
     "description":                "Generate Rundown Scripts for Teleprompting",
     "keywords":                   [],

@@ -1,6 +1,6 @@
 {
     "private":         true,
-    "name":            "rundown",
+    "name":            "rundown-gui",
     "version":         "0.0.0",
     "x-date":          "2025-01-04",
     "homepage":        "https://github.com/rse/rundown",
