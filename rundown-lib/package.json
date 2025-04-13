@@ -1,6 +1,6 @@
 {
+    "private":                           true,
     "name":                              "rundown-lib",
-    "publishConfig":                     { "access": "public" },
     "description":                       "Generate Rundown Scripts for Teleprompting (Library)",
     "keywords":                          [ "rundown", "cue", "prompter" ],
     "homepage":                          "http://github.com/rse/rundown",

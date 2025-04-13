@@ -1,6 +1,6 @@
 {
+    "private":         true,
     "name":            "rundown",
-    "publishConfig":   { "access": "public" },
     "description":     "Generate Rundown Scripts for Teleprompting",
     "keywords":        [ "rundown", "cue", "prompter" ],
     "homepage":        "http://github.com/rse/rundown",

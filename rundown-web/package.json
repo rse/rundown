@@ -1,18 +1,17 @@
 {
-    "name":            "rundown-web",
-    "publishConfig":   { "access": "public" },
-    "version":         "0.0.0",
-    "license":         "GPL-3.0-only",
-    "homepage":        "https://github.com/rse/rundown",
-    "description":     "Generate Rundown Scripts for Teleprompting (CLI)",
+    "private":                              "true",
+    "name":                                 "rundown-web",
+    "description":                          "Generate Rundown Scripts for Teleprompting (WEB)",
+    "keywords":                             [ "rundown", "cue", "prompter" ],
+    "homepage":                             "https://github.com/rse/rundown",
+    "repository":                           { "url": "git+https://github.com/rse/rundown.git", "type": "git" },
+    "bugs":                                 { "url": "http://github.com/rse/rundown/issues" },
+    "version":                              "0.0.0",
+    "license":                              "GPL-3.0-only",
     "author": {
-        "name":        "Dr. Ralf S. Engelschall",
-        "email":       "rse@engelschall.com",
-        "url":         "http://engelschall.com"
-    },
-    "repository": {
-        "type":        "git",
-        "url":         "https://github.com/rse/rundown"
+        "name":                             "Dr. Ralf S. Engelschall",
+        "email":                            "rse@engelschall.com",
+        "url":                              "http://engelschall.com"
     },
     "dependencies": {
         "vue":                              "3.5.13",
