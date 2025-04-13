@@ -39,7 +39,7 @@
         "nps":                          "5.10.0",
         "markdownlint":                 "0.37.4",
         "markdownlint-cli2":            "0.17.2",
-        "@types/node":                  "22.14.0",
+        "@types/node":                  "22.14.1",
         "serve":                        "14.2.4",
         "nodemon":                      "3.1.9"
     },
@@ -56,9 +56,8 @@
         "chokidar":                     "4.0.3",
         "tmp":                          "0.2.3",
 
-        "@types/node":                  "22.14.0",
+        "@types/node":                  "22.14.1",
         "@types/yargs":                 "17.0.33",
-        "@types/hapi__inert":           "7.1.0",
         "@types/ws":                    "8.18.1",
         "@types/tmp":                   "0.2.6",
 
