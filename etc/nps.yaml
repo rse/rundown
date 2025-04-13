@@ -6,9 +6,9 @@
 
 scripts:
     post-install: >
-        (cd rundown-lib && npm install) &&
-        (cd rundown-cli && npm install) &&
-        (cd rundown-web && npm install)
+        (cd rundown-lib && npm install --include dev) &&
+        (cd rundown-cli && npm install --include dev) &&
+        (cd rundown-web && npm install --include dev)
 
     build: >
         (cd rundown-lib && npm start build) &&
