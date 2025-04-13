@@ -16,6 +16,13 @@
     "devDependencies": {
         "nps":         "5.10.0"
     },
+    "workspaces": [
+        "rundown-lib",
+        "rundown-cli",
+        "rundown-web",
+        "rundown-gui",
+        "rundown-app"
+    ],
     "scripts": {
         "postinstall": "nps -c etc/nps.yaml post-install",
         "start":       "nps -c etc/nps.yaml"
