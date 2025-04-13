@@ -20,7 +20,17 @@ a browser-based teleprompting scenario. It consists of a library, providing
 the base functionality, and both a command-line interface and Web user interface
 for driving the functionality.
 
+Impressions
+-----------
+
+The following is a side-by-side view of the Microsoft Word input on the left and
+the rendered teleprompter view on the right:
+
 ![screenshot](doc/screenshot.png)
+
+The following is a view of the web user interface, showing the supported keystrokes 
+for controlling the scrolling of the rendered teleprompter view:
+
 ![screenshot](doc/screenshot-web-2.png)
 
 Installation
