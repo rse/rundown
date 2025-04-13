@@ -6,27 +6,27 @@
 
 scripts:
     post-install: >
-        cd rundown-lib && npm install && cd .. &&
-        cd rundown-cli && npm install && cd .. &&
-        cd rundown-web && npm install
+        cd    rundown-lib && npm install &&
+        cd ../rundown-cli && npm install &&
+        cd ../rundown-web && npm install
 
     build: >
-        cd rundown-lib && npm start build && cd .. &&
-        cd rundown-cli && npm start build && cd .. &&
-        cd rundown-web && npm start build
+        cd    rundown-lib && npm start build &&
+        cd ../rundown-cli && npm start build &&
+        cd ../rundown-web && npm start build
 
     prune: >
-        cd rundown-lib && npm start prune && cd .. &&
-        cd rundown-cli && npm start prune && cd .. &&
-        cd rundown-web && npm start prune
+        cd    rundown-lib && npm start prune &&
+        cd ../rundown-cli && npm start prune &&
+        cd ../rundown-web && npm start prune
 
     clean: >
-        cd rundown-lib && npm start clean && cd .. &&
-        cd rundown-cli && npm start clean && cd .. &&
-        cd rundown-web && npm start clean
+        cd    rundown-lib && npm start clean &&
+        cd ../rundown-cli && npm start clean &&
+        cd ../rundown-web && npm start clean
 
     clean-dist: >
-        cd rundown-lib && npm start clean-dist && cd .. &&
-        cd rundown-cli && npm start clean-dist && cd .. &&
-        cd rundown-web && npm start clean-dist
+        cd    rundown-lib && npm start clean-dist &&
+        cd ../rundown-cli && npm start clean-dist &&
+        cd ../rundown-web && npm start clean-dist
 
