@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" viewBox="13 -28 1391 739" width="1391" height="739">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="13 -28 1039 582" width="1039" height="582">
   <defs>
     <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="black">
       <g>
@@ -8,7 +8,7 @@
       </g>
     </marker>
   </defs>
-  <g id="Canvas_1" stroke-dasharray="none" stroke-opacity="1" fill="none" fill-opacity="1" stroke="none">
+  <g id="Canvas_1" fill="none" stroke-dasharray="none" stroke="none" stroke-opacity="1" fill-opacity="1">
     <title>Canvas 1</title>
     <g id="Canvas_1_Layer_1">
       <title>Layer 1</title>
@@ -72,140 +72,10 @@
       <g id="Line_66">
         <line x1="924.8518" y1="71" x2="926.1109" y2="405.10007" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
       </g>
-      <g id="Graphic_83">
-        <rect x="1069" y="94" width="334" height="570" fill="#dbdbdb"/>
-        <rect x="1069" y="94" width="334" height="570" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_82">
-        <text transform="translate(1205 642)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="5684342e-20" y="12" xml:space="preserve">Electron</tspan>
-        </text>
-      </g>
-      <g id="Graphic_81">
-        <rect x="1092" y="109" width="286" height="380" fill="#b6b6b6"/>
-        <rect x="1092" y="109" width="286" height="380" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_80">
-        <text transform="translate(1172.712 466)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="6536993e-19" y="12" xml:space="preserve">Chromium Webview</tspan>
-        </text>
-      </g>
-      <g id="Graphic_79">
-        <rect x="1108" y="123" width="247" height="325" fill="#7db4ea"/>
-        <rect x="1108" y="123" width="247" height="325" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_78">
-        <rect x="1177" y="195" width="161" height="128" fill="#c0dbf5"/>
-        <rect x="1177" y="195" width="161" height="128" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_77">
-        <text transform="translate(1194 424)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="6536993e-19" y="12" xml:space="preserve">Rundown GUI</tspan>
-        </text>
-      </g>
-      <g id="Graphic_76">
-        <text transform="translate(1210 298.8)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="7602807e-19" y="12" xml:space="preserve">App-Viewport</tspan>
-        </text>
-      </g>
-      <g id="Graphic_75">
-        <rect x="1177" y="332" width="161" height="87" fill="#c0dbf5"/>
-        <rect x="1177" y="332" width="161" height="87" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_74">
-        <text transform="translate(1210 394.8)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="0" y="12" xml:space="preserve">App-Control</tspan>
-        </text>
-      </g>
-      <g id="Graphic_73">
-        <rect x="1121" y="194" width="49" height="225" fill="#c0dbf5"/>
-        <rect x="1121" y="194" width="49" height="225" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_72">
-        <text transform="translate(1132 302)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="5684342e-19" y="12" xml:space="preserve">App</tspan>
-        </text>
-      </g>
-      <g id="Graphic_71">
-        <rect x="1193" y="216" width="124" height="54" fill="#f5dbc1"/>
-        <rect x="1193" y="216" width="124" height="54" stroke="#b26813" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-        <text transform="translate(1198 223.8)" fill="#71420d">
-          <tspan font-family="Myriad Pro" font-size="16" fill="#71420d" x="24.672" y="12" xml:space="preserve">Rundown</tspan>
-          <tspan font-family="Myriad Pro" font-size="16" fill="#71420d" x="7.16" y="31.200006" xml:space="preserve">Output (HTML)</tspan>
-        </text>
-      </g>
-      <g id="Graphic_70">
-        <rect x="1193" y="16" width="124" height="54" fill="#f5dbc1"/>
-        <rect x="1193" y="16" width="124" height="54" stroke="#b26813" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-        <text transform="translate(1198 23.799994)" fill="#71420d">
-          <tspan font-family="Myriad Pro" font-size="16" fill="#71420d" x="24.672" y="12" xml:space="preserve">Rundown</tspan>
-          <tspan font-family="Myriad Pro" font-size="16" fill="#71420d" x="12.672" y="31.200006" xml:space="preserve">Input (DOCX)</tspan>
-        </text>
-      </g>
-      <g id="Graphic_69">
-        <rect x="1177" y="137" width="161" height="49" fill="#c0dbf5"/>
-        <rect x="1177" y="137" width="161" height="49" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_68">
-        <text transform="translate(1210.776 155)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="1563194e-19" y="12" xml:space="preserve">Rundown Lib</tspan>
-        </text>
-      </g>
-      <g id="Line_67">
-        <line x1="1255" y1="70" x2="1255" y2="206.1" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_84">
-        <rect x="1092" y="496" width="286" height="134" fill="#b6b6b6"/>
-        <rect x="1092" y="496" width="286" height="134" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_85">
-        <text transform="translate(1210 605.8)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="0" y="12" xml:space="preserve">Node.js</tspan>
-        </text>
-      </g>
-      <g id="Graphic_86">
-        <rect x="1108" y="508" width="247" height="87" fill="#7db4ea"/>
-        <rect x="1108" y="508" width="247" height="87" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_87">
-        <text transform="translate(1194 568)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="0" y="12" xml:space="preserve">Rundown App</tspan>
-        </text>
-      </g>
-      <g id="Graphic_89">
-        <rect x="1238" y="523" width="100" height="35" fill="#c0dbf5"/>
-        <rect x="1238" y="523" width="100" height="35" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_88">
-        <text transform="translate(1260 533.8)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="7105427e-20" y="12" xml:space="preserve">REST API</tspan>
-        </text>
-      </g>
-      <g id="Graphic_91">
-        <rect x="1127" y="523" width="100" height="35" fill="#c0dbf5"/>
-        <rect x="1127" y="523" width="100" height="35" stroke="#1067b2" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Graphic_90">
-        <text transform="translate(1161.272 533.8)" fill="black">
-          <tspan font-family="Myriad Pro" font-size="16" fill="black" x="0" y="12" xml:space="preserve">Main</tspan>
-        </text>
-      </g>
-      <g id="Line_92">
-        <line x1="1304" y1="710" x2="1304" y2="567.9" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
-      <g id="Line_96">
-        <line x1="1304" y1="523" x2="1304" y2="380.9" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </g>
       <g id="Graphic_97">
         <rect x="717" y="-28" width="334" height="27" fill="#6d6d6d"/>
         <text transform="translate(722 -24.100003)" fill="white">
           <tspan font-family="Myriad Pro" font-size="16" fill="white" x="87.592" y="12" xml:space="preserve">Rundown Web (Client)</tspan>
-        </text>
-      </g>
-      <g id="Graphic_98">
-        <rect x="1069" y="-28" width="334" height="27" fill="#dbdbdb"/>
-        <text transform="translate(1074 -24.100003)" fill="white">
-          <tspan font-family="Myriad Pro" font-size="16" fill="white" x="96.976" y="12" xml:space="preserve">Rundown GUI+App</tspan>
         </text>
       </g>
       <g id="Graphic_100">
