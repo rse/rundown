@@ -118,11 +118,15 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
 Architecture
 ------------
 
+The **Rundown** toolkit consists of the following parts:
+
 - [rundown-lib: base functionality](rundown-lib/)
 - [rundown-cli: command-line interface](rundown-cli/)
 - [rundown-web: web interface](rundown-web/)
 - [rundown-gui: graphical user interface](rundown-gui/) (unfinished)
 - [rundown-app: native application](rundown-app/) (unfinished)
+
+Those parts form an architecture which allows various use cases:
 
 ![screenshot](doc/architecture.png)
 
