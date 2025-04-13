@@ -40,6 +40,7 @@ scripts:
     server:                 serve -d --listen 12345 --single dst
 
     #   cleanup filesystem
+    prune:                  npm prune --omit=dev
     clean:                  rimraf dst
     clean-dist:             rimraf dst node_modules
 

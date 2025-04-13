@@ -17,6 +17,7 @@ scripts:
     build-umd:            VITE_BUILD_FORMATS=umd     vite --config etc/vite.mts build --mode production
 
     #   cleanup
+    prune:                npm prune --omit=dev
     clean:                shx rm -rf dst-stage1 dst-stage2
     clean-dist:           npm start clean && shx rm -rf node_modules
 

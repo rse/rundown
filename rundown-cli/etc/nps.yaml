@@ -34,6 +34,7 @@ scripts:
     serve:                serve -l 9999 ../etc/
 
     #   cleanup
+    prune:                npm prune --omit=dev
     clean:                shx rm -rf dst-stage1 dst-stage2 dst-stage3
     clean-dist:           npm start clean && shx rm -rf node_modules
 

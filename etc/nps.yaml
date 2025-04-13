@@ -15,3 +15,18 @@ scripts:
         (cd rundown-cli && npm start build) &&
         (cd rundown-web && npm start build)
 
+    prune: >
+        (cd rundown-lib && npm start prune) &&
+        (cd rundown-cli && npm start prune) &&
+        (cd rundown-web && npm start prune)
+
+    clean: >
+        (cd rundown-lib && npm start clean) &&
+        (cd rundown-cli && npm start clean) &&
+        (cd rundown-web && npm start clean)
+
+    clean-dist: >
+        (cd rundown-lib && npm start clean-dist) &&
+        (cd rundown-cli && npm start clean-dist) &&
+        (cd rundown-web && npm start clean-dist)
+
