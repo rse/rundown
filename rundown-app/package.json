@@ -1,6 +1,6 @@
 {
     "name":                       "rundown-app",
-    "version":                    "0.9.1",
+    "version":                    "0.0.0",
     "description":                "Generate Rundown Scripts for Teleprompting",
     "keywords":                   [],
     "author": {

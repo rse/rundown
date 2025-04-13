@@ -1,7 +1,7 @@
 {
     "name":            "rundown-web",
     "publishConfig":   { "access": "public" },
-    "version":         "0.9.0",
+    "version":         "0.0.0",
     "license":         "GPL-3.0-only",
     "homepage":        "https://github.com/rse/rundown",
     "description":     "Generate Rundown Scripts for Teleprompting (CLI)",
