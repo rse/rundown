@@ -27,7 +27,7 @@ scripts:
     docker:build:         make -f etc/docker-build.make
     docker:up:            make -f etc/docker-build.make up
     docker:down:          make -f etc/docker-build.make down
-    docker:publish:       make -f etc/docker-build.make publish
+    docker:push:          make -f etc/docker-build.make push
 
     #   testing
     test: >
