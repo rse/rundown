@@ -60,19 +60,19 @@ Design Criterias
 The design of **Rundown** strictly followed the following particular design criterias, driven by
 the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
 
-- Teaming:
+- **Teaming**:
     - Allow director plan preparation to be done in a fully
       *collabortively edited* Microsoft Word document.
     - Keep table format in Word-based director plan, people are already used to.
 
-- Markup:
+- **Markup**:
     - Consistently use Microsoft Word *styles* in director plan for
       unambiguous semantics and conversion.
     - Support all *necessary markups* from the years of event experience.
     - Distinguish between control (left side of table) and content
      (right side of table) in director plan.
 
-- Output:
+- **Output**:
     - Allow directory plan to be *automatically* (within a minute)
       converted into the rendered teleprompter view.
     - Intentionally do *not support any editing* of the rendered
@@ -81,21 +81,29 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
       especially during event dry-runs and optionally also just before going
       live in events.
 
-- Theming:
+- **Theming**:
     - Use light-mode in Microsoft Word based director plan to also support printing.
     - Use dark-mode in rendered teleprompter view to avoid outshine effects on cameras.
     - Optically align light-mode directory plan and dark-mode
       teleprompter view as close as possible.
     - Use strong typographic conventions in both directory plan and teleprompter view.
 
-- Rendering:
-    - Always show an active speaker indicator in teleprompter view, so
+- **Rendering**:
+    - **Speaker Indicators**:
+      Always show an active speaker indicator in teleprompter view, so
       that, at any time, one knows who is currently speaking.
-    - Always show a progress indicator in teleprompter view,
+    - **Progress Indicators**:
+      Always show a progress indicator in teleprompter view,
       so that, at any time, one knows where one is within the event.
-    - Support text size adjustments in teleprompter view within reasonable ranges only.
-    - Ensure that lines do not become too wide in teleprompter views,
+    - **Text Size Adjustment**:
+      Support text size adjustments in teleprompter view within reasonable ranges only.
+    - **Reduced Eye Wandering**:
+      Ensure that lines do not become too wide in teleprompter views,
       to avoid too much wandering of the eyes.
+    - **Smooth Scrolling**:
+      Support very smooth scrolling in the teleprompter view.
+    - **Dial Controller Support**:
+      Support dial controller (Prompter People Shuttle Pro) for controlling the scrolling.
 
 Architecture
 ------------
