@@ -1,8 +1,8 @@
 {
-    "private":         true,
-    "name":            "rundown",
-    "version":         "0.0.0",
-    "x-date":          "2025-01-04",
+    "name":            "@rse/rundown-web",
+    "publishConfig":   { "access": "public" },
+    "version":         "0.9.0",
+    "license":         "GPL-3.0-only",
     "homepage":        "https://github.com/rse/rundown",
     "description":     "Generate Rundown Scripts for Teleprompting (CLI)",
     "author": {
@@ -10,7 +10,6 @@
         "email":       "rse@engelschall.com",
         "url":         "http://engelschall.com"
     },
-    "license":         "GPL-3.0-only",
     "repository": {
         "type":        "git",
         "url":         "https://github.com/rse/rundown"
