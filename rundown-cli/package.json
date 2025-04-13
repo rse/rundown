@@ -61,7 +61,8 @@
         "@types/ws":                    "8.18.1",
         "@types/tmp":                   "0.2.6",
 
-        "rundown-lib":                  "../rundown-lib"
+        "rundown-lib":                  "../rundown-lib",
+        "rundown-web":                  "../rundown-web"
     },
     "overrides": {
         "vite-plugin-node-polyfills":   { "vite": "^6.0.0" },

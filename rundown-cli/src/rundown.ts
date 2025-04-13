@@ -6,6 +6,7 @@
 
 /*  external dependencies  */
 import fs                          from "node:fs"
+import path                        from "node:path"
 import CLIio                       from "cli-io"
 import yargs                       from "yargs"
 import chokidar                    from "chokidar"
@@ -38,7 +39,8 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             "[-o|--output <output-file>|-] " +
             "[-a|--http-addr <ip-address>] " +
             "[-p|--http-port <tcp-port>] " +
-            "<input-file>|-|<input-directory>"
+            "[-m|--mode cmd|web|web-ui] " +
+            "[<input-file>|-|<input-directory>]"
         )
         .help("h").alias("h", "help").default("h", false)
             .describe("h", "show usage help")
@@ -54,6 +56,8 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             .describe("a", "HTTP/Websocket listen IP address")
         .number("p").nargs("p", 1).alias("p", "http-port").default("p", 8888)
             .describe("p", "HTTP/Websocket listen TCP port")
+        .string("m").alias("m", "mode").default("m", "cmd")
+            .describe("m", "mode of operation (\"cmd\", \"web\", or \"web-ui\")")
         .version(false)
         .strict()
         .showHelpOnFail(true)
@@ -78,11 +82,6 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         logPrefix: "rundown"
     })
 
-    /*  sanity check situation  */
-    if (args._.length !== 1)
-        throw new Error("missing input file or directory")
-    const inputPath = args._[0] as string
-
     /*  helper function for converting a single file  */
     const convertDocument = async (inputFile: string, outputFile: string) => {
         /*  read input file  */
@@ -104,32 +103,24 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         await cli.output(outputFile, output)
     }
 
-    /*  determine run-time mode  */
-    const stats = await fs.promises.stat(inputPath).catch((err: Error) => {
-        throw new Error(`input file or directory not exists: ${err}`)
-    })
-    if (stats.isDirectory()) {
-        /*  ==== MODE 1: directory watch mode ====  */
-
-        /*  establish REST/WebSocket service  */
-        cli.log("info", `starting HTTP/Websocket service under ${args.httpAddr}:${args.httpPort}`)
-        const server = new HAPI.Server({
-            address: args.httpAddr,
-            port:    args.httpPort
-        })
+    /*  establish REST/WebSocket service  */
+    const establishServer = async (addr: string, port: number) => {
+        cli.log("info", `starting HTTP/Websocket service under ${addr}:${port}`)
+        const server = new HAPI.Server({ address: addr, port })
         await server.register({ plugin: Inert })
         await server.register({ plugin: HAPITraffic })
-        await server.register({ plugin: HAPIWebSocket })
 
         /*  hook into network service for logging  */
         server.events.on("response", (request: HAPI.Request) => {
             const traffic = request.traffic()
             let protocol = `HTTP/${request.raw.req.httpVersion}`
-            const ws = request.websocket()
-            if (ws.mode === "websocket") {
-                const wsVersion = (ws.ws as any).protocolVersion ??
-                    request.headers["sec-websocket-version"] ?? "13?"
-                protocol = `WebSocket/${wsVersion}+${protocol}`
+            if (typeof request.websocket === "function") {
+                const ws = request.websocket()
+                if (ws.mode === "websocket") {
+                    const wsVersion = (ws.ws as any).protocolVersion ??
+                        request.headers["sec-websocket-version"] ?? "13?"
+                    protocol = `WebSocket/${wsVersion}+${protocol}`
+                }
             }
             const msg =
                 "remote="   + request.info.remoteAddress + ", " +
@@ -157,6 +148,45 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                     cli.log("info", `HAPI: log: ${err}`)
             }
         })
+        return server
+    }
+
+    /*  determine run-time mode  */
+    if (args.mode === "cmd") {
+        /*  ==== MODE 1: command-line, file one-shot conversion ====  */
+
+        /*  sanity check CLI arguments  */
+        if (args._.length !== 1)
+            throw new Error("missing input file")
+        const inputPath = args._[0] as string
+        const stats = await fs.promises.stat(inputPath).catch(() => {
+            throw new Error(`input path not found: ${inputPath}`)
+        })
+        if (stats.isDirectory())
+            throw new Error(`input path is a directory: ${inputPath}`)
+
+        /*  one-shot conversion  */
+        await convertDocument(inputPath, args.output!)
+
+        /*  die gracefully  */
+        process.exit(0)
+    }
+    else if (args.mode === "web") {
+        /*  ==== MODE 2: web interface, directory watch based conversion ====  */
+
+        /*  sanity check CLI arguments  */
+        if (args._.length !== 1)
+            throw new Error("missing input file or directory")
+        const inputPath = args._[0] as string
+        await fs.promises.stat(inputPath).catch(() => {
+            throw new Error(`input path not found: ${inputPath}`)
+        })
+
+        /*  establish REST/WebSocket service  */
+        const server = await establishServer(args.httpAddr!, args.httpPort!)
+
+        /*  add Websocket support  */
+        await server.register({ plugin: HAPIWebSocket })
 
         /*  serve WebSocket connections  */
         const wsPeers = new Map<string, wsPeerInfo>()
@@ -284,12 +314,48 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             shutdown("SIGTERM")
         })
     }
-    else {
-        /*  ==== MODE 2: file single-shot mode ====  */
+    else if (args.mode === "web-ui") {
+        /*  ==== MODE 3: web interface, interactive conversion ====  */
 
-        await convertDocument(inputPath, args.output!)
-        process.exit(0)
+        /*  sanity check CLI arguments  */
+        if (args._.length !== 0)
+            throw new Error("too many arguments")
+
+        /*  establish REST/WebSocket service  */
+        const server = await establishServer(args.httpAddr!, args.httpPort!)
+
+        /*  serve HTML content  */
+        server.route({
+            method: "GET",
+            path: "/{param*}",
+            handler: {
+                directory: {
+                    path: path.join(__dirname, "../node_modules/rundown-web/dst"),
+                    redirectToSlash: true,
+                    index: true
+                }
+            }
+        })
+
+        /*  start Web service  */
+        await server.start()
+        cli.log("info", `connect your browser to the URL: http://${args.httpAddr}:${args.httpPort}/`)
+
+        /*  await graceful shutdown  */
+        const shutdown = async (signal: string) => {
+            cli.log("warning", `received signal ${signal} -- shutting down service`)
+            await server.stop()
+            process.exit(1)
+        }
+        process.on("SIGINT", () => {
+            shutdown("SIGINT")
+        })
+        process.on("SIGTERM", () => {
+            shutdown("SIGTERM")
+        })
     }
+    else
+        throw new Error(`invalid operation mode: ${args.mode}`)
 })().catch((err) => {
     /*  catch fatal run-time errors  */
     process.stderr.write(`rundown: ERROR: ${err}\n`)
