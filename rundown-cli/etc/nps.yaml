@@ -30,14 +30,15 @@ scripts:
     docker:push:          make -f etc/docker-build.make push
 
     #   testing
-    test: >
+    test1: >
                           npm start lint build:cmd &&
                           node dst-stage2/rundown.js \
-                              -o ../etc/sample.html ../etc/sample.docx
+                              -o ../rundown-doc/sample.html ../rundown-doc/sample.docx
     test2: >
                           npm start lint build:cmd &&
-                          node dst-stage2/rundown.js -v info -a 127.0.0.1 -p 9991 ../etc
-    serve:                serve -l 9999 ../etc/
+                          node dst-stage2/rundown.js -v info -a 127.0.0.1 -p 8888 ../rundown-doc
+    test3: >
+                          serve -l 8888 ../rundown-doc/
 
     #   cleanup
     prune:                npm prune --omit=dev
