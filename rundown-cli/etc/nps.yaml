@@ -36,7 +36,7 @@ scripts:
                               -o ../rundown-doc/sample.html ../rundown-doc/sample.docx
     test2: >
                           npm start lint build:cmd &&
-                          node dst-stage2/rundown.js -v info -a 127.0.0.1 -p 8888 ../rundown-doc
+                          node dst-stage2/rundown.js -v info -a 127.0.0.1 -p 8888 -m web ../rundown-doc
     test3: >
                           serve -l 8888 ../rundown-doc/
 

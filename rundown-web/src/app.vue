@@ -23,13 +23,13 @@
             <div class="content-row">
                 <div class="content-left"
                     v-on:click="downloadClick1">
-                    <div class="info">Download <b>Rundown</b> template for editing by clicking.</div>
+                    <div class="info">Click to download <b>Rundown</b> template for <i>editing</i>.</div>
                     <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
                     <div class="icon2"><i class="fa fa-solid fa-arrow-down"></i></div>
                 </div>
                 <div class="content-middle"
                     v-on:click="downloadClick2">
-                    <div class="info">Download <b>Rundown</b> sample for demonstration by clicking.</div>
+                    <div class="info">Clock to download <b>Rundown</b> sample for <i>demonstration</i>.</div>
                     <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
                     <div class="icon2"><i class="fa fa-solid fa-arrow-down"></i></div>
                 </div>
@@ -41,17 +41,17 @@
                     v-on:drop.prevent.stop="drop"
                     v-on:click="uploadClick">
                     <div v-show="!uploadDragOver && !uploadProgress">
-                        <div class="info">Upload <b>Rundown</b> template for prompting by clicking or dragging &amp; dropping.</div>
+                        <div class="info">Click or drag &amp; drop to upload <b>Rundown</b> document for <i>prompting</i>.</div>
                         <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
                         <div class="icon2"><i class="fa fa-solid fa-arrow-up"></i></div>
                     </div>
                     <div v-show="uploadDragOver && !uploadProgress">
-                        <div class="info">Drop <b>Rundown</b> template for prompting.</div>
+                        <div class="info">Drop to upload <b>Rundown</b> document for prompting.</div>
                         <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
                         <div class="icon2"><i class="fa fa-solid fa-spinner fa-spin"></i></div>
                     </div>
                     <div v-show="!uploadDragOver && uploadProgress">
-                        <div class="info">Converting <b>Rundown</b> template for prompting.</div>
+                        <div class="info">Converting <b>Rundown</b> document for prompting.</div>
                         <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
                         <div class="icon2"><i class="fa fa-solid fa-spinner fa-spin"></i></div>
                     </div>
@@ -273,6 +273,9 @@
                 .icon2
                     margin-top: -2rem
                     font-size: 5rem
+            .content-right:hover
+                background-color: var(--color-sig-bg-3)
+                color: var(--color-sig-fg-5)
             .content-right *
                 pointer-events: none
             .content-right.dragging
@@ -315,45 +318,6 @@
                             color: var(--color-std-fg-5)
                 .description
                     width: 30rem
-    .overlay
-        background-color: #00000080
-        position: absolute
-        width:  100%
-        height: 100%
-        top:  0
-        left: 0
-        z-index: 100
-        display: none
-        pointer-events: none
-        &.enabled
-            display: block
-        .border
-            margin: 2rem
-            border: 1rem solid #ffffff80
-            background-color: #ffffff40
-            border-radius: 2rem
-            width:  calc(100% - 2 * (1rem + 2rem))
-            height: calc(100% - 2 * (1rem + 2rem))
-            display: flex
-            flex-direction: row
-            justify-content: center
-            align-items: center
-            .icons
-                display: flex
-                flex-direction: row
-                justify-content: center
-                align-items: center
-                .icon1
-                    font-size: 10rem
-                    color: #ffffff
-                    margin-right: 2rem
-                .icon2
-                    font-size: 5rem
-                    color: #ffffff
-                    margin-right: 2rem
-                .icon4
-                    font-size: 10rem
-                    color: #ffffff
 </style>
 
 <script setup lang="ts">
