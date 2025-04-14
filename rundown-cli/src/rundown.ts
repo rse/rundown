@@ -92,7 +92,6 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             input = await streamConsumers.buffer(process.stdin)
         else
             input = await fs.promises.readFile(inputFile, { encoding: null })
-        console.log(input)
 
         /*  convert DOCX to HTML  */
         const rundown = new Rundown()
