@@ -26,12 +26,12 @@ Impressions
 The following is a side-by-side view of the Microsoft Word input on the left and
 the rendered teleprompter view on the right:
 
-![screenshot](doc/screenshot.png)
+![screenshot](etc/screenshot.png)
 
 The following is a view of the web user interface, showing the supported keystrokes 
 for controlling the scrolling of the rendered teleprompter view:
 
-![screenshot](doc/screenshot-web-2.png)
+![screenshot](etc/screenshot-web-2.png)
 
 Installation
 ------------
@@ -49,17 +49,17 @@ Usage
 - Rundown CLI (One-Shot)
 
     ```
-    $ rundown -o etc/sample.html etc/sample.docx
-    $ rundown -o - - <etc/sample.docx >etc/sample.html
-    $ docker run -v .:/pwd engelschall/rundown -o /pwd/etc/sample.html /pwd/etc/sample.docx
-    $ docker run -i -v .:/pwd engelschall/rundown -o - - <etc/sample.docx >etc/sample.html
+    $ rundown -o rundown-doc/sample.html rundown-doc/sample.docx
+    $ rundown -o - - <rundown-doc/sample.docx >rundown-doc/sample.html
+    $ docker run -v .:/pwd engelschall/rundown -o /pwd/rundown-doc/sample.html /pwd/rundown-doc/sample.docx
+    $ docker run -i -v .:/pwd engelschall/rundown -o - - <rundown-doc/sample.docx >rundown-doc/sample.html
     ```
 
 - Rundown CLI (Server)
 
     ```
-    $ rundown -v info -m web ./etc
-    $ docker run -p 8888:8888 -v ./etc:/work engelschall/rundown -v info -m web /work
+    $ rundown -v info -m web ./rundown-doc
+    $ docker run -p 8888:8888 -v ./rundown-doc:/work engelschall/rundown -v info -m web /work
     ```
 
 - Rundown Web
@@ -141,7 +141,7 @@ The **Rundown** toolkit consists of the following parts:
 
 Those parts form an architecture which allows various use cases:
 
-![screenshot](doc/architecture.png)
+![screenshot](etc/architecture.png)
 
 License
 -------
