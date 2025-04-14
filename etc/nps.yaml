@@ -20,7 +20,7 @@ scripts:
     test1: >
         npm start lint build:cmd &&
         node dst-stage2/rundown.js \
-            -o ../rundown-doc/sample.html ../rundown-doc/sample.docx
+            -o ../rundown-doc/rundown-sample.html ../rundown-doc/rundown-sample.docx
     test2: >
         npm start lint build:cmd &&
         node dst-stage2/rundown.js -v info -a 127.0.0.1 -p 8888 -m web ../rundown-doc
