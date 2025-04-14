@@ -22,8 +22,14 @@
             </div>
             <div class="content-row">
                 <div class="content-left"
-                    v-on:click="downloadClick">
+                    v-on:click="downloadClick1">
                     <div class="info">Download <b>Rundown</b> template for editing by clicking.</div>
+                    <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
+                    <div class="icon2"><i class="fa fa-solid fa-arrow-down"></i></div>
+                </div>
+                <div class="content-middle"
+                    v-on:click="downloadClick2">
+                    <div class="info">Download <b>Rundown</b> sample for demonstration by clicking.</div>
                     <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
                     <div class="icon2"><i class="fa fa-solid fa-arrow-down"></i></div>
                 </div>
@@ -236,15 +242,18 @@
             flex-direction: row
             justify-content: center
             align-items: center
-            .content-left
+            .content-left,
+            .content-middle
                 margin-right: 4rem
             .content-left,
+            .content-middle,
             .content-right > div
                 display: flex
                 flex-direction: column
                 justify-content: flex-start
                 align-items: center
             .content-left,
+            .content-middle,
             .content-right
                 cursor: pointer
                 background-color: var(--color-std-bg-3)
@@ -353,6 +362,7 @@ import moment               from "moment"
 import Rundown              from "rundown-lib"
 import logo                 from "./app-logo.svg?url"
 import template             from "../../rundown-doc/rundown.docx?url"
+import sample               from "../../rundown-doc/sample.docx?url"
 </script>
 
 <script lang="ts">
@@ -439,10 +449,20 @@ export default defineComponent({
                 document.close()
             }
         },
-        downloadClick () {
+        downloadClick1 () {
             const link = document.createElement("a")
             link.href = template
             link.download = "rundown.docx"
+            document.body.appendChild(link)
+            link.click()
+            setTimeout(() => {
+                link.remove()
+            }, 1000)
+        },
+        downloadClick2 () {
+            const link = document.createElement("a")
+            link.href = sample
+            link.download = "sample.docx"
             document.body.appendChild(link)
             link.click()
             setTimeout(() => {
