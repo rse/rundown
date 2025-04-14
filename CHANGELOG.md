@@ -5,6 +5,7 @@ ChangeLog
 0.9.2 (2025-04-14)
 ------------------
 
+- IMPROVEMENT: move distribution assembly line into own folder
 - IMPROVEMENT: inline Rundown Web into Rundown CLI
 - IMPROVEMENT: provide also sample for downloading in Rundown Web UI
 - IMPROVEMENT: reduce Docker container image size

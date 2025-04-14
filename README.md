@@ -139,6 +139,7 @@ The **Rundown** toolkit consists of the following parts:
 - [rundown-lib: rendering library](rundown-lib/)
 - [rundown-cli: command-line interface](rundown-cli/)
 - [rundown-web: web interface](rundown-web/)
+- [rundown-dst: distribution assembly line](rundown-dst/)
 
 Those parts form an architecture which allows various use cases:
 
