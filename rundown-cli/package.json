@@ -45,7 +45,6 @@
     },
     "dependencies": {
         "cli-io":                       "0.9.13",
-        "get-stream":                   "9.0.1",
         "yargs":                        "17.7.2",
         "@hapi/hapi":                   "21.4.0",
         "@hapi/boom":                   "10.0.1",

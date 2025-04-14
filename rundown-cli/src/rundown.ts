@@ -7,6 +7,7 @@
 /*  external dependencies  */
 import fs                          from "node:fs"
 import path                        from "node:path"
+import streamConsumers             from "node:stream/consumers"
 import CLIio                       from "cli-io"
 import yargs                       from "yargs"
 import chokidar                    from "chokidar"
@@ -15,7 +16,6 @@ import * as HAPI                   from "@hapi/hapi"
 import Inert                       from "@hapi/inert"
 import HAPIWebSocket               from "hapi-plugin-websocket"
 import HAPITraffic                 from "hapi-plugin-traffic"
-import * as getStream              from "get-stream"
 import Rundown                     from "rundown-lib"
 
 /*  internal dependencies  */
@@ -87,11 +87,12 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
     const convertDocument = async (inputFile: string, outputFile: string) => {
         /*  read input file  */
         cli.log("info", `reading input "${inputFile}"`)
-        let input: ArrayBuffer | Buffer
+        let input: Buffer
         if (inputFile === "-")
-            input = await getStream.getStreamAsArrayBuffer(process.stdin)
+            input = await streamConsumers.buffer(process.stdin)
         else
             input = await fs.promises.readFile(inputFile, { encoding: null })
+        console.log(input)
 
         /*  convert DOCX to HTML  */
         const rundown = new Rundown()
