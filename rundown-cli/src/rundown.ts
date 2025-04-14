@@ -6,17 +6,22 @@
 
 /*  external dependencies  */
 import fs                          from "node:fs"
-import path                        from "node:path"
 import streamConsumers             from "node:stream/consumers"
 import CLIio                       from "cli-io"
 import yargs                       from "yargs"
 import chokidar                    from "chokidar"
 import tmp                         from "tmp"
 import * as HAPI                   from "@hapi/hapi"
+import Boom                        from "@hapi/boom"
 import Inert                       from "@hapi/inert"
 import HAPIWebSocket               from "hapi-plugin-websocket"
 import HAPITraffic                 from "hapi-plugin-traffic"
+import yauzl                       from "yauzl"
+import mimeTypes                   from "mime-types"
+
+/*  internal dependencies  */
 import Rundown                     from "rundown-lib"
+import RundownWeb                  from "../../rundown-web/dst-stage2/rundown.zip?arraybuffer"
 
 /*  internal dependencies  */
 // @ts-ignore
@@ -345,16 +350,53 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         /*  establish REST/WebSocket service  */
         const server = await establishServer(args.httpAddr!, args.httpPort!)
 
+        /*  parse the entire ZIP file  */
+        cli.log("info", "loading Rundown Web into memory")
+        const data = new Map<string, { type: string, content: Buffer }>()
+        await new Promise<void>((resolve, reject) => {
+            yauzl.fromBuffer(Buffer.from(RundownWeb), { lazyEntries: true }, (err, zipfile) => {
+                if (err)
+                    reject(err)
+                else {
+                    zipfile.on("error", (err) => {
+                        reject(err)
+                    })
+                    zipfile.on("end", () => {
+                        resolve()
+                    })
+                    zipfile.on("entry", async (entry) => {
+                        zipfile.openReadStream(entry, async (err, readStream) => {
+                            if (err)
+                                reject(err)
+                            const type    = mimeTypes.lookup(entry.fileName) || "application/octet-stream"
+                            const content = await streamConsumers.buffer(readStream)
+                            data.set(entry.fileName, { type, content })
+                            cli.log("info", `loaded Rundown Web file: "${entry.fileName}" (${type})`)
+                            zipfile.readEntry()
+                        })
+                    })
+                    zipfile.readEntry()
+                }
+            })
+        })
+
         /*  serve HTML content  */
         server.route({
             method: "GET",
-            path: "/{param*}",
-            handler: {
-                directory: {
-                    path: path.join(__dirname, "../../rundown-web/dst"),
-                    redirectToSlash: true,
-                    index: true
-                }
+            path: "/{filename*}",
+            handler: async (req: HAPI.Request, h: HAPI.ResponseToolkit) => {
+                /*  determine path  */
+                let filename = req.params.filename
+                if (filename === "")
+                    filename = "index.html"
+
+                /*  lookup data entry  */
+                const entry = data.get(filename)
+                if (entry === undefined)
+                    return Boom.notFound(`no such file: ${filename}`)
+
+                /*  send data entry as response  */
+                return h.response(entry.content).type(entry.type)
             }
         })
 

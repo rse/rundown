@@ -13,7 +13,7 @@
         "lib":                     [ "ESNext" ],
         "skipLibCheck":            true,
         "noEmit":                  false,
-        "types":                   [ "node" ],
+        "types":                   [ "vite/client", "node", "vite-plugin-arraybuffer/types" ],
         "rootDir":                 "../src"
     },
 	"include": [

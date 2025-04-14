@@ -6,8 +6,8 @@
 
 import * as Vite          from "vite"
 import { tscPlugin }      from "@wroud/vite-plugin-tsc"
-
-import nodeExternals from "rollup-plugin-node-externals"
+import nodeExternals      from "rollup-plugin-node-externals"
+import arraybuffer        from "vite-plugin-arraybuffer"
 
 export default Vite.defineConfig(({ command, mode }) => ({
     logLevel: "info",
@@ -15,6 +15,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
     base: "",
     root: "",
     plugins: [
+        arraybuffer(),
         tscPlugin({
             tscArgs: [ "--project", "etc/tsc.json" ],
             packageManager: "npx" as "npm",
@@ -41,6 +42,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
         },
         target:                 "esnext",
         outDir:                 "dst-stage2",
+        assetsDir:              "",
         emptyOutDir:            (mode === "production"),
         chunkSizeWarningLimit:  5000,
         assetsInlineLimit:      0,

@@ -28,6 +28,7 @@
         "vite":                         "6.2.6",
         "vite-plugin-node-polyfills":   "0.23.0",
         "vite-plugin-static-copy":      "2.3.1",
+        "vite-plugin-arraybuffer":      "0.1.0",
         "@liuli-util/vite-plugin-node": "0.9.0",
         "@wroud/vite-plugin-tsc":       "0.11.6",
         "rollup-plugin-node-externals": "8.0.0",
@@ -46,6 +47,8 @@
     "dependencies": {
         "cli-io":                       "0.9.13",
         "yargs":                        "17.7.2",
+        "yauzl":                        "3.2.0",
+        "mime-types":                   "3.0.1",
         "@hapi/hapi":                   "21.4.0",
         "@hapi/boom":                   "10.0.1",
         "@hapi/inert":                  "7.1.0",
@@ -60,6 +63,8 @@
         "@types/yargs":                 "17.0.33",
         "@types/ws":                    "8.18.1",
         "@types/tmp":                   "0.2.6",
+        "@types/yauzl":                 "2.10.3",
+        "@types/mime-types":            "2.1.4",
 
         "rundown-lib":                  "file:../rundown-lib",
         "rundown-web":                  "file:../rundown-web"
