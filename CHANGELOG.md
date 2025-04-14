@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - IMPROVEMENT: simplify Docker container image generation
+- IMPROVEMENT: automate Github release creation
 - CLEANUP: various source tree cleanups
 
 0.9.2 (2025-04-14)
