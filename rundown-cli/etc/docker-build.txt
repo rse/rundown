@@ -70,7 +70,12 @@ WORKDIR     /app
 ENV         HOME=/app
 
 #   install application
-COPY        --from=stage1 /app /app
+COPY        --from=stage1 /app/rundown-lib/package.json /app/rundown-lib/package.json
+COPY        --from=stage1 /app/rundown-lib/dst-stage2   /app/rundown-lib/dst-stage2
+COPY        --from=stage1 /app/rundown-web/package.json /app/rundown-web/package.json
+COPY        --from=stage1 /app/rundown-web/dst          /app/rundown-web/dst
+COPY        --from=stage1 /app/rundown-cli/package.json /app/rundown-cli/package.json
+COPY        --from=stage1 /app/rundown-cli/dst-stage2   /app/rundown-cli/dst-stage2
 
 #   cleanup Alpine
 RUN         rm -rf /var/cache/apk/*

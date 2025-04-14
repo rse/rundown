@@ -351,7 +351,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             path: "/{param*}",
             handler: {
                 directory: {
-                    path: path.join(__dirname, "../node_modules/rundown-web/dst"),
+                    path: path.join(__dirname, "../../rundown-web/dst"),
                     redirectToSlash: true,
                     index: true
                 }
