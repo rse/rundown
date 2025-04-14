@@ -17,15 +17,15 @@ scripts:
         npm --prefix rundown-cli start build &&
         npm --prefix rundown-dst start build
 
-    test1: >
-        npm start lint build:cmd &&
-        node dst-stage2/rundown.js \
-            -o ../rundown-doc/rundown-sample.html ../rundown-doc/rundown-sample.docx
-    test2: >
-        npm start lint build:cmd &&
-        node dst-stage2/rundown.js -v info -a 127.0.0.1 -p 8888 -m web ../rundown-doc
-    test3: >
-        serve -l 8888 ../rundown-doc/
+    rundown-cmd: >
+        node --no-warnings rundown-cli/dst-stage2/rundown.js \
+            -o rundown-doc/rundown-sample.html rundown-doc/rundown-sample.docx
+    rundown-web: >
+        node --no-warnings rundown-cli/dst-stage2/rundown.js \
+            -v info -a 127.0.0.1 -p 8888 -m web rundown-doc
+    rundown-web-ui: >
+        node --no-warnings rundown-cli/dst-stage2/rundown.js \
+            -v info -a 127.0.0.1 -p 8888 -m web-ui
 
     publish: >
         npm --prefix rundown-dst start publish

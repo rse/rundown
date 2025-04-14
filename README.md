@@ -26,12 +26,12 @@ Impressions
 The following is a side-by-side view of the Microsoft Word input on the left and
 the rendered teleprompter view on the right:
 
-![screenshot](etc/screenshot.png)
+![screenshot](rundown-doc/rundown-screenshot-1.png)
 
 The following is a view of the web user interface, showing the supported keystrokes 
 for controlling the scrolling of the rendered teleprompter view:
 
-![screenshot](etc/screenshot-web-2.png)
+![screenshot](rundown-doc/rundown-screenshot-2.png)
 
 Installation
 ------------
@@ -40,7 +40,6 @@ Installation
 $ git clone https://github.com/rse/rundown
 $ npm install
 $ npm start build
-$ npm start docker:build
 ```
 
 Usage
@@ -143,7 +142,7 @@ The **Rundown** toolkit consists of the following parts:
 
 Those parts form an architecture which allows various use cases:
 
-![screenshot](etc/architecture.png)
+![screenshot](rundown-doc/rundown-architecture.png)
 
 License
 -------
