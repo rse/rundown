@@ -5,7 +5,8 @@
 ##
 
 scripts:
-    build:                npm start archive:build docker:build
+    build:                npm start archive:build   docker:build
+    publish:              npm start archive:publish docker:publish
 
     "archive:build": >
                           VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
@@ -30,6 +31,17 @@ scripts:
                           zip -9 -r ../dst-stage2/rundown-$VERSION-mac-x64.zip rundown-$VERSION-mac-x64/ &&
                           zip -9 -r ../dst-stage2/rundown-$VERSION-lnx-x64.zip rundown-$VERSION-lnx-x64/
 
+    "archive:publish": >
+                          VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
+                          gh release create \
+                              --title "Rundown $VERSION" \
+                              --verify-tag \
+                              $VERSION \
+                              dst-stage2/rundown-$VERSION.zip \
+                              dst-stage2/rundown-$VERSION-win-x64.zip \
+                              dst-stage2/rundown-$VERSION-mac-x64.zip \
+                              dst-stage2/rundown-$VERSION-lnx-x64.zip
+
     "docker:build": >
                           mkdir -p dst-stage1 &&
                           cp -p ../rundown-cli/dst-stage2/rundown.js dst-stage1/ &&
@@ -53,6 +65,7 @@ scripts:
                           docker push "$IMAGE_NAME:$IMAGE_VERSION-$IMAGE_RELEASE" &&
                           docker push "$IMAGE_NAME:$IMAGE_VERSION" &&
                           docker push "$IMAGE_NAME:latest"
+
     "docker:up": >
                           docker compose -f etc/docker-compose.yaml up -d
     "docker:down":  >
