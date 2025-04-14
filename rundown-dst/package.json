@@ -1,0 +1,23 @@
+{
+    "private":         true,
+    "name":            "rundown-dst",
+    "description":     "Generate Rundown Scripts for Teleprompting",
+    "keywords":        [ "rundown", "cue", "prompter" ],
+    "homepage":        "http://github.com/rse/rundown",
+    "repository":      { "url": "git+https://github.com/rse/rundown.git", "type": "git" },
+    "bugs":            { "url": "http://github.com/rse/rundown/issues" },
+    "version":         "0.9.1",
+    "license":         "GPL-3.0-only",
+    "author": {
+        "name":        "Dr. Ralf S. Engelschall",
+        "email":       "rse@engelschall.com",
+        "url":         "http://engelschall.com"
+    },
+    "devDependencies": {
+        "nps":         "5.10.0",
+        "shx":         "0.4.0"
+    },
+    "scripts": {
+        "start":       "nps -c etc/nps.yaml"
+    }
+}

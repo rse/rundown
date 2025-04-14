@@ -1,0 +1,38 @@
+##
+##  Rundown - Generate Rundown Scripts for Teleprompting
+##  Copyright (c) 2023-2025 Dr. Ralf S. Engelschall <rse@engelschall.com>
+##  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
+##
+
+scripts:
+    build:                npm start archive:build docker:build
+
+    archive:build: >
+                          VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
+                          rm -rf dst &&
+                          mkdir -p dst/rundown-$VERSION/ &&
+                          mkdir -p dst/rundown-$VERSION-win-x64/ &&
+                          mkdir -p dst/rundown-$VERSION-mac-x64/ &&
+                          mkdir -p dst/rundown-$VERSION-lnx-x64/ &&
+                          cp -p ../rundown-doc/rundown-*.docx dst/rundown-$VERSION/ &&
+                          cp -p ../rundown-doc/rundown-*.docx dst/rundown-$VERSION-win-x64/ &&
+                          cp -p ../rundown-doc/rundown-*.docx dst/rundown-$VERSION-mac-x64/ &&
+                          cp -p ../rundown-doc/rundown-*.docx dst/rundown-$VERSION-lnx-x64/ &&
+                          cp -p ../rundown-cli/dst-stage2/rundown.js              dst/rundown-$VERSION/rundown-cli.js &&
+                          cp -p ../rundown-cli/dst-stage3/rundown-cli-win-x64.exe dst/rundown-$VERSION-win-x64/rundown-cli.exe &&
+                          cp -p ../rundown-cli/dst-stage3/rundown-cli-mac-x64     dst/rundown-$VERSION-mac-x64/rundown-cli &&
+                          cp -p ../rundown-cli/dst-stage3/rundown-cli-lnx-x64     dst/rundown-$VERSION-lnx-x64/rundown-cli &&
+                          cd dst &&
+                          zip -9 -r rundown-$VERSION.zip         rundown-$VERSION/ &&
+                          zip -9 -r rundown-$VERSION-win-x64.zip rundown-$VERSION-win-x64/ &&
+                          zip -9 -r rundown-$VERSION-mac-x64.zip rundown-$VERSION-mac-x64/ &&
+                          zip -9 -r rundown-$VERSION-lnx-x64.zip rundown-$VERSION-lnx-x64/
+
+    docker:build:         make -f etc/docker-build.make FORCE=yes
+    docker:up:            make -f etc/docker-build.make up
+    docker:down:          make -f etc/docker-build.make down
+    docker:publish:       make -f etc/docker-build.make push
+
+    clean:                shx rm -rf dst-stage1 dst-stage2 dst-stage3
+    clean-dist:           npm start clean && shx rm -rf node_modules
+
