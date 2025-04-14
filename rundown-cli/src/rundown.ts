@@ -159,11 +159,13 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         if (args._.length !== 1)
             throw new Error("missing input file")
         const inputPath = args._[0] as string
-        const stats = await fs.promises.stat(inputPath).catch(() => {
-            throw new Error(`input path not found: ${inputPath}`)
-        })
-        if (stats.isDirectory())
-            throw new Error(`input path is a directory: ${inputPath}`)
+        if (inputPath !== "-") {
+            const stats = await fs.promises.stat(inputPath).catch(() => {
+                throw new Error(`input path not found: ${inputPath}`)
+            })
+            if (stats.isDirectory())
+                throw new Error(`input path is a directory: ${inputPath}`)
+        }
 
         /*  one-shot conversion  */
         await convertDocument(inputPath, args.output!)
@@ -178,6 +180,8 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         if (args._.length !== 1)
             throw new Error("missing input file or directory")
         const inputPath = args._[0] as string
+        if (inputPath === "-")
+            throw new Error("web operation mode does not support stdin as input")
         await fs.promises.stat(inputPath).catch(() => {
             throw new Error(`input path not found: ${inputPath}`)
         })
