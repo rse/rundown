@@ -352,7 +352,7 @@ import { defineComponent }  from "vue"
 import moment               from "moment"
 import Rundown              from "rundown-lib"
 import logo                 from "./app-logo.svg?url"
-import template             from "../../etc/sample.docx?url"
+import template             from "../../rundown-doc/rundown.docx?url"
 </script>
 
 <script lang="ts">
@@ -442,7 +442,7 @@ export default defineComponent({
         downloadClick () {
             const link = document.createElement("a")
             link.href = template
-            link.download = "template.docx"
+            link.download = "rundown.docx"
             document.body.appendChild(link)
             link.click()
             setTimeout(() => {
