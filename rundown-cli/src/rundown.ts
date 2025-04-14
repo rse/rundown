@@ -15,6 +15,7 @@ import * as HAPI                   from "@hapi/hapi"
 import Inert                       from "@hapi/inert"
 import HAPIWebSocket               from "hapi-plugin-websocket"
 import HAPITraffic                 from "hapi-plugin-traffic"
+import * as getStream              from "get-stream"
 import Rundown                     from "rundown-lib"
 
 /*  internal dependencies  */
@@ -86,7 +87,11 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
     const convertDocument = async (inputFile: string, outputFile: string) => {
         /*  read input file  */
         cli.log("info", `reading input "${inputFile}"`)
-        const input = await cli.input(inputFile, { encoding: null })
+        let input: ArrayBuffer | Buffer
+        if (inputFile === "-")
+            input = await getStream.getStreamAsArrayBuffer(process.stdin)
+        else
+            input = await fs.promises.readFile(inputFile, { encoding: null })
 
         /*  convert DOCX to HTML  */
         const rundown = new Rundown()
@@ -100,7 +105,19 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
         /*  write output  */
         cli.log("info", `writing output "${outputFile}"`)
-        await cli.output(outputFile, output)
+        if (outputFile === "-") {
+            await new Promise<void>((resolve, reject) => {
+                process.stdout.write(output, (err) => {
+                    if (err) reject(err)
+                    else     resolve()
+                })
+            })
+        }
+        else {
+            await fs.promises.writeFile(outputFile, output, {
+                encoding: null, mode: 0o666, flag: "w"
+            })
+        }
     }
 
     /*  establish REST/WebSocket service  */
