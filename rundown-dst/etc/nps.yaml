@@ -21,6 +21,10 @@ scripts:
                           cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-win-x64/ &&
                           cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-mac-x64/ &&
                           cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-lnx-x64/ &&
+                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION/rundown-web.zip &&
+                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-win-x64/rundown-web.zip &&
+                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-mac-x64/rundown-web.zip &&
+                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-lnx-x64/rundown-web.zip &&
                           cp -p ../rundown-cli/dst-stage2/rundown.js              dst-stage1/rundown-$VERSION/rundown-cli.js &&
                           cp -p ../rundown-cli/dst-stage3/rundown-cli-win-x64.exe dst-stage1/rundown-$VERSION-win-x64/rundown-cli.exe &&
                           cp -p ../rundown-cli/dst-stage3/rundown-cli-mac-x64     dst-stage1/rundown-$VERSION-mac-x64/rundown-cli &&

@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+0.9.4 (2025-04-15)
+------------------
+
+- CLEANUP: also provide rundown-web.zip in distribution archives
+
 0.9.3 (2025-04-14)
 ------------------
 
