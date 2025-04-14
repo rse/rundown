@@ -1,63 +1,10 @@
-##
-##  Dockerfile -- Docker Build Configuration
-##
-
-#   build arguments (early)
-ARG         IMAGE_PREFIX=engelschall/
-ARG         IMAGE_NAME=rundown
-ARG         IMAGE_VERSION=0.0.0
-ARG         IMAGE_RELEASE=00000000
-ARG         IMAGE_ALIAS=latest
-
-#   ==== STAGE 1 ====
-
-#   derive image from a certain base image
-FROM        node:22-alpine3.21 AS stage1
-
-#   update Alpine and add additional tools
-RUN         apk update && \
-            apk upgrade && \
-            apk add bash python3 make gcc g++ binutils git
-
-#   establish application area and user/group
-RUN         mkdir -p /app && \
-            apk add --no-cache --virtual .deps1 shadow && \
-            groupadd -g 2000 app && \
-            useradd -u 2000 -g app -d /app -m -s /bin/bash -p '!' -l app && \
-            apk del .deps1 && \
-            chown -R app:app /app
-WORKDIR     /app
-ENV         HOME=/app
-
-#   prepare build environment
-ARG         GIT_BRANCH=main
-ARG         GIT_TAG=HEAD
-RUN         apk add --no-cache --virtual .deps2 git
-USER        app:app
-RUN         git clone https://github.com/rse/rundown /app
-RUN         npm config set save=false loglevel=warn
-
-#   install dependencies
-RUN         npm install
-RUN         npm start build
-RUN         npm start prune
-
-#   cleanup build environment   
-USER        root:root
-RUN         apk del .deps2
-
-#   cleanup Alpine
-RUN         rm -rf /var/cache/apk/*
-
-#   ==== STAGE 2 ====
 
 #   derive image from a certain base image
 FROM        node:22-alpine3.21
 
 #   update Alpine and add additional tools
 RUN         apk update && \
-            apk upgrade && \
-            apk add bash su-exec
+            apk upgrade
 
 #   establish application area and user/group
 RUN         mkdir -p /app && \
@@ -70,7 +17,7 @@ WORKDIR     /app
 ENV         HOME=/app
 
 #   install application
-COPY        --from=stage1 /app/rundown-cli/dst-stage2/rundown.js /app/
+COPY        dst/rundown.js /app/
 
 #   cleanup Alpine
 RUN         rm -rf /var/cache/apk/*

@@ -7,8 +7,9 @@
 scripts:
     build:                npm start archive:build docker:build
 
-    archive:build: >
+    "archive:build": >
                           VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
+                          echo "++ building distribution archives for Rundown $VERSION ++" &&
                           rm -rf dst &&
                           mkdir -p dst/rundown-$VERSION/ &&
                           mkdir -p dst/rundown-$VERSION-win-x64/ &&
@@ -28,10 +29,33 @@ scripts:
                           zip -9 -r rundown-$VERSION-mac-x64.zip rundown-$VERSION-mac-x64/ &&
                           zip -9 -r rundown-$VERSION-lnx-x64.zip rundown-$VERSION-lnx-x64/
 
-    docker:build:         make -f etc/docker-build.make FORCE=yes
-    docker:up:            make -f etc/docker-build.make up
-    docker:down:          make -f etc/docker-build.make down
-    docker:publish:       make -f etc/docker-build.make push
+    "docker:build": >
+                          mkdir -p dst &&
+                          cp -p ../rundown-cli/dst-stage2/rundown.js dst/ &&
+                          IMAGE_NAME=engelschall/rundown &&
+                          IMAGE_VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
+                          IMAGE_RELEASE=`date "+%Y%m%d"` &&
+                          echo "++ building Docker container image for Rundown $IMAGE_VERSION ($IMAGE_RELEASE) ++" &&
+                          docker buildx build \
+                              --pull --no-cache --progress plain \
+                              -t "$IMAGE_NAME:$IMAGE_VERSION-$IMAGE_RELEASE" \
+                              -t "$IMAGE_NAME:$IMAGE_VERSION" \
+                              -t "$IMAGE_NAME:latest" \
+                              -f etc/docker-build.txt . &&
+                          docker image ls "$IMAGE_NAME:$IMAGE_VERSION-$IMAGE_RELEASE"
+
+    "docker:publish": >
+                          IMAGE_NAME=engelschall/rundown &&
+                          IMAGE_VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
+                          IMAGE_RELEASE=`date "+%Y%m%d"` &&
+                          echo "++ publishing Docker container image for Rundown $IMAGE_VERSION ($IMAGE_RELEASE) ++" &&
+                          docker push "$IMAGE_NAME:$IMAGE_VERSION-$IMAGE_RELEASE" &&
+                          docker push "$IMAGE_NAME:$IMAGE_VERSION" &&
+                          docker push "$IMAGE_NAME:latest"
+    "docker:up": >
+                          docker compose -f etc/docker-compose.yaml up -d
+    "docker:down":  >
+                          docker compose -f etc/docker-compose.yaml down
 
     clean:                shx rm -rf dst-stage1 dst-stage2 dst-stage3
     clean-dist:           npm start clean && shx rm -rf node_modules

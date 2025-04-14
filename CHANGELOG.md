@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+0.9.3 (2025-04-14)
+------------------
+
+- IMPROVEMENT: simplify Docker container image generation
+
 0.9.2 (2025-04-14)
 ------------------
 
