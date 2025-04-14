@@ -19,7 +19,7 @@ IMAGE_CONFIG = \
 #   (re)build a container image
 MAKEFILE ?= Makefile
 DOCKER_FILE ?= Dockerfile
-DOCKER_BUILD_FLAGS ?= --pull --progress plain
+DOCKER_BUILD_FLAGS ?= --pull --no-cache --progress plain
 build:
 	@if [ ".$(FORCE)" = .yes ]; then rm -f .built; fi
 	@$(MAKE) $(MFLAGS) -f $(MAKEFILE) .built
