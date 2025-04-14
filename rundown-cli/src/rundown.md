@@ -8,7 +8,10 @@
 \[`-V`|`--version`\]
 \[`-e`|`--extract` *css-selector-chain*\]
 \[`-o`|`--output` *output-file*|`-`]
-*input-file*|`-`
+\[`-a`|`--http-addr` *ip-address*\]
+\[`-p`|`--http-port` *tcp-port*\]
+\[`-m`|`--mode` `cmd`|`web`|`web-ui`\]
+\[*input-file*|`-`|*input-directory*\]
 
 ## DESCRIPTION
 
@@ -41,25 +44,13 @@ The following command-line options and arguments exist:
 - \[`-p`|`--http-port` *tcp-port*\]:
   Listen on *tcp-port* for serving the result.
 
-- *input-file*|`-`
+- \[`-m`|`--mode` `cmd`|`web`|`web-ui`\]:
+  Select the operation mode, `cmd` (default) for the CLI based
+  one-shot rendering, `web` for the Web-based continuous rendering,
+  and `web-ui` for the Web user interface for interactive rendering.
+
+- \[*input-file*|`-`|*input-directory*\]
   Read the input from a file or `stdin`.
-
-## EXAMPLES
-
-The following are examples of using `rundown`(1):
-
-- read DOCX file and generate script for *QPrompt*:
-
-    ```sh
-    $ rundown -o sample.html sample.docx
-    ```
-
-- read DOCX file, extract text from last column (of all rows, except the
-  heading one) of the last table, and generate the output:
-
-    ```sh
-    $ rundown -e "table:last tr:gt(0) td:last" -o sample.html sample.docx
-    ```
 
 ## HISTORY
 
