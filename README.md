@@ -40,6 +40,7 @@ Installation
 $ git clone https://github.com/rse/rundown
 $ npm install
 $ npm start build
+$ npm start docker:build
 ```
 
 Usage
@@ -49,20 +50,23 @@ Usage
 
     ```
     $ rundown -o etc/sample.html etc/sample.docx
+    $ rundown -o - - <etc/sample.docx >etc/sample.html
+    $ docker run -v .:/pwd engelschall/rundown -o /pwd/etc/sample.html /pwd/etc/sample.docx
+    $ docker run -i -v .:/pwd engelschall/rundown -o - - <etc/sample.docx >etc/sample.html
     ```
 
 - Rundown CLI (Server)
 
     ```
-    $ rundown -a 127.0.0.1 -p 8888 ./etc
-    $ open http://127.0.0.1:8888
+    $ rundown -v info -m web ./etc
+    $ docker run -p 8888:8888 -v ./etc:/work engelschall/rundown -v info -m web /work
     ```
 
 - Rundown Web
 
     ```
-    $ npx serve -l 8888 rundown-web/dst/
-    $ open http://127.0.0.1:8888
+    $ rundown -v info -m web-ui
+    $ docker run -p 8888:8888 engelschall/rundown -v info -m web-ui
     ```
 
 Design Criterias
