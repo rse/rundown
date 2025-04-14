@@ -135,7 +135,8 @@ Architecture
 
 The **Rundown** toolkit consists of the following parts:
 
-- [rundown-lib: base functionality](rundown-lib/)
+- [rundown-doc: input documents](rundown-doc/)
+- [rundown-lib: rendering library](rundown-lib/)
 - [rundown-cli: command-line interface](rundown-cli/)
 - [rundown-web: web interface](rundown-web/)
 
