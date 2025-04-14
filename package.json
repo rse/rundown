@@ -19,6 +19,6 @@
     "scripts": {
         "postinstall": "nps -c etc/nps.yaml post-install",
         "start":       "nps -c etc/nps.yaml",
-        "rundown-cli": "node --no-warnings rundown-cli/dst-stage2/rundown.js"
+        "rundown":     "node --no-warnings rundown-cli/dst-stage2/rundown.js"
     }
 }

@@ -45,27 +45,46 @@ $ npm start build
 Usage
 -----
 
-- Rundown CLI (One-Shot)
+- CMD Mode (One-Shot Conversion)
 
     ```
-    $ rundown -o rundown-doc/sample.html rundown-doc/sample.docx
-    $ rundown -o - - <rundown-doc/sample.docx >rundown-doc/sample.html
-    $ docker run -v .:/pwd engelschall/rundown -o /pwd/rundown-doc/sample.html /pwd/rundown-doc/sample.docx
-    $ docker run -i -v .:/pwd engelschall/rundown -o - - <rundown-doc/sample.docx >rundown-doc/sample.html
+    # with Rundown source tree
+    $ npm run rundown -o      rundown-doc/rundown-sample.html  rundown-doc/rundown-sample.docx
+    $ npm run rundown -o - - >rundown-doc/rundown-sample.html <rundown-doc/rundown-sample.docx
+
+    # with Rundown archive distribution
+    $ rundown-cli -o      rundown-sample.html  rundown-sample.docx
+    $ rundown-cli -o - - >rundown-sample.html <rundown-sample.docx
+
+    # with Rundown Docker distribution
+    $ docker run -v .:/work engelschall/rundown -o     /work/rundown-sample.html /work/rundown-sample.docx
+    $ docker run -i         engelschall/rundown -o - -      >rundown-sample.html      <rundown-sample.docx
     ```
 
-- Rundown CLI (Server)
+- WEB Mode (Continuous Conversion)
 
     ```
-    $ rundown -v info -m web ./rundown-doc
-    $ docker run -p 8888:8888 -v ./rundown-doc:/work engelschall/rundown -v info -m web /work
+    # with Rundown source tree
+    $ npm run rundown -v info -a 127.0.0.1 -p 8888 -m web ./rundown-doc
+
+    # with Rundown archive distribution
+    $ rundown-cli -v info -a 127.0.0.1 -p 8888 -m web .
+
+    # with Rundown Docker distribution
+    $ docker run -p 8888:8888 -v .:/work engelschall/rundown -v info -p 8888 -m web /work
     ```
 
-- Rundown Web
+- WEB-UI Mode (Interactive Conversion)
 
     ```
-    $ rundown -v info -m web-ui
-    $ docker run -p 8888:8888 engelschall/rundown -v info -m web-ui
+    # with Rundown source tree
+    $ npm run rundown -v info -a 127.0.0.1 -p 8888 -m web-ui
+
+    # with Rundown archive distribution
+    $ rundown-cli -v info -a 127.0.0.1 -p 8888 -m web-ui
+
+    # with Rundown Docker distribution
+    $ docker run -p 8888:8888 engelschall/rundown -v info -o 8888 -m web-ui
     ```
 
 Design Criterias
