@@ -52,13 +52,13 @@ export default Vite.defineConfig(({ command, mode }) => ({
             input: "src/index.html",
             output: {
                 entryFileNames: "[name].js",
-                chunkFileNames: "[name]-[hash:8].js",
+                chunkFileNames: "[name].js",
                 assetFileNames: (assetInfo) => {
-                    let spec = "[name]-[hash:8].[ext]"
-                    if (assetInfo.names[0] === "sample.docx")
-                        spec = "template.docx"
-                    else if (assetInfo.names[0] === "index.yaml")
-                        spec = "index.yaml"
+                    let spec = "[name].[ext]"
+                    if (assetInfo.names[0] === "rundown.docx")
+                        spec = "rundown.docx"
+                    else if (assetInfo.names[0].match(/\.(?:ttf|woff2?|eot)$/))
+                        spec = `app-font-${assetInfo.names[0]}`
                     return spec
                 }
             },
