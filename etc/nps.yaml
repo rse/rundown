@@ -8,25 +8,37 @@ scripts:
     post-install: >
         npm --prefix rundown-lib install &&
         npm --prefix rundown-web install &&
-        npm --prefix rundown-cli install
+        npm --prefix rundown-cli install &&
+        npm --prefix rundown-dst install
 
     build: >
         npm --prefix rundown-lib start build &&
         npm --prefix rundown-web start build &&
-        npm --prefix rundown-cli start build
+        npm --prefix rundown-cli start build &&
+        npm --prefix rundown-dst start build
 
-    prune: >
-        npm --prefix rundown-lib start prune &&
-        npm --prefix rundown-web start prune &&
-        npm --prefix rundown-cli start prune
+    test1: >
+        npm start lint build:cmd &&
+        node dst-stage2/rundown.js \
+            -o ../rundown-doc/sample.html ../rundown-doc/sample.docx
+    test2: >
+        npm start lint build:cmd &&
+        node dst-stage2/rundown.js -v info -a 127.0.0.1 -p 8888 -m web ../rundown-doc
+    test3: >
+        serve -l 8888 ../rundown-doc/
+
+    publish: >
+        npm --prefix rundown-dst start publish
 
     clean: >
         npm --prefix rundown-lib start clean &&
         npm --prefix rundown-web start clean &&
-        npm --prefix rundown-cli start clean
+        npm --prefix rundown-cli start clean &&
+        npm --prefix rundown-dst start clean
 
     clean-dist: >
         npm --prefix rundown-lib start clean-dist &&
         npm --prefix rundown-web start clean-dist &&
-        npm --prefix rundown-cli start clean-dist
+        npm --prefix rundown-cli start clean-dist &&
+        npm --prefix rundown-dst start clean-dist
 

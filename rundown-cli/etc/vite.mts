@@ -47,7 +47,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
         chunkSizeWarningLimit:  5000,
         assetsInlineLimit:      0,
         sourcemap:              (mode === "development"),
-        minify:                 false,
+        minify:                 true,
         reportCompressedSize:   (mode === "production"),
         rollupOptions: {
             onwarn (warning, warn) {

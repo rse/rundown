@@ -325,8 +325,8 @@ import { defineComponent }  from "vue"
 import moment               from "moment"
 import Rundown              from "rundown-lib"
 import logo                 from "./app-logo.svg?url"
-import template             from "../../rundown-doc/rundown.docx?url"
-import sample               from "../../rundown-doc/sample.docx?url"
+import template             from "../../rundown-doc/rundown-template.docx?url"
+import sample               from "../../rundown-doc/rundown-sample.docx?url"
 </script>
 
 <script lang="ts">
@@ -416,7 +416,7 @@ export default defineComponent({
         downloadClick1 () {
             const link = document.createElement("a")
             link.href = template
-            link.download = "rundown.docx"
+            link.download = "rundown-template.docx"
             document.body.appendChild(link)
             link.click()
             setTimeout(() => {
@@ -426,7 +426,7 @@ export default defineComponent({
         downloadClick2 () {
             const link = document.createElement("a")
             link.href = sample
-            link.download = "sample.docx"
+            link.download = "rundown-sample.docx"
             document.body.appendChild(link)
             link.click()
             setTimeout(() => {
