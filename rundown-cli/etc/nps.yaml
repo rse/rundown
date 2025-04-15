@@ -23,12 +23,6 @@ scripts:
                           shx mv rundown-cli-win.exe dst-stage3/rundown-cli-win-x64.exe &&
                           shx mv rundown-cli-macos   dst-stage3/rundown-cli-mac-x64
 
-    #   Docker container handling
-    docker:build:         make -f etc/docker-build.make FORCE=yes
-    docker:up:            make -f etc/docker-build.make up
-    docker:down:          make -f etc/docker-build.make down
-    docker:push:          make -f etc/docker-build.make push
-
     #   testing
     test1: >
                           npm start lint build:cmd &&
