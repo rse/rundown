@@ -1,17 +1,17 @@
 {
-    "private":         true,
-    "name":            "rundown",
-    "description":     "Render Rundown Scripts for Teleprompting",
-    "keywords":        [ "rundown", "cue", "prompter" ],
-    "homepage":        "http://github.com/rse/rundown",
-    "repository":      { "url": "git+https://github.com/rse/rundown.git", "type": "git" },
-    "bugs":            { "url": "http://github.com/rse/rundown/issues" },
-    "version":         "1.0.0",
-    "license":         "GPL-3.0-only",
+    "private":          true,
+    "name":             "rundown",
+    "description":      "Render Rundown Scripts for Teleprompting",
+    "keywords":         [ "rundown", "cue", "prompter" ],
+    "homepage":         "http://github.com/rse/rundown",
+    "repository":       { "url": "git+https://github.com/rse/rundown.git", "type": "git" },
+    "bugs":             { "url": "http://github.com/rse/rundown/issues" },
+    "version":          "1.0.0",
+    "license":          "GPL-3.0-only",
     "author": {
-        "name":        "Dr. Ralf S. Engelschall",
-        "email":       "rse@engelschall.com",
-        "url":         "http://engelschall.com"
+        "name":         "Dr. Ralf S. Engelschall",
+        "email":        "rse@engelschall.com",
+        "url":          "http://engelschall.com"
     },
     "devDependencies": {
         "nps":          "5.10.0",
@@ -22,8 +22,8 @@
         "cross-env":    "7.0.3"
     },
     "scripts": {
-        "postinstall": "nps -c etc/nps.yaml post-install",
-        "start":       "nps -c etc/nps.yaml",
-        "rundown":     "node --no-warnings rundown-cli/dst-stage2/rundown.js"
+        "postinstall":  "nps -c etc/nps.yaml post-install",
+        "start":        "nps -c etc/nps.yaml",
+        "rundown":      "node --no-warnings rundown-cli/dst-stage2/rundown.js"
     }
 }
