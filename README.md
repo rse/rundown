@@ -45,7 +45,7 @@ $ npm start build
 Usage
 -----
 
-- CMD Mode (One-Shot Conversion)
+- **CMD** Mode (One-Shot Conversion)
 
     ```
     # with Rundown source tree
@@ -61,7 +61,7 @@ Usage
     $ docker run -i         engelschall/rundown -o - -      >rundown-sample.html      <rundown-sample.docx
     ```
 
-- WEB Mode (Continuous Conversion)
+- **WEB** Mode (Continuous Conversion)
 
     ```
     # with Rundown source tree
@@ -74,7 +74,7 @@ Usage
     $ docker run -p 8888:8888 -v .:/work engelschall/rundown -v info -p 8888 -m web /work
     ```
 
-- WEB-UI Mode (Interactive Conversion)
+- **WEB-UI** Mode (Interactive Conversion)
 
     ```
     # with Rundown source tree
