@@ -8,6 +8,7 @@ ChangeLog
 - IMPROVEMENT: increase default font size in rendering
 - IMPROVEMENT: support changing the line height of rendering, too
 - IMPROVEMENT: provide better top-level development procedure
+- IMPROVEMENT: add info footer to Web UI
 - UPDATE: update NPM dependencies
 
 0.9.4 (2025-04-15)
