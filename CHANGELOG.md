@@ -7,6 +7,7 @@ ChangeLog
 
 - UPDATE: update architecture diagram
 - IMPROVEMENT: distribute also the manual page
+- IMPROVEMENT: provide also arm64 variants of the distribution
 
 1.0.0 (2025-04-15)
 ------------------
