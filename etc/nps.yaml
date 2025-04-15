@@ -17,15 +17,36 @@ scripts:
         npm --prefix rundown-cli start build &&
         npm --prefix rundown-dst start build
 
+    build:dev: |
+        npm --prefix rundown-lib start build && \
+        npm --prefix rundown-web start build && \
+        npm --prefix rundown-cli start build:cmd
+    build:dev:watch: |
+        watch "npm start build:dev" \
+            rundown-lib/src \
+            rundown-web/src \
+            rundown-cli/src \
+            --wait=2 --interval=1
+    run:dev:watch: |
+        wait-on -l "rundown-cli/dst-stage2/rundown.js" && \
+        cross-env NODE_OPTIONS="--no-warnings" \
+            nodemon --signal SIGINT -w rundown-cli/dst-stage2 --delay 1500ms \
+                rundown-cli/dst-stage2/rundown.js -- \
+                $RUNDOWN_OPTIONS
+    run:dev: |
+        concurrently -p "[{name}]" -n "build,run" -c "blue,red" \
+            "npm start build:dev:watch" \
+            "npm start run:dev:watch"
+
     rundown-cmd: >
         node --no-warnings rundown-cli/dst-stage2/rundown.js \
             -o rundown-doc/rundown-sample.html rundown-doc/rundown-sample.docx
     rundown-web: >
-        node --no-warnings rundown-cli/dst-stage2/rundown.js \
-            -v info -a 127.0.0.1 -p 8888 -m web rundown-doc
-    rundown-web-ui: >
-        node --no-warnings rundown-cli/dst-stage2/rundown.js \
-            -v info -a 127.0.0.1 -p 8888 -m web-ui
+        cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web rundown-doc" \
+            npm start run:dev
+    rundown-web-ui: |
+        cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web-ui" \
+            npm start run:dev
 
     publish: >
         npm --prefix rundown-dst start publish

@@ -14,7 +14,12 @@
         "url":         "http://engelschall.com"
     },
     "devDependencies": {
-        "nps":         "5.10.0"
+        "nps":          "5.10.0",
+        "nodemon":      "3.1.9",
+        "watch":        "1.0.2",
+        "concurrently": "9.1.2",
+        "wait-on":      "8.0.3",
+        "cross-env":    "7.0.3"
     },
     "scripts": {
         "postinstall": "nps -c etc/nps.yaml post-install",
