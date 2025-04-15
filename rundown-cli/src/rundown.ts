@@ -25,7 +25,7 @@ import RundownWeb                  from "../../rundown-web/dst-stage2/rundown.zi
 
 /*  internal dependencies  */
 // @ts-ignore
-import pkgJSON                     from "../package.json?raw" with { type: "json" }
+import pkgJSON                     from "../../package.json?raw" with { type: "json" }
 
 /*  internal Websocket information  */
 type wsPeerCtx  = { id: string }
@@ -208,6 +208,13 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             throw new Error(`input path not found: ${inputPath}`)
         })
 
+        /*  show program information  */
+        const pkg = JSON.parse(pkgJSON)
+        cli.log("info", `${pkg.name} ${pkg.version} <${pkg.homepage}>\n`)
+        cli.log("info", `${pkg.description}\n`)
+        cli.log("info", `Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
+        cli.log("info", `Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
+
         /*  establish REST/WebSocket service  */
         const server = await establishServer(args.httpAddr!, args.httpPort!)
 
@@ -346,6 +353,13 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         /*  sanity check CLI arguments  */
         if (args._.length !== 0)
             throw new Error("too many arguments")
+
+        /*  show program information  */
+        const pkg = JSON.parse(pkgJSON)
+        cli.log("info", `${pkg.name} ${pkg.version} <${pkg.homepage}>\n`)
+        cli.log("info", `${pkg.description}\n`)
+        cli.log("info", `Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
+        cli.log("info", `Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
 
         /*  establish REST/WebSocket service  */
         const server = await establishServer(args.httpAddr!, args.httpPort!)
