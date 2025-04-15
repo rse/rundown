@@ -1,7 +1,7 @@
 {
     "private":                              "true",
     "name":                                 "rundown-web",
-    "description":                          "Generate Rundown Scripts for Teleprompting (WEB)",
+    "description":                          "Render Rundown Scripts for Teleprompting (WEB)",
     "keywords":                             [ "rundown", "cue", "prompter" ],
     "homepage":                             "https://github.com/rse/rundown",
     "repository":                           { "url": "git+https://github.com/rse/rundown.git", "type": "git" },

@@ -1,5 +1,5 @@
 
-# rundown(1) -- Generate Rundown Scripts for Teleprompting
+# rundown(1) -- Render Rundown Scripts for Teleprompting
 
 ## SYNOPSIS
 

@@ -1,7 +1,7 @@
 {
     "private":                          true,
     "name":                             "rundown-cli",
-    "description":                      "Generate Rundown Scripts for Teleprompting (CLI)",
+    "description":                      "Render Rundown Scripts for Teleprompting (CLI)",
     "keywords":                         [ "rundown", "cue", "prompter" ],
     "homepage":                         "http://github.com/rse/rundown",
     "repository":                       { "url": "git+https://github.com/rse/rundown.git", "type": "git" },
