@@ -67,10 +67,9 @@
         <div v-show="tab === 'control'" class="control">
             <div class="intro">
                 The <b>Rundown</b> rendering for the prompter is controlled
-                through distinct keystrokes, usually emitted by controller devices.
-                The primary keystrokes (blue) are for combined keyboard and controller usage,
-                but are driven by the particular controller constraints. The secondary keystrokes
-                (grey) are additional ones to complement the controller support.
+                through distinct keystrokes only, usually emitted by controller devices.
+                The primary keystrokes (blue) are for combined keyboard and controller usage.
+                The secondary keystrokes (grey) are additional ones to complement the controller support.
             </div>
             <div class="actions">
                 <div class="action">
@@ -164,26 +163,53 @@
                 </div>
                 <div class="action">
                     <div class="keystroke">
-                        <span class="key primary"><b>&ndash;</b></span>
+                        <span class="key"><b>&ndash;</b></span>
                     </div>
                     <div class="description">
-                        <i>decrease</i> text-size
+                        <i>decrease</i> font-size
                     </div>
                 </div>
                 <div class="action">
                     <div class="keystroke">
-                        <span class="key primary">+</span>
+                        <span class="key">+</span>
                     </div>
                     <div class="description">
-                        <i>increase</i> text-size
+                        <i>increase</i> font-size
                     </div>
                 </div>
                 <div class="action">
                     <div class="keystroke">
-                        <span class="key primary">0</span>
+                        <span class="key">0</span>
                     </div>
                     <div class="description">
-                        <i>reset</i> text-size
+                        <i>reset</i> font-size
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="keystroke">
+                        <span class="key">Alt</span>+
+                        <span class="key"><b>&ndash;</b></span>
+                    </div>
+                    <div class="description">
+                        <i>decrease</i> line-height
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="keystroke">
+                        <span class="key">Alt</span>+
+                        <span class="key">+</span>
+                    </div>
+                    <div class="description">
+                        <i>increase</i> line-height
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="keystroke">
+                        <span class="key">Alt</span>+
+                        <span class="key">0</span>
+                    </div>
+                    <div class="description">
+                        <i>reset</i> line-height
                     </div>
                 </div>
             </div>
@@ -297,13 +323,13 @@
             border-radius: 1rem
             padding: 2rem
             .action
-                font-size: 2rem
+                font-size: 1.75rem
                 display: flex
                 flex-direction: row
                 justify-content: center
                 align-items: center
                 .keystroke
-                    font-size: 1.75rem
+                    font-size: 1.5rem
                     width: 25rem
                     .key
                         border-radius: 0.75rem

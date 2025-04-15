@@ -248,7 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*  allow the scrolling and rendering to be controlled  */
-    let fontSize = 120
+    let fontSize   = 120
+    let lineHeight = 125
     document.addEventListener("keydown", (event: KeyboardEvent) => {
         if (event.code === "Space") {
             event.preventDefault()
@@ -297,6 +298,23 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault()
             scrollToSiblingChunk("down")
         }
+        else if (event.altKey && event.key === "-") {
+            lineHeight -= 5
+            if (lineHeight < 105) lineHeight = 105
+            const content = document.querySelector("body > .content")! as HTMLDivElement
+            content.style.lineHeight = `${lineHeight}%`
+        }
+        else if (event.altKey && event.key === "+") {
+            lineHeight += 5
+            if (lineHeight > 145) lineHeight = 145
+            const content = document.querySelector("body > .content")! as HTMLDivElement
+            content.style.lineHeight = `${lineHeight}%`
+        }
+        else if (event.altKey && event.key === "0") {
+            lineHeight = 125
+            const content = document.querySelector("body > .content")! as HTMLDivElement
+            content.style.lineHeight = `${lineHeight}%`
+        }
         else if (event.key === "-") {
             fontSize -= 10
             if (fontSize < 90) fontSize = 90
@@ -305,7 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else if (event.key === "+") {
             fontSize += 10
-            if (fontSize > 150) fontSize = 150
+            if (fontSize > 180) fontSize = 180
             const content = document.querySelector("body > .content")! as HTMLDivElement
             content.style.fontSize = `${fontSize}%`
         }
