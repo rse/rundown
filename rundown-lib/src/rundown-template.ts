@@ -152,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
         (notice: window.scroll needs a delta of at least 0.5px to operate)  */
     let paused = false
     let speed = 0
-    let fontSize = 100
     let carry = 0
     const doAutoScroll = () => {
         if (!paused && speed !== 0) {
@@ -249,6 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*  allow the scrolling and rendering to be controlled  */
+    let fontSize = 120
     document.addEventListener("keydown", (event: KeyboardEvent) => {
         if (event.code === "Space") {
             event.preventDefault()
@@ -299,18 +299,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else if (event.key === "-") {
             fontSize -= 10
-            if (fontSize < 80) fontSize = 80
+            if (fontSize < 90) fontSize = 90
             const content = document.querySelector("body > .content")! as HTMLDivElement
             content.style.fontSize = `${fontSize}%`
         }
         else if (event.key === "+") {
             fontSize += 10
-            if (fontSize > 140) fontSize = 140
+            if (fontSize > 150) fontSize = 150
             const content = document.querySelector("body > .content")! as HTMLDivElement
             content.style.fontSize = `${fontSize}%`
         }
         else if (event.key === "0") {
-            fontSize = 100
+            fontSize = 120
             const content = document.querySelector("body > .content")! as HTMLDivElement
             content.style.fontSize = `${fontSize}%`
         }

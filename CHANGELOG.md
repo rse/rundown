@@ -5,6 +5,7 @@ ChangeLog
 0.9.5 (2025-04-15)
 ------------------
 
+- IMPROVEMENT: increase default font size in rendering
 - IMPROVEMENT: provide better top-level development procedure
 - UPDATE: update NPM dependencies
 
