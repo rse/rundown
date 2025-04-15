@@ -147,6 +147,8 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
       Support very smooth scrolling in the teleprompter view.
     - **Dial Controller Support**:
       Support dial controller (Prompter People Shuttle Pro) for controlling the scrolling.
+    - **Presenter Preflights**:
+      Allow presenters to in-advance preflight their prompting session.
 
 Architecture
 ------------
