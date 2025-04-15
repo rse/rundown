@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - IMPROVEMENT: provide better top-level development procedure
+- UPDATE: update NPM dependencies
 
 0.9.4 (2025-04-15)
 ------------------
