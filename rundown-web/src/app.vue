@@ -63,6 +63,13 @@
                         v-on:change="uploadChange"/>
                 </div>
             </div>
+            <div class="footer">
+                <a href="https://github.com/rse/rundown"><b>Rundown</b></a>&nbsp;
+                <a v-bind:href="'https://github.com/rse/rundown/releases/tag/' + version">{{ version }}</a>
+                &mdash; Rendering Rundown Script for Teleprompting<br/>
+                Copyright &copy; 2023-2025 <a href="rse@engelschall.com">Dr. Ralf S. Engelschall</a>,
+                Licensed under <a href="https://spdx.org/licenses/GPL-3.0-only">GPL 3.0</a>
+            </div>
         </div>
         <div v-show="tab === 'control'" class="control">
             <div class="intro">
@@ -307,6 +314,16 @@
             .content-right.dragging
                 background-color: var(--color-sig-bg-3)
                 color: var(--color-sig-fg-5)
+    .footer
+        margin-top: 3rem
+        font-size: 1.75rem
+        text-align: center
+        color: var(--color-std-fg-1)
+        a,
+        a:visited
+        a:hover
+            text-decoration: none
+            color: var(--color-std-fg-2)
     .upload-input
         display: none
     .control
@@ -353,6 +370,7 @@ import Rundown              from "rundown-lib"
 import logo                 from "./app-logo.svg?url"
 import template             from "../../rundown-doc/rundown-template.docx?url"
 import sample               from "../../rundown-doc/rundown-sample.docx?url"
+import pkg                  from "../../package.json" with { type: "json" }
 </script>
 
 <script lang="ts">
@@ -367,7 +385,8 @@ export default defineComponent({
         uploadDragOver: false,
         uploadProgress: false,
         logo,
-        templateMimeType
+        templateMimeType,
+        version: pkg.version
     }),
     created () {
     },
