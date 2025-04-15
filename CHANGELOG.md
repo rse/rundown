@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - UPDATE: update architecture diagram
+- IMPROVEMENT: distribute also the manual page
 
 1.0.0 (2025-04-15)
 ------------------
