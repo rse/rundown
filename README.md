@@ -95,22 +95,22 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
 
 - **Input**:
     - **Collaborative Input Editing**:
-      Allow director plan preparation to be done in a fully
+      Allow rundown script preparation to be done in a fully
       *collabortively edited* Microsoft Word document.
     - **Table-Based Input**:
-      Keep table format in Word-based director plan, people are already used to.
+      Keep table format in Word-based rundown script, people are already used to.
     - **Style-Based Input**:
-      Consistently use Microsoft Word *styles* in director plan for
+      Consistently use Microsoft Word *styles* in rundown script for
       unambiguous semantics and conversion.
     - **Experience-Driven Markups**:
       Support all *necessary markups* from the years of event experience.
     - **Distinguished Control & Content**:
       Distinguish between control (left side of table) and content
-      (right side of table) in director plan.
+      (right side of table) in rundown script.
 
 - **Output**:
     - **Auto-Conversion**:
-      Allow directory plan to be *automatically* (within a minute)
+      Allow rundown script to be *automatically* (within a minute)
       converted into the rendered teleprompter view.
     - **Single Source of Truth**:
       Intentionally do *not support any editing* of the rendered
@@ -122,14 +122,14 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
 
 - **Style**:
     - **Light Input**:
-      Use light-mode in Microsoft Word based director plan to also support printing.
+      Use light-mode in Microsoft Word based rundown script to also support printing.
     - **Dark Output**:
       Use dark-mode in rendered teleprompter view to avoid outshine effects on cameras.
     - **Aligned Input/Output**:
-      Optically align light-mode directory plan and dark-mode
+      Optically align light-mode rundown script and dark-mode
       teleprompter view as close as possible.
     - **Strong Typography**:
-      Use strong typographic conventions in both directory plan and teleprompter view.
+      Use strong typographic conventions in both rundown script and teleprompter view.
 
 - **Rendering**:
     - **Speaker Indicators**:
