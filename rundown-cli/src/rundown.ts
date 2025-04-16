@@ -73,8 +73,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
     /*  short-circuit version request  */
     if (args.version) {
         const pkg = JSON.parse(pkgJSON)
-        process.stderr.write(`${pkg.name} ${pkg.version} <${pkg.homepage}>\n`)
-        process.stderr.write(`${pkg.description}\n`)
+        process.stderr.write(`Rundown ${pkg.version} <${pkg.homepage}>\n`)
         process.stderr.write(`Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
         process.stderr.write(`Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
         process.exit(0)
@@ -210,8 +209,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
         /*  show program information  */
         const pkg = JSON.parse(pkgJSON)
-        cli.log("info", `${pkg.name} ${pkg.version} <${pkg.homepage}>\n`)
-        cli.log("info", `${pkg.description}\n`)
+        cli.log("info", `Rundown ${pkg.version} <${pkg.homepage}>\n`)
         cli.log("info", `Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
         cli.log("info", `Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
 
@@ -356,8 +354,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
         /*  show program information  */
         const pkg = JSON.parse(pkgJSON)
-        cli.log("info", `${pkg.name} ${pkg.version} <${pkg.homepage}>\n`)
-        cli.log("info", `${pkg.description}\n`)
+        cli.log("info", `Rundown ${pkg.version} <${pkg.homepage}>\n`)
         cli.log("info", `Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
         cli.log("info", `Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
 
