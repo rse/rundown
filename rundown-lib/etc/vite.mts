@@ -71,7 +71,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
             name:     "Rundown",
             fileName: (format) => `rundown.${format === "es" ? "esm" : format}.js`
         },
-        target:                 "es2020",
+        target:                 "es2022",
         outDir:                 "dst-stage2",
         assetsDir:              "",
         emptyOutDir:            (mode === "production") && formats !== "umd",

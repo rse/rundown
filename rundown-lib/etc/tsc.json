@@ -10,7 +10,7 @@
         "resolveJsonModule":       true,
         "isolatedModules":         true,
         "esModuleInterop":         true,
-        "lib":                     [ "es2020", "dom", "dom.iterable" ],
+        "lib":                     [ "es2022", "dom", "dom.iterable" ],
         "skipLibCheck":            true,
         "declaration":             true,
         "noEmit":                  false,
