@@ -8,6 +8,7 @@ ChangeLog
 - IMPROVEMENT: add logo to the rendering view
 - CLEANUP: cleanup description
 - CLEANUP: cleanup cheat sheet
+- CLEANUP: ignore more generated files
 
 1.0.1 (2025-04-16)
 ------------------
