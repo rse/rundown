@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - CLEANUP: cleanup description
+- CLEANUP: cleanup cheat sheet
 
 1.0.1 (2025-04-16)
 ------------------
