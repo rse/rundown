@@ -65,16 +65,16 @@ Usage
 
     ```
     # with Rundown source tree
-    $ npm run rundown -o      rundown-doc/rundown-sample.html  rundown-doc/rundown-sample.docx
-    $ npm run rundown -o - - >rundown-doc/rundown-sample.html <rundown-doc/rundown-sample.docx
+    $ npm run rundown -o      rundown-doc/rundown-template.html  rundown-doc/rundown-template.docx
+    $ npm run rundown -o - - >rundown-doc/rundown-template.html <rundown-doc/rundown-template.docx
 
     # with Rundown archive distribution
-    $ rundown-cli -o      rundown-sample.html  rundown-sample.docx
-    $ rundown-cli -o - - >rundown-sample.html <rundown-sample.docx
+    $ rundown-cli -o      rundown-template.html  rundown-template.docx
+    $ rundown-cli -o - - >rundown-template.html <rundown-template.docx
 
     # with Rundown Docker distribution
-    $ docker run -v .:/work engelschall/rundown -o     /work/rundown-sample.html /work/rundown-sample.docx
-    $ docker run -i         engelschall/rundown -o - -      >rundown-sample.html      <rundown-sample.docx
+    $ docker run -v .:/work engelschall/rundown -o     /work/rundown-template.html /work/rundown-template.docx
+    $ docker run -i         engelschall/rundown -o - -      >rundown-template.html      <rundown-template.docx
     ```
 
 - **WEB** Mode (Continuous Conversion)
