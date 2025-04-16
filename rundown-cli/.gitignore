@@ -3,7 +3,10 @@ node_modules
 dst-stage1
 dst-stage2
 rundown.1
-rundown-cli-win-x64.exe
-rundown-cli-mac-x64
+rundown-cli-lnx-a64
 rundown-cli-lnx-x64
+rundown-cli-mac-a64
+rundown-cli-mac-x64
+rundown-cli-win-a64.exe
+rundown-cli-win-x64.exe
 .built
