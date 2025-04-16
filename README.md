@@ -31,6 +31,11 @@ the rendered teleprompter view on the right:
 
 ![screenshot](rundown-doc/rundown-screenshot-1.png)
 
+The following is the rendered prompting view in the original 16:9 aspect ratio,
+as shown in the studio on the teleprompters:
+
+![screenshot](rundown-doc/rundown-screenshot-4.png)
+
 The following are two screenshots of the interactive web user interface,
 showing the buttons to download and upload the rundown script, and the
 supported keystrokes for controlling the scrolling of the rendered
