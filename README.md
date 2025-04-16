@@ -31,10 +31,13 @@ the rendered teleprompter view on the right:
 
 ![screenshot](rundown-doc/rundown-screenshot-1.png)
 
-The following is a view of the web user interface, showing the supported keystrokes 
-for controlling the scrolling of the rendered teleprompter view:
+The following are two screenshots of the interactive web user interface,
+showing the buttons to download and upload the rundown script, and the
+supported keystrokes for controlling the scrolling of the rendered
+teleprompter view:
 
 ![screenshot](rundown-doc/rundown-screenshot-2.png)
+![screenshot](rundown-doc/rundown-screenshot-3.png)
 
 Installation
 ------------
