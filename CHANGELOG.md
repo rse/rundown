@@ -5,6 +5,7 @@ ChangeLog
 1.1.1 (2025-04-17)
 ------------------
 
+- CLEANUP: use more polyfills for Rundown Web
 - CLEANUP: cleanup logging outputs
 - UPDATE: update NPM dependencies
 
