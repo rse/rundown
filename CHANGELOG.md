@@ -2,6 +2,15 @@
 ChangeLog
 =========
 
+1.1.0 (2025-04-16)
+------------------
+
+- IMPROVEMENT: renamed style "R314: Hint" to "R315: Hint"
+- IMPROVEMENT: converted style "R315: Description" to "R324: Info"
+- IMPROVEMENT: added new style "R314: Display" for media display
+- CLEANUP: remove rundown script sample to avoid confusion with template
+- UPDATE: remove sample document button in Web UI
+
 1.0.2 (2025-04-16)
 ------------------
 

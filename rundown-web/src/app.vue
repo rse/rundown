@@ -22,14 +22,8 @@
             </div>
             <div class="content-row">
                 <div class="content-left"
-                    v-on:click="downloadClick1">
-                    <div class="info">Click to download <b>Rundown</b> template for <i>editing</i>.</div>
-                    <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
-                    <div class="icon2"><i class="fa fa-solid fa-arrow-down"></i></div>
-                </div>
-                <div class="content-middle"
-                    v-on:click="downloadClick2">
-                    <div class="info">Clock to download <b>Rundown</b> sample for <i>demonstration</i>.</div>
+                    v-on:click="downloadClick">
+                    <div class="info">Click to download <b>Rundown</b> template document for <i>editing</i>.</div>
                     <div class="icon1"><i class="fa fa-solid fa-file-word"></i></div>
                     <div class="icon2"><i class="fa fa-solid fa-arrow-down"></i></div>
                 </div>
@@ -275,30 +269,27 @@
             flex-direction: row
             justify-content: center
             align-items: center
-            .content-left,
-            .content-middle
+            .content-left
                 margin-right: 4rem
             .content-left,
-            .content-middle,
             .content-right > div
                 display: flex
                 flex-direction: column
                 justify-content: flex-start
                 align-items: center
             .content-left,
-            .content-middle,
             .content-right
                 cursor: pointer
                 background-color: var(--color-std-bg-3)
                 color: var(--color-std-fg-3)
                 padding: 1rem 4rem
                 border-radius: 1rem
-                width: 15rem
+                width: 24rem
                 &:hover
                     background-color: var(--color-acc-bg-3)
                     color: var(--color-acc-fg-5)
                 .info
-                    font-size: 1.5rem
+                    font-size: 2.0rem
                     height: 9rem
                     text-align: center
                 .icon1
@@ -458,20 +449,10 @@ export default defineComponent({
                 document.close()
             }
         },
-        downloadClick1 () {
+        downloadClick () {
             const link = document.createElement("a")
             link.href = template
             link.download = "rundown-template.docx"
-            document.body.appendChild(link)
-            link.click()
-            setTimeout(() => {
-                link.remove()
-            }, 1000)
-        },
-        downloadClick2 () {
-            const link = document.createElement("a")
-            link.href = sample
-            link.download = "rundown-sample.docx"
             document.body.appendChild(link)
             link.click()
             setTimeout(() => {

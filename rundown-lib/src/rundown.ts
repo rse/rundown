@@ -49,8 +49,8 @@ export default class Rundown extends EventEmitter {
                 "p[style-name='R311: Part']        => div.rundown-part",
                 "p[style-name='R312: Chat']        => div.rundown-chat",
                 "p[style-name='R313: Control']     => div.rundown-control",
-                "p[style-name='R314: Hint']        => div.rundown-hint",
-                "p[style-name='R315: Description'] => div.rundown-description",
+                "p[style-name='R314: Display']     => div.rundown-display",
+                "p[style-name='R315: Hint']        => div.rundown-hint",
 
                 /* the following have to be left out for Mammoth to do the right thing  */
                 /*
@@ -63,6 +63,7 @@ export default class Rundown extends EventEmitter {
                 "r[style-name='R321: Emphasis']    => span.rundown-emphasis",
                 "r[style-name='R322: KeyWord']     => span.rundown-keyword",
                 "r[style-name='R323: KeyMessage']  => span.rundown-keymessage",
+                "r[style-name='R324: Info']        => span.rundown-info",
 
             ],
             includeEmbeddedStyleMap: true,

@@ -20,13 +20,13 @@ scripts:
                           mkdir -p dst-stage1/rundown-$VERSION-lnx-x64/ &&
                           mkdir -p dst-stage1/rundown-$VERSION-lnx-a64/ &&
                           mkdir -p dst-stage2 &&
-                          cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION/ &&
-                          cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-win-x64/ &&
-                          cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-win-a64/ &&
-                          cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-mac-x64/ &&
-                          cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-mac-a64/ &&
-                          cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-lnx-x64/ &&
-                          cp -p ../rundown-doc/rundown-*.docx dst-stage1/rundown-$VERSION-lnx-a64/ &&
+                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION/ &&
+                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-win-x64/ &&
+                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-win-a64/ &&
+                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-mac-x64/ &&
+                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-mac-a64/ &&
+                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-lnx-x64/ &&
+                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-lnx-a64/ &&
                           cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION/rundown-web.zip &&
                           cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-win-x64/rundown-web.zip &&
                           cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-win-a64/rundown-web.zip &&
