@@ -26,8 +26,13 @@ interactively rendered.
 Impressions
 -----------
 
-The following is a side-by-side view of the Microsoft Word input on the left and
-the rendered teleprompter view on the right:
+The following is the rundown script input in Microsoft Word:
+
+![screenshot](rundown-doc/rundown-screenshot-5.png)
+
+The following is a side-by-side view of the Microsoft Word rundown
+script input on the left, and the rendered teleprompter view on the
+right:
 
 ![screenshot](rundown-doc/rundown-screenshot-1.png)
 
