@@ -25,7 +25,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
         YAMLPlugin(),
         SvgLoader(),
         nodePolyfills({
-            include: [ "events", "stream", "path", "fs" ],
+            include: [ "events", "stream", "path", "fs", "os" ],
             globals: { Buffer: true }
         }),
         viteZip({
