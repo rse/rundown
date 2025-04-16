@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - IMPROVEMENT: add logo to the rendering view
+- IMPROVEMENT: provide new screenshots
 - CLEANUP: cleanup description
 - CLEANUP: cleanup cheat sheet
 - CLEANUP: ignore more generated files
