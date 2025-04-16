@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - CLEANUP: cleanup logging outputs
+- UPDATE: update NPM dependencies
 
 1.1.0 (2025-04-16)
 ------------------
