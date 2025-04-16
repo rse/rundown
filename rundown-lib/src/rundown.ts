@@ -25,6 +25,7 @@ import axios                       from "../node_modules/axios/dist/axios.js?raw
 import animejs                     from "../node_modules/animejs/lib/anime.iife.js?raw"
 import shapeFlow                   from "./rundown-shape-flow.svg?raw"
 import iconSVG                     from "./app-icon.svg?raw"
+import logoSVG                     from "./rundown-logo.svg?raw"
 
 /*  the library API  */
 export default class Rundown extends EventEmitter {
@@ -210,6 +211,7 @@ export default class Rundown extends EventEmitter {
         }).css
         const svg = SVGO.optimize(shapeFlow, {}).data
         const svg2 = SVGO.optimize(iconSVG, {}).data
+        const svg3 = SVGO.optimize(logoSVG, {}).data
         const iconUrl = `data:image/svg+xml,${encodeURIComponent(svg2)}`
         const jsInput = reconnectingWebSockets + ";\n" +
             axios + ";\n" +
@@ -227,6 +229,7 @@ export default class Rundown extends EventEmitter {
             .replace(/@template-js@/g,  js)
             .replace(/@shape-flow@/g,   svg)
             .replace(/@icon@/g,         iconUrl)
+            .replace(/@logo@/g,         svg3)
             .replace(/@content@/g,      output)
 
         return output

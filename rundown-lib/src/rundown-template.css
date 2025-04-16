@@ -402,6 +402,23 @@ mark {
 }
 
 .overlay4 {
+    z-index: 1500;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 4rem;
+    opacity: 0.40;
+}
+
+.overlay4 .logo {
+    width: 100%;
+}
+
+.overlay4 svg {
+    width: 100%;
+}
+
+.overlay5 {
     position: fixed;
     z-index: 2000;
     top: 1rem;
@@ -417,11 +434,11 @@ mark {
     display: none;
 }
 
-.overlay4.active {
+.overlay5.active {
     display: block;
 }
 
-.overlay5 {
+.overlay6 {
     position: fixed;
     z-index: 2000;
     top: 1rem;

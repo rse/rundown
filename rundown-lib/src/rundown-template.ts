@@ -354,8 +354,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const event = JSON.parse(ev.data)
             if (event?.event === "RELOAD") {
                 /*  show overlay  */
-                const overlay = document.querySelector(".overlay4")
-                anime.animate(".overlay4", {
+                const overlay = document.querySelector(".overlay5")
+                anime.animate(".overlay5", {
                     opacity: { from: 0.0, to: 1.0 },
                     ease: "outSine",
                     duration: 250,
@@ -383,7 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     tickOnce()
                     setTimeout(() => {
                         /*  hide overlay  */
-                        anime.animate(".overlay4", {
+                        anime.animate(".overlay5", {
                             opacity: { from: 1.0, to: 0.0 },
                             ease: "inSine",
                             duration: 250,
@@ -404,16 +404,16 @@ document.addEventListener("DOMContentLoaded", () => {
         the current page, which for Rundown-Web is some sort of an exit
         back to the menu  */
     if (options.get("with-exit") === "yes") {
-        const overlay = document.querySelector(".overlay5")!
+        const overlay = document.querySelector(".overlay6")!
         overlay.addEventListener("mouseenter", (ev: Event) => {
-            anime.animate(".overlay5", {
+            anime.animate(".overlay6", {
                 opacity: { from: 0.0, to: 1.0 },
                 ease: "outSine",
                 duration: 100
             })
         })
         overlay.addEventListener("mouseleave", (ev: Event) => {
-            anime.animate(".overlay5", {
+            anime.animate(".overlay6", {
                 opacity: { from: 1.0, to: 0.0 },
                 ease: "inSine",
                 duration: 100

@@ -5,6 +5,7 @@ ChangeLog
 1.0.2 (2025-04-16)
 ------------------
 
+- IMPROVEMENT: add logo to the rendering view
 - CLEANUP: cleanup description
 - CLEANUP: cleanup cheat sheet
 
