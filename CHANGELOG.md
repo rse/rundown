@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-1.1.3 (2025-04-17)
+1.1.3 (2025-04-18)
 ------------------
 
 - IMPROVEMENT: improve smooth scrolling to work also under Firefox
