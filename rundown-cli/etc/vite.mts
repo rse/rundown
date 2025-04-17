@@ -47,8 +47,8 @@ export default Vite.defineConfig(({ command, mode }) => ({
         chunkSizeWarningLimit:  5000,
         assetsInlineLimit:      0,
         sourcemap:              (mode === "development"),
-        minify:                 true,
-        reportCompressedSize:   (mode === "production"),
+        minify:                 (mode === "production"),
+        reportCompressedSize:   false,
         rollupOptions: {
             onwarn (warning, warn) {
                 if (warning.message.match(/Use of eval.*?is strongly discouraged/))

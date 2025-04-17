@@ -47,7 +47,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
         assetsInlineLimit:      0,
         sourcemap:              (mode === "development"),
         minify:                 (mode === "production"),
-        reportCompressedSize:   (mode === "production"),
+        reportCompressedSize:   false,
         rollupOptions: {
             input: "src/index.html",
             output: {
