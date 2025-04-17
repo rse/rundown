@@ -152,7 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
         (notice: window.scroll needs a delta of at least 0.5px to operate)  */
     let paused = false
     let speed = 0
-    let carry = 0
+    let delta = 0
+    let windowScrollY = window.scrollY
     const doAutoScroll = () => {
         if (!paused && speed !== 0) {
             if (   (Math.sign(speed) < 0 && window.scrollY <= 0)
@@ -161,16 +162,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 speed  = 0
             }
             else {
-                const diff = Math.sign(speed) * 0.20 * Math.pow(Math.abs(speed), 1.5)
-                let delta = diff + carry
-                if (Math.abs(delta) < 0.50) {
-                    carry += diff
-                    delta = 0
-                }
-                else
-                    carry = 0
-                if (delta !== 0)
-                    window.scroll({ top: window.scrollY + delta })
+                if (windowScrollY !== window.scrollY)
+                    delta -= window.scrollY - windowScrollY
+                delta += Math.sign(speed) * 0.20 * Math.pow(Math.abs(speed), 1.5)
+                windowScrollY = window.scrollY
+                window.scroll({ top: window.scrollY + delta })
             }
         }
         window.requestAnimationFrame(doAutoScroll)
@@ -208,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const delta = bb.top - (view.h / 2)
             paused = true
             speed = 0
+            windowScrollY = window.scrollY + delta
             window.scroll({ top: window.scrollY + delta, behavior: "smooth" })
         }
     }
@@ -243,6 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const delta = chk.top - (view.h / 2)
             paused = true
             speed = 0
+            windowScrollY = window.scrollY + delta
             window.scroll({ top: window.scrollY + delta, behavior: "smooth" })
         }
     }

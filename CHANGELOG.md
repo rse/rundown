@@ -5,6 +5,7 @@ ChangeLog
 1.1.3 (2025-04-17)
 ------------------
 
+- IMPROVEMENT: improve smooth scrolling to work also under Firefox
 - CLEANUP: various source tree cleanups
 - BUGFIX: minify conditionally, never report gzip compression
 
