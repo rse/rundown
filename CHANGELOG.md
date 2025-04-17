@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - CLEANUP: various source tree cleanups
+- BUGFIX: minify conditionally, never report gzip compression
 
 1.1.2 (2025-04-17)
 ------------------
