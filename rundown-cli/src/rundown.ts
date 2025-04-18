@@ -20,7 +20,7 @@ import yauzl                       from "yauzl"
 import mimeTypes                   from "mime-types"
 
 /*  internal dependencies  */
-import Rundown                     from "rundown-lib"
+import Rundown                     from "../../rundown-lib"
 import RundownWeb                  from "../../rundown-web/dst-stage2/rundown.zip?arraybuffer"
 
 /*  internal dependencies  */
@@ -277,6 +277,20 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                 }
             },
             handler: (request: HAPI.Request, h: HAPI.ResponseToolkit) => {
+                /*  on WebSocket message transfer  */
+                if (typeof request.payload !== "object" || request.payload === null)
+                    return Boom.badRequest("invalid request")
+                const { event, data } = request.payload as any satisfies { event: string, data?: any }
+                if (event === "SUBSCRIBE") {
+                    /*  no-op  */
+                }
+                else if (event === "STATE" && typeof data === "object") {
+                    const msg = JSON.stringify(request.payload)
+                    for (const [ id, info ] of wsPeers.entries()) {
+                        cli.log("info", `WebSocket: notify STATE change: peer="${id}" msg=${msg}`)
+                        info.ws.send(msg)
+                    }
+                }
                 return h.response().code(204)
             }
         })

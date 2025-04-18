@@ -4,6 +4,10 @@
 **  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
 */
 
+import ReconnectingWebSocket from "@opensumi/reconnecting-websocket"
+import axios                 from "axios"
+import * as anime            from "animejs"
+
 /*  await the DOM...  */
 document.addEventListener("DOMContentLoaded", () => {
     /*  determine dynamic configuration options  */
@@ -19,6 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     /*  internal state  */
     const view    = { w: 0, h: 0 }
     const content = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
+    let stateLast = -1
+    let debug = false
+    let ws: ReconnectingWebSocket
+    const wsSendQueue: string[] = []
 
     /*  update the rendering  */
     const updateRendering = () => {
@@ -115,6 +123,73 @@ document.addEventListener("DOMContentLoaded", () => {
                     chunk.classList.add("active")
                 else if (chunk !== min.chunk && chunk.classList.contains("active"))
                     chunk.classList.remove("active")
+            }
+        }
+
+        /*  optionally support live state emission  */
+        if (options.get("live") === "yes") {
+            /*  determine all invisible state information  */
+            const states = document.querySelectorAll(".rundown-state")
+            const stateStack: Array<{ pos: number, kv: { [ key: string ]: string | number | boolean } }> =
+                [ { pos: Number.MIN_SAFE_INTEGER, kv: {} } ]
+            for (const state of states) {
+                const bb = state.getBoundingClientRect()
+                const text = (state as HTMLSpanElement).innerText
+                const kv: { [ key: string ]: string | number | boolean } = {}
+                const matches = text.matchAll(/\b([a-zA-Z][a-zA-Z0-9:-]*)(?:=(?:"([^"]*)"|(\S+)))?\b/g)
+                for (const match of matches) {
+                    const key = match[1]
+                    const val = match[2] ?? match[3] ?? undefined
+                    if (val === undefined)
+                        kv[key] = true
+                    else if (val.match(/^[0-9]+$/))
+                        kv[key] = parseInt(val)
+                    else if (val.match(/^(?:[0-9]+\.[0-9]*|[0-9]*\.[0-9]+)$/))
+                        kv[key] = parseFloat(val)
+                    else
+                        kv[key] = val
+                }
+                stateStack.push({ pos: bb.top + (bb.height / 2), kv })
+            }
+
+            /*  determine which state is currently active  */
+            for (let i = 0; i < stateStack.length; i++) {
+                if (   (i === 0
+                        && pivot < stateStack[i + 1].pos)
+                    || ((i > 0 && i < stateStack.length - 1)
+                        && pivot >= stateStack[i].pos
+                        && pivot < stateStack[i + 1].pos)
+                    || (i === stateStack.length - 1
+                        && pivot >= stateStack[i].pos)) {
+                    if (stateLast !== i) {
+                        stateLast = i
+                        const kvs1: Array<{ [ key: string ]: string | number | boolean }> = []
+                        const kvs2: Array<{ [ key: string ]: string | number | boolean }> = []
+                        let j = 1
+                        while (j <= i)
+                            kvs1.push(stateStack[j++].kv)
+                        while (j < stateStack.length)
+                            kvs2.push(stateStack[j++].kv)
+                        if (debug)
+                            console.log("[DEBUG]: state change: " +
+                                `ACTIVE: ${JSON.stringify(kvs1)}, ` +
+                                `DEACTIVE: ${JSON.stringify(kvs2)}`)
+                        wsSendQueue.push(JSON.stringify({
+                            event: "STATE",
+                            data: { ACTIVE: kvs1, DEACTIVE: kvs2 }
+                        }))
+                    }
+                    break
+                }
+            }
+
+            /*  send out pending WebSocket messages
+                (potentially queued because connection had to be still established)  */
+            if (ws !== undefined && ws.readyState === ReconnectingWebSocket.OPEN) {
+                while (wsSendQueue.length > 0) {
+                    const msg = wsSendQueue.shift()!
+                    ws.send(msg)
+                }
             }
         }
     }
@@ -338,6 +413,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const content = document.querySelector("body > .content")! as HTMLDivElement
             content.style.fontSize = `${fontSize}%`
         }
+        else if (event.key === "D") {
+            debug = !debug
+            const content = document.querySelector("body > .content")! as HTMLDivElement
+            if (debug && !content.classList.contains("debug"))
+                content.classList.add("debug")
+            else if (!debug && content.classList.contains("debug"))
+                content.classList.remove("debug")
+        }
     })
 
     /*  connect to the origin server to get notified of document changes  */
@@ -346,63 +429,65 @@ document.addEventListener("DOMContentLoaded", () => {
         url = url.replace(/#.+$/, "")
         url = url.replace(/\/[^/]*$/, "")
         url = url + "/events"
-        const ws = new ReconnectingWebSocket(url, [], {
+        ws = new ReconnectingWebSocket(url, [], {
             reconnectionDelayGrowFactor: 1.3,
             maxReconnectionDelay:        4000,
             minReconnectionDelay:        1000,
             connectionTimeout:           4000,
             minUptime:                   5000
         })
-        ws.addEventListener("open", (ev: Event) => {
+        ws.addEventListener("open", (ev) => {
             ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
         })
-        ws.addEventListener("message", async (ev: MessageEvent) => {
-            const event = JSON.parse(ev.data)
-            if (event?.event === "RELOAD") {
-                /*  show overlay  */
-                const overlay = document.querySelector(".overlay5")
-                anime.animate(".overlay5", {
-                    opacity: { from: 0.0, to: 1.0 },
-                    ease: "outSine",
-                    duration: 250,
-                    onBegin: () => {
-                        overlay!.classList.add("active")
-                    }
-                })
+        ws.addEventListener("message", (ev) => {
+            (async () => {
+                const event = JSON.parse(ev.data)
+                if (event?.event === "RELOAD") {
+                    /*  show overlay  */
+                    const overlay = document.querySelector(".overlay5")
+                    anime.animate(".overlay5", {
+                        opacity: { from: 0.0, to: 1.0 },
+                        ease: "outSine",
+                        duration: 250,
+                        onBegin: () => {
+                            overlay!.classList.add("active")
+                        }
+                    })
 
-                /*  fetch new content  */
-                let url = document.location.href
-                url = url.replace(/#live$/, "")
-                const response = await axios({
-                    method: "GET",
-                    url,
-                    responseType: "document"
-                })
+                    /*  fetch new content  */
+                    let url = document.location.href
+                    url = url.replace(/#live$/, "")
+                    const response = await axios({
+                        method: "GET",
+                        url,
+                        responseType: "document"
+                    })
 
-                /*  update content  */
-                const contentOld = document.querySelector(".content")!
-                const contentNew = response.data.querySelector(".content")!
-                contentOld.innerHTML = contentNew.innerHTML
+                    /*  update content  */
+                    const contentOld = document.querySelector(".content")!
+                    const contentNew = response.data.querySelector(".content")!
+                    contentOld.innerHTML = contentNew.innerHTML
 
-                /*  update once  */
-                setTimeout(() => {
-                    tickOnce()
+                    /*  update once  */
                     setTimeout(() => {
-                        /*  hide overlay  */
-                        anime.animate(".overlay5", {
-                            opacity: { from: 1.0, to: 0.0 },
-                            ease: "inSine",
-                            duration: 250,
-                            onComplete: () => {
-                                overlay!.classList.remove("active")
-                            }
-                        })
-
-                        /*  update once again  */
                         tickOnce()
-                    }, 1000)
-                }, 10)
-            }
+                        setTimeout(() => {
+                            /*  hide overlay  */
+                            anime.animate(".overlay5", {
+                                opacity: { from: 1.0, to: 0.0 },
+                                ease: "inSine",
+                                duration: 250,
+                                onComplete: () => {
+                                    overlay!.classList.remove("active")
+                                }
+                            })
+
+                            /*  update once again  */
+                            tickOnce()
+                        }, 1000)
+                    }, 10)
+                }
+            })()
         })
     }
 

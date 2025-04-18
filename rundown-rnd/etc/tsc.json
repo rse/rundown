@@ -14,7 +14,7 @@
         "skipLibCheck":            true,
         "declaration":             true,
         "noEmit":                  false,
-        "types":                   [ "vite/client", "node", "vite-plugin-arraybuffer/types" ],
+        "types":                   [ "vite/client", "node" ],
         "rootDir":                 "../src"
     },
 	"include": [

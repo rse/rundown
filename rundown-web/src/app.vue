@@ -60,7 +60,7 @@
             <div class="footer">
                 <a href="https://github.com/rse/rundown"><b>Rundown</b></a>&nbsp;
                 <a v-bind:href="'https://github.com/rse/rundown/releases/tag/' + version">{{ version }}</a>
-                &mdash; Rendering Rundown Script for Teleprompting<br/>
+                &mdash; Rendering Rundown Scripts for Teleprompting<br/>
                 Copyright &copy; 2023-2025 <a href="rse@engelschall.com">Dr. Ralf S. Engelschall</a>,
                 Licensed under <a href="https://spdx.org/licenses/GPL-3.0-only">GPL 3.0</a>
             </div>

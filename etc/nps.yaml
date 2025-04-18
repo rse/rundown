@@ -6,23 +6,27 @@
 
 scripts:
     post-install: >
+        npm --prefix rundown-rnd install &&
         npm --prefix rundown-lib install &&
         npm --prefix rundown-web install &&
         npm --prefix rundown-cli install &&
         npm --prefix rundown-dst install
 
     build: >
+        npm --prefix rundown-rnd start build &&
         npm --prefix rundown-lib start build &&
         npm --prefix rundown-web start build &&
         npm --prefix rundown-cli start build &&
         npm --prefix rundown-dst start build
 
     build:dev: |
+        npm --prefix rundown-rnd start build && \
         npm --prefix rundown-lib start build && \
         npm --prefix rundown-web start build && \
         npm --prefix rundown-cli start build:cmd
     build:dev:watch: |
         watch "npm start build:dev" \
+            rundown-rnd/src \
             rundown-lib/src \
             rundown-web/src \
             rundown-cli/src \
@@ -52,12 +56,14 @@ scripts:
         npm --prefix rundown-dst start publish
 
     clean: >
+        npm --prefix rundown-rnd start clean &&
         npm --prefix rundown-lib start clean &&
         npm --prefix rundown-web start clean &&
         npm --prefix rundown-cli start clean &&
         npm --prefix rundown-dst start clean
 
     clean-dist: >
+        npm --prefix rundown-rnd start clean-dist &&
         npm --prefix rundown-lib start clean-dist &&
         npm --prefix rundown-web start clean-dist &&
         npm --prefix rundown-cli start clean-dist &&

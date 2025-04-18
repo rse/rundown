@@ -2,6 +2,15 @@
 ChangeLog
 =========
 
+1.2.0 (2025-04-18)
+------------------
+
+- REFACTORING: factor our rendering part from Rundown Lib to be able to use Vite for it, too
+- IMPROVEMENT: support new style "R325: State" for automation
+- IMPROVEMENT: use Stylus instead of CSS also in Rundown Lib
+- BUGFIX: avoid crashes in "ws" module for Rundown CLI by patching away optional dependencies
+- BUGFIX: fix scrolling after scroll-wheel usage
+
 1.1.3 (2025-04-18)
 ------------------
 

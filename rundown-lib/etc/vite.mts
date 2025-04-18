@@ -7,13 +7,9 @@
 import fs                    from "node:fs"
 import * as Vite             from "vite"
 import { tscPlugin }         from "@wroud/vite-plugin-tsc"
-import dts                   from "vite-plugin-dts"
 import { viteStaticCopy }    from "vite-plugin-static-copy"
 import { viteSingleFile }    from "vite-plugin-singlefile"
 import { nodePolyfills }     from "vite-plugin-node-polyfills"
-import runTask               from "@m5nv/vite-plugin-run-task"
-import inlineAssets          from "inline-assets"
-import { mkdirp }            from "mkdirp"
 
 const formats = process.env.VITE_BUILD_FORMATS ?? "esm"
 
@@ -23,39 +19,6 @@ export default Vite.defineConfig(({ command, mode }) => ({
     base:     "",
     root:     "",
     plugins: [
-        runTask({
-            watch: [],
-            async task (context, event) {
-                const input  = "src/rundown-fonts.css"
-                const outdir = "dst-stage1"
-                const output = "rundown-fonts.css"
-                let content = await fs.promises.readFile(input, "utf8")
-                content = inlineAssets("", input, content, {
-                    verbose: true,
-                    htmlmin: false,
-                    cssmin:  false,
-                    jsmin:   false,
-                    pattern: [ ".+" ],
-                    purge:   false
-                })
-                await mkdirp(outdir)
-                await fs.promises.writeFile(`${outdir}/${output}`, content, "utf8")
-            }
-        }),
-        viteStaticCopy({
-            hook: "buildStart",
-            targets: [ {
-                src: [
-                    "src/rundown-template.{css,html}",
-                    "src/rundown-shape-flow.svg",
-                    "src/rundown-logo.svg",
-                    "src/app-icon.svg"
-                ],
-                dest: "../dst-stage1/",
-                overwrite: true
-            } ],
-            silent: false
-        }),
         tscPlugin({
             tscArgs:        [ "--project", "etc/tsc.json" ],
             packageManager: "npx",
@@ -78,7 +41,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
         chunkSizeWarningLimit:  5000,
         assetsInlineLimit:      0,
         sourcemap:              (mode === "development"),
-        minify:                 false,
+        minify:                 (mode === "production"),
         reportCompressedSize:   (mode === "production"),
         rollupOptions: {
             external: formats === "umd" ? [] : [
