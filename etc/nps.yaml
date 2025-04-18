@@ -40,7 +40,7 @@ scripts:
 
     rundown-cmd: >
         node --no-warnings rundown-cli/dst-stage2/rundown.js \
-            -o rundown-doc/rundown-sample.html rundown-doc/rundown-sample.docx
+            -o rundown-doc/rundown-template.html rundown-doc/rundown-template.docx
     rundown-web: >
         cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web rundown-doc" \
             npm start run:dev
