@@ -1,6 +1,6 @@
 {
     "private":                              "true",
-    "name":                                 "rundown-web",
+    "name":                                 "rundown-4-web",
     "description":                          "Render Rundown Scripts for Teleprompting (WEB)",
     "keywords":                             [ "rundown", "cue", "prompter" ],
     "homepage":                             "https://github.com/rse/rundown",

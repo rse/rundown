@@ -1,6 +1,6 @@
 {
     "private":         true,
-    "name":            "rundown-dst",
+    "name":            "rundown-6-dst",
     "description":     "Render Rundown Scripts for Teleprompting",
     "keywords":        [ "rundown", "cue", "prompter" ],
     "homepage":        "http://github.com/rse/rundown",
