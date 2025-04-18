@@ -144,8 +144,16 @@ document.addEventListener("DOMContentLoaded", () => {
             ticking = true
         }
     }
-    document.addEventListener("scroll", (event: Event) => { tickOnce() })
-    window.addEventListener("resize",   (event: Event) => { tickOnce() })
+    document.addEventListener("scroll", (event: Event) => {
+        if (speed === 0)
+            windowScrollY = window.scrollY
+        tickOnce()
+    })
+    window.addEventListener("resize",   (event: Event) => {
+        if (speed === 0)
+            windowScrollY = window.scrollY
+        tickOnce()
+    })
     tickOnce()
 
     /*  perform the auto-scrolling
