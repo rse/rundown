@@ -360,7 +360,6 @@ import moment               from "moment"
 import Rundown              from "rundown-lib"
 import logo                 from "./app-logo.svg?url"
 import template             from "../../rundown-doc/rundown-template.docx?url"
-import sample               from "../../rundown-doc/rundown-sample.docx?url"
 import pkg                  from "../../package.json" with { type: "json" }
 </script>
 
