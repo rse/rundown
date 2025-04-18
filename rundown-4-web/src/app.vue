@@ -357,9 +357,9 @@
 <script setup lang="ts">
 import { defineComponent }  from "vue"
 import moment               from "moment"
-import Rundown              from "rundown-lib"
+import Rundown              from "../../rundown-3-lib"
 import logo                 from "./app-logo.svg?url"
-import template             from "../../rundown-doc/rundown-template.docx?url"
+import template             from "../../rundown-1-doc/rundown-template.docx?url"
 import pkg                  from "../../package.json" with { type: "json" }
 </script>
 

@@ -45,7 +45,7 @@
         "@types/node":                   "22.14.1",
         "nodemon":                       "3.1.9",
 
-        "rundown-lib":                   "file:../rundown-rnd"
+        "rundown-2-rnd":                 "file:../rundown-2-rnd"
     },                                  
     "dependencies": {                   
         "eventemitter2":                 "6.4.9",

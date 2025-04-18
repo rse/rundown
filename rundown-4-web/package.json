@@ -81,7 +81,7 @@
         "cross-env":                        "7.0.3",
         "serve":                            "14.2.4",
 
-        "rundown-lib":                      "file:../rundown-lib"
+        "rundown-3-lib":                    "file:../rundown-3-lib"
     },
     "overrides": {
         "vite-plugin-node-polyfills":       { "vite": "^6.0.0" }

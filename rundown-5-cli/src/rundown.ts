@@ -20,8 +20,8 @@ import yauzl                       from "yauzl"
 import mimeTypes                   from "mime-types"
 
 /*  internal dependencies  */
-import Rundown                     from "../../rundown-lib"
-import RundownWeb                  from "../../rundown-web/dst-stage2/rundown.zip?arraybuffer"
+import Rundown                     from "../../rundown-3-lib"
+import RundownWeb                  from "../../rundown-4-web/dst-stage2/rundown.zip?arraybuffer"
 
 /*  internal dependencies  */
 // @ts-ignore

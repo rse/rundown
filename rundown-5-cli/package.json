@@ -67,8 +67,8 @@
         "@types/yauzl":                 "2.10.3",
         "@types/mime-types":            "2.1.4",
 
-        "rundown-lib":                  "file:../rundown-lib",
-        "rundown-web":                  "file:../rundown-web"
+        "rundown-3-lib":                "file:../rundown-3-lib",
+        "rundown-4-web":                "file:../rundown-4-web"
     },
     "overrides": {
         "vite-plugin-node-polyfills":   { "vite": "^6.0.0" }

@@ -13,13 +13,13 @@ import type { AnyNode }            from "domhandler"
 
 /*  internal dependencies  */
 import pkg                         from "../../package.json" with { type: "json" }
-import templateFonts               from "../../rundown-rnd/dst-stage1/rundown-fonts.css?raw"
-import templateHTML                from "../../rundown-rnd/dst-stage1/rundown.html?raw"
-import templateCSS                 from "../../rundown-rnd/dst-stage1/rundown.css?raw"
-import templateJS                  from "../../rundown-rnd/dst-stage2/rundown.umd.js?raw"
-import shapeFlow                   from "../../rundown-rnd/dst-stage1/rundown-shape-flow.svg?raw"
-import iconSVG                     from "../../rundown-rnd/dst-stage1/rundown-icon.svg?raw"
-import logoSVG                     from "../../rundown-rnd/dst-stage1/rundown-logo.svg?raw"
+import templateFonts               from "../../rundown-2-rnd/dst-stage1/rundown-fonts.css?raw"
+import templateHTML                from "../../rundown-2-rnd/dst-stage1/rundown.html?raw"
+import templateCSS                 from "../../rundown-2-rnd/dst-stage1/rundown.css?raw"
+import templateJS                  from "../../rundown-2-rnd/dst-stage2/rundown.umd.js?raw"
+import shapeFlow                   from "../../rundown-2-rnd/dst-stage1/rundown-shape-flow.svg?raw"
+import iconSVG                     from "../../rundown-2-rnd/dst-stage1/rundown-icon.svg?raw"
+import logoSVG                     from "../../rundown-2-rnd/dst-stage1/rundown-logo.svg?raw"
 
 /*  the library API  */
 export default class Rundown extends EventEmitter {

@@ -20,34 +20,34 @@ scripts:
                           mkdir -p dst-stage1/rundown-$VERSION-lnx-x64/ &&
                           mkdir -p dst-stage1/rundown-$VERSION-lnx-a64/ &&
                           mkdir -p dst-stage2 &&
-                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION/ &&
-                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-win-x64/ &&
-                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-win-a64/ &&
-                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-mac-x64/ &&
-                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-mac-a64/ &&
-                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-lnx-x64/ &&
-                          cp -p ../rundown-doc/rundown-template.docx dst-stage1/rundown-$VERSION-lnx-a64/ &&
-                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION/rundown-web.zip &&
-                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-win-x64/rundown-web.zip &&
-                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-win-a64/rundown-web.zip &&
-                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-mac-x64/rundown-web.zip &&
-                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-mac-a64/rundown-web.zip &&
-                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-lnx-x64/rundown-web.zip &&
-                          cp -p ../rundown-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-lnx-a64/rundown-web.zip &&
-                          cp -p ../rundown-cli/dst-stage2/rundown.js              dst-stage1/rundown-$VERSION/rundown-cli.js &&
-                          cp -p ../rundown-cli/dst-stage3/rundown-cli-win-x64.exe dst-stage1/rundown-$VERSION-win-x64/rundown-cli.exe &&
-                          cp -p ../rundown-cli/dst-stage3/rundown-cli-win-a64.exe dst-stage1/rundown-$VERSION-win-a64/rundown-cli.exe &&
-                          cp -p ../rundown-cli/dst-stage3/rundown-cli-mac-x64     dst-stage1/rundown-$VERSION-mac-x64/rundown-cli &&
-                          cp -p ../rundown-cli/dst-stage3/rundown-cli-mac-a64     dst-stage1/rundown-$VERSION-mac-a64/rundown-cli &&
-                          cp -p ../rundown-cli/dst-stage3/rundown-cli-lnx-x64     dst-stage1/rundown-$VERSION-lnx-x64/rundown-cli &&
-                          cp -p ../rundown-cli/dst-stage3/rundown-cli-lnx-a64     dst-stage1/rundown-$VERSION-lnx-a64/rundown-cli &&
-                          cp -p ../rundown-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION/rundown-cli.man &&
-                          cp -p ../rundown-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-win-x64/rundown-cli.man &&
-                          cp -p ../rundown-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-win-a64/rundown-cli.man &&
-                          cp -p ../rundown-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-mac-x64/rundown-cli.man &&
-                          cp -p ../rundown-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-mac-a64/rundown-cli.man &&
-                          cp -p ../rundown-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-lnx-x64/rundown-cli.man &&
-                          cp -p ../rundown-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-lnx-a64/rundown-cli.man &&
+                          cp -p ../rundown-1-doc/rundown-template.docx dst-stage1/rundown-$VERSION/ &&
+                          cp -p ../rundown-1-doc/rundown-template.docx dst-stage1/rundown-$VERSION-win-x64/ &&
+                          cp -p ../rundown-1-doc/rundown-template.docx dst-stage1/rundown-$VERSION-win-a64/ &&
+                          cp -p ../rundown-1-doc/rundown-template.docx dst-stage1/rundown-$VERSION-mac-x64/ &&
+                          cp -p ../rundown-1-doc/rundown-template.docx dst-stage1/rundown-$VERSION-mac-a64/ &&
+                          cp -p ../rundown-1-doc/rundown-template.docx dst-stage1/rundown-$VERSION-lnx-x64/ &&
+                          cp -p ../rundown-1-doc/rundown-template.docx dst-stage1/rundown-$VERSION-lnx-a64/ &&
+                          cp -p ../rundown-4-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION/rundown-web.zip &&
+                          cp -p ../rundown-4-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-win-x64/rundown-web.zip &&
+                          cp -p ../rundown-4-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-win-a64/rundown-web.zip &&
+                          cp -p ../rundown-4-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-mac-x64/rundown-web.zip &&
+                          cp -p ../rundown-4-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-mac-a64/rundown-web.zip &&
+                          cp -p ../rundown-4-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-lnx-x64/rundown-web.zip &&
+                          cp -p ../rundown-4-web/dst-stage2/rundown.zip dst-stage1/rundown-$VERSION-lnx-a64/rundown-web.zip &&
+                          cp -p ../rundown-5-cli/dst-stage2/rundown.js              dst-stage1/rundown-$VERSION/rundown-cli.js &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown-cli-win-x64.exe dst-stage1/rundown-$VERSION-win-x64/rundown-cli.exe &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown-cli-win-a64.exe dst-stage1/rundown-$VERSION-win-a64/rundown-cli.exe &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown-cli-mac-x64     dst-stage1/rundown-$VERSION-mac-x64/rundown-cli &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown-cli-mac-a64     dst-stage1/rundown-$VERSION-mac-a64/rundown-cli &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown-cli-lnx-x64     dst-stage1/rundown-$VERSION-lnx-x64/rundown-cli &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown-cli-lnx-a64     dst-stage1/rundown-$VERSION-lnx-a64/rundown-cli &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION/rundown-cli.man &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-win-x64/rundown-cli.man &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-win-a64/rundown-cli.man &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-mac-x64/rundown-cli.man &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-mac-a64/rundown-cli.man &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-lnx-x64/rundown-cli.man &&
+                          cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-lnx-a64/rundown-cli.man &&
                           cd dst-stage1 &&
                           zip -9 -r ../dst-stage2/rundown-$VERSION.zip         rundown-$VERSION/ &&
                           zip -9 -r ../dst-stage2/rundown-$VERSION-win-x64.zip rundown-$VERSION-win-x64/ &&
@@ -73,7 +73,7 @@ scripts:
 
     "docker:build": >
                           mkdir -p dst-stage1 &&
-                          cp -p ../rundown-cli/dst-stage2/rundown.js dst-stage1/ &&
+                          cp -p ../rundown-5-cli/dst-stage2/rundown.js dst-stage1/ &&
                           IMAGE_NAME=engelschall/rundown &&
                           IMAGE_VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
                           IMAGE_RELEASE=`date "+%Y%m%d"` &&
