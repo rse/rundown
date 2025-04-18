@@ -28,26 +28,26 @@ Impressions
 
 The following is the rundown script input in Microsoft Word:
 
-![screenshot](rundown-doc/rundown-screenshot-5.png)
+![screenshot](rundown-1-doc/rundown-screenshot-5.png)
 
 The following is a side-by-side view of the Microsoft Word rundown
 script input on the left, and the rendered teleprompter view on the
 right:
 
-![screenshot](rundown-doc/rundown-screenshot-1.png)
+![screenshot](rundown-1-doc/rundown-screenshot-1.png)
 
 The following is the rendered prompting view in the original 16:9 aspect ratio,
 as shown in the studio on the teleprompters:
 
-![screenshot](rundown-doc/rundown-screenshot-4.png)
+![screenshot](rundown-1-doc/rundown-screenshot-4.png)
 
 The following are two screenshots of the interactive web user interface,
 showing the buttons to download and upload the rundown script, and the
 supported keystrokes for controlling the scrolling of the rendered
 teleprompter view:
 
-![screenshot](rundown-doc/rundown-screenshot-2.png)
-![screenshot](rundown-doc/rundown-screenshot-3.png)
+![screenshot](rundown-1-doc/rundown-screenshot-2.png)
+![screenshot](rundown-1-doc/rundown-screenshot-3.png)
 
 Installation
 ------------
@@ -65,8 +65,8 @@ Usage
 
     ```
     # with Rundown source tree
-    $ npm run rundown -o      rundown-doc/rundown-template.html  rundown-doc/rundown-template.docx
-    $ npm run rundown -o - - >rundown-doc/rundown-template.html <rundown-doc/rundown-template.docx
+    $ npm run rundown -o      rundown-1-doc/rundown-template.html  rundown-1-doc/rundown-template.docx
+    $ npm run rundown -o - - >rundown-1-doc/rundown-template.html <rundown-1-doc/rundown-template.docx
 
     # with Rundown archive distribution
     $ rundown-cli -o      rundown-template.html  rundown-template.docx
@@ -81,7 +81,7 @@ Usage
 
     ```
     # with Rundown source tree
-    $ npm run rundown -v info -a 127.0.0.1 -p 8888 -m web ./rundown-doc
+    $ npm run rundown -v info -a 127.0.0.1 -p 8888 -m web ./rundown-1-doc
 
     # with Rundown archive distribution
     $ rundown-cli -v info -a 127.0.0.1 -p 8888 -m web .
@@ -173,15 +173,16 @@ Architecture
 
 The **Rundown** toolkit consists of the following parts:
 
-- [rundown-doc: input documents](rundown-doc/)
-- [rundown-lib: rendering library](rundown-lib/)
-- [rundown-cli: command-line interface](rundown-cli/)
-- [rundown-web: web interface](rundown-web/)
-- [rundown-dst: distribution assembly line](rundown-dst/)
+- [rundown-1-doc: input documents](rundown-1-doc/)
+- [rundown-2-rnd: output rendering](rundown-2-rnd/)
+- [rundown-3-lib: rendering library](rundown-3-lib/)
+- [rundown-4-cli: command-line interface](rundown-4-cli/)
+- [rundown-5-web: web interface](rundown-5-web/)
+- [rundown-6-dst: distribution assembly line](rundown-6-dst/)
 
 Those parts form an architecture which allows various use cases:
 
-![screenshot](rundown-doc/rundown-architecture.png)
+![screenshot](rundown-1-doc/rundown-architecture.png)
 
 License
 -------
