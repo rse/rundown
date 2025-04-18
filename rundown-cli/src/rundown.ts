@@ -172,6 +172,32 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         return server
     }
 
+    /*  gracefully shutdown process and REST/WebSocket service  */
+    const onShutdownServer = (server: HAPI.Server) => {
+        /*  await graceful shutdown  */
+        let shuttingDown = false
+        const shutdown = async (signal: string) => {
+            if (shuttingDown)
+                return
+            shuttingDown = true
+            cli.log("warning", `received signal ${signal} -- shutting down service`)
+            await server.stop()
+            process.exit(1)
+        }
+        process.on("SIGINT", () => {
+            shutdown("SIGINT")
+        })
+        process.on("SIGTERM", () => {
+            shutdown("SIGTERM")
+        })
+
+        /*  handle uncaught exceptions  */
+        process.on("uncaughtException", async (err: Error) => {
+            cli.log("warning", `process crashed with a fatal error: ${err} ${err.stack}`)
+            process.exit(1)
+        })
+    }
+
     /*  determine run-time mode  */
     if (args.mode === "cmd") {
         /*  ==== MODE 1: command-line, file one-shot conversion ====  */
@@ -331,19 +357,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         /*  start REST/Websocket service  */
         await server.start()
         cli.log("info", `connect your browser to the URL: http://${args.httpAddr}:${args.httpPort}/#live`)
-
-        /*  await graceful shutdown  */
-        const shutdown = async (signal: string) => {
-            cli.log("warning", `received signal ${signal} -- shutting down service`)
-            await server.stop()
-            process.exit(1)
-        }
-        process.on("SIGINT", () => {
-            shutdown("SIGINT")
-        })
-        process.on("SIGTERM", () => {
-            shutdown("SIGTERM")
-        })
+        onShutdownServer(server)
     }
     else if (args.mode === "web-ui") {
         /*  ==== MODE 3: web interface, interactive conversion ====  */
@@ -414,19 +428,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         /*  start Web service  */
         await server.start()
         cli.log("info", `connect your browser to the URL: http://${args.httpAddr}:${args.httpPort}/`)
-
-        /*  await graceful shutdown  */
-        const shutdown = async (signal: string) => {
-            cli.log("warning", `received signal ${signal} -- shutting down service`)
-            await server.stop()
-            process.exit(1)
-        }
-        process.on("SIGINT", () => {
-            shutdown("SIGINT")
-        })
-        process.on("SIGTERM", () => {
-            shutdown("SIGTERM")
-        })
+        onShutdownServer(server)
     }
     else
         throw new Error(`invalid operation mode: ${args.mode}`)
