@@ -1,6 +1,6 @@
 {
     "private":                          true,
-    "name":                             "rundown-cli",
+    "name":                             "rundown-5-cli",
     "description":                      "Render Rundown Scripts for Teleprompting (CLI)",
     "keywords":                         [ "rundown", "cue", "prompter" ],
     "homepage":                         "http://github.com/rse/rundown",
