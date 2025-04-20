@@ -163,9 +163,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         && pivot >= stateStack[i].pos)) {
                     if (stateLast !== i) {
                         stateLast = i
-                        const data: Array<{ a: boolean, kv: { [ key: string ]: string | number | boolean } }> = []
+                        const data: { active: number, kv: Array<{ [ key: string ]: string | number | boolean }> } =
+                            { active: -1, kv: [] }
                         for (let j = 0; j < stateStack.length; j++)
-                            data.push({ a: (j <= i), kv: stateStack[j].kv })
+                            data.kv.push(stateStack[j].kv)
+                        data.active = i
                         if (debug)
                             console.log(`[DEBUG]: state change: ${JSON.stringify(data)}`)
                         wsSendQueue.push(JSON.stringify({ event: "STATE", data }))
