@@ -18,6 +18,8 @@ import HAPIWebSocket               from "hapi-plugin-websocket"
 import HAPITraffic                 from "hapi-plugin-traffic"
 import yauzl                       from "yauzl"
 import mimeTypes                   from "mime-types"
+import * as arktype                from "arktype"
+import objectHash                  from "object-hash"
 
 /*  internal dependencies  */
 import Rundown                     from "../../rundown-3-lib"
@@ -278,6 +280,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             },
             handler: (request: HAPI.Request, h: HAPI.ResponseToolkit) => {
                 /*  on WebSocket message transfer  */
+                const { ctx } = request.websocket()
                 if (typeof request.payload !== "object" || request.payload === null)
                     return Boom.badRequest("invalid request")
                 const { event, data } = request.payload as any satisfies { event: string, data?: any }
@@ -285,10 +288,30 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                     /*  no-op  */
                 }
                 else if (event === "STATE" && typeof data === "object") {
-                    const msg = JSON.stringify(request.payload)
+                    /*  validate request  */
+                    const Payload = arktype.type({
+                        active: "number",
+                        kv: arktype.type({
+                            "[ string ]": "string | number | boolean"
+                        }).array()
+                    })
+                    const out = Payload(data)
+                    if (out instanceof arktype.type.errors)
+                        return Boom.badRequest(`invalid request: ${out.summary}`)
+
+                    /*  construct message to be emitted  */
+                    const msg = JSON.stringify({
+                        id:     objectHash(out.kv),
+                        active: out.active,
+                        kv:     out.kv
+                    })
+
+                    /*  emit message to all other clients  */
                     for (const [ id, info ] of wsPeers.entries()) {
-                        cli.log("info", `WebSocket: notify STATE change: peer="${id}" msg=${msg}`)
-                        info.ws.send(msg)
+                        if (ctx.id !== id) {
+                            cli.log("info", `WebSocket: notify STATE change: peer="${id}" msg=${msg}`)
+                            info.ws.send(msg)
+                        }
                     }
                 }
                 return h.response().code(204)
