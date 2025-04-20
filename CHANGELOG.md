@@ -8,6 +8,7 @@ ChangeLog
 - REFACTORING: factor our rendering part from Rundown Lib to be able to use Vite for it, too
 - IMPROVEMENT: support new style "R325: State" for automation
 - IMPROVEMENT: use Stylus instead of CSS also in Rundown Lib
+- IMPROVEMENT: validate the WebSocket requests in Rundown CLI more strictly
 - BUGFIX: avoid crashes in "ws" module for Rundown CLI by patching away optional dependencies
 - BUGFIX: fix scrolling after scroll-wheel usage
 
