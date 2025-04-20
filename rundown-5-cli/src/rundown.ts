@@ -281,29 +281,35 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             handler: (request: HAPI.Request, h: HAPI.ResponseToolkit) => {
                 /*  on WebSocket message transfer  */
                 const { ctx } = request.websocket()
-                if (typeof request.payload !== "object" || request.payload === null)
-                    return Boom.badRequest("invalid request")
-                const { event, data } = request.payload as any satisfies { event: string, data?: any }
-                if (event === "SUBSCRIBE") {
+
+                const payloadValidator = arktype.type({
+                    event:   "string",
+                    "data?": "unknown"
+                })
+                const payload = payloadValidator(request.payload)
+                if (payload instanceof arktype.type.errors)
+                    return Boom.badRequest(`invalid request: ${payload.summary}`)
+
+                if (payload.event === "SUBSCRIBE") {
                     /*  no-op  */
                 }
-                else if (event === "STATE" && typeof data === "object") {
+                else if (payload.event === "STATE" && typeof payload.data === "object") {
                     /*  validate request  */
-                    const Payload = arktype.type({
+                    const dataValidator = arktype.type({
                         active: "number",
                         kv: arktype.type({
                             "[ string ]": "string | number | boolean"
                         }).array()
                     })
-                    const out = Payload(data)
-                    if (out instanceof arktype.type.errors)
-                        return Boom.badRequest(`invalid request: ${out.summary}`)
+                    const data = dataValidator(payload.data)
+                    if (data instanceof arktype.type.errors)
+                        return Boom.badRequest(`invalid request: ${data.summary}`)
 
                     /*  construct message to be emitted  */
                     const msg = JSON.stringify({
-                        id:     objectHash(out.kv),
-                        active: out.active,
-                        kv:     out.kv
+                        id:     objectHash(data.kv),
+                        active: data.active,
+                        kv:     data.kv
                     })
 
                     /*  emit message to all other clients  */
