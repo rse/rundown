@@ -8,7 +8,7 @@
     "bugs":                              { "url": "http://github.com/rse/rundown/issues" },
     "version":                           "0.0.0",
     "license":                           "GPL-3.0-only",
-    "author": {                         
+    "author": {
         "name":                          "Dr. Ralf S. Engelschall",
         "email":                         "rse@engelschall.com",
         "url":                           "http://engelschall.com"
@@ -39,8 +39,8 @@
         "@types/node":                   "22.14.1",
         "@types/csso":                   "5.0.4",
         "nodemon":                       "3.1.9"
-    },                                  
-    "dependencies": {                   
+    },
+    "dependencies": {
         "@opensumi/reconnecting-websocket": "4.4.0",
         "axios":                         "1.8.4",
         "animejs":                       "4.0.1"
