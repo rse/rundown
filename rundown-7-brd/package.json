@@ -1,0 +1,67 @@
+{
+    "private":                          true,
+    "name":                             "rundown-7-brd",
+    "description":                      "Render Rundown Scripts for Teleprompting (PowerPoint-Control)",
+    "keywords":                         [ "rundown", "cue", "prompter" ],
+    "homepage":                         "http://github.com/rse/rundown",
+    "repository":                       { "url": "git+https://github.com/rse/rundown.git", "type": "git" },
+    "bugs":                             { "url": "http://github.com/rse/rundown/issues" },
+    "version":                          "0.0.0",
+    "license":                          "GPL-3.0-only",
+    "bin":                              { "rundown": "rundown.js" },
+    "author": {
+        "name":                         "Dr. Ralf S. Engelschall",
+        "email":                        "rse@engelschall.com",
+        "url":                          "http://engelschall.com"
+    },
+    "devDependencies": {
+        "eslint":                       "9.25.0",
+        "@eslint/js":                   "9.25.0",
+        "eslint-plugin-n":              "17.17.0",
+        "eslint-plugin-promise":        "7.2.1",
+        "eslint-plugin-import":         "2.31.0",
+        "neostandard":                  "0.12.1",
+        "globals":                      "16.0.0",
+        "npm-run-all":                  "4.1.5",
+        "shx":                          "0.4.0",
+        "@yao-pkg/pkg":                 "6.4.0",
+        "vite":                         "6.3.2",
+        "vite-plugin-node-polyfills":   "0.23.0",
+        "vite-plugin-static-copy":      "2.3.1",
+        "vite-plugin-arraybuffer":      "0.1.0",
+        "@liuli-util/vite-plugin-node": "0.10.0",
+        "@wroud/vite-plugin-tsc":       "0.11.6",
+        "rollup-plugin-node-externals": "8.0.0",
+        "typescript":                   "5.8.3",
+        "@vercel/ncc":                  "0.38.3",
+        "remark-cli":                   "12.0.1",
+        "remark":                       "15.0.1",
+        "remark-man":                   "9.0.0",
+        "nps":                          "5.10.0",
+        "markdownlint":                 "0.37.4",
+        "markdownlint-cli2":            "0.17.2",
+        "@types/node":                  "22.14.1",
+        "serve":                        "14.2.4",
+        "nodemon":                      "3.1.9",
+        "patch-package":                "8.0.0"
+    },
+    "dependencies": {
+        "cli-io":                       "0.9.13",
+        "yargs":                        "17.7.2",
+        "@opensumi/reconnecting-websocket": "4.4.0",
+        "ws":                           "8.18.1",
+        "osc-js":                       "2.4.1",
+        "arktype":                      "2.1.20",
+
+        "@types/node":                  "22.14.1",
+        "@types/yargs":                 "17.0.33"
+    },
+    "overrides": {
+        "vite-plugin-node-polyfills":   { "vite": "^6.0.0" }
+    },
+    "upd":                              [],
+    "scripts": {
+        "postinstall":                  "npm start patch-apply",
+        "start":                        "nps -c etc/nps.yaml"
+    }
+}

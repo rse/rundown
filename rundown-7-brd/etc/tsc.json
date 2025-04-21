@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+		"outDir":                  "../dst-stage1",
+        "target":                  "esnext",
+        "module":                  "esnext",
+        "moduleResolution":        "bundler",
+        "useDefineForClassFields": true,
+        "composite":               false,
+        "strict":                  true,
+        "resolveJsonModule":       true,
+        "isolatedModules":         true,
+        "esModuleInterop":         true,
+        "lib":                     [ "ESNext" ],
+        "skipLibCheck":            true,
+        "noEmit":                  false,
+        "types":                   [ "vite/client", "node", "vite-plugin-arraybuffer/types" ],
+        "rootDir":                 "../src"
+    },
+	"include": [
+		"../src/**/*.ts",
+		"../src/**/*.d.ts",
+		"../package.json"
+    ]
+}
