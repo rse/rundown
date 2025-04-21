@@ -198,6 +198,15 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             cli.log("warning", `process crashed with a fatal error: ${err} ${err.stack}`)
             process.exit(1)
         })
+
+        /*  handle unhandled promise rejections  */
+        process.on("unhandledRejection", async (reason, promise) => {
+            if (reason instanceof Error)
+                cli.log("error", `promise rejection not handled: ${reason.message}: ${reason.stack}`)
+            else
+                cli.log("error", `promise rejection not handled: ${reason}`)
+            process.exit(1)
+        })
     }
 
     /*  determine run-time mode  */
