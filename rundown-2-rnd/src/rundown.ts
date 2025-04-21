@@ -431,6 +431,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         ws.addEventListener("open", (ev) => {
             ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
+            stateLast = -1
+            tickOnce()
         })
         ws.addEventListener("message", (ev) => {
             (async () => {
