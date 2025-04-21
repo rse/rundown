@@ -55,7 +55,7 @@
         "@hapi/inert":                  "7.1.0",
         "hapi-plugin-header":           "1.1.8",
         "hapi-plugin-traffic":          "1.1.8",
-        "hapi-plugin-websocket":        "2.4.9",
+        "hapi-plugin-websocket":        "2.4.11",
         "hapi-plugin-ducky":            "1.1.9",
         "chokidar":                     "4.0.3",
         "tmp":                          "0.2.3",
