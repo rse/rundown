@@ -24,9 +24,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const view    = { w: 0, h: 0 }
     const content = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
     let stateLast = -1
+    let stateLastSent = -1
+    let stateTimer: ReturnType<typeof setTimeout> | null = null
     let debug = false
     let ws: ReconnectingWebSocket
+
+    /*  WebSocket send queue
+        (for messages potentially queued because connection had to be still (re-)established)  */
     const wsSendQueue: string[] = []
+    setInterval(() => {
+        if (ws === undefined || ws.readyState !== ReconnectingWebSocket.OPEN)
+            return
+        while (wsSendQueue.length > 0) {
+            const msg = wsSendQueue.shift()!
+            ws.send(msg)
+        }
+    }, 200)
 
     /*  update the rendering  */
     const updateRendering = () => {
@@ -169,19 +182,24 @@ document.addEventListener("DOMContentLoaded", () => {
                             data.kv.push(stateStack[j].kv)
                         data.active = i
                         if (debug)
-                            console.log(`[DEBUG]: state change: ${JSON.stringify(data)}`)
-                        wsSendQueue.push(JSON.stringify({ event: "STATE", data }))
+                            console.log(`[DEBUG]: state change: detected (active: #${data.active})`)
+                        if (stateTimer !== null)
+                            clearTimeout(stateTimer)
+                        stateTimer = setTimeout(() => {
+                            stateTimer = null
+                            if (stateLastSent !== data.active) {
+                                stateLastSent = data.active
+                                if (debug)
+                                    console.log(`[DEBUG]: state change: sending (active: #${data.active})`)
+                                wsSendQueue.push(JSON.stringify({ event: "STATE", data }))
+                            }
+                            else {
+                                if (debug)
+                                    console.log(`[DEBUG]: state change: suppressed (active: #${data.active})`)
+                            }
+                        }, 800)
                     }
                     break
-                }
-            }
-
-            /*  send out pending WebSocket messages
-                (potentially queued because connection had to be still established)  */
-            if (ws !== undefined && ws.readyState === ReconnectingWebSocket.OPEN) {
-                while (wsSendQueue.length > 0) {
-                    const msg = wsSendQueue.shift()!
-                    ws.send(msg)
                 }
             }
         }
