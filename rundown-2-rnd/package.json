@@ -45,9 +45,6 @@
         "axios":                         "1.8.4",
         "animejs":                       "4.0.1"
     },
-    "overrides": {
-        "vite-plugin-node-polyfills":    { "vite": "^6.0.0" }
-    },
     "scripts": {
         "start":                         "nps -c etc/nps.yaml"
     }

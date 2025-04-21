@@ -56,10 +56,6 @@
         "@types/node":                  "22.14.1",
         "@types/yargs":                 "17.0.33"
     },
-    "overrides": {
-        "vite-plugin-node-polyfills":   { "vite": "^6.0.0" }
-    },
-    "upd":                              [],
     "scripts": {
         "postinstall":                  "npm start patch-apply",
         "start":                        "nps -c etc/nps.yaml"

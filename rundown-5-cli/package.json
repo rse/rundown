@@ -73,10 +73,6 @@
         "rundown-3-lib":                "file:../rundown-3-lib",
         "rundown-4-web":                "file:../rundown-4-web"
     },
-    "overrides": {
-        "vite-plugin-node-polyfills":   { "vite": "^6.0.0" }
-    },
-    "upd":                              [],
     "scripts": {
         "postinstall":                  "npm start patch-apply",
         "start":                        "nps -c etc/nps.yaml"
