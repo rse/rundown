@@ -65,7 +65,7 @@
 
         "stmux":                            "1.8.10",
         "nodemon":                          "3.1.9",
-        "rimraf":                           "6.0.1",
+        "shx":                              "0.4.0",
         "stylelint":                        "16.18.0",
         "stylelint-config-html":            "1.1.0",
         "stylelint-config-recommended-vue": "1.6.0",

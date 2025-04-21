@@ -41,6 +41,6 @@ scripts:
 
     #   cleanup filesystem
     prune:                  npm prune --omit=dev
-    clean:                  rimraf dst
-    clean-dist:             rimraf dst node_modules
+    clean:                  shx rm -rf dst-stage1 dst-stage2
+    clean-dist:             npm start clean && shx rm -rf node_modules
 
