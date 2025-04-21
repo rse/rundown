@@ -13,6 +13,14 @@ scripts:
         npm --prefix rundown-6-brd install &&
         npm --prefix rundown-7-dst install
 
+    upd: >
+        npx -y --prefix rundown-2-rnd upd &&
+        npx -y --prefix rundown-3-lib upd &&
+        npx -y --prefix rundown-4-web upd &&
+        npx -y --prefix rundown-5-cli upd &&
+        npx -y --prefix rundown-6-brd upd &&
+        npx -y --prefix rundown-7-dst upd
+
     build: >
         npm --prefix rundown-2-rnd start build &&
         npm --prefix rundown-3-lib start build &&
