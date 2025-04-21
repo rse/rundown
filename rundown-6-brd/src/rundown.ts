@@ -151,10 +151,17 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
                 cli.log("error", `Rundown WebSocket: invalid message: ${payload.summary}`)
                 return
             }
-            cli.log("info", `Rundown WebSocket: received message: ${JSON.stringify(data)}`)
-            for (const id of Object.keys(plugins))
-                for (const ref of plugins[id].ref)
-                    await ref.reflect(payload.data)
+            if (payload.event === "STATE") {
+                const data = payload.data
+                let kv = data.kv.map((kv, i) =>
+                    `${i}: <${Object.keys(kv).map((k) => `${k}=${kv[k]}`).join(" ")}>`
+                ).join(", ")
+                cli.log("info", `Rundown WebSocket: state change: [${data.id}]: ` +
+                    `active=${data.active} kv={ ${kv} }`)
+                for (const id of Object.keys(plugins))
+                    for (const ref of plugins[id].ref)
+                        await ref.reflect(payload.data)
+            }
         })()
     })
 
