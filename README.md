@@ -176,9 +176,10 @@ The **Rundown** toolkit consists of the following parts:
 - [rundown-1-doc: input documents](rundown-1-doc/)
 - [rundown-2-rnd: output rendering](rundown-2-rnd/)
 - [rundown-3-lib: rendering library](rundown-3-lib/)
-- [rundown-4-cli: command-line interface](rundown-4-cli/)
-- [rundown-5-web: web interface](rundown-5-web/)
-- [rundown-6-dst: distribution assembly line](rundown-6-dst/)
+- [rundown-4-web: web interface](rundown-4-web/)
+- [rundown-5-cli: command-line interface](rundown-5-cli/)
+- [rundown-6-brd: command-line interface of bridge](rundown-6-brd/)
+- [rundown-7-dst: distribution assembly line](rundown-7-dst/)
 
 Those parts form an architecture which allows various use cases:
 
