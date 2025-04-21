@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-1.2.0 (2025-04-18)
+1.2.0 (2025-04-21)
 ------------------
 
 - REFACTORING: factor our rendering part from Rundown Lib to be able to use Vite for it, too
