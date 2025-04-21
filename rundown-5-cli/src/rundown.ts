@@ -249,6 +249,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
         /*  serve WebSocket connections  */
         const wsPeers = new Map<string, wsPeerInfo>()
+        let wsLastMsg = ""
         server.route({
             method: "POST",
             path:   "/events",
@@ -280,7 +281,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             },
             handler: (request: HAPI.Request, h: HAPI.ResponseToolkit) => {
                 /*  on WebSocket message transfer  */
-                const { ctx } = request.websocket()
+                const { ctx, ws } = request.websocket()
 
                 const payloadValidator = arktype.type({
                     event:   "string",
@@ -291,7 +292,9 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                     return Boom.badRequest(`invalid request: ${payload.summary}`)
 
                 if (payload.event === "SUBSCRIBE") {
-                    /*  no-op  */
+                    /*  send out last state message  */
+                    if (wsLastMsg !== "")
+                        ws.send(wsLastMsg)
                 }
                 else if (payload.event === "STATE" && typeof payload.data === "object") {
                     /*  validate request  */
@@ -306,10 +309,13 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                         return Boom.badRequest(`invalid request: ${data.summary}`)
 
                     /*  construct message to be emitted  */
-                    const msg = JSON.stringify({
-                        id:     objectHash(data.kv),
-                        active: data.active,
-                        kv:     data.kv
+                    const msg = wsLastMsg = JSON.stringify({
+                        event: "STATE",
+                        data: {
+                            id:     objectHash(data.kv),
+                            active: data.active,
+                            kv:     data.kv
+                        }
                     })
 
                     /*  emit message to all other clients  */

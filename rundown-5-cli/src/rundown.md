@@ -6,6 +6,7 @@
 `rundown`
 \[`-h`|`--help`\]
 \[`-V`|`--version`\]
+\[`-v`|`--verbose *level*`\]
 \[`-e`|`--extract` *css-selector-chain*\]
 \[`-o`|`--output` *output-file*|`-`]
 \[`-a`|`--http-addr` *ip-address*\]
@@ -29,6 +30,9 @@ The following command-line options and arguments exist:
 
 - \[`-V`|`--version`\]:
   Show program version information only.
+
+- \[`-v`|`--verbose *level*`\]:
+  Set verbose logging.
 
 - \[`-e`|`--extract` *css-selector-chain*\]:
   Extract the text from the HTML DOM generated from the DOCX input
