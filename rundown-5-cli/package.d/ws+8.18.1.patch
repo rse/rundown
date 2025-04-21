@@ -24,6 +24,8 @@ index f7536e2..dc75c9c 100644
 -    // Continue regardless of the error.
 -  }
 -}
+diff --git a/node_modules/ws/lib/validation.js b/node_modules/ws/lib/validation.js
+index 4a2e68d..89cbda8 100644
 --- a/node_modules/ws/lib/validation.js
 +++ b/node_modules/ws/lib/validation.js
 @@ -139,14 +139,5 @@ if (isUtf8) {
