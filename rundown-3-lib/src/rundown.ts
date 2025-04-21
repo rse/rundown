@@ -41,7 +41,8 @@ export default class Rundown extends EventEmitter {
                 "p[style-name='R211: Speaker']     => div.rundown-speaker",
 
                 "p[style-name='R311: Part']        => div.rundown-part",
-                "p[style-name='R312: Chat']        => div.rundown-chat",
+                "p[style-name='R312: Chat']        => div.rundown-hint", /* OBSOLETE */
+                "p[style-name='R312: State']       => div.rundown-state",
                 "p[style-name='R313: Control']     => div.rundown-control",
                 "p[style-name='R314: Display']     => div.rundown-display",
                 "p[style-name='R315: Hint']        => div.rundown-hint",
@@ -57,8 +58,7 @@ export default class Rundown extends EventEmitter {
                 "r[style-name='R321: Emphasis']    => span.rundown-emphasis",
                 "r[style-name='R322: KeyWord']     => span.rundown-keyword",
                 "r[style-name='R323: KeyMessage']  => span.rundown-keymessage",
-                "r[style-name='R324: Info']        => span.rundown-info",
-                "r[style-name='R325: State']       => span.rundown-state"
+                "r[style-name='R324: Info']        => span.rundown-info"
             ],
             includeEmbeddedStyleMap: true,
             includeDefaultStyleMap:  true,
