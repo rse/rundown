@@ -193,6 +193,9 @@ export default class Rundown extends EventEmitter {
             if (childs.length === 0)
                 $2(el).addClass("disabled")
         })
+        $2(".rundown-state").each((i, el) => {
+            $2(el).wrap($2("<div class=\"rundown-state-marker\"></div>"))
+        })
         output = $2("html > body").html()!
 
         /*  wrap generated HTML into stand-alone web page  */
