@@ -153,7 +153,7 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
             }
             if (payload.event === "STATE") {
                 const data = payload.data
-                let kv = data.kv.map((kv, i) =>
+                const kv = data.kv.map((kv, i) =>
                     `${i}: <${Object.keys(kv).map((k) => `${k}=${kv[k]}`).join(" ")}>`
                 ).join(", ")
                 cli.log("info", `Rundown WebSocket: state change: [${data.id}]: ` +
