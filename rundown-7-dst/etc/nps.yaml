@@ -48,6 +48,20 @@ scripts:
                           cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-mac-a64/rundown-cli.man &&
                           cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-lnx-x64/rundown-cli.man &&
                           cp -p ../rundown-5-cli/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-lnx-a64/rundown-cli.man &&
+                          cp -p ../rundown-6-brd/dst-stage2/rundown.js              dst-stage1/rundown-$VERSION/rundown-bridge.js &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown-cli-win-x64.exe dst-stage1/rundown-$VERSION-win-x64/rundown-bridge.exe &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown-cli-win-a64.exe dst-stage1/rundown-$VERSION-win-a64/rundown-bridge.exe &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown-cli-mac-x64     dst-stage1/rundown-$VERSION-mac-x64/rundown-bridge &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown-cli-mac-a64     dst-stage1/rundown-$VERSION-mac-a64/rundown-bridge &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown-cli-lnx-x64     dst-stage1/rundown-$VERSION-lnx-x64/rundown-bridge &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown-cli-lnx-a64     dst-stage1/rundown-$VERSION-lnx-a64/rundown-bridge &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION/rundown-bridge.man &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-win-x64/rundown-bridge.man &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-win-a64/rundown-bridge.man &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-mac-x64/rundown-bridge.man &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-mac-a64/rundown-bridge.man &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-lnx-x64/rundown-bridge.man &&
+                          cp -p ../rundown-6-brd/dst-stage3/rundown.1               dst-stage1/rundown-$VERSION-lnx-a64/rundown-bridge.man &&
                           cd dst-stage1 &&
                           zip -9 -r ../dst-stage2/rundown-$VERSION.zip         rundown-$VERSION/ &&
                           zip -9 -r ../dst-stage2/rundown-$VERSION-win-x64.zip rundown-$VERSION-win-x64/ &&
