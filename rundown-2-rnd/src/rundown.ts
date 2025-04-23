@@ -166,40 +166,42 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             /*  determine which state is currently active  */
-            for (let i = 0; i < stateStack.length; i++) {
-                if (   (i === 0 && i < stateStack.length - 1
-                        && pivot < stateStack[i + 1].pos)
-                    || ((i > 0 && i < stateStack.length - 1)
-                        && pivot >= stateStack[i].pos
-                        && pivot < stateStack[i + 1].pos)
-                    || (i === stateStack.length - 1
-                        && pivot >= stateStack[i].pos)) {
-                    if (stateLast !== i) {
-                        stateLast = i
-                        const data: { active: number, kv: Array<{ [ key: string ]: string | number | boolean }> } =
-                            { active: -1, kv: [] }
-                        for (let j = 0; j < stateStack.length; j++)
-                            data.kv.push(stateStack[j].kv)
-                        data.active = i
-                        if (debug)
-                            console.log(`[DEBUG]: state change: detected (active: #${data.active})`)
-                        if (stateTimer !== null)
-                            clearTimeout(stateTimer)
-                        stateTimer = setTimeout(() => {
-                            stateTimer = null
-                            if (stateLastSent !== data.active) {
-                                stateLastSent = data.active
-                                if (debug)
-                                    console.log(`[DEBUG]: state change: sending (active: #${data.active})`)
-                                wsSendQueue.push(JSON.stringify({ event: "STATE", data }))
-                            }
-                            else {
-                                if (debug)
-                                    console.log(`[DEBUG]: state change: suppressed (active: #${data.active})`)
-                            }
-                        }, 800)
+            if (stateStack.length > 1) {
+                for (let i = 0; i < stateStack.length; i++) {
+                    if (   (i === 0 && i < stateStack.length - 1
+                            && pivot < stateStack[i + 1].pos)
+                        || ((i > 0 && i < stateStack.length - 1)
+                            && pivot >= stateStack[i].pos
+                            && pivot < stateStack[i + 1].pos)
+                        || (i === stateStack.length - 1
+                            && pivot >= stateStack[i].pos)) {
+                        if (stateLast !== i) {
+                            stateLast = i
+                            const data: { active: number, kv: Array<{ [ key: string ]: string | number | boolean }> } =
+                                { active: -1, kv: [] }
+                            for (let j = 0; j < stateStack.length; j++)
+                                data.kv.push(stateStack[j].kv)
+                            data.active = i
+                            if (debug)
+                                console.log(`[DEBUG]: state change: detected (active: #${data.active})`)
+                            if (stateTimer !== null)
+                                clearTimeout(stateTimer)
+                            stateTimer = setTimeout(() => {
+                                stateTimer = null
+                                if (stateLastSent !== data.active) {
+                                    stateLastSent = data.active
+                                    if (debug)
+                                        console.log(`[DEBUG]: state change: sending (active: #${data.active})`)
+                                    wsSendQueue.push(JSON.stringify({ event: "STATE", data }))
+                                }
+                                else {
+                                    if (debug)
+                                        console.log(`[DEBUG]: state change: suppressed (active: #${data.active})`)
+                                }
+                            }, 800)
+                        }
+                        break
                     }
-                    break
                 }
             }
         }
