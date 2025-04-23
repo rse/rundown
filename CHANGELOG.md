@@ -6,6 +6,8 @@ ChangeLog
 ------------------
 
 - IMPROVEMENT: on SPACE and ESCAPE gradually adjust speed for smoother experience
+- IMPROVEMENT: provide a lock functionality for production scenarios which disables some interactions
+- IMPROVEMENT: under lock situation, prevent from scroll backwards over a state
 
 1.2.2 (2025-04-23)
 ------------------

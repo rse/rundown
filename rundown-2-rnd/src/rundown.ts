@@ -26,8 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let stateLast = -1
     let stateLastSent = -1
     let stateTimer: ReturnType<typeof setTimeout> | null = null
+    let stateLastScrollY = -1
     let debug = false
     let ws: ReconnectingWebSocket
+    let locked = false
+    let paused = false
+    let speed = 0
+    let delta = 0
 
     /*  WebSocket send queue
         (for messages potentially queued because connection had to be still (re-)established)  */
@@ -165,8 +170,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 stateStack.push({ pos: bb.top + (bb.height / 2), kv })
             }
 
-            /*  determine which state is currently active  */
+            /*  track state changes  */
             if (stateStack.length > 1) {
+                /*  under a locked situation, prevent from scroll backwards over a state  */
+                if (locked) {
+                    if (window.scrollY < stateLastScrollY) {
+                        for (let i = 0; i < stateStack.length; i++) {
+                            if (pivot > stateStack[i].pos && (pivot - stateStack[i].pos) < 20) {
+                                paused = true
+                                speed = 0
+                                window.scrollTo({ top: stateLastScrollY })
+                                break
+                            }
+                        }
+                    }
+                    stateLastScrollY = window.scrollY
+                }
+
+                /*  determine which state is currently active  */
                 for (let i = 0; i < stateStack.length; i++) {
                     if (   (i === 0 && i < stateStack.length - 1
                             && pivot < stateStack[i + 1].pos)
@@ -232,6 +253,10 @@ document.addEventListener("DOMContentLoaded", () => {
             ticking = true
         }
     }
+    document.addEventListener("wheel", (event: WheelEvent) => {
+        if (locked)
+            event.preventDefault()
+    }, { passive: false })
     document.addEventListener("scroll", (event: Event) => {
         if (speed === 0)
             windowScrollY = window.scrollY
@@ -246,9 +271,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*  perform the auto-scrolling
         (notice: window.scroll needs a delta of at least 0.5px to operate)  */
-    let paused = false
-    let speed = 0
-    let delta = 0
     let windowScrollY = window.scrollY
     const doAutoScroll = () => {
         if (!paused && speed !== 0) {
@@ -394,28 +416,34 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (event.key === "1" || event.key === "t") {
             paused = true
             speed = 0
-            window.scroll({ top: 0, behavior: "smooth" })
+            if (!locked)
+                window.scroll({ top: 0, behavior: "smooth" })
         }
         else if (event.key === "2" || event.key === "b") {
             paused = true
             speed = 0
-            window.scroll({ top: content.h, behavior: "smooth" })
+            if (!locked)
+                window.scroll({ top: content.h, behavior: "smooth" })
         }
         else if ((event.shiftKey && event.code === "PageUp") || event.code === "Numpad1") {
             event.preventDefault()
-            scrollToSiblingSection("up")
+            if (!locked)
+                scrollToSiblingSection("up")
         }
         else if ((event.shiftKey && event.code === "PageDown") || event.code === "Numpad2") {
             event.preventDefault()
-            scrollToSiblingSection("down")
+            if (!locked)
+                scrollToSiblingSection("down")
         }
         else if (event.code === "ArrowLeft" || event.code === "PageUp") {
             event.preventDefault()
-            scrollToSiblingChunk("up")
+            if (!locked)
+                scrollToSiblingChunk("up")
         }
         else if (event.code === "ArrowRight" || event.code === "PageDown") {
             event.preventDefault()
-            scrollToSiblingChunk("down")
+            if (!locked)
+                scrollToSiblingChunk("down")
         }
         else if (event.altKey && event.key === "-") {
             lineHeight -= 5
@@ -458,6 +486,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 content.classList.add("debug")
             else if (!debug && content.classList.contains("debug"))
                 content.classList.remove("debug")
+        }
+        else if (event.key === "l") {
+            locked = !locked
+            const content = document.querySelector("body")! as HTMLBodyElement
+            if (locked && !content.classList.contains("locked"))
+                content.classList.add("locked")
+            else if (!debug && content.classList.contains("locked"))
+                content.classList.remove("locked")
         }
     })
 
