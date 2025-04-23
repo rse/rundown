@@ -356,7 +356,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         tmp.setGracefulCleanup()
 
         /*  update result delivery  */
-        const updateDelivery = async () => {
+        const updateDeliveryOnce = async () => {
             const filesSorted = Array.from(files.keys()).sort((a, b) => {
                 const statA = files.get(a) as fs.Stats
                 const statB = files.get(b) as fs.Stats
@@ -370,6 +370,15 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                 await convertDocument(modifiedFile, tmpfile)
                 notifyClient("RELOAD")
             }
+        }
+        let updateDeliveryTimer: ReturnType<typeof setTimeout> | null = null
+        const updateDelivery = () => {
+            if (updateDeliveryTimer !== null)
+                clearTimeout(updateDeliveryTimer)
+            updateDeliveryTimer = setTimeout(() => {
+                updateDeliveryTimer = null
+                updateDeliveryOnce()
+            }, 500)
         }
 
         /*  serve HTML content  */
