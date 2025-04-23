@@ -7,6 +7,7 @@ ChangeLog
 
 - IMPROVEMENT: also perform "upd" at the top-level
 - UPDATE: update NPM dependencies
+- BUGFIX: fix rendering in case of no existing states at all
 
 1.2.0 (2025-04-23)
 ------------------

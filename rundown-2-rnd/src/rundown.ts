@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             /*  determine which state is currently active  */
             for (let i = 0; i < stateStack.length; i++) {
-                if (   (i === 0
+                if (   (i === 0 && i < stateStack.length - 1
                         && pivot < stateStack[i + 1].pos)
                     || ((i > 0 && i < stateStack.length - 1)
                         && pivot >= stateStack[i].pos
