@@ -344,15 +344,40 @@ document.addEventListener("DOMContentLoaded", () => {
     /*  allow the scrolling and rendering to be controlled  */
     let fontSize   = 120
     let lineHeight = 125
+    let speedBeforePause = 0
+    let adjustSpeedTimer: ReturnType<typeof setTimeout> | null = null
+    const adjustSpeed = (target: number) => {
+        if (adjustSpeedTimer !== null)
+            clearTimeout(adjustSpeedTimer)
+        if (   (target === 0 && speed > 0)
+            || (target !== 0 && speed > target)) {
+            paused = false
+            speed--
+            adjustSpeedTimer = setTimeout(() => adjustSpeed(target), 100)
+        }
+        else if ((target === 0 && speed < 0)
+            || (target !== 0 && speed < target)) {
+            paused = false
+            speed++
+            adjustSpeedTimer = setTimeout(() => adjustSpeed(target), 100)
+        }
+        else if (target === 0)
+            paused = true
+    }
     document.addEventListener("keydown", (event: KeyboardEvent) => {
         if (event.code === "Space") {
             event.preventDefault()
-            paused = !paused
+            if (!paused) {
+                speedBeforePause = speed
+                adjustSpeed(0)
+            }
+            else
+                adjustSpeed(speedBeforePause)
         }
         else if (event.code === "Escape" || (event.altKey && event.code === "ArrowUp")) {
             event.preventDefault()
-            paused = !paused
-            speed = 0
+            speedBeforePause = 0
+            adjustSpeed(0)
         }
         else if (event.code === "ArrowDown" || event.key === "w") {
             event.preventDefault()
