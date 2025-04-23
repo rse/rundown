@@ -164,6 +164,14 @@
                 </div>
                 <div class="action">
                     <div class="keystroke">
+                        <span class="key">L</span>
+                    </div>
+                    <div class="description">
+                        lock interactions for production
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="keystroke">
                         <span class="key"><b>&ndash;</b></span>
                     </div>
                     <div class="description">
@@ -329,7 +337,7 @@
         .actions
             background-color: var(--color-std-bg-2)
             border-radius: 1rem
-            padding: 2rem
+            padding: 1rem 2rem 1rem 2rem
             .action
                 font-size: 1.75rem
                 display: flex
