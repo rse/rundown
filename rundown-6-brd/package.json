@@ -54,6 +54,10 @@
         "osc-js":                       "2.4.1",
         "arktype":                      "2.1.20"
     },
+    "engines" : {
+        "npm":                          ">=10.0.0",
+        "node":                         ">=22.0.0"
+    },
     "scripts": {
         "postinstall":                  "npm start patch-apply",
         "start":                        "nps -c etc/nps.yaml"

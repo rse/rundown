@@ -45,6 +45,10 @@
         "axios":                         "1.8.4",
         "animejs":                       "4.0.1"
     },
+    "engines" : {
+        "npm":                           ">=10.0.0",
+        "node":                          ">=22.0.0"
+    },
     "scripts": {
         "start":                         "nps -c etc/nps.yaml"
     }
