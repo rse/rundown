@@ -15,7 +15,7 @@
     },
     "devDependencies": {
         "nps":          "5.10.0",
-        "nodemon":      "3.1.9",
+        "nodemon":      "3.1.10",
         "watch":        "1.0.2",
         "concurrently": "9.1.2",
         "wait-on":      "8.0.3",
