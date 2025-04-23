@@ -14,6 +14,7 @@ scripts:
         npm --prefix rundown-7-dst install
 
     upd: >
+        npx -y upd &&
         npx -y --prefix rundown-2-rnd upd &&
         npx -y --prefix rundown-3-lib upd &&
         npx -y --prefix rundown-4-web upd &&

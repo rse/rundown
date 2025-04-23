@@ -2,6 +2,12 @@
 ChangeLog
 =========
 
+1.2.1 (2025-04-23)
+------------------
+
+- IMPROVEMENT: also perform "upd" at the top-level
+- UPDATE: update NPM dependencies
+
 1.2.0 (2025-04-23)
 ------------------
 
