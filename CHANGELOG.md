@@ -5,6 +5,7 @@ ChangeLog
 1.2.2 (2025-04-23)
 ------------------
 
+- IMPROVEMENT: on SPACE and ESCAPE gradually adjust speed for smoother experience
 - IMPROVEMENT: for Rundown Web mode, convert only the latest DOCX file on startup
 - UPDATE: cleanup NPM dependencies
 
