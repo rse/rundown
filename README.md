@@ -167,6 +167,10 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
       Allow presenters to in-advance preflight their prompting session.
     - **Confidential Preflights**:
       Support fully local preflights for confidential rundown script content.
+    - **Optional Application Control**:
+      Support optional controlling of external applications through embedded state styles.
+    - **Locked Production**:
+      Support a locked production mode where certain dangerous interactions are disabled.
 
 Architecture
 ------------
