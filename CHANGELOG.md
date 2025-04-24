@@ -2,6 +2,12 @@
 ChangeLog
 =========
 
+1.2.7 (2025-04-24)
+------------------
+
+- BUGFIX: fix upd(1) usage at top-level
+- UPDATE: cleanup NPM dependencies
+
 1.2.6 (2025-04-24)
 ------------------
 
