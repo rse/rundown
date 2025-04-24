@@ -1,5 +1,5 @@
 
-<img src="https://raw.githubusercontent.com/rse/rundown/master/rundown-doc/rundown-logo.svg" width="200" align="right" alt=""/>
+<img src="https://raw.githubusercontent.com/rse/rundown/master/rundown-1-doc/rundown-logo.svg" width="200" align="right" alt=""/>
 
 Rundown
 =======
