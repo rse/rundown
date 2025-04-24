@@ -91,7 +91,8 @@ scripts:
 
     "docker:build": >
                           mkdir -p dst-stage1 &&
-                          cp -p ../rundown-5-cli/dst-stage2/rundown.js dst-stage1/ &&
+                          cp -p ../rundown-5-cli/dst-stage2/rundown.js dst-stage1/rundown-cli.js &&
+                          cp -p ../rundown-6-brd/dst-stage2/rundown.js dst-stage1/rundown-bridge.js &&
                           IMAGE_NAME=engelschall/rundown &&
                           IMAGE_VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
                           IMAGE_RELEASE=`date "+%Y%m%d"` &&

@@ -7,6 +7,7 @@ ChangeLog
 
 - CLEANUP: add CHANGELOG.md entries to Github release
 - CLEANUP: remove Perfect Scrollbar and additional TypoPRO font weights from Web UI
+- IMPROVEMENT: add Docker entrypoint for running both "rundown-cli" and "rundown-bridge"
 
 1.2.3 (2025-04-23)
 ------------------

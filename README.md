@@ -73,8 +73,8 @@ Usage
     $ rundown-cli -o - - >rundown-template.html <rundown-template.docx
 
     # with Rundown Docker distribution
-    $ docker run -v .:/work engelschall/rundown -o     /work/rundown-template.html /work/rundown-template.docx
-    $ docker run -i         engelschall/rundown -o - -      >rundown-template.html      <rundown-template.docx
+    $ docker run -v .:/work engelschall/rundown rundown-cli -o     /work/rundown-template.html /work/rundown-template.docx
+    $ docker run -i         engelschall/rundown rundown-cli -o - -      >rundown-template.html      <rundown-template.docx
     ```
 
 - **WEB** Mode (Continuous Conversion)
@@ -87,7 +87,7 @@ Usage
     $ rundown-cli -v info -a 127.0.0.1 -p 8888 -m web .
 
     # with Rundown Docker distribution
-    $ docker run -p 8888:8888 -v .:/work engelschall/rundown -v info -p 8888 -m web /work
+    $ docker run -p 8888:8888 -v .:/work engelschall/rundown rundown-cli -v info -p 8888 -m web /work
     ```
 
 - **WEB-UI** Mode (Interactive Conversion)
@@ -100,7 +100,7 @@ Usage
     $ rundown-cli -v info -a 127.0.0.1 -p 8888 -m web-ui
 
     # with Rundown Docker distribution
-    $ docker run -p 8888:8888 engelschall/rundown -v info -o 8888 -m web-ui
+    $ docker run -p 8888:8888 engelschall/rundown rundown-cli -v info -o 8888 -m web-ui
     ```
 
 Design Criterias

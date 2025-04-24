@@ -9,7 +9,8 @@ FROM        node:22-alpine3.21
 
 #   update Alpine and add additional tools
 RUN         apk update && \
-            apk upgrade
+            apk upgrade && \
+            apk add bash
 
 #   establish application area and user/group
 RUN         mkdir -p /app && \
@@ -22,14 +23,18 @@ WORKDIR     /app
 ENV         HOME=/app
 
 #   install application
-COPY        dst-stage1/rundown.js /app/
+COPY        etc/docker-entrypoint.bash   /app/entrypoint
+RUN         chmod 755 /app/entrypoint
+COPY        dst-stage1/rundown-cli.js    /app/
+COPY        dst-stage1/rundown-bridge.js /app/
+RUN         chmod 644 /app/rundown-cli.js /app/rundown-bridge.js
 
 #   cleanup Alpine
 RUN         rm -rf /var/cache/apk/*
 
 #   provide entrypoint
 WORKDIR     /app
-ENTRYPOINT  [ "node", "--no-warnings", "rundown.js" ]
+ENTRYPOINT  [ "/app/entrypoint" ]
 CMD         []
 
 #   expose HTTP port
