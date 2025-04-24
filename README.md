@@ -63,6 +63,9 @@ Usage
 
 - **CMD** Mode (One-Shot Conversion)
 
+  Render the DOCX input to an HTML output in a one-shot conversion mode.
+  The conversion itself is performed locally in the started tool process.
+
     ```
     # with Rundown source tree
     $ npm run rundown -o      rundown-1-doc/rundown-template.html  rundown-1-doc/rundown-template.docx
@@ -79,6 +82,9 @@ Usage
 
 - **WEB** Mode (Continuous Conversion)
 
+  Render the DOCX input to an HTML output in a continuous conversion mode.
+  The conversion itself is performed locally in the started service process.
+
     ```
     # with Rundown source tree
     $ npm run rundown -v info -a 127.0.0.1 -p 8888 -m web ./rundown-1-doc
@@ -90,7 +96,15 @@ Usage
     $ docker run -p 8888:8888 -v .:/work engelschall/rundown rundown-cli -v info -p 8888 -m web /work
     ```
 
-- **WEB-UI** Mode (Interactive Conversion)
+    ```
+    $ open http://127.0.0.1:8888
+    ```
+
+- **WEB-UI** Mode (Interactive Conversion, Local)
+
+  Render the DOCX input to an HTML output in an interactive conversion mode,
+  where the application is loaded locally. The conversion itself is performed
+  locally in the browser.
 
     ```
     # with Rundown source tree
@@ -101,6 +115,20 @@ Usage
 
     # with Rundown Docker distribution
     $ docker run -p 8888:8888 engelschall/rundown rundown-cli -v info -o 8888 -m web-ui
+    ```
+
+    ```
+    $ open http://127.0.0.1:8888
+    ```
+
+- **WEB-UI** Mode (Interactive Conversion, Central)
+
+  Render the DOCX input to an HTML output in an interactive conversion mode,
+  where the application is loaded remotely. The conversion itself is performed
+  locally in the browser.
+
+    ```
+    $ open https://rundown.studio.msg.team/
     ```
 
 Design Criterias
