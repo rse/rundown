@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+1.2.4 (2025-04-24)
+------------------
+
+- CLEANUP: add CHANGELOG.md entries to Github release
+
 1.2.3 (2025-04-23)
 ------------------
 
