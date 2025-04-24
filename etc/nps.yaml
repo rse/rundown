@@ -15,12 +15,12 @@ scripts:
 
     upd: >
         npx -y upd &&
-        npx -y --prefix rundown-2-rnd upd &&
-        npx -y --prefix rundown-3-lib upd &&
-        npx -y --prefix rundown-4-web upd &&
-        npx -y --prefix rundown-5-cli upd &&
-        npx -y --prefix rundown-6-brd upd &&
-        npx -y --prefix rundown-7-dst upd
+        (cd rundown-2-rnd && npx -y upd) &&
+        (cd rundown-3-lib && npx -y upd) &&
+        (cd rundown-4-web && npx -y upd) &&
+        (cd rundown-5-cli && npx -y upd) &&
+        (cd rundown-6-brd && npx -y upd) &&
+        (cd rundown-7-dst && npx -y upd)
 
     build: >
         npm --prefix rundown-2-rnd start build &&
