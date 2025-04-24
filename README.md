@@ -62,7 +62,7 @@ the application is loaded, there is no more server communication, as
 the DOCX to HTML conversion is performed directly within this Web
 application. As a consequence, your DOCX input and the corresponding
 rendered HTML output never leave your local browser sandbox. Also, the
-application, once loaded, can be operate fully offline.
+application, once loaded, can operate fully offline.
 
 Installation
 ------------
