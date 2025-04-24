@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+1.2.5 (2025-04-24)
+------------------
+
+- BUGFIX: fix Docker entrypoint argument handling
+
 1.2.4 (2025-04-24)
 ------------------
 
