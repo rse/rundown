@@ -6,14 +6,10 @@
 
 /*  external dependencies  */
 import * as Vue from "vue"
-import               "typopro-web/web/TypoPRO-SourceSansPro/TypoPRO-SourceSansPro-Light.css"
 import               "typopro-web/web/TypoPRO-SourceSansPro/TypoPRO-SourceSansPro-Regular.css"
 import               "typopro-web/web/TypoPRO-SourceSansPro/TypoPRO-SourceSansPro-Bold.css"
-import               "typopro-web/web/TypoPRO-SourceSansPro/TypoPRO-SourceSansPro-Black.css"
 import               "@fortawesome/fontawesome-free/js/all.min.js"
 import               "@fortawesome/fontawesome-free/css/all.min.css"
-import               "perfect-scrollbar/css/perfect-scrollbar.css"
-import               "perfect-scrollbar"
 
 /*  internal dependencies  */
 import App      from "./app.vue"

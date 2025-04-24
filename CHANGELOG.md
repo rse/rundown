@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - CLEANUP: add CHANGELOG.md entries to Github release
+- CLEANUP: remove Perfect Scrollbar and additional TypoPRO font weights from Web UI
 
 1.2.3 (2025-04-23)
 ------------------
