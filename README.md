@@ -49,6 +49,21 @@ teleprompter view:
 ![screenshot](rundown-1-doc/rundown-screenshot-2.png)
 ![screenshot](rundown-1-doc/rundown-screenshot-3.png)
 
+Central Application
+-------------------
+
+Visit the URL https://rundown.studio.msg.team/ to load a centrally
+deployed **Rundown** as a Web UI application into your local browser
+and then, fully offline, use local download and upload operations from
+within this application.
+
+NOTICE: This application is a client-side-only application, i.e., once
+the application is loaded, there is no more server communication, as
+the DOCX to HTML conversion is performed directly within this Web
+application. As a consequence, your DOCX input and the corresponding
+rendered HTML output never leave your local browser sandbox. Also, the
+application, once loaded, can be operate fully offline.
+
 Installation
 ------------
 
