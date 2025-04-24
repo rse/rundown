@@ -5,7 +5,9 @@ ChangeLog
 1.2.6 (2025-04-24)
 ------------------
 
+- IMPROVEMENT: improve descriptions in top-level README.md
 - CLEANUP: updated all screenshots
+- CLEANUP: fix mail URL in Web UI
 
 1.2.5 (2025-04-24)
 ------------------
