@@ -36,16 +36,14 @@ export default class Rundown extends EventEmitter {
                 "r[style-name='R122: Toggle']      => span.rundown-control-toggle",
                 "r[style-name='R123: Select']      => span.rundown-control-select",
                 "r[style-name='R124: Apply']       => span.rundown-control-apply",
-                "r[style-name='R125: Automate']    => span.rundown-control-automate", /* OBSOLETE */
 
-                "p[style-name='R211: Speaker']     => div.rundown-speaker",
+                "p[style-name='R211: Speaker']     => div.rundown-speaker:fresh",
 
-                "p[style-name='R311: Part']        => div.rundown-part",
-                "p[style-name='R312: Chat']        => div.rundown-hint", /* OBSOLETE */
-                "p[style-name='R312: State']       => div.rundown-state",
-                "p[style-name='R313: Control']     => div.rundown-control",
-                "p[style-name='R314: Display']     => div.rundown-display",
-                "p[style-name='R315: Hint']        => div.rundown-hint",
+                "p[style-name='R311: Part']        => div.rundown-part:fresh",
+                "p[style-name='R312: State']       => div.rundown-state:fresh",
+                "p[style-name='R313: Control']     => div.rundown-control:fresh",
+                "p[style-name='R314: Display']     => div.rundown-display:fresh",
+                "p[style-name='R315: Hint']        => div.rundown-hint:fresh",
 
                 "p[style-name='R316: OList1']      => ol > li:fresh",
                 "p[style-name='R317: OList2']      => ol|ul > li > ol > li:fresh",
