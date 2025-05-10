@@ -5,7 +5,11 @@ ChangeLog
 1.2.7 (2025-04-24)
 ------------------
 
+- BUGFIX: only use 'key' and not 'code' information of KeyboardEvent, as
+  virtual keyboards like VICREO Listener do not cause 'code' to be set in
+  at least Chrome browser
 - BUGFIX: fix upd(1) usage at top-level
+- UPDATE: upgrade NPM dependencies
 - UPDATE: cleanup NPM dependencies
 
 1.2.6 (2025-04-24)
