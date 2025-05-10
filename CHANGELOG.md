@@ -5,6 +5,7 @@ ChangeLog
 1.3.0 (2025-05-10)
 ------------------
 
+- IMPROVEMENT: improve rendering of part headers
 - IMPROVEMENT: improve rendering of lists
 - IMPROVEMENT: improve optical rendering
 - IMPROVEMENT: increase margin for Display and Hint styles in rendering
