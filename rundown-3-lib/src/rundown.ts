@@ -155,6 +155,7 @@ export default class Rundown extends EventEmitter {
             return ($(nodes).html() ?? "")
                 .replace(/à/g, "<span class=\"rundown-arrow\">&rarr;</span>")
                 .replace(/-&gt;/g, "<span class=\"rundown-arrow\">&rarr;</span>")
+                .replace(/\.\.\./g, "<span class=\"rundown-ellipsis\">&hellip;</span>")
         }
         output += "<div class=\"rundown-section\">"
         output += "<div class=\"rundown-chunk\">"
