@@ -47,13 +47,10 @@ export default class Rundown extends EventEmitter {
                 "p[style-name='R314: Display']     => div.rundown-display",
                 "p[style-name='R315: Hint']        => div.rundown-hint",
 
-                /* the following have to be left out for Mammoth to do the right thing  */
-                /*
-                "p[style-name='R316: OList1']      => ol",
-                "p[style-name='R317: OList2']      => ol",
-                "p[style-name='R318: UList1']      => ul",
-                "p[style-name='R319: UList2']      => ul",
-                */
+                "p[style-name='R316: OList1']      => ol > li:fresh",
+                "p[style-name='R317: OList2']      => ol|ul > li > ol > li:fresh",
+                "p[style-name='R318: UList1']      => ul > li:fresh",
+                "p[style-name='R319: UList2']      => ul|ol > li > ul > li:fresh",
 
                 "r[style-name='R321: Emphasis']    => span.rundown-emphasis",
                 "r[style-name='R322: KeyWord']     => span.rundown-keyword",

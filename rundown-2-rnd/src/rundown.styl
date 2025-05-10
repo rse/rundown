@@ -268,12 +268,12 @@ ul
     margin: 0
     list-style: none
 
-ul li
+ul > li
     list-style: none
     padding-left: 4rem
     position: relative
 
-ul li::after
+ul > li::after
     content: " "
     position: absolute
     font-size: 1rem
@@ -289,7 +289,7 @@ ul li::after
     align-items: center
     justify-content: center
 
-li ul li::after
+li > ul > li::after
     top: 0.40rem
     width: 1.20rem
     height: 1.20rem
@@ -302,12 +302,12 @@ ol
     margin: 0
     list-style: none
 
-ol li
+ol > li
     list-style: none
     padding-left: 4rem
     position: relative
 
-ol li::after
+ol > li::after
     content: counter(list-item)
     position: absolute
     font-size: 1rem
@@ -323,7 +323,7 @@ ol li::after
     align-items: center
     justify-content: center
 
-li ol li::after
+li > ol > li::after
     top: 0.40rem
     width: 1.20rem
     height: 1.20rem

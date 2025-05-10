@@ -2,9 +2,10 @@
 ChangeLog
 =========
 
-1.2.7 (2025-04-24)
+1.3.0 (2025-05-10)
 ------------------
 
+- IMPROVEMENT: improve rendering of lists
 - IMPROVEMENT: improve optical rendering
 - IMPROVEMENT: increase margin for Display and Hint styles in rendering
 - BUGFIX: only use 'key' and not 'code' information of KeyboardEvent, as
