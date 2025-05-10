@@ -117,6 +117,25 @@ export default class Rundown extends EventEmitter {
                 $(node).remove()
         })
 
+        /*  post-adjust HTML: remove empty list items
+            (which still can contain whitespace text nodes)  */
+        $("li").each((i, node) => {
+            const hasNonTextContent = Array.from(node.childNodes).some((node) =>
+                !(node.nodeType === 3 /* Node.TEXT_NODE */ && /^\s*$/.test(node.nodeValue)))
+            if (!hasNonTextContent)
+                $(node).remove()
+        })
+
+        /*  post-adjust HTML: mark ghost bullet points
+            (i.e. bullets points at level-1 which immedidately contain level-2 ones
+            and which get generated when a paragraph style is between level-2 styles)  */
+        $("li:has(> ul, > ol)").each((i, node) => {
+            const hasTextContent = Array.from(node.childNodes).some((node) =>
+                node.nodeType === 3 /* Node.TEXT_NODE */ && /\S/.test(node.nodeValue))
+            if (!hasTextContent)
+                $(node).addClass("rundown-ghost")
+        })
+
         /*  extract information from HTML via recursive CSS selector chaining  */
         const extract = (
             entries:   BasicAcceptedElems<AnyNode>[],
@@ -137,8 +156,8 @@ export default class Rundown extends EventEmitter {
         let output = ""
         const convert = (nodes: BasicAcceptedElems<AnyNode>) => {
             return ($(nodes).html() ?? "")
-                .replace(/à/g, "&rarr;")
-                .replace(/-&gt;/g, "&rarr;")
+                .replace(/à/g, "<span class=\"rundown-arrow\">&rarr;</span>")
+                .replace(/-&gt;/g, "<span class=\"rundown-arrow\">&rarr;</span>")
         }
         output += "<div class=\"rundown-section\">"
         output += "<div class=\"rundown-chunk\">"

@@ -5,6 +5,7 @@ ChangeLog
 1.2.7 (2025-04-24)
 ------------------
 
+- IMPROVEMENT: improve optical rendering
 - IMPROVEMENT: increase margin for Display and Hint styles in rendering
 - BUGFIX: only use 'key' and not 'code' information of KeyboardEvent, as
   virtual keyboards like VICREO Listener do not cause 'code' to be set in
