@@ -387,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
             paused = true
     }
     document.addEventListener("keydown", (event: KeyboardEvent) => {
-        if (event.code === "Space") {
+        if (event.key === " ") {
             event.preventDefault()
             if (!paused) {
                 speedBeforePause = speed
@@ -396,18 +396,18 @@ document.addEventListener("DOMContentLoaded", () => {
             else
                 adjustSpeed(speedBeforePause)
         }
-        else if (event.code === "Escape" || (event.altKey && event.code === "ArrowUp")) {
+        else if (event.key === "Escape" || (event.altKey && event.key === "ArrowUp")) {
             event.preventDefault()
             speedBeforePause = 0
             adjustSpeed(0)
         }
-        else if (event.code === "ArrowDown" || event.key === "w") {
+        else if (event.key === "ArrowDown" || event.key === "w") {
             event.preventDefault()
             if (paused) paused = false
             speed -= 1
             if (speed < -10) speed = -10
         }
-        else if (event.code === "ArrowUp" || event.key === "s") {
+        else if (event.key === "ArrowUp" || event.key === "s") {
             event.preventDefault()
             if (paused) paused = false
             speed += 1
@@ -425,22 +425,24 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!locked)
                 window.scroll({ top: content.h, behavior: "smooth" })
         }
-        else if ((event.shiftKey && event.code === "PageUp") || event.code === "Numpad1") {
+        else if ((event.shiftKey && event.key === "PageUp")
+            || (event.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD && event.key === "1")) {
             event.preventDefault()
             if (!locked)
                 scrollToSiblingSection("up")
         }
-        else if ((event.shiftKey && event.code === "PageDown") || event.code === "Numpad2") {
+        else if ((event.shiftKey && event.key === "PageDown")
+            || (event.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD && event.key === "2")) {
             event.preventDefault()
             if (!locked)
                 scrollToSiblingSection("down")
         }
-        else if (event.code === "ArrowLeft" || event.code === "PageUp") {
+        else if (event.key === "ArrowLeft" || event.key === "PageUp") {
             event.preventDefault()
             if (!locked)
                 scrollToSiblingChunk("up")
         }
-        else if (event.code === "ArrowRight" || event.code === "PageDown") {
+        else if (event.key === "ArrowRight" || event.key === "PageDown") {
             event.preventDefault()
             if (!locked)
                 scrollToSiblingChunk("down")
