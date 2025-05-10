@@ -9,6 +9,7 @@ ChangeLog
 - IMPROVEMENT: improve rendering of lists
 - IMPROVEMENT: improve optical rendering
 - IMPROVEMENT: increase margin for Display and Hint styles in rendering
+- BUGFIX: fix building executables
 - BUGFIX: only use 'key' and not 'code' information of KeyboardEvent, as
   virtual keyboards like VICREO Listener do not cause 'code' to be set in
   at least Chrome browser
