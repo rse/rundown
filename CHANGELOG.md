@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - UPDATE: upgrade NPM dependencies
+- IMPROVEMENT: switch from Node.js 22 to 24
 
 1.3.0 (2025-05-10)
 ------------------
