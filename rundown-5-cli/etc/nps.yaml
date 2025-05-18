@@ -7,10 +7,10 @@
 scripts:
     #   make and apply patches
     patch-make: >
-                            npm shrinkwrap &&
-                            patch-package --patch-dir package.d "ws" &&
-                            shx rm -f npm-shrinkwrap.json
-    patch-apply:            patch-package --patch-dir package.d
+                          npm shrinkwrap &&
+                          patch-package --patch-dir package.d "ws" &&
+                          shx rm -f npm-shrinkwrap.json
+    patch-apply:          patch-package --patch-dir package.d
 
     #   static code analysis (linting)
     lint-watch:           nodemon --exec "npm start lint" --watch src --ext ts
