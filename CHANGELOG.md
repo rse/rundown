@@ -8,6 +8,7 @@ ChangeLog
 - UPDATE: upgrade NPM dependencies
 - IMPROVEMENT: improve rendering of arrows and dashes
 - BUGFIX: fix header in generated HTML file
+- BUGFIX: fix rendering of list elements with only disabled content
 
 1.3.1 (2025-05-18)
 ------------------

@@ -212,6 +212,13 @@ export default class Rundown extends EventEmitter {
         $2(".rundown-state").each((i, el) => {
             $2(el).wrap($2("<div class=\"rundown-state-marker\"></div>"))
         })
+        $2("li").each((i, el) => {
+            const hasTextContent = Array.from(el.childNodes).some((node) =>
+                node.nodeType === 3 /* Node.TEXT_NODE */ && /\S/.test(node.nodeValue))
+            const childs = $2("*:not(.rundown-chat, .rundown-info, .rundown-control)", el)
+            if (!hasTextContent && childs.length === 0)
+                $2(el).addClass("disabled")
+        })
         output = $2("html > body").html()!
 
         /*  wrap generated HTML into stand-alone web page  */
