@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - BUGFIX: fix rendering of optically empty content at start
+- UPDATE: upgrade NPM dependencies
 
 1.3.2 (2025-05-22)
 ------------------
