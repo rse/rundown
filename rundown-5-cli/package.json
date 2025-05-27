@@ -44,7 +44,7 @@
         "nodemon":                      "3.1.10",
         "patch-package":                "8.0.0",
 
-        "@types/node":                  "22.15.21",
+        "@types/node":                  "22.15.23",
         "@types/yargs":                 "17.0.33",
         "@types/ws":                    "8.18.1",
         "@types/tmp":                   "0.2.6",
@@ -54,7 +54,7 @@
     },
     "dependencies": {
         "cli-io":                       "0.9.13",
-        "yargs":                        "17.7.2",
+        "yargs":                        "18.0.0",
         "yauzl":                        "3.2.0",
         "mime-types":                   "3.0.1",
         "@hapi/hapi":                   "21.4.0",
