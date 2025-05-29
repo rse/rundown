@@ -7,6 +7,7 @@ ChangeLog
 
 - IMPROVEMENT: introduce "R011: Base Paragraph" and "R021: Base Character" styles
 - IMPROVEMENT: improve styling of "R321: Emphasis" to just underline and italics
+- UPDATE: upgrade NPM dependencies
 
 1.3.4 (2025-05-27)
 ------------------

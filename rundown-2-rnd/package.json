@@ -36,7 +36,7 @@
         "typopro-web":                           "4.2.7",
         "csso":                                  "5.0.5",
         "svgo":                                  "3.3.2",
-        "@types/node":                           "22.15.23",
+        "@types/node":                           "22.15.24",
         "@types/csso":                           "5.0.4",
         "nodemon":                               "3.1.10"
     },
