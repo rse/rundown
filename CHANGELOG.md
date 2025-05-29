@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+1.4.0 (2025-05-29)
+------------------
+
+- IMPROVEMENT: introduce "R011: Base Paragraph" and "R021: Base Character" styles
+
 1.3.4 (2025-05-27)
 ------------------
 
