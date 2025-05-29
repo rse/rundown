@@ -32,28 +32,31 @@ export default class Rundown extends EventEmitter {
             source.arrayBuffer = input
         const result = await mammoth.convertToHtml(source, {
             styleMap: [
-                "r[style-name='R121: Enforce']     => span.rundown-control-enforce",
-                "r[style-name='R122: Toggle']      => span.rundown-control-toggle",
-                "r[style-name='R123: Select']      => span.rundown-control-select",
-                "r[style-name='R124: Apply']       => span.rundown-control-apply",
+                "p[style-name='R011: Base Paragraph'] => div.rundown-base:fresh",
+                "r[style-name='R021: Base Character'] => span.rundown-base",
 
-                "p[style-name='R211: Speaker']     => div.rundown-speaker:fresh",
+                "r[style-name='R121: Enforce']        => span.rundown-control-enforce",
+                "r[style-name='R122: Toggle']         => span.rundown-control-toggle",
+                "r[style-name='R123: Select']         => span.rundown-control-select",
+                "r[style-name='R124: Apply']          => span.rundown-control-apply",
 
-                "p[style-name='R311: Part']        => div.rundown-part:fresh",
-                "p[style-name='R312: State']       => div.rundown-state:fresh",
-                "p[style-name='R313: Control']     => div.rundown-control:fresh",
-                "p[style-name='R314: Display']     => div.rundown-display:fresh",
-                "p[style-name='R315: Hint']        => div.rundown-hint:fresh",
+                "p[style-name='R211: Speaker']        => div.rundown-speaker:fresh",
 
-                "p[style-name='R316: OList1']      => ol > li:fresh",
-                "p[style-name='R317: OList2']      => ol|ul > li > ol > li:fresh",
-                "p[style-name='R318: UList1']      => ul > li:fresh",
-                "p[style-name='R319: UList2']      => ul|ol > li > ul > li:fresh",
+                "p[style-name='R311: Part']           => div.rundown-part:fresh",
+                "p[style-name='R312: State']          => div.rundown-state:fresh",
+                "p[style-name='R313: Control']        => div.rundown-control:fresh",
+                "p[style-name='R314: Display']        => div.rundown-display:fresh",
+                "p[style-name='R315: Hint']           => div.rundown-hint:fresh",
 
-                "r[style-name='R321: Emphasis']    => span.rundown-emphasis",
-                "r[style-name='R322: KeyWord']     => span.rundown-keyword",
-                "r[style-name='R323: KeyMessage']  => span.rundown-keymessage",
-                "r[style-name='R324: Info']        => span.rundown-info"
+                "p[style-name='R316: OList1']         => ol > li:fresh",
+                "p[style-name='R317: OList2']         => ol|ul > li > ol > li:fresh",
+                "p[style-name='R318: UList1']         => ul > li:fresh",
+                "p[style-name='R319: UList2']         => ul|ol > li > ul > li:fresh",
+
+                "r[style-name='R321: Emphasis']       => span.rundown-emphasis",
+                "r[style-name='R322: KeyWord']        => span.rundown-keyword",
+                "r[style-name='R323: KeyMessage']     => span.rundown-keymessage",
+                "r[style-name='R324: Info']           => span.rundown-info"
             ],
             includeEmbeddedStyleMap: true,
             includeDefaultStyleMap:  true,
