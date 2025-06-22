@@ -15,11 +15,11 @@
         "url":                          "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                       "9.28.0",
-        "@eslint/js":                   "9.28.0",
-        "eslint-plugin-n":              "17.19.0",
+        "eslint":                       "9.29.0",
+        "@eslint/js":                   "9.29.0",
+        "eslint-plugin-n":              "17.20.0",
         "eslint-plugin-promise":        "7.2.1",
-        "eslint-plugin-import":         "2.31.0",
+        "eslint-plugin-import":         "2.32.0",
         "neostandard":                  "0.12.1",
         "globals":                      "16.2.0",
         "npm-run-all":                  "4.1.5",
@@ -27,11 +27,10 @@
         "@yao-pkg/pkg":                 "6.5.1",
         "vite":                         "6.3.5",
         "vite-plugin-node-polyfills":   "0.23.0",
-        "vite-plugin-static-copy":      "3.0.0",
         "vite-plugin-arraybuffer":      "0.1.0",
         "@liuli-util/vite-plugin-node": "0.10.0",
         "@wroud/vite-plugin-tsc":       "0.11.6",
-        "rollup-plugin-node-externals": "8.0.0",
+        "rollup-plugin-node-externals": "8.0.1",
         "typescript":                   "5.8.3",
         "@vercel/ncc":                  "0.38.3",
         "remark-cli":                   "12.0.1",
@@ -44,12 +43,12 @@
         "nodemon":                      "3.1.10",
         "patch-package":                "8.0.0",
 
-        "@types/node":                  "22.15.30",
+        "@types/node":                  "24.0.3",
         "@types/yargs":                 "17.0.33",
         "@types/ws":                    "8.18.1",
         "@types/tmp":                   "0.2.6",
         "@types/yauzl":                 "2.10.3",
-        "@types/mime-types":            "3.0.0",
+        "@types/mime-types":            "3.0.1",
         "@types/object-hash":           "3.0.6"
     },
     "dependencies": {

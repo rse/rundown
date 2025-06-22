@@ -6,7 +6,7 @@
     "homepage":         "http://github.com/rse/rundown",
     "repository":       { "url": "git+https://github.com/rse/rundown.git", "type": "git" },
     "bugs":             { "url": "http://github.com/rse/rundown/issues" },
-    "version":          "1.4.0",
+    "version":          "1.4.1",
     "license":          "GPL-3.0-only",
     "author": {
         "name":         "Dr. Ralf S. Engelschall",
@@ -17,7 +17,7 @@
         "nps":          "5.10.0",
         "nodemon":      "3.1.10",
         "watch":        "1.0.2",
-        "concurrently": "9.1.2",
+        "concurrently": "9.2.0",
         "wait-on":      "8.0.3",
         "cross-env":    "7.0.3"
     },

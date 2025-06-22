@@ -24,25 +24,25 @@
         }
     },
     "devDependencies": {
-        "eslint":                        "9.28.0",
-        "@eslint/js":                    "9.28.0",
-        "eslint-plugin-n":               "17.19.0",
+        "eslint":                        "9.29.0",
+        "@eslint/js":                    "9.29.0",
+        "eslint-plugin-n":               "17.20.0",
         "eslint-plugin-promise":         "7.2.1",
-        "eslint-plugin-import":          "2.31.0",
+        "eslint-plugin-import":          "2.32.0",
         "neostandard":                   "0.12.1",
         "globals":                       "16.2.0",
         "npm-run-all":                   "4.1.5",
         "shx":                           "0.4.0",
         "mkdirp":                        "3.0.1",
         "vite":                          "6.3.5",
-        "vite-plugin-static-copy":       "3.0.0",
+        "vite-plugin-static-copy":       "3.0.2",
         "vite-plugin-singlefile":        "2.2.0",
         "vite-plugin-node-polyfills":    "0.23.0",
         "@m5nv/vite-plugin-run-task":    "1.0.2",
         "@wroud/vite-plugin-tsc":        "0.11.6",
         "typescript":                    "5.8.3",
         "nps":                           "5.10.0",
-        "@types/node":                   "22.15.30",
+        "@types/node":                   "24.0.3",
         "nodemon":                       "3.1.10",
 
         "rundown-2-rnd":                 "file:../rundown-2-rnd"
@@ -50,7 +50,7 @@
     "dependencies": {                   
         "eventemitter2":                 "6.4.9",
         "@shy1118/mammoth":              "1.6.3",
-        "cheerio":                       "1.0.0",
+        "cheerio":                       "1.1.0",
         "domhandler":                    "5.0.3"
     },
     "engines" : {
