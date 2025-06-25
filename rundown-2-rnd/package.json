@@ -23,8 +23,8 @@
         "globals":                               "16.2.0",
         "shx":                                   "0.4.0",
         "mkdirp":                                "3.0.1",
-        "vite":                                  "6.3.5",
-        "vite-plugin-static-copy":               "3.0.2",
+        "vite":                                  "7.0.0",
+        "vite-plugin-static-copy":               "3.1.0",
         "vite-plugin-singlefile":                "2.2.0",
         "vite-plugin-node-polyfills":            "0.23.0",
         "@m5nv/vite-plugin-run-task":            "1.0.2",
@@ -36,7 +36,7 @@
         "typopro-web":                           "4.2.7",
         "csso":                                  "5.0.5",
         "svgo":                                  "4.0.0",
-        "@types/node":                           "24.0.3",
+        "@types/node":                           "24.0.4",
         "@types/csso":                           "5.0.4",
         "nodemon":                               "3.1.10"
     },
@@ -44,6 +44,10 @@
         "@opensumi/reconnecting-websocket":      "4.4.0",
         "axios":                                 "1.10.0",
         "animejs":                               "4.0.2"
+    },
+    "overrides": {
+        "vite-plugin-node-polyfills":            { "vite": ">=6.0.0" },
+        "vite-plugin-singlefile":                { "vite": ">=6.0.0" }
     },
     "engines" : {
         "npm":                                   ">=10.0.0",
