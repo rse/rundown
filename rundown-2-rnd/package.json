@@ -14,13 +14,13 @@
         "url":                                   "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                                "9.29.0",
-        "@eslint/js":                            "9.29.0",
+        "eslint":                                "9.30.0",
+        "@eslint/js":                            "9.30.0",
         "eslint-plugin-n":                       "17.20.0",
         "eslint-plugin-promise":                 "7.2.1",
         "eslint-plugin-import":                  "2.32.0",
         "neostandard":                           "0.12.1",
-        "globals":                               "16.2.0",
+        "globals":                               "16.3.0",
         "shx":                                   "0.4.0",
         "mkdirp":                                "3.0.1",
         "vite":                                  "7.0.0",
@@ -36,7 +36,7 @@
         "typopro-web":                           "4.2.7",
         "csso":                                  "5.0.5",
         "svgo":                                  "4.0.0",
-        "@types/node":                           "24.0.4",
+        "@types/node":                           "24.0.8",
         "@types/csso":                           "5.0.4",
         "nodemon":                               "3.1.10"
     },
