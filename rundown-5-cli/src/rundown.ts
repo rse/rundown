@@ -357,13 +357,16 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
         /*  update result delivery  */
         const updateDeliveryOnce = async () => {
-            const filesSorted = Array.from(files.keys()).sort((a, b) => {
-                const statA = files.get(a) as fs.Stats
-                const statB = files.get(b) as fs.Stats
+            const clonedFiles = new Map(files)
+            if (clonedFiles.size === 0)
+                return
+            const filesSorted = Array.from(clonedFiles.keys()).sort((a, b) => {
+                const statA = clonedFiles.get(a) as fs.Stats
+                const statB = clonedFiles.get(b) as fs.Stats
                 return (statB.mtime as Date).getTime() - (statA.mtime as Date).getTime()
             })
             const modifiedFile = filesSorted[0]
-            const modifiedTime = (files.get(modifiedFile)!.mtime as Date).getTime()
+            const modifiedTime = (clonedFiles.get(modifiedFile)!.mtime as Date).getTime()
             if (modifiedFile !== convertedFile || modifiedTime > convertedTime) {
                 convertedFile = modifiedFile
                 convertedTime = modifiedTime
@@ -396,8 +399,12 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         /*  watch for directory changes  */
         const watcher = chokidar.watch(inputPath, {
             persistent: true,
-            awaitWriteFinish: true,
-            atomic: true,
+            awaitWriteFinish: {
+                stabilityThreshold: 2000,
+                pollInterval: 300
+            },
+            atomic: 2000,
+            alwaysStat: true,
             ignored: (file: string, stat?: fs.Stats) => {
                 if (file.match(/(?:^~\$|\/~\$)/) !== null)
                     return true
@@ -408,17 +415,36 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             interval: 300,
             binaryInterval: 300
         })
+        let unlinkTimers = new Map<string, ReturnType<typeof setTimeout>>()
         watcher.on("add", (path: string, stats?: fs.Stats) => {
-            files.set(path, stats!)
+            if (stats === undefined)
+                return
+            if (unlinkTimers.has(path)) {
+                clearTimeout(unlinkTimers.get(path))
+                unlinkTimers.delete(path)
+            }
+            files.set(path, stats)
             updateDelivery()
         })
         watcher.on("change", (path: string, stats?: fs.Stats) => {
-            files.set(path, stats!)
+            if (stats === undefined)
+                return
+            if (unlinkTimers.has(path)) {
+                clearTimeout(unlinkTimers.get(path))
+                unlinkTimers.delete(path)
+            }
+            files.set(path, stats)
             updateDelivery()
         })
         watcher.on("unlink", (path: string) => {
-            files.delete(path)
-            updateDelivery()
+            if (unlinkTimers.has(path)) {
+                clearTimeout(unlinkTimers.get(path))
+                unlinkTimers.delete(path)
+            }
+            unlinkTimers.set(path, setTimeout(() => {
+                files.delete(path)
+                updateDelivery()
+            }, 2000))
         })
 
         /*  start REST/Websocket service  */
