@@ -39,5 +39,5 @@ scripts:
 
     #   cleanup
     clean:                shx rm -rf dst-stage1 dst-stage2 dst-stage3
-    clean-dist:           npm start clean && shx rm -rf node_modules
+    clean-dist:           npm start clean && shx rm -rf node_modules && shx rm -f package-lock.json
 

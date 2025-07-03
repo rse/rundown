@@ -42,5 +42,5 @@ scripts:
     #   cleanup filesystem
     prune:                  npm prune --omit=dev
     clean:                  shx rm -rf dst-stage1 dst-stage2
-    clean-dist:             npm start clean && shx rm -rf node_modules
+    clean-dist:             npm start clean && shx rm -rf node_modules && shx rm -f package-lock.json
 

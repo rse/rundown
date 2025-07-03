@@ -9,6 +9,7 @@ ChangeLog
 - BUGFIX: fix environment variable usage in build process for Windows platforms
 - BUGFIX: make CLI filesystem watching (for live updates) more robust
 - BUGFIX: add missing files to version control
+- CLEANUP: remove more files on clean-dist target
 
 1.4.3 (2025-07-01)
 ------------------
