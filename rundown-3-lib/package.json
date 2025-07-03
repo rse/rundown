@@ -24,8 +24,8 @@
         }
     },
     "devDependencies": {
-        "eslint":                        "9.30.0",
-        "@eslint/js":                    "9.30.0",
+        "eslint":                        "9.30.1",
+        "@eslint/js":                    "9.30.1",
         "eslint-plugin-n":               "17.20.0",
         "eslint-plugin-promise":         "7.2.1",
         "eslint-plugin-import":          "2.32.0",
@@ -36,14 +36,15 @@
         "mkdirp":                        "3.0.1",
         "vite":                          "7.0.0",
         "vite-plugin-static-copy":       "3.1.0",
-        "vite-plugin-singlefile":        "2.2.0",
+        "vite-plugin-singlefile":        "2.3.0",
         "vite-plugin-node-polyfills":    "0.23.0",
         "@m5nv/vite-plugin-run-task":    "1.0.2",
         "@wroud/vite-plugin-tsc":        "0.11.6",
         "typescript":                    "5.8.3",
         "nps":                           "5.10.0",
-        "@types/node":                   "24.0.8",
+        "@types/node":                   "24.0.10",
         "nodemon":                       "3.1.10",
+        "cross-env":                     "7.0.3",
 
         "rundown-2-rnd":                 "file:../rundown-2-rnd"
     },                                  
@@ -54,8 +55,7 @@
         "domhandler":                    "5.0.3"
     },
     "overrides": {
-        "vite-plugin-node-polyfills":    { "vite": ">=6.0.0" },
-        "vite-plugin-singlefile":        { "vite": ">=6.0.0" }
+        "vite-plugin-node-polyfills":    { "vite": ">=6.0.0" }
     },
     "engines" : {
         "npm":                           ">=10.0.0",
