@@ -8,6 +8,7 @@ ChangeLog
 - UPDATE: upgrade NPM dependencies
 - BUGFIX: fix environment variable usage in build process for Windows platforms
 - BUGFIX: make CLI filesystem watching (for live updates) more robust
+- BUGFIX: add missing files to version control
 
 1.4.3 (2025-07-01)
 ------------------
