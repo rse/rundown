@@ -415,7 +415,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             interval: 300,
             binaryInterval: 300
         })
-        let unlinkTimers = new Map<string, ReturnType<typeof setTimeout>>()
+        const unlinkTimers = new Map<string, ReturnType<typeof setTimeout>>()
         watcher.on("add", (path: string, stats?: fs.Stats) => {
             if (stats === undefined)
                 return
