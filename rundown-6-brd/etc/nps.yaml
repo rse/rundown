@@ -7,10 +7,10 @@
 scripts:
     #   make and apply patches
     patch-make: >
-                            npm shrinkwrap &&
-                            patch-package --patch-dir package.d "ws" &&
-                            shx rm -f npm-shrinkwrap.json
-    patch-apply:            patch-package --patch-dir package.d
+                          npm shrinkwrap &&
+                          patch-package --patch-dir package.d "ws" &&
+                          shx rm -f npm-shrinkwrap.json
+    patch-apply:          patch-package --patch-dir package.d
 
     #   static code analysis (linting)
     lint-watch:           nodemon --exec "npm start lint" --watch src --ext ts
@@ -26,9 +26,9 @@ scripts:
     build:pkg: >
                           cd dst-stage2 &&
                           rm -f rundown-7-brd-* &&
-                          pkg --sea --public -c ../package.json --sea \
-                              -t node24-linux-x64,node24-linux-arm64,node24-win-x64,node24-win-arm64,node24-macos-x64,node24-macos-arm64 \
-                              rundown.js &&
+                          pkg --sea --public -c ../package.json --sea
+                          -t node24-linux-x64,node24-linux-arm64,node24-win-x64,node24-win-arm64,node24-macos-x64,node24-macos-arm64
+                          rundown.js &&
                           shx mkdir -p ../dst-stage3 &&
                           shx mv rundown-6-brd-linux-x64     ../dst-stage3/rundown-bridge-lnx-x64 &&
                           shx mv rundown-6-brd-linux-arm64   ../dst-stage3/rundown-bridge-lnx-a64 &&

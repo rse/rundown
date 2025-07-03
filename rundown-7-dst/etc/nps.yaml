@@ -75,18 +75,14 @@ scripts:
                           VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
                           V=`echo "$VERSION" | sed -e 's;\.;\\.;g'` &&
                           sed -n -e "/^${V} /, /^[0-9]\\./ { /^${V} /p; /^[0-9]\\./!p; }" <../CHANGELOG.md >.notes.md &&
-                          gh release create \
-                              --title "Rundown $VERSION" \
-                              --notes-file .notes.md \
-                              --verify-tag \
-                              $VERSION \
-                              dst-stage2/rundown-$VERSION.zip \
-                              dst-stage2/rundown-$VERSION-win-x64.zip \
-                              dst-stage2/rundown-$VERSION-win-a64.zip \
-                              dst-stage2/rundown-$VERSION-mac-x64.zip \
-                              dst-stage2/rundown-$VERSION-mac-a64.zip \
-                              dst-stage2/rundown-$VERSION-lnx-x64.zip \
-                              dst-stage2/rundown-$VERSION-lnx-a64.zip &&
+                          gh release create --title "Rundown $VERSION" --notes-file .notes.md --verify-tag $VERSION
+                          dst-stage2/rundown-$VERSION.zip
+                          dst-stage2/rundown-$VERSION-win-x64.zip
+                          dst-stage2/rundown-$VERSION-win-a64.zip
+                          dst-stage2/rundown-$VERSION-mac-x64.zip
+                          dst-stage2/rundown-$VERSION-mac-a64.zip
+                          dst-stage2/rundown-$VERSION-lnx-x64.zip
+                          dst-stage2/rundown-$VERSION-lnx-a64.zip &&
                           rm -f .notes.md
 
     "docker:build": >
@@ -97,13 +93,13 @@ scripts:
                           IMAGE_VERSION=`sed -n '/"version":/ s/.*: *"\(.*\)".*/\1/p' ../package.json` &&
                           IMAGE_RELEASE=`date "+%Y%m%d"` &&
                           echo "++ building Docker container image for Rundown $IMAGE_VERSION ($IMAGE_RELEASE) ++" &&
-                          docker buildx build \
-                              --platform linux/amd64,linux/arm64 \
-                              --pull --no-cache --progress plain \
-                              -t "$IMAGE_NAME:$IMAGE_VERSION-$IMAGE_RELEASE" \
-                              -t "$IMAGE_NAME:$IMAGE_VERSION" \
-                              -t "$IMAGE_NAME:latest" \
-                              -f etc/docker-build.txt . &&
+                          docker buildx build
+                          --platform linux/amd64,linux/arm64
+                          --pull --no-cache --progress plain
+                          -t "$IMAGE_NAME:$IMAGE_VERSION-$IMAGE_RELEASE"
+                          -t "$IMAGE_NAME:$IMAGE_VERSION"
+                          -t "$IMAGE_NAME:latest"
+                          -f etc/docker-build.txt . &&
                           docker image ls "$IMAGE_NAME:$IMAGE_VERSION-$IMAGE_RELEASE"
 
     "docker:publish": >
@@ -115,10 +111,8 @@ scripts:
                           docker push "$IMAGE_NAME:$IMAGE_VERSION" &&
                           docker push "$IMAGE_NAME:latest"
 
-    "docker:up": >
-                          docker compose -f etc/docker-compose.yaml up -d
-    "docker:down":  >
-                          docker compose -f etc/docker-compose.yaml down
+    "docker:up":          docker compose -f etc/docker-compose.yaml up -d
+    "docker:down":        docker compose -f etc/docker-compose.yaml down
 
     clean:                shx rm -rf dst-stage1 dst-stage2
     clean-dist:           npm start clean && shx rm -rf node_modules && shx rm -f package-lock.json

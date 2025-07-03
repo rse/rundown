@@ -26,9 +26,9 @@ scripts:
     build:pkg: >
                           cd dst-stage2 &&
                           rm -f rundown-5-cli-* &&
-                          pkg --sea --public -c ../package.json --sea \
-                              -t node24-linux-x64,node24-linux-arm64,node24-win-x64,node24-win-arm64,node24-macos-x64,node24-macos-arm64 \
-                              rundown.js &&
+                          pkg --sea --public -c ../package.json --sea
+                          -t node24-linux-x64,node24-linux-arm64,node24-win-x64,node24-win-arm64,node24-macos-x64,node24-macos-arm64
+                          rundown.js &&
                           shx mkdir -p ../dst-stage3 &&
                           shx mv rundown-5-cli-linux-x64     ../dst-stage3/rundown-cli-lnx-x64 &&
                           shx mv rundown-5-cli-linux-arm64   ../dst-stage3/rundown-cli-lnx-a64 &&

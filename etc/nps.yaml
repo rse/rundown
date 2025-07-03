@@ -36,34 +36,34 @@ scripts:
         npm --prefix rundown-4-web start build &&
         npm --prefix rundown-5-cli start build:cmd &&
         npm --prefix rundown-6-brd start build:cmd
-    build:dev:watch: |
-        watch "npm start build:dev" \
-            rundown-2-rnd/src \
-            rundown-3-lib/src \
-            rundown-4-web/src \
-            rundown-5-cli/src \
-            rundown-6-brd/src \
-            --wait=2 --interval=1
-    run:dev:watch: |
-        wait-on -l "rundown-5-cli/dst-stage2/rundown.js" && \
-        cross-env NODE_OPTIONS="--no-warnings" \
-            nodemon --signal SIGINT -w rundown-5-cli/dst-stage2 --delay 1500ms \
-                rundown-5-cli/dst-stage2/rundown.js -- \
-                $RUNDOWN_OPTIONS
-    run:dev: |
-        concurrently -p "[{name}]" -n "build,run" -c "blue,red" \
-            "npm start build:dev:watch" \
-            "npm start run:dev:watch"
+    build:dev:watch: >
+        watch "npm start build:dev"
+        rundown-2-rnd/src
+        rundown-3-lib/src
+        rundown-4-web/src
+        rundown-5-cli/src
+        rundown-6-brd/src
+        --wait=2 --interval=1
+    run:dev:watch: >
+        wait-on -l "rundown-5-cli/dst-stage2/rundown.js" &&
+        cross-env NODE_OPTIONS="--no-warnings"
+        nodemon --signal SIGINT -w rundown-5-cli/dst-stage2 --delay 1500ms
+        rundown-5-cli/dst-stage2/rundown.js --
+        $RUNDOWN_OPTIONS
+    run:dev: >
+        concurrently -p "[{name}]" -n "build,run" -c "blue,red"
+        "npm start build:dev:watch"
+        "npm start run:dev:watch"
 
     rundown-cmd: >
-        node --no-warnings rundown-5-cli/dst-stage2/rundown.js \
-            -o rundown-1-doc/rundown-template.html rundown-1-doc/rundown-template.docx
+        node --no-warnings rundown-5-cli/dst-stage2/rundown.js
+        -o rundown-1-doc/rundown-template.html rundown-1-doc/rundown-template.docx
     rundown-web: >
-        cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web rundown-1-doc" \
-            npm start run:dev
-    rundown-web-ui: |
-        cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web-ui" \
-            npm start run:dev
+        cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web rundown-1-doc"
+        npm start run:dev
+    rundown-web-ui:
+        cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web-ui"
+        npm start run:dev
 
     publish: >
         npm --prefix rundown-7-dst start publish
@@ -75,7 +75,6 @@ scripts:
         npm --prefix rundown-5-cli start clean &&
         npm --prefix rundown-6-brd start clean &&
         npm --prefix rundown-7-dst start clean
-
     clean-dist: >
         npm --prefix rundown-2-rnd start clean-dist &&
         npm --prefix rundown-3-lib start clean-dist &&
