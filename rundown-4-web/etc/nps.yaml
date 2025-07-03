@@ -12,13 +12,6 @@ scripts:
                             shx rm -f npm-shrinkwrap.json
     patch-apply:            patch-package --patch-dir package.d
 
-    #   multiview-style development dashboard
-    dev: >
-                            stmux -w always -m beep -e "built.in.+ms" --
-                            [ -s 50% "npm start lint-watch" :
-                            -s 30% "npm start build-client-dev-watch" :
-                            -s 20% "npm start server" ]
-
     #   static code analysis (linting)
     lint-watch:             nodemon --exec "npm start lint" --watch src --ext html,styl,js,ts,vue
     lint:                   npm start lint-vue-tsc lint-eslint lint-stylelint lint-htmllint
