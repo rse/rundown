@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - UPDATE: upgrade NPM dependencies
+- BUGFIX: fix environment variable usage in build process for Windows platforms
 
 1.4.3 (2025-07-01)
 ------------------
