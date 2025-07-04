@@ -61,7 +61,7 @@ scripts:
     rundown-web: >
         cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web rundown-1-doc"
         npm start run:dev
-    rundown-web-ui:
+    rundown-web-ui: >
         cross-env RUNDOWN_OPTIONS="-v info -a 127.0.0.1 -p 8888 -m web-ui"
         npm start run:dev
 
