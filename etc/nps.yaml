@@ -82,6 +82,6 @@ scripts:
         npm --prefix rundown-5-cli start clean-dist &&
         npm --prefix rundown-6-brd start clean-dist &&
         npm --prefix rundown-7-dst start clean-dist &&
-        shx rm -rf node_modules &&
-        shx rm -f package-lock.json
+        shx rm -f package-lock.json &&
+        shx rm -rf node_modules
 

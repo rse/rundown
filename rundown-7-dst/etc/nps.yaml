@@ -115,5 +115,5 @@ scripts:
     "docker:down":        docker compose -f etc/docker-compose.yaml down
 
     clean:                shx rm -rf dst-stage1 dst-stage2
-    clean-dist:           npm start clean && shx rm -rf node_modules && shx rm -f package-lock.json
+    clean-dist:           npm start clean && shx rm -f package-lock.json && shx rm -rf node_modules
 
