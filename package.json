@@ -19,7 +19,8 @@
         "watch":        "1.0.2",
         "concurrently": "9.2.0",
         "wait-on":      "8.0.3",
-        "cross-env":    "7.0.3"
+        "cross-env":    "7.0.3",
+        "shx":          "0.4.0"
     },
     "engines" : {
         "npm":          ">=10.0.0",
