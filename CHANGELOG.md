@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-1.4.5 (2025-07-05)
+1.4.5 (2025-07-06)
 ------------------
 
 - BUGFIX: fix "clean-dist" NPS target
