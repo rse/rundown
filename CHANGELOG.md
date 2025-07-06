@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - BUGFIX: fix "clean-dist" NPS target
+- BUGFIX: fix markdown code in Unix manual page of CLI
 
 1.4.4 (2025-07-03)
 ------------------
