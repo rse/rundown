@@ -1,6 +1,6 @@
 {
     "private":         true,
-    "name":            "rundown-6-dst",
+    "name":            "rundown-7-dst",
     "description":     "Render Rundown Scripts for Teleprompting",
     "keywords":        [ "rundown", "cue", "prompter" ],
     "homepage":        "http://github.com/rse/rundown",
@@ -14,7 +14,7 @@
         "url":         "http://engelschall.com"
     },
     "devDependencies": {
-        "nps":         "5.10.0",
+        "@rse/stx":    "0.9.6",
         "shx":         "0.4.0"
     },
     "engines" : {
@@ -22,6 +22,6 @@
         "node":        ">=22.0.0"
     },
     "scripts": {
-        "start":       "nps -c etc/nps.yaml"
+        "start":       "stx -v -c etc/stx.conf"
     }
 }

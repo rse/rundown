@@ -17,15 +17,15 @@
     "devDependencies": {
         "eslint":                       "9.30.1",
         "@eslint/js":                   "9.30.1",
-        "eslint-plugin-n":              "17.20.0",
+        "eslint-plugin-n":              "17.21.0",
         "eslint-plugin-promise":        "7.2.1",
         "eslint-plugin-import":         "2.32.0",
-        "neostandard":                  "0.12.1",
+        "neostandard":                  "0.12.2",
         "globals":                      "16.3.0",
         "npm-run-all":                  "4.1.5",
         "shx":                          "0.4.0",
         "@yao-pkg/pkg":                 "6.5.1",
-        "vite":                         "7.0.1",
+        "vite":                         "7.0.2",
         "vite-plugin-node-polyfills":   "0.23.0",
         "vite-plugin-arraybuffer":      "0.1.0",
         "@liuli-util/vite-plugin-node": "0.10.0",
@@ -36,7 +36,7 @@
         "remark-cli":                   "12.0.1",
         "remark":                       "15.0.1",
         "remark-man":                   "9.0.0",
-        "nps":                          "5.10.0",
+        "@rse/stx":                     "0.9.6",
         "markdownlint":                 "0.38.0",
         "markdownlint-cli2":            "0.18.1",
         "serve":                        "14.2.4",
@@ -83,6 +83,6 @@
     },
     "scripts": {
         "postinstall":                  "npm start patch-apply",
-        "start":                        "nps -c etc/nps.yaml"
+        "start":                        "stx -v -c etc/stx.conf"
     }
 }

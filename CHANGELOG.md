@@ -7,6 +7,8 @@ ChangeLog
 
 - BUGFIX: fix "clean-dist" NPS target
 - BUGFIX: fix markdown code in Unix manual page of CLI
+- BUGFIX: fix name of rundown-7-dst package
+- IMPROVEMENT: replace "nps" with "stx" as the build tool
 
 1.4.4 (2025-07-03)
 ------------------

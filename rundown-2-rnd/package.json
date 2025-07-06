@@ -16,14 +16,14 @@
     "devDependencies": {
         "eslint":                                "9.30.1",
         "@eslint/js":                            "9.30.1",
-        "eslint-plugin-n":                       "17.20.0",
+        "eslint-plugin-n":                       "17.21.0",
         "eslint-plugin-promise":                 "7.2.1",
         "eslint-plugin-import":                  "2.32.0",
-        "neostandard":                           "0.12.1",
+        "neostandard":                           "0.12.2",
         "globals":                               "16.3.0",
         "shx":                                   "0.4.0",
         "mkdirp":                                "3.0.1",
-        "vite":                                  "7.0.1",
+        "vite":                                  "7.0.2",
         "vite-plugin-static-copy":               "3.1.0",
         "vite-plugin-singlefile":                "2.3.0",
         "vite-plugin-node-polyfills":            "0.23.0",
@@ -32,7 +32,7 @@
         "stylus":                                "0.64.0",
         "inline-assets":                         "1.4.9",
         "typescript":                            "5.8.3",
-        "nps":                                   "5.10.0",
+        "@rse/stx":                              "0.9.6",
         "typopro-web":                           "4.2.7",
         "csso":                                  "5.0.5",
         "svgo":                                  "4.0.0",
@@ -53,6 +53,6 @@
         "node":                                  ">=22.0.0"
     },
     "scripts": {
-        "start":                                 "nps -c etc/nps.yaml"
+        "start":                                 "stx -v -c etc/stx.conf"
     }
 }
