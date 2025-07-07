@@ -6,7 +6,7 @@
     "homepage":         "http://github.com/rse/rundown",
     "repository":       { "url": "git+https://github.com/rse/rundown.git", "type": "git" },
     "bugs":             { "url": "http://github.com/rse/rundown/issues" },
-    "version":          "1.4.5",
+    "version":          "1.4.6",
     "license":          "GPL-3.0-only",
     "author": {
         "name":         "Dr. Ralf S. Engelschall",
