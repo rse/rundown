@@ -14,7 +14,7 @@
         "url":          "http://engelschall.com"
     },
     "devDependencies": {
-        "@rse/stx":     "0.9.6",
+        "@rse/stx":     "1.0.0",
         "nodemon":      "3.1.10",
         "watch":        "1.0.2",
         "concurrently": "9.2.0",
@@ -28,7 +28,7 @@
     },
     "scripts": {
         "postinstall":  "npm start post-install",
-        "start":        "stx -v -c etc/stx.conf",
+        "start":        "stx -v4 -c etc/stx.conf",
         "rundown":      "node --no-warnings rundown-cli/dst-stage2/rundown.js"
     }
 }

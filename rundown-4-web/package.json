@@ -27,7 +27,7 @@
         "@typescript-eslint/parser":        "8.35.1",
         "@vitejs/plugin-vue":               "6.0.0",
         "@rollup/plugin-yaml":              "4.1.2",
-        "vite-plugin-node-polyfills":       "0.23.0",
+        "vite-plugin-node-polyfills":       "0.24.0",
         "vite-svg-loader":                  "5.1.0",
         "@liuli-util/vite-plugin-node":     "0.10.0",
         "vite-plugin-zip-file":             "4.1.0",
@@ -57,14 +57,13 @@
         "typescript":                       "5.8.3",
         "vue-tsc":                          "3.0.1",
         "delay-cli":                        "2.0.0",
-        "@rse/stx":                         "0.9.6",
+        "@rse/stx":                         "1.0.0",
         "cross-env":                        "7.0.3",
         "serve":                            "14.2.4",
 
         "rundown-3-lib":                    "file:../rundown-3-lib"
     },
     "overrides": {
-        "vite-plugin-node-polyfills":       { "vite": ">=6.0.0" },
         "@liuli-util/vite-plugin-node":     { "vite": ">=6.0.0" }
     },
     "engines" : {
@@ -73,6 +72,6 @@
     },
     "scripts": {
         "postinstall":                      "npm start patch-apply",
-        "start":                            "stx -v -c etc/stx.conf"
+        "start":                            "stx -v4 -c etc/stx.conf"
     }
 }

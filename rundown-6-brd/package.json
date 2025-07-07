@@ -26,7 +26,7 @@
         "shx":                          "0.4.0",
         "@yao-pkg/pkg":                 "6.5.1",
         "vite":                         "7.0.2",
-        "vite-plugin-node-polyfills":   "0.23.0",
+        "vite-plugin-node-polyfills":   "0.24.0",
         "vite-plugin-arraybuffer":      "0.1.0",
         "@liuli-util/vite-plugin-node": "0.10.0",
         "@wroud/vite-plugin-tsc":       "0.11.6",
@@ -36,7 +36,7 @@
         "remark-cli":                   "12.0.1",
         "remark":                       "15.0.1",
         "remark-man":                   "9.0.0",
-        "@rse/stx":                     "0.9.6",
+        "@rse/stx":                     "1.0.0",
         "markdownlint":                 "0.38.0",
         "markdownlint-cli2":            "0.18.1",
         "@types/node":                  "24.0.10",
@@ -55,7 +55,6 @@
     },
     "overrides": {
         "@opensumi/reconnecting-websocket": { "ws":   ">=8.18.0" },
-        "vite-plugin-node-polyfills":       { "vite": ">=6.0.0" },
         "@liuli-util/vite-plugin-node":     { "vite": ">=6.0.0" }
     },
     "engines" : {
@@ -64,6 +63,6 @@
     },
     "scripts": {
         "postinstall":                  "npm start patch-apply",
-        "start":                        "stx -v -c etc/stx.conf"
+        "start":                        "stx -v4 -c etc/stx.conf"
     }
 }

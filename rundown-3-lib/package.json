@@ -37,11 +37,11 @@
         "vite":                          "7.0.2",
         "vite-plugin-static-copy":       "3.1.0",
         "vite-plugin-singlefile":        "2.3.0",
-        "vite-plugin-node-polyfills":    "0.23.0",
+        "vite-plugin-node-polyfills":    "0.24.0",
         "@m5nv/vite-plugin-run-task":    "1.0.2",
         "@wroud/vite-plugin-tsc":        "0.11.6",
         "typescript":                    "5.8.3",
-        "@rse/stx":                      "0.9.6",
+        "@rse/stx":                      "1.0.0",
         "@types/node":                   "24.0.10",
         "nodemon":                       "3.1.10",
         "cross-env":                     "7.0.3",
@@ -55,13 +55,12 @@
         "domhandler":                    "5.0.3"
     },
     "overrides": {
-        "vite-plugin-node-polyfills":    { "vite": ">=6.0.0" }
     },
     "engines" : {
         "npm":                           ">=10.0.0",
         "node":                          ">=22.0.0"
     },
     "scripts": {
-        "start":                         "stx -v -c etc/stx.conf"
+        "start":                         "stx -v4 -c etc/stx.conf"
     }
 }
