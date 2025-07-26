@@ -14,7 +14,7 @@
         "url":         "http://engelschall.com"
     },
     "devDependencies": {
-        "@rse/stx":    "1.0.0",
+        "@rse/stx":    "1.0.7",
         "shx":         "0.4.0"
     },
     "engines" : {

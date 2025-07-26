@@ -2,11 +2,11 @@
 ChangeLog
 =========
 
-1.4.6 (2025-07-07)
+1.4.6 (2025-07-26)
 ------------------
 
-- UPDATE: upgrade NPM dependencies
 - CLEANUP: use more verbose output for "stx"
+- UPDATE: upgrade NPM dependencies
 
 1.4.5 (2025-07-06)
 ------------------

@@ -24,8 +24,8 @@
         }
     },
     "devDependencies": {
-        "eslint":                        "9.30.1",
-        "@eslint/js":                    "9.30.1",
+        "eslint":                        "9.32.0",
+        "@eslint/js":                    "9.32.0",
         "eslint-plugin-n":               "17.21.0",
         "eslint-plugin-promise":         "7.2.1",
         "eslint-plugin-import":          "2.32.0",
@@ -34,24 +34,24 @@
         "npm-run-all":                   "4.1.5",
         "shx":                           "0.4.0",
         "mkdirp":                        "3.0.1",
-        "vite":                          "7.0.2",
-        "vite-plugin-static-copy":       "3.1.0",
+        "vite":                          "7.0.6",
+        "vite-plugin-static-copy":       "3.1.1",
         "vite-plugin-singlefile":        "2.3.0",
         "vite-plugin-node-polyfills":    "0.24.0",
         "@m5nv/vite-plugin-run-task":    "1.0.2",
         "@wroud/vite-plugin-tsc":        "0.11.6",
         "typescript":                    "5.8.3",
-        "@rse/stx":                      "1.0.0",
-        "@types/node":                   "24.0.10",
+        "@rse/stx":                      "1.0.7",
+        "@types/node":                   "24.1.0",
         "nodemon":                       "3.1.10",
-        "cross-env":                     "7.0.3",
+        "cross-env":                     "10.0.0",
 
         "rundown-2-rnd":                 "file:../rundown-2-rnd"
     },                                  
     "dependencies": {                   
         "eventemitter2":                 "6.4.9",
         "@shy1118/mammoth":              "1.6.3",
-        "cheerio":                       "1.1.0",
+        "cheerio":                       "1.1.2",
         "domhandler":                    "5.0.3"
     },
     "overrides": {

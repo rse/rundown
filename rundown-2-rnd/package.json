@@ -14,8 +14,8 @@
         "url":                                   "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                                "9.30.1",
-        "@eslint/js":                            "9.30.1",
+        "eslint":                                "9.32.0",
+        "@eslint/js":                            "9.32.0",
         "eslint-plugin-n":                       "17.21.0",
         "eslint-plugin-promise":                 "7.2.1",
         "eslint-plugin-import":                  "2.32.0",
@@ -23,8 +23,8 @@
         "globals":                               "16.3.0",
         "shx":                                   "0.4.0",
         "mkdirp":                                "3.0.1",
-        "vite":                                  "7.0.2",
-        "vite-plugin-static-copy":               "3.1.0",
+        "vite":                                  "7.0.6",
+        "vite-plugin-static-copy":               "3.1.1",
         "vite-plugin-singlefile":                "2.3.0",
         "vite-plugin-node-polyfills":            "0.24.0",
         "@m5nv/vite-plugin-run-task":            "1.0.2",
@@ -32,18 +32,18 @@
         "stylus":                                "0.64.0",
         "inline-assets":                         "1.4.9",
         "typescript":                            "5.8.3",
-        "@rse/stx":                              "1.0.0",
+        "@rse/stx":                              "1.0.7",
         "typopro-web":                           "4.2.7",
         "csso":                                  "5.0.5",
         "svgo":                                  "4.0.0",
-        "@types/node":                           "24.0.10",
+        "@types/node":                           "24.1.0",
         "@types/csso":                           "5.0.4",
         "nodemon":                               "3.1.10"
     },
     "dependencies": {
         "@opensumi/reconnecting-websocket":      "4.4.0",
-        "axios":                                 "1.10.0",
-        "animejs":                               "4.0.2"
+        "axios":                                 "1.11.0",
+        "animejs":                               "4.1.1"
     },
     "overrides": {
     },

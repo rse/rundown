@@ -14,12 +14,12 @@
         "url":          "http://engelschall.com"
     },
     "devDependencies": {
-        "@rse/stx":     "1.0.0",
+        "@rse/stx":     "1.0.7",
         "nodemon":      "3.1.10",
         "watch":        "1.0.2",
         "concurrently": "9.2.0",
-        "wait-on":      "8.0.3",
-        "cross-env":    "7.0.3",
+        "wait-on":      "8.0.4",
+        "cross-env":    "10.0.0",
         "shx":          "0.4.0"
     },
     "engines" : {
