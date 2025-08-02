@@ -29,6 +29,6 @@
     "scripts": {
         "postinstall":  "npm start post-install",
         "start":        "stx -v4 -c etc/stx.conf",
-        "rundown":      "node --no-warnings rundown-cli/dst-stage2/rundown.js"
+        "rundown":      "node --no-warnings rundown-5-cli/dst-stage2/rundown.js"
     }
 }
