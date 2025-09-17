@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+1.4.7 (2025-09-17)
+------------------
+
+- BUGFIX: fix description of R312 and R313 styles in cheat sheet of template
+
 1.4.6 (2025-07-26)
 ------------------
 
