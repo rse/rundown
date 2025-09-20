@@ -141,7 +141,14 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
     })
     ws.addEventListener("message", (ev) => {
         (async () => {
-            const data = JSON.parse(ev.data)
+            let data: any
+            try {
+                data = JSON.parse(ev.data)
+            }
+            catch (err) {
+                cli.log("error", `Rundown WebSocket: invalid JSON message: ${err}`)
+                return
+            }
             const payloadValidator = arktype.type({
                 event: "string",
                 "data": RundownStateSchema
