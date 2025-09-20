@@ -301,6 +301,55 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         })
     }
 
+    /*  INTERNAL: process commands in forward direction  */
+    private processForwardCommands (state: RundownState) {
+        let m: RegExpMatchArray | null
+        for (let i = this.active + 1; i <= state.active; i++) {
+            for (const key of Object.keys(state.kv[i])) {
+                if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
+                    const [ , prefix, name ] = m
+                    const value = state.kv[i][key]
+                    if (prefix === this.args.prefix)
+                        this.executeCommand(name, value, false)
+                }
+            }
+        }
+    }
+
+    /*  INTERNAL: process commands in backward direction  */
+    private processBackwardCommands (state: RundownState) {
+        let m: RegExpMatchArray | null
+        for (let i = this.active - 1; i >= state.active; i--) {
+            for (const key of Object.keys(state.kv[i]).reverse()) {
+                if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
+                    const [ , prefix, name ] = m
+                    const value = state.kv[i][key]
+                    if (prefix === this.args.prefix)
+                        this.executeCommand(name, value, true)
+                }
+            }
+        }
+    }
+
+    /*  INTERNAL: execute a single command  */
+    private executeCommand (name: string, value: any, reverse: boolean) {
+        const names = Object.keys(this.commands) as Array<keyof typeof this.commands>
+        if (!names.find((_) => _ === name)) {
+            this.emit("log", "warning", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
+                `invalid command "${name}"`)
+            return
+        }
+        let command = this.commands[name]
+        let commandName = name
+        if (reverse && command.reverse !== "") {
+            commandName = command.reverse
+            command = this.commands[commandName]
+        }
+        this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
+            `execute command "${commandName}"`)
+        this.commandQueue = this.commandQueue.then(() => command.action(value))
+    }
+
     /*  reflect current Rundown state  */
     async reflect (state: RundownState) {
         if (state.id !== this.id) {
@@ -308,58 +357,10 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
             this.active = 0
         }
         if (state.active !== this.active) {
-            if (state.active > this.active) {
-                /*  apply regular/forward commands  */
-                let m: RegExpMatchArray | null
-                for (let i = this.active + 1; i <= state.active; i++) {
-                    for (const key of Object.keys(state.kv[i])) {
-                        if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
-                            const [ , prefix, name ] = m
-                            const value = state.kv[i][key]
-                            if (prefix === this.args.prefix) {
-                                const names = Object.keys(this.commands) as Array<keyof typeof this.commands>
-                                if (!names.find((_) => _ === name)) {
-                                    this.emit("log", "warning", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
-                                        `invalid command "${name}"`)
-                                    continue
-                                }
-                                const command = this.commands[name]
-                                this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
-                                    `execute command "${name}"`)
-                                this.commandQueue = this.commandQueue.then(() => command.action(value))
-                            }
-                        }
-                    }
-                }
-            }
-            else if (state.active < this.active) {
-                /*  apply reverse/backward commands  */
-                let m: RegExpMatchArray | null
-                for (let i = this.active - 1; i >= state.active; i--) {
-                    for (const key of Object.keys(state.kv[i]).reverse()) {
-                        if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
-                            let [ , prefix, name ] = m
-                            const value = state.kv[i][key]
-                            if (prefix === this.args.prefix) {
-                                const names = Object.keys(this.commands) as Array<keyof typeof this.commands>
-                                if (!names.find((_) => _ === name)) {
-                                    this.emit("log", "warning", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
-                                        `invalid command "${name}"`)
-                                    continue
-                                }
-                                let command = this.commands[name]
-                                if (command.reverse !== "") {
-                                    name = command.reverse
-                                    command = this.commands[name]
-                                }
-                                this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
-                                    `execute command "${name}"`)
-                                this.commandQueue = this.commandQueue.then(() => command.action(value))
-                            }
-                        }
-                    }
-                }
-            }
+            if (state.active > this.active)
+                this.processForwardCommands(state)
+            else if (state.active < this.active)
+                this.processBackwardCommands(state)
             this.active = state.active
         }
     }
