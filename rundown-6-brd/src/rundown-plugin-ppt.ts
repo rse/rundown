@@ -273,28 +273,27 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
     /*  INTERNAL: wait until a state is reached  */
     private awaitState (state: string, predicate: () => boolean, timeout = 4000) {
         return new Promise<boolean>((resolve, reject) => {
-            let timer1: ReturnType<typeof setTimeout>  | null
-            let timer2: ReturnType<typeof setInterval> | null
-            timer1 = setTimeout(() => {
-                timer1 = null
-                if (timer2 !== null) {
-                    this.emit("log", "warning", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
-                        `timeout after ${timeout}ms awaiting ${state}`)
-                    clearTimeout(timer2)
-                    timer2 = null
-                    resolve(false)
+            let timer1: ReturnType<typeof setTimeout>  | null = null
+            let timer2: ReturnType<typeof setInterval> | null = null
+            const cleanup = () => {
+                if (timer1 !== null) {
+                    clearTimeout(timer1)
+                    timer1 = null
                 }
+                if (timer2 !== null) {
+                    clearInterval(timer2)
+                    timer2 = null
+                }
+            }
+            timer1 = setTimeout(() => {
+                cleanup()
+                this.emit("log", "warning", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
+                    `timeout after ${timeout}ms awaiting ${state}`)
+                resolve(false)
             }, timeout)
             timer2 = setInterval(() => {
                 if (predicate()) {
-                    if (timer1 !== null) {
-                        clearTimeout(timer1)
-                        timer1 = null
-                    }
-                    if (timer2 !== null) {
-                        clearTimeout(timer2)
-                        timer2 = null
-                    }
+                    cleanup()
                     resolve(true)
                 }
             }, 50)
