@@ -410,7 +410,6 @@ export default defineComponent({
         },
         drop (ev: DragEvent) {
             this.uploadDragOver = false
-            this.uploadProgress = true
             const dt = ev.dataTransfer
             if (dt?.files && dt.files.length === 1) {
                 const file = dt.files[0]
@@ -430,26 +429,36 @@ export default defineComponent({
         async uploadDocument (file: File) {
             if (file.type === templateMimeType
                 || file.name.match(/.+\.docx$/i)) {
-                const input = await new Promise<ArrayBuffer>((resolve, reject) => {
-                    const reader = new FileReader()
-                    reader.onload  = (ev: ProgressEvent<FileReader>) => { resolve(ev.target?.result as ArrayBuffer) }
-                    reader.onerror = (ev: ProgressEvent<FileReader>) => { reject(new Error("failed to load")) }
-                    reader.readAsArrayBuffer(file)
-                })
-                const rundown = new Rundown()
-                rundown.on("warning", (message: string) => {
-                    this.log("warning", message)
-                })
-                rundown.on("error", (message: string) => {
-                    this.log("error", message)
-                })
-                const selector = "table:has(tr:first-child:has(*:contains('Control/Video'))) tr:gt(0) td:nth-last-child(-n+2)"
-                const output = await rundown.convert(input, selector)
+                try {
+                    this.uploadProgress = true
+                    const input = await new Promise<ArrayBuffer>((resolve, reject) => {
+                        const reader = new FileReader()
+                        reader.onload  = (ev: ProgressEvent<FileReader>) => { resolve(ev.target?.result as ArrayBuffer) }
+                        reader.onerror = (ev: ProgressEvent<FileReader>) => { reject(new Error("failed to load")) }
+                        reader.readAsArrayBuffer(file)
+                    })
+                    const rundown = new Rundown()
+                    rundown.on("warning", (message: string) => {
+                        this.log("warning", message)
+                    })
+                    rundown.on("error", (message: string) => {
+                        this.log("error", message)
+                    })
+                    const selector = "table:has(tr:first-child:has(*:contains('Control/Video'))) tr:gt(0) td:nth-last-child(-n+2)"
+                    const output = await rundown.convert(input, selector)
 
-                history.replaceState(null, document.title, "#with-exit")
-                document.open()
-                document.write(output)
-                document.close()
+                    history.replaceState(null, document.title, "#with-exit")
+                    document.open()
+                    document.write(output)
+                    document.close()
+                    this.uploadProgress = false
+                }
+                catch (err) {
+                    this.uploadProgress = false
+                    this.log("error", "uploading document failed", {
+                        reason: err instanceof Error ? err.message : String(err)
+                    })
+                }
             }
         },
         downloadClick () {
