@@ -8,6 +8,36 @@ import ReconnectingWebSocket from "@opensumi/reconnecting-websocket"
 import axios                 from "axios"
 import * as anime            from "animejs"
 
+/*  helper function to calculate tab position  */
+const calculateYPos = (container: DOMRect, box: DOMRect, pivot: number): number => {
+    if (container.top > pivot - (box.height / 2))
+        return 0
+    else if (container.top + container.height < pivot + (box.height / 2))
+        return container.height - box.height
+    else
+        return (pivot - (box.height / 2)) - container.top
+}
+
+/*  helper function to find closest element by distance  */
+const findClosestElement = (elements: Element[], pivot: number) => {
+    const min = { element: null, distance: Number.MAX_VALUE } as
+        { element: Element | null, distance: number }
+    for (const element of elements) {
+        const rect = element.getBoundingClientRect()
+        const distance1 = Math.abs(pivot - rect.top)
+        const distance2 = Math.abs(pivot - (rect.top + rect.height))
+        if (min.distance > distance1) {
+            min.distance = distance1
+            min.element  = element
+        }
+        if (min.distance > distance2) {
+            min.distance = distance2
+            min.element  = element
+        }
+    }
+    return min
+}
+
 /*  await the DOM...  */
 document.addEventListener("DOMContentLoaded", () => {
     /*  determine dynamic configuration options  */
@@ -54,11 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.marginBottom = `${view.h / 2}px`
 
         /*  determine all visible rundown section  */
-        const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
+        const sections = Array.from(document.querySelectorAll(".rundown-section:not(.disabled)"))
 
         /*  adjust the position of the moving part tab (right-hand side)  */
-        let min = { section: null, chunk: null, distance: Number.MAX_VALUE } as
-            { section: Element | null, chunk: Element | null, distance: number }
         const pivot = view.h / 2
         let i = 1
         for (const section of sections) {
@@ -67,25 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (part !== null) {
                 const pt = part.getBoundingClientRect()
                 if (!(sec.top + sec.height < 0 || sec.top > view.h)) {
-                    let y: number
-                    if (sec.top > pivot - (pt.height / 2))
-                        y = 0
-                    else if (sec.top + sec.height < pivot + (pt.height / 2))
-                        y = sec.height - pt.height
-                    else
-                        y = (pivot - (pt.height / 2)) - sec.top
+                    const y = calculateYPos(sec, pt, pivot)
                     part.style.top = `calc(${y}px - 0.25rem)`
                 }
-            }
-            const distance1 = Math.abs(pivot - sec.top)
-            const distance2 = Math.abs(pivot - (sec.top + sec.height))
-            if (min.distance > distance1) {
-                min.distance = distance1
-                min.section  = section
-            }
-            if (min.distance > distance2) {
-                min.distance = distance2
-                min.section  = section
             }
             if (part !== null) {
                 const what  = part.querySelector(".rundown-part-tab-what")!
@@ -94,52 +106,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 where.innerHTML = `${(content.scrollY / content.h * 100).toFixed(0)}%`
             }
         }
-        if (min.section !== null) {
+        const closestSection = findClosestElement(sections, pivot)
+        if (closestSection.element !== null) {
             for (const section of sections) {
-                if (section === min.section && !section.classList.contains("active"))
+                if (section === closestSection.element && !section.classList.contains("active"))
                     section.classList.add("active")
-                else if (section !== min.section && section.classList.contains("active"))
+                else if (section !== closestSection.element && section.classList.contains("active"))
                     section.classList.remove("active")
             }
         }
 
         /*  determine all rundown chunks  */
-        const chunks = document.querySelectorAll(".rundown-chunk:not(.disabled)")
+        const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
 
         /*  calculate the position of the moving speaker tab (left-hand side)  */
-        min = { section: null, chunk: null, distance: Number.MAX_VALUE }
         for (const chunk of chunks) {
             const chk     = chunk.getBoundingClientRect()
             const speaker = chunk.querySelector(".rundown-speaker") as HTMLElement
             if (speaker !== null) {
                 const spk = speaker.getBoundingClientRect()
                 if (!(chk.top + chk.height < 0 || chk.top > view.h)) {
-                    let y: number
-                    if (chk.top > pivot - (spk.height / 2))
-                        y = 0
-                    else if (chk.top + chk.height < pivot + (spk.height / 2))
-                        y = chk.height - spk.height
-                    else
-                        y = (pivot - (spk.height / 2)) - chk.top
+                    const y = calculateYPos(chk, spk, pivot)
                     speaker.style.top = `calc(${y}px - 0.25rem)`
                 }
             }
-            const distance1 = Math.abs(pivot - chk.top)
-            const distance2 = Math.abs(pivot - (chk.top + chk.height))
-            if (min.distance > distance1) {
-                min.distance = distance1
-                min.chunk    = chunk
-            }
-            if (min.distance > distance2) {
-                min.distance = distance2
-                min.chunk    = chunk
-            }
         }
-        if (min.chunk !== null) {
+        const closestChunk = findClosestElement(chunks, pivot)
+        if (closestChunk.element !== null) {
             for (const chunk of chunks) {
-                if (chunk === min.chunk && !chunk.classList.contains("active"))
+                if (chunk === closestChunk.element && !chunk.classList.contains("active"))
                     chunk.classList.add("active")
-                else if (chunk !== min.chunk && chunk.classList.contains("active"))
+                else if (chunk !== closestChunk.element && chunk.classList.contains("active"))
                     chunk.classList.remove("active")
             }
         }
