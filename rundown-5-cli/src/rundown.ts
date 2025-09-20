@@ -25,7 +25,7 @@ import objectHash                  from "object-hash"
 import Rundown                     from "../../rundown-3-lib"
 import RundownWeb                  from "../../rundown-4-web/dst-stage2/rundown.zip?arraybuffer"
 
-/*  internal dependencies  */
+/*  internal dependencies (special case)  */
 // @ts-ignore
 import pkgJSON                     from "../../package.json?raw" with { type: "json" }
 
@@ -269,18 +269,18 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                         autoping: 30 * 1000,
 
                         /*  on WebSocket connection open  */
-                        connect: (args: any) => {
-                            const ctx: wsPeerCtx            = args.ctx
-                            const ws:  WebSocket            = args.ws
-                            const id = `${args.req.socket.remoteAddress}:${args.req.socket.remotePort}`
+                        connect: (wsArgs: any) => {
+                            const ctx: wsPeerCtx = wsArgs.ctx
+                            const ws:  WebSocket = wsArgs.ws
+                            const id = `${wsArgs.req.socket.remoteAddress}:${wsArgs.req.socket.remotePort}`
                             ctx.id = id
                             wsPeers.set(id, { ctx, ws })
                             cli.log("info", `HAPI: WebSocket: connect: remote=${id}`)
                         },
 
                         /*  on WebSocket connection close  */
-                        disconnect: (args: any) => {
-                            const ctx: wsPeerCtx = args.ctx
+                        disconnect: (wsArgs: any) => {
+                            const ctx: wsPeerCtx = wsArgs.ctx
                             const id = ctx.id
                             wsPeers.delete(id)
                             cli.log("info", `HAPI: WebSocket: disconnect: remote=${id}`)
