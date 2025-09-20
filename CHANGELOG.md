@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-1.4.7 (2025-09-17)
+1.4.7 (2025-09-20)
 ------------------
 
 - IMPROVEMENT: add 6pt margin at end of a paragraph via R011 style
