@@ -197,43 +197,57 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         this.oscR = new OSC({ plugin: new OSC.DatagramPlugin({ type: "udp4" }) })
 
         /*  track PowerPoint state  */
-        this.oscR.on("/oscpoint/presentation/name", (message: any) => {
+        this.oscR.on("/oscpoint/presentation/name", (message: OSC.Message) => {
+            if (typeof message.args[0] !== "string")
+                return
             this.pptState.name = message.args[0]
             this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: received state: ` +
                 `name="${this.pptState.name}"`)
         })
-        this.oscR.on("/oscpoint/slideshow/state", (message: any) => {
+        this.oscR.on("/oscpoint/slideshow/state", (message: OSC.Message) => {
+            if (typeof message.args[0] !== "string")
+                return
             this.pptState.state = message.args[0]
             this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: received state: ` +
                 `state="${this.pptState.state}"`)
         })
-        this.oscR.on("/oscpoint/slideshow/currentslide", (message: any) => {
+        this.oscR.on("/oscpoint/slideshow/currentslide", (message: OSC.Message) => {
+            if (typeof message.args[0] !== "number")
+                return
             this.pptState.slide = message.args[0]
             this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: received state: ` +
                 `slide="${this.pptState.slide}"`)
         })
-        this.oscR.on("/oscpoint/presentation/slides/count/visible", (message: any) => {
+        this.oscR.on("/oscpoint/presentation/slides/count/visible", (message: OSC.Message) => {
+            if (typeof message.args[0] !== "number")
+                return
             this.pptState.slides = message.args[0]
             this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: received state: ` +
                 `slides="${this.pptState.slides}"`)
         })
-        this.oscR.on("/oscpoint/slideshow/builds/position", (message: any) => {
+        this.oscR.on("/oscpoint/slideshow/builds/position", (message: OSC.Message) => {
+            if (typeof message.args[0] !== "number")
+                return
             this.pptState.build = message.args[0]
             this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: received state: ` +
                 `build="${this.pptState.build}"`)
         })
-        this.oscR.on("/oscpoint/slideshow/builds/count", (message: any) => {
+        this.oscR.on("/oscpoint/slideshow/builds/count", (message: OSC.Message) => {
+            if (typeof message.args[0] !== "number")
+                return
             this.pptState.builds = message.args[0]
             this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: received state: ` +
                 `builds="${this.pptState.builds}"`)
         })
-        this.oscR.on("/oscpoint/v2/event", (message: any) => {
+        this.oscR.on("/oscpoint/v2/event", (message: OSC.Message) => {
+            if (typeof message.args[0] !== "string")
+                return
             const event = message.args[0]
             if (event === "slideshow_begin" || event === "slideshow_end")
                 this.send("/oscpoint/feedbacks/refresh")
         })
         /*
-        this.oscR.on("*", (message: any) => {
+        this.oscR.on("*", (message: OSC.Message) => {
             this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: message: ` +
                 `message="${JSON.stringify(message)}"`)
         })

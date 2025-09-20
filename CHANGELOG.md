@@ -11,6 +11,7 @@ ChangeLog
 - CLEANUP: catch errors in file upload handling
 - CLEANUP: catch errors in document replacement handling
 - CLEANUP: catch errors in CLI DOCX conversion
+- CLEANUP: improve typing in OSC server
 
 1.4.7 (2025-09-20)
 ------------------
