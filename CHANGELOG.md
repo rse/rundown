@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - BUGFIX: fix description of R312 and R313 styles in cheat sheet of template
+- UPDATE: upgrade NPM dependencies
 
 1.4.6 (2025-07-26)
 ------------------
