@@ -100,10 +100,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
             if (part !== null) {
+                /*  update "what" of tab  */
                 const what  = part.querySelector(".rundown-part-tab-what")!
+                what.innerHTML = `${i++}/${sections.length}`
+
+                /*  update "where" of tab  */
+                const rawPercent = content.h > 0 ? (content.scrollY / content.h * 100) : 0
+                const percent = Math.max(0, Math.min(100, rawPercent))
                 const where = part.querySelector(".rundown-part-tab-where")!
-                what.innerHTML  = `${i++}/${sections.length}`
-                where.innerHTML = `${(content.scrollY / content.h * 100).toFixed(0)}%`
+                where.innerHTML = `${percent.toFixed(0)}%`
             }
         }
         const closestSection = findClosestElement(sections, pivot)
