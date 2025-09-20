@@ -288,35 +288,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     window.requestAnimationFrame(doAutoScroll)
 
-    /*  scroll to previous/next sibling section upwards/downwards  */
-    const scrollToSiblingSection = (direction: "up" | "down") => {
-        const sections = document.querySelectorAll(".rundown-section:not(.disabled)")
-        const min = { section: null, distance: Number.MAX_VALUE } as
-            { section: Element | null, distance: number }
+    /*  generic helper for scrolling to sibling elements  */
+    const scrollToSibling = (selector: string, direction: "up" | "down") => {
+        const elements = Array.from(document.querySelectorAll(selector))
         const pivot = view.h / 2
-        for (const section of sections) {
-            const sec = section.getBoundingClientRect()
-            const distance1 = Math.abs(pivot - sec.top)
-            const distance2 = Math.abs(pivot - (sec.top + sec.height))
-            if (min.distance > distance1) {
-                min.distance = distance1
-                min.section  = section
-            }
-            if (min.distance > distance2) {
-                min.distance = distance2
-                min.section  = section
-            }
-        }
-        if (min.section !== null) {
-            const sectionsArray = Array.from(sections)
-            let i = sectionsArray.findIndex((chk) => chk === min.section)
+        const min = findClosestElement(elements, pivot)
+        if (min.element !== null) {
+            let i = elements.findIndex((el) => el === min.element)
             if (direction === "up" && i > 0)
                 i--
-            else if (direction === "down" && i < sectionsArray.length - 1)
+            else if (direction === "down" && i < elements.length - 1)
                 i++
-            const section = sectionsArray[i]
-            const bb = section.getBoundingClientRect()
-            const delta = bb.top - (view.h / 2)
+            const element = elements[i]
+            const rect = element.getBoundingClientRect()
+            const delta = rect.top - (view.h / 2)
             paused = true
             speed = 0
             windowScrollY = window.scrollY + delta
@@ -324,41 +309,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    /*  scroll to previous/next sibling section upwards/downwards  */
+    const scrollToSiblingSection = (direction: "up" | "down") =>
+        scrollToSibling(".rundown-section:not(.disabled)", direction)
+
     /*  scroll to previous/next sibling chunk upwards/downwards  */
-    const scrollToSiblingChunk = (direction: "up" | "down") => {
-        const chunks = document.querySelectorAll(".rundown-chunk:not(.disabled)")
-        const min = { chunk: null, distance: Number.MAX_VALUE } as
-            { chunk: Element | null, distance: number }
-        const pivot = view.h / 2
-        for (const chunk of chunks) {
-            const chk     = chunk.getBoundingClientRect()
-            const distance1 = Math.abs(pivot - chk.top)
-            const distance2 = Math.abs(pivot - (chk.top + chk.height))
-            if (min.distance > distance1) {
-                min.distance = distance1
-                min.chunk    = chunk
-            }
-            if (min.distance > distance2) {
-                min.distance = distance2
-                min.chunk    = chunk
-            }
-        }
-        if (min.chunk !== null) {
-            const chunksArray = Array.from(chunks)
-            let i = chunksArray.findIndex((chk) => chk === min.chunk)
-            if (direction === "up" && i > 0)
-                i--
-            else if (direction === "down" && i < chunksArray.length - 1)
-                i++
-            const chunk = chunksArray[i]
-            const chk = chunk.getBoundingClientRect()
-            const delta = chk.top - (view.h / 2)
-            paused = true
-            speed = 0
-            windowScrollY = window.scrollY + delta
-            window.scroll({ top: window.scrollY + delta, behavior: "smooth" })
-        }
-    }
+    const scrollToSiblingChunk = (direction: "up" | "down") =>
+        scrollToSibling(".rundown-chunk:not(.disabled)", direction)
 
     /*  allow the scrolling and rendering to be controlled  */
     let fontSize   = 120
