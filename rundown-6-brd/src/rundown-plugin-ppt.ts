@@ -346,7 +346,13 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         }
         this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
             `execute command "${commandName}"`)
-        this.commandQueue = this.commandQueue.then(() => command.action(value))
+        this.commandQueue = this.commandQueue
+            .then(() => command.action(value))
+            .catch((err) => {
+                const message = err instanceof Error ? err.message : String(err)
+                this.emit("log", "error", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
+                    `command "${commandName}" failed: ${message}`)
+            })
     }
 
     /*  reflect current Rundown state  */

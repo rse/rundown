@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+1.4.8 (2025-09-20)
+------------------
+
+- BUGFIX: in the bridge, keep the internal work-off queue working after an error
+
 1.4.7 (2025-09-20)
 ------------------
 
