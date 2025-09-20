@@ -590,7 +590,6 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         })
         overlay.addEventListener("click", (ev: Event) => {
-            console.log("click")
             window.location.reload()
         })
     }
