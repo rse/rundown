@@ -119,7 +119,7 @@ export default class Rundown extends EventEmitter {
             (which still can contain whitespace text nodes)  */
         $("li").each((i, node) => {
             const hasNonTextContent = Array.from(node.childNodes).some((node) =>
-                !(node.nodeType === 3 /* Node.TEXT_NODE */ && /^\s*$/.test(node.nodeValue)))
+                !(node.nodeType === 3 /* Node.TEXT_NODE */ && node.nodeValue && /^\s*$/.test(node.nodeValue)))
             if (!hasNonTextContent)
                 $(node).remove()
         })
@@ -129,7 +129,7 @@ export default class Rundown extends EventEmitter {
             and which get generated when a paragraph style is between level-2 styles)  */
         $("li:has(> ul, > ol)").each((i, node) => {
             const hasTextContent = Array.from(node.childNodes).some((node) =>
-                node.nodeType === 3 /* Node.TEXT_NODE */ && /\S/.test(node.nodeValue))
+                node.nodeType === 3 /* Node.TEXT_NODE */ && node.nodeValue && /\S/.test(node.nodeValue))
             if (!hasTextContent)
                 $(node).addClass("rundown-ghost")
         })
@@ -201,7 +201,7 @@ export default class Rundown extends EventEmitter {
         const $2 = cheerio.load(output)
         $2("li, p").each((i, el) => {
             const hasTextContent = Array.from(el.childNodes).some((node) =>
-                node.nodeType === 3 /* Node.TEXT_NODE */ && /\S/.test(node.nodeValue))
+                node.nodeType === 3 /* Node.TEXT_NODE */ && node.nodeValue && /\S/.test(node.nodeValue))
             const childs = $2("*:not(.rundown-chat, .rundown-info, .rundown-control)", el)
             if (!hasTextContent && childs.length === 0)
                 $2(el).addClass("disabled")
