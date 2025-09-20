@@ -319,7 +319,7 @@
         text-align: center
         color: var(--color-std-fg-1)
         a,
-        a:visited
+        a:visited,
         a:hover
             text-decoration: none
             color: var(--color-std-fg-2)

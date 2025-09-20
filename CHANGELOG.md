@@ -7,6 +7,7 @@ ChangeLog
 
 - IMPROVEMENT: add 6pt margin at end of a paragraph via R011 style
 - BUGFIX: fix description of R312 and R313 styles in cheat sheet of template
+- CLEANUP: cleanup linting/building by splitting lint into own stx command
 - UPDATE: upgrade NPM dependencies
 
 1.4.6 (2025-07-26)

@@ -79,7 +79,8 @@ export default [
             "@typescript-eslint/consistent-type-definitions":     "off",
             "@typescript-eslint/array-type":                      "off",
             "@typescript-eslint/no-extraneous-class":             "off",
-            "@typescript-eslint/consistent-indexed-object-style": "off"
+            "@typescript-eslint/consistent-indexed-object-style": "off",
+            "@typescript-eslint/prefer-for-of":                   "off"
         }
     }
 ]
