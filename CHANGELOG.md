@@ -9,6 +9,7 @@ ChangeLog
 - CLEANUP: ensure "NaN" does not occur for the percent display
 - CLEANUP: catch errors in ZIP internal file loading
 - CLEANUP: catch errors in file upload handling
+- CLEANUP: catch errors in document replacement handling
 
 1.4.7 (2025-09-20)
 ------------------

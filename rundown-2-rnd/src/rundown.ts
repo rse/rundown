@@ -495,40 +495,53 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     })
 
+                    /*  hide overlay (later again)  */
+                    const hideOverlay = () => {
+                        anime.animate(".overlay5", {
+                            opacity: { from: 1.0, to: 0.0 },
+                            ease: "inSine",
+                            duration: 250,
+                            onComplete: () => {
+                                overlay!.classList.remove("active")
+                            }
+                        })
+                    }
+
                     /*  fetch new content  */
-                    let url = document.location.href
-                    url = url.replace(/#live$/, "")
-                    const response = await axios({
-                        method: "GET",
-                        url,
-                        responseType: "document"
-                    })
+                    try {
+                        let url = document.location.href
+                        url = url.replace(/#live$/, "")
+                        const response = await axios({
+                            method: "GET",
+                            url,
+                            responseType: "document"
+                        })
 
-                    /*  update content  */
-                    const contentOld = document.querySelector(".content")!
-                    const contentNew = response.data.querySelector(".content")!
-                    contentOld.innerHTML = contentNew.innerHTML
+                        /*  update content  */
+                        const contentOld = document.querySelector(".content")!
+                        const contentNew = response.data.querySelector(".content")!
+                        contentOld.innerHTML = contentNew.innerHTML
 
-                    /*  update once  */
-                    setTimeout(() => {
-                        tickOnce()
+                        /*  update once  */
                         setTimeout(() => {
-                            /*  hide overlay  */
-                            anime.animate(".overlay5", {
-                                opacity: { from: 1.0, to: 0.0 },
-                                ease: "inSine",
-                                duration: 250,
-                                onComplete: () => {
-                                    overlay!.classList.remove("active")
-                                }
-                            })
-
-                            /*  update once again  */
                             tickOnce()
-                        }, 1000)
-                    }, 10)
+                            setTimeout(() => {
+                                /*  hide overlay and update once again  */
+                                hideOverlay()
+                                tickOnce()
+                            }, 1000)
+                        }, 10)
+                    }
+                    catch (err) {
+                        const msg = err instanceof Error ? err.message : String(err)
+                        console.error(`[ERROR]: document reload failed: ${msg}`)
+                        hideOverlay()
+                    }
                 }
-            })()
+            })().catch((err) => {
+                const msg = err instanceof Error ? err.message : String(err)
+                console.error(`[ERROR]: WebSocket message handler failed: ${msg}`)
+            })
         })
     }
 
