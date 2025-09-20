@@ -274,7 +274,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                         autoping: 30 * 1000,
 
                         /*  on WebSocket connection open  */
-                        connect: (wsArgs: any) => {
+                        connect: (wsArgs: Record<string, any>) => {
                             const ctx: wsPeerCtx = wsArgs.ctx
                             const ws:  WebSocket = wsArgs.ws
                             const id = `${wsArgs.req.socket.remoteAddress}:${wsArgs.req.socket.remotePort}`
@@ -284,7 +284,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                         },
 
                         /*  on WebSocket connection close  */
-                        disconnect: (wsArgs: any) => {
+                        disconnect: (wsArgs: Record<string, any>) => {
                             const ctx: wsPeerCtx = wsArgs.ctx
                             const id = ctx.id
                             wsPeers.delete(id)
