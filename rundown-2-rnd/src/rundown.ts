@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let stateTimer: ReturnType<typeof setTimeout> | null = null
     let stateLastScrollY = -1
     let debug = false
-    let ws: ReconnectingWebSocket
+    let ws: ReconnectingWebSocket | undefined
     let locked = false
     let paused = false
     let speed = 0
@@ -494,7 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const content = document.querySelector("body")! as HTMLBodyElement
             if (locked && !content.classList.contains("locked"))
                 content.classList.add("locked")
-            else if (!debug && content.classList.contains("locked"))
+            else if (!locked && content.classList.contains("locked"))
                 content.classList.remove("locked")
         }
     })
@@ -513,7 +513,8 @@ document.addEventListener("DOMContentLoaded", () => {
             minUptime:                   5000
         })
         ws.addEventListener("open", (ev) => {
-            ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
+            if (ws !== undefined)
+                ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
             stateLast = -1
             tickOnce()
         })
