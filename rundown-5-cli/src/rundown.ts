@@ -486,13 +486,24 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                     })
                     zipfile.on("entry", async (entry) => {
                         zipfile.openReadStream(entry, async (err, readStream) => {
-                            if (err)
+                            if (err) {
                                 reject(err)
-                            const type    = mimeTypes.lookup(entry.fileName) || "application/octet-stream"
-                            const content = await streamConsumers.buffer(readStream)
-                            data.set(entry.fileName, { type, content })
-                            cli.log("info", `loaded Rundown Web file: "${entry.fileName}" (${type})`)
-                            zipfile.readEntry()
+                                return
+                            }
+                            if (!readStream) {
+                                reject(new Error(`failed to open ZIP entry stream for "${entry.fileName}"`))
+                                return
+                            }
+                            try {
+                                const type    = mimeTypes.lookup(entry.fileName) || "application/octet-stream"
+                                const content = await streamConsumers.buffer(readStream)
+                                data.set(entry.fileName, { type, content })
+                                cli.log("info", `loaded Rundown Web file: "${entry.fileName}" (${type})`)
+                                zipfile.readEntry()
+                            }
+                            catch (err) {
+                                reject(err instanceof Error ? err : new Error(String(err)))
+                            }
                         })
                     })
                     zipfile.readEntry()

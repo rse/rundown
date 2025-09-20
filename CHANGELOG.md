@@ -7,6 +7,7 @@ ChangeLog
 
 - BUGFIX: in the bridge, keep the internal work-off queue working after an error
 - CLEANUP: ensure "NaN" does not occur for the percent display
+- CLEANUP: catch errors in ZIP internal file loading
 
 1.4.7 (2025-09-20)
 ------------------
