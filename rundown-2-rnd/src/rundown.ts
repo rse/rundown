@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
             windowScrollY = window.scrollY
         tickOnce()
     })
-    window.addEventListener("resize",   (event: Event) => {
+    window.addEventListener("resize", (event: Event) => {
         if (speed === 0)
             windowScrollY = window.scrollY
         tickOnce()
