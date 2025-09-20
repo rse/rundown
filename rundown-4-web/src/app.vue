@@ -375,8 +375,6 @@ import pkg                  from "../../package.json" with { type: "json" }
 const templateMimeType = "application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 export default defineComponent({
     name: "app",
-    components: {
-    },
     data: () => ({
         tab: "content",
         downloadProgress: false,
@@ -386,10 +384,8 @@ export default defineComponent({
         templateMimeType,
         version: pkg.version
     }),
-    created () {
-    },
     mounted () {
-        /*  remove the potentially existin hash (in case of an exit)  */
+        /*  remove the potentially existing hash (in case of an exit)  */
         history.replaceState(null, document.title, window.location.pathname + window.location.search)
     },
     methods: {
@@ -422,10 +418,10 @@ export default defineComponent({
             }
         },
         uploadClick () {
-            (this.$refs.uploadInput as any).click()
+            (this.$refs.uploadInput as HTMLInputElement).click()
         },
         async uploadChange (ev: Event) {
-            const files = (ev.target as any)!.files as FileList
+            const files = (ev.target as HTMLInputElement)!.files as FileList
             if (files.length === 1) {
                 const file = files[0]
                 this.uploadDocument(file)
