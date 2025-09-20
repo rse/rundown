@@ -5,6 +5,7 @@ ChangeLog
 1.4.7 (2025-09-17)
 ------------------
 
+- IMPROVEMENT: add 6pt margin at end of a paragraph via R011 style
 - BUGFIX: fix description of R312 and R313 styles in cheat sheet of template
 - UPDATE: upgrade NPM dependencies
 
