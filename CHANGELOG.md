@@ -10,6 +10,7 @@ ChangeLog
 - CLEANUP: catch errors in ZIP internal file loading
 - CLEANUP: catch errors in file upload handling
 - CLEANUP: catch errors in document replacement handling
+- CLEANUP: catch errors in CLI DOCX conversion
 
 1.4.7 (2025-09-20)
 ------------------
