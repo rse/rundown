@@ -515,6 +515,9 @@ document.addEventListener("DOMContentLoaded", () => {
             stateLast = -1
             tickOnce()
         })
+        ws.addEventListener("error", (ev) => {
+            console.error(`[ERROR]: WebSocket connection error: ${ev.message}`)
+        })
         ws.addEventListener("message", (ev) => {
             (async () => {
                 const event = JSON.parse(ev.data)
