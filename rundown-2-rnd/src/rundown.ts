@@ -38,6 +38,18 @@ const findClosestElement = (elements: Element[], pivot: number) => {
     return min
 }
 
+/*  helper function to update active element in a list of elements  */
+const updateActiveElement = (elements: Element[], closestElement: Element | null) => {
+    if (closestElement === null)
+        return
+    for (const element of elements) {
+        if (element === closestElement && !element.classList.contains("active"))
+            element.classList.add("active")
+        else if (element !== closestElement && element.classList.contains("active"))
+            element.classList.remove("active")
+    }
+}
+
 /*  await the DOM...  */
 document.addEventListener("DOMContentLoaded", () => {
     /*  determine dynamic configuration options  */
@@ -91,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let i = 1
         for (const section of sections) {
             const sec  = section.getBoundingClientRect()
-            const part = section.querySelector(".rundown-part-tab") as HTMLElement
+            const part = section.querySelector(".rundown-part-tab") as HTMLElement | null
             if (part !== null) {
                 const pt = part.getBoundingClientRect()
                 if (!(sec.top + sec.height < 0 || sec.top > view.h)) {
@@ -101,25 +113,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (part !== null) {
                 /*  update "what" of tab  */
-                const what  = part.querySelector(".rundown-part-tab-what")!
-                what.innerHTML = `${i++}/${sections.length}`
+                const what = part.querySelector(".rundown-part-tab-what") as HTMLElement | null
+                if (what !== null)
+                    what.innerHTML = `${i++}/${sections.length}`
 
                 /*  update "where" of tab  */
                 const rawPercent = content.h > 0 ? (content.scrollY / content.h * 100) : 0
                 const percent = Math.max(0, Math.min(100, rawPercent))
-                const where = part.querySelector(".rundown-part-tab-where")!
-                where.innerHTML = `${percent.toFixed(0)}%`
+                const where = part.querySelector(".rundown-part-tab-where") as HTMLElement | null
+                if (where !== null)
+                    where.innerHTML = `${percent.toFixed(0)}%`
             }
         }
         const closestSection = findClosestElement(sections, pivot)
-        if (closestSection.element !== null) {
-            for (const section of sections) {
-                if (section === closestSection.element && !section.classList.contains("active"))
-                    section.classList.add("active")
-                else if (section !== closestSection.element && section.classList.contains("active"))
-                    section.classList.remove("active")
-            }
-        }
+        updateActiveElement(sections, closestSection.element)
 
         /*  determine all rundown chunks  */
         const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
@@ -137,14 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         const closestChunk = findClosestElement(chunks, pivot)
-        if (closestChunk.element !== null) {
-            for (const chunk of chunks) {
-                if (chunk === closestChunk.element && !chunk.classList.contains("active"))
-                    chunk.classList.add("active")
-                else if (chunk !== closestChunk.element && chunk.classList.contains("active"))
-                    chunk.classList.remove("active")
-            }
-        }
+        updateActiveElement(chunks, closestChunk.element)
 
         /*  optionally support live state emission  */
         if (options.get("live") === "yes") {
