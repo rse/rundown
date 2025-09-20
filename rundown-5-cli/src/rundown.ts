@@ -373,9 +373,9 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             const modifiedFile = filesSorted[0]
             const modifiedTime = (clonedFiles.get(modifiedFile)!.mtime as Date).getTime()
             if (modifiedFile !== convertedFile || modifiedTime > convertedTime) {
+                await convertDocument(modifiedFile, tmpfile)
                 convertedFile = modifiedFile
                 convertedTime = modifiedTime
-                await convertDocument(modifiedFile, tmpfile)
                 notifyClient("RELOAD")
             }
         }
