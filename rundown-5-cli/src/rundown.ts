@@ -89,6 +89,14 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         logPrefix: "rundown"
     })
 
+    /*  helper function for displaying package information  */
+    const displayPackageInfo = () => {
+        const pkg = JSON.parse(pkgJSON)
+        cli.log("info", `Rundown ${pkg.version} <${pkg.homepage}>\n`)
+        cli.log("info", `Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
+        cli.log("info", `Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
+    }
+
     /*  helper function for converting a single file  */
     const convertDocument = async (inputFile: string, outputFile: string) => {
         /*  read input file  */
@@ -245,10 +253,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         })
 
         /*  show program information  */
-        const pkg = JSON.parse(pkgJSON)
-        cli.log("info", `Rundown ${pkg.version} <${pkg.homepage}>\n`)
-        cli.log("info", `Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
-        cli.log("info", `Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
+        displayPackageInfo()
 
         /*  establish REST/WebSocket service  */
         const server = await establishServer(args.httpAddr!, args.httpPort!)
@@ -460,10 +465,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             throw new Error("too many arguments")
 
         /*  show program information  */
-        const pkg = JSON.parse(pkgJSON)
-        cli.log("info", `Rundown ${pkg.version} <${pkg.homepage}>\n`)
-        cli.log("info", `Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
-        cli.log("info", `Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
+        displayPackageInfo()
 
         /*  establish REST/WebSocket service  */
         const server = await establishServer(args.httpAddr!, args.httpPort!)
