@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (part !== null) {
                 const pt = part.getBoundingClientRect()
                 if (!(sec.top + sec.height < 0 || sec.top > view.h)) {
-                    let y = 0
+                    let y: number
                     if (sec.top > pivot - (pt.height / 2))
                         y = 0
                     else if (sec.top + sec.height < pivot + (pt.height / 2))
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (speaker !== null) {
                 const spk = speaker.getBoundingClientRect()
                 if (!(chk.top + chk.height < 0 || chk.top > view.h)) {
-                    let y = 0
+                    let y: number
                     if (chk.top > pivot - (spk.height / 2))
                         y = 0
                     else if (chk.top + chk.height < pivot + (spk.height / 2))
