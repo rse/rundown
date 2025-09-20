@@ -453,6 +453,9 @@ export default defineComponent({
             }
         },
         downloadClick () {
+            if (this.downloadProgress)
+                return
+            this.downloadProgress = true
             const link = document.createElement("a")
             link.href = template
             link.download = "rundown-template.docx"
@@ -460,6 +463,7 @@ export default defineComponent({
             link.click()
             setTimeout(() => {
                 link.remove()
+                this.downloadProgress = false
             }, 1000)
         }
     }
