@@ -63,7 +63,6 @@ export default [
             "@stylistic/quotes":                                  [ "error", "double" ],
 
             "@stylistic/no-multi-spaces":                         "off",
-            "@stylistic/no-multi-spaces":                         "off",
             "@stylistic/no-multiple-empty-lines":                 "off",
             "@stylistic/key-spacing":                             "off",
             "@stylistic/object-property-newline":                 "off",
