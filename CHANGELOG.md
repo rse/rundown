@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+1.4.9 (2025-09-29)
+------------------
+
+- BUGFIX: fix documentation of "ppt:xxx" states
+
 1.4.8 (2025-09-20)
 ------------------
 
