@@ -23,12 +23,12 @@
         "globals":                               "16.4.0",
         "shx":                                   "0.4.0",
         "mkdirp":                                "3.0.1",
-        "vite":                                  "7.1.6",
+        "vite":                                  "7.1.7",
         "vite-plugin-static-copy":               "3.1.2",
         "vite-plugin-singlefile":                "2.3.0",
         "vite-plugin-node-polyfills":            "0.24.0",
         "@m5nv/vite-plugin-run-task":            "1.0.2",
-        "@wroud/vite-plugin-tsc":                "0.12.1",
+        "@wroud/vite-plugin-tsc":                "0.12.2",
         "stylus":                                "0.64.0",
         "inline-assets":                         "1.4.9",
         "typescript":                            "5.9.2",
@@ -43,7 +43,7 @@
     "dependencies": {
         "@opensumi/reconnecting-websocket":      "4.4.0",
         "axios":                                 "1.12.2",
-        "animejs":                               "4.1.3"
+        "animejs":                               "4.1.4"
     },
     "overrides": {
     },
