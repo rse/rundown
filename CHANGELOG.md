@@ -2,9 +2,10 @@
 ChangeLog
 =========
 
-1.4.9 (2025-09-29)
+1.5.0 (2025-09-29)
 ------------------
 
+- IMPROVEMENT: avoid slowing down PowerPoint on (re)entering locked mode
 - BUGFIX: fix documentation of "ppt:xxx" states
 
 1.4.8 (2025-09-20)
