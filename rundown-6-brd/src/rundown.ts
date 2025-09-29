@@ -13,7 +13,7 @@ import * as arktype                from "arktype"
 /*  internal dependencies  */
 // @ts-ignore
 import pkgJSON                     from "../../package.json?raw" with { type: "json" }
-import { RundownStateSchema }      from "./rundown-state"
+import { RundownStateSchema, RundownModeSchema } from "./rundown-state"
 import { type RundownPlugin }      from "./rundown-plugin"
 import { RundownPluginPPT }        from "./rundown-plugin-ppt"
 
@@ -139,6 +139,9 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
         cli.log("info", "Rundown WebSocket: connected")
         ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
     })
+    ws.addEventListener("close", (ev) => {
+        cli.log("info", "Rundown WebSocket: disconnected")
+    })
     ws.addEventListener("message", (ev) => {
         (async () => {
             let data: any
@@ -149,17 +152,18 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
                 cli.log("error", `Rundown WebSocket: invalid JSON message: ${err}`)
                 return
             }
-            const payloadValidator = arktype.type({
-                event: "string",
-                "data": RundownStateSchema
-            })
+            const payloadValidator = arktype.type({ event: "string", "data": "object" })
             const payload = payloadValidator(data)
             if (payload instanceof arktype.type.errors) {
                 cli.log("error", `Rundown WebSocket: invalid message: ${payload.summary}`)
                 return
             }
             if (payload.event === "STATE") {
-                const data = payload.data
+                const data = RundownStateSchema(payload.data)
+                if (data instanceof arktype.type.errors) {
+                    cli.log("error", `Rundown WebSocket: invalid data: ${data.summary}`)
+                    return
+                }
                 const kv = data.kv.map((kv, i) =>
                     `${i}: <${Object.keys(kv).map((k) => `${k}=${kv[k]}`).join(" ")}>`
                 ).join(", ")
@@ -167,7 +171,18 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
                     `active=${data.active} kv={ ${kv} }`)
                 for (const id of Object.keys(plugins))
                     for (const ref of plugins[id].ref)
-                        await ref.reflect(payload.data)
+                        await ref.reflectState(data)
+            }
+            else if (payload.event === "MODE") {
+                const data = RundownModeSchema(payload.data)
+                if (data instanceof arktype.type.errors) {
+                    cli.log("error", `Rundown WebSocket: invalid data: ${data.summary}`)
+                    return
+                }
+                cli.log("info", `Rundown WebSocket: mode change: locked=${data.locked} debug=${data.debug}`)
+                for (const id of Object.keys(plugins))
+                    for (const ref of plugins[id].ref)
+                        await ref.reflectMode(data)
             }
         })()
     })

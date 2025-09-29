@@ -9,12 +9,14 @@ import { EventEmitter }       from "node:events"
 import OSC                    from "osc-js"
 
 /*  import internal dependencies  */
-import { type RundownState }  from "./rundown-state"
-import { RundownPlugin }      from "./rundown-plugin"
+import { type RundownState, type RundownMode } from "./rundown-state"
+import { RundownPlugin }                       from "./rundown-plugin"
 
 /*  the Rundown bridge to PowerPoint OSCPoint  */
 export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
     /*  internal state  */
+    private mode: RundownMode = { locked: false, debug: false }
+    private lastState: RundownState | null = null
     private oscR: OSC | undefined
     private oscS: OSC | undefined
     private pptState = {
@@ -369,18 +371,76 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
             })
     }
 
+    /*  condense state by reducing prev/next/goto into a single trailing goto
+        in order to avoid slowing down PowerPoint after entering locked mode  */
+    private condensedState (state: RundownState) {
+        const newState: RundownState = { id: state.id, active: state.active, kv: [] }
+        let gotoVal: number | null = null
+        for (let i = 0; i <= state.active && i < state.kv.length; i++) {
+            for (const key of Object.keys(state.kv[i])) {
+                const m = key.match(/^([a-zA-Z][a-zA-Z0-9-]*):(.+)$/)
+                if (m === null)
+                    continue
+                const [ , ns, cmd ] = m
+                if (ns !== "ppt")
+                    continue
+                if (cmd.match(/^(?:start|end|black)$/))
+                    newState.kv.push(state.kv[i])
+                else {
+                    const v = state.kv[i][key]
+                    if (cmd === "goto" && typeof v === "number")
+                        gotoVal = v
+                    else if (cmd === "next" || cmd === "prev") {
+                        if (gotoVal === null)
+                            gotoVal = (cmd === "next" ? 2 : 1)
+                        else {
+                            gotoVal = gotoVal + (cmd === "next" ? 1 : -1)
+                            if (gotoVal < 1)
+                                gotoVal = 1
+                            else if (this.pptState.slides > 0 && gotoVal > this.pptState.slides)
+                                gotoVal = this.pptState.slides
+                        }
+                    }
+                }
+            }
+        }
+        if (gotoVal !== null)
+            newState.kv.push({ "ppt:goto": gotoVal })
+        return newState
+    }
+
     /*  reflect current Rundown state  */
-    async reflect (state: RundownState) {
+    async reflectState (state: RundownState) {
         if (state.id !== this.id) {
             this.id = state.id
             this.active = 0
         }
-        if (state.active !== this.active) {
+        this.lastState = state
+        if (this.mode.locked && state.active !== this.active) {
             if (state.active > this.active)
                 this.processForwardCommands(state)
             else if (state.active < this.active)
                 this.processBackwardCommands(state)
             this.active = state.active
         }
+    }
+
+    /*  reflect current Rundown mode  */
+    async reflectMode (data: RundownMode) {
+        let changed = false
+        if (this.mode.locked !== data.locked) {
+            this.mode.locked = data.locked
+            changed = true
+            if (data.locked && this.lastState !== null) {
+                const condensedState = this.condensedState(this.lastState)
+                this.reflectState(condensedState)
+            }
+        }
+        if (this.mode.debug !== data.debug) {
+            this.mode.debug  = data.debug
+            changed = true
+        }
+        if (changed)
+            this.emit("mode-changed")
     }
 }

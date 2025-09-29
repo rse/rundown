@@ -263,7 +263,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
         /*  serve WebSocket connections  */
         const wsPeers = new Map<string, wsPeerInfo>()
-        let wsLastMsg = ""
+        const wsLastMsg = new Map<string, string>()
         server.route({
             method: "POST",
             path:   "/events",
@@ -305,10 +305,21 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                 if (payload instanceof arktype.type.errors)
                     return Boom.badRequest(`invalid request: ${payload.summary}`)
 
+                /*  emit message to all other clients  */
+                const wsSend = (type: string, msg: string) => {
+                    wsLastMsg.set(type, msg)
+                    for (const [ id, info ] of wsPeers.entries()) {
+                        if (ctx.id !== id) {
+                            cli.log("info", `WebSocket: notify ${type} change: peer="${id}" msg=${msg}`)
+                            info.ws.send(msg)
+                        }
+                    }
+                }
+
                 if (payload.event === "SUBSCRIBE") {
-                    /*  send out last state message  */
-                    if (wsLastMsg !== "")
-                        ws.send(wsLastMsg)
+                    /*  send out last state messages  */
+                    for (const msg of wsLastMsg.values())
+                        ws.send(msg)
                 }
                 else if (payload.event === "STATE" && typeof payload.data === "object") {
                     /*  validate request  */
@@ -323,7 +334,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                         return Boom.badRequest(`invalid request: ${data.summary}`)
 
                     /*  construct message to be emitted  */
-                    const msg = wsLastMsg = JSON.stringify({
+                    const msg = JSON.stringify({
                         event: "STATE",
                         data: {
                             id:     objectHash(data.kv),
@@ -333,12 +344,23 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                     })
 
                     /*  emit message to all other clients  */
-                    for (const [ id, info ] of wsPeers.entries()) {
-                        if (ctx.id !== id) {
-                            cli.log("info", `WebSocket: notify STATE change: peer="${id}" msg=${msg}`)
-                            info.ws.send(msg)
-                        }
-                    }
+                    wsSend("STATE", msg)
+                }
+                else if (payload.event === "MODE" && typeof payload.data === "object") {
+                    /*  validate request  */
+                    const dataValidator = arktype.type({
+                        locked: "boolean",
+                        debug:  "boolean"
+                    })
+                    const data = dataValidator(payload.data)
+                    if (data instanceof arktype.type.errors)
+                        return Boom.badRequest(`invalid request: ${data.summary}`)
+
+                    /*  construct message to be emitted  */
+                    const msg = JSON.stringify({ event: "MODE", data })
+
+                    /*  emit message to all other clients  */
+                    wsSend("MODE", msg)
                 }
                 return h.response().code(204)
             }

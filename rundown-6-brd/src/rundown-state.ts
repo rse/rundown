@@ -6,14 +6,16 @@
 
 import * as arktype from "arktype"
 
-export type RundownState = {
-    id:     string
-    active: number
-    kv:     Array<{ [ key: string ]: string | number | boolean }>
-}
-
 export const RundownStateSchema = arktype.type({
     id:     "string",
     active: "number",
     kv:     arktype.type({ "[ string ]": "string | number | boolean" }).array()
 })
+export type RundownState = typeof RundownStateSchema.infer
+
+export const RundownModeSchema = arktype.type({
+    locked: "boolean",
+    debug:  "boolean"
+})
+export type RundownMode = typeof RundownModeSchema.infer
+

@@ -447,6 +447,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 content.classList.add("debug")
             else if (!debug && content.classList.contains("debug"))
                 content.classList.remove("debug")
+            if (options.get("live") === "yes") {
+                if (debug)
+                    console.log(`[DEBUG]: mode change: sending (locked: ${locked}, debug: #${debug})`)
+                wsSendQueue.push(JSON.stringify({ event: "MODE", data: { locked, debug } }))
+            }
         }
         else if (event.key === "l") {
             locked = !locked
@@ -455,6 +460,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 content.classList.add("locked")
             else if (!locked && content.classList.contains("locked"))
                 content.classList.remove("locked")
+            if (options.get("live") === "yes") {
+                if (debug)
+                    console.log(`[DEBUG]: mode change: sending (locked: ${locked}, debug: #${debug})`)
+                wsSendQueue.push(JSON.stringify({ event: "MODE", data: { locked, debug } }))
+            }
         }
     })
 
@@ -472,10 +482,18 @@ document.addEventListener("DOMContentLoaded", () => {
             minUptime:                   5000
         })
         ws.addEventListener("open", (ev) => {
-            if (ws !== undefined)
+            if (debug)
+                console.log("[DEBUG]: WebSocket connection opened")
+            if (ws !== undefined) {
                 ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
+                ws.send(JSON.stringify({ event: "MODE", data: { locked, debug } }))
+            }
             stateLast = -1
             tickOnce()
+        })
+        ws.addEventListener("close", (ev) => {
+            if (debug)
+                console.log("[DEBUG]: WebSocket connection closed")
         })
         ws.addEventListener("error", (ev) => {
             console.error(`[ERROR]: WebSocket connection error: ${ev.message}`)
