@@ -203,7 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             const data: { active: number, kv: Array<{ [ key: string ]: string | number | boolean }> } =
                                 { active: -1, kv: [] }
                             for (let j = 0; j < stateStack.length; j++)
-                                data.kv.push(stateStack[j].kv)
+                                if (Object.keys(stateStack[j].kv).length > 0)
+                                    data.kv.push(stateStack[j].kv)
                             data.active = i
                             if (debug)
                                 console.log(`[DEBUG]: state change: detected (active: #${data.active})`)
