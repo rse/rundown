@@ -75,9 +75,9 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
         process.exit(1)
     })
     process.on("unhandledRejection", async (reason, promise) => {
-        const message = reason instanceof Error
-            ? `promise rejection not handled: ${reason.message}: ${reason.stack}`
-            : `promise rejection not handled: ${reason}`
+        const message = reason instanceof Error ?
+            `promise rejection not handled: ${reason.message}: ${reason.stack}` :
+            `promise rejection not handled: ${reason}`
         cli.log("error", message)
         process.exit(1)
     })
