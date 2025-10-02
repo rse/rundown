@@ -125,7 +125,7 @@ export default class Rundown extends EventEmitter {
         })
 
         /*  post-adjust HTML: mark ghost bullet points
-            (i.e. bullets points at level-1 which immedidately contain level-2 ones
+            (i.e. bullets points at level-1 which immediately contain level-2 ones
             and which get generated when a paragraph style is between level-2 styles)  */
         $("li:has(> ul, > ol)").each((i, node) => {
             const hasTextContent = Array.from(node.childNodes).some((node) =>
