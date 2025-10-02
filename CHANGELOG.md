@@ -5,6 +5,7 @@ ChangeLog
 1.5.1 (2025-10-02)
 ------------------
 
+- IMPROVEMENT: skip build targets on foreign hosts
 - UPDATE: upgrade NPM dependencies
 
 1.5.0 (2025-09-29)
