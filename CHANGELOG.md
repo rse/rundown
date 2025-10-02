@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - IMPROVEMENT: skip build targets on foreign hosts
+- IMPROVEMENT: make "package" task a separate STX step
 - UPDATE: upgrade NPM dependencies
 
 1.5.0 (2025-09-29)
