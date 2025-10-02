@@ -69,16 +69,16 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
         logPrefix: "rundown"
     })
 
-    /*  handle uncaught exceptions  */
+    /*  handle uncaught exceptions and unhandled promise rejections  */
     process.on("uncaughtException", async (err: Error) => {
         cli.log("error", `process crashed with a fatal error: ${err}: ${err.stack}`)
         process.exit(1)
     })
     process.on("unhandledRejection", async (reason, promise) => {
-        if (reason instanceof Error)
-            cli.log("error", `promise rejection not handled: ${reason.message}: ${reason.stack}`)
-        else
-            cli.log("error", `promise rejection not handled: ${reason}`)
+        const message = reason instanceof Error
+            ? `promise rejection not handled: ${reason.message}: ${reason.stack}`
+            : `promise rejection not handled: ${reason}`
+        cli.log("error", message)
         process.exit(1)
     })
 
