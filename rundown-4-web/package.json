@@ -22,7 +22,7 @@
         "patch-package":                    "8.0.1"
     },
     "devDependencies": {
-        "vite":                             "7.1.8",
+        "vite":                             "7.1.9",
         "@typescript-eslint/eslint-plugin": "8.45.0",
         "@typescript-eslint/parser":        "8.45.0",
         "@vitejs/plugin-vue":               "6.0.1",
