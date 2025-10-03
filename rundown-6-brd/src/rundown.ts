@@ -152,13 +152,13 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
                 cli.log("error", `Rundown WebSocket: invalid JSON message: ${err}`)
                 return
             }
-            const payloadValidator = arktype.type({ event: "string", "data": "object" })
+            const payloadValidator = arktype.type({ event: "string", "data?": "object" })
             const payload = payloadValidator(data)
             if (payload instanceof arktype.type.errors) {
                 cli.log("error", `Rundown WebSocket: invalid message: ${payload.summary}`)
                 return
             }
-            if (payload.event === "STATE") {
+            if (payload.event === "STATE" && payload.data) {
                 const data = RundownStateSchema(payload.data)
                 if (data instanceof arktype.type.errors) {
                     cli.log("error", `Rundown WebSocket: invalid data: ${data.summary}`)
@@ -173,7 +173,7 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
                     for (const ref of plugins[id].ref)
                         await ref.reflectState(data)
             }
-            else if (payload.event === "MODE") {
+            else if (payload.event === "MODE" && payload.data) {
                 const data = RundownModeSchema(payload.data)
                 if (data instanceof arktype.type.errors) {
                     cli.log("error", `Rundown WebSocket: invalid data: ${data.summary}`)
