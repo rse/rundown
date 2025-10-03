@@ -35,6 +35,9 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
 /*  establish asynchronous environment  */
 ;(async () => {
+    /*  parse package information  */
+    const pkg = JSON.parse(pkgJSON)
+
     /*  parse command-line arguments  */
     const args = await yargs()
         /* eslint @stylistic/indent: off */
@@ -74,7 +77,6 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
     /*  short-circuit version request  */
     if (args.version) {
-        const pkg = JSON.parse(pkgJSON)
         process.stderr.write(`Rundown ${pkg.version} <${pkg.homepage}>\n`)
         process.stderr.write(`Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
         process.stderr.write(`Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
@@ -91,7 +93,6 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
 
     /*  helper function for displaying package information  */
     const displayPackageInfo = () => {
-        const pkg = JSON.parse(pkgJSON)
         cli.log("info", `Rundown ${pkg.version} <${pkg.homepage}>\n`)
         cli.log("info", `Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
         cli.log("info", `Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
