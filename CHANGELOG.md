@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-1.5.1 (2025-10-02)
+1.5.1 (2025-10-03)
 ------------------
 
 - IMPROVEMENT: skip build targets on foreign hosts
