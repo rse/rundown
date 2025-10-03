@@ -149,11 +149,11 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
                 data = JSON.parse(ev.data)
             }
             catch (err) {
-                cli.log("error", `Rundown WebSocket: invalid JSON message: ${err}`)
+                const message = err instanceof Error ? err.message : String(err)
+                cli.log("error", `Rundown WebSocket: invalid JSON message: ${message}`)
                 return
             }
-            const payloadValidator = arktype.type({ event: "string", "data?": "object" })
-            const payload = payloadValidator(data)
+            const payload = arktype.type({ event: "string", "data?": "object" })(data)
             if (payload instanceof arktype.type.errors) {
                 cli.log("error", `Rundown WebSocket: invalid message: ${payload.summary}`)
                 return
