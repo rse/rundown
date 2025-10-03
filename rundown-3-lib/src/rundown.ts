@@ -202,24 +202,26 @@ export default class Rundown extends EventEmitter {
         $2("li, p").each((i, el) => {
             const hasTextContent = Array.from(el.childNodes).some((node) =>
                 node.nodeType === 3 /* Node.TEXT_NODE */ && node.nodeValue && /\S/.test(node.nodeValue))
-            const childs = $2("*:not(.rundown-chat, .rundown-info, .rundown-control)", el)
-            if (!hasTextContent && childs.length === 0)
+            const children = $2("*:not(.rundown-chat, .rundown-info, .rundown-control)", el)
+            if (!hasTextContent && children.length === 0)
                 $2(el).addClass("disabled")
         })
         $2(".rundown-chunk").each((i, el) => {
-            const childs = $2("*:not(.rundown-description):not(.rundown-control):not(.rundown-chat)", el)
-            if (childs.length === 0)
+            const children = $2("*:not(.rundown-description):not(.rundown-control):not(.rundown-chat)", el)
+            if (children.length === 0)
                 $2(el).addClass("disabled")
-            const childs2 = $2("> *:not(.disabled)", el)
-            if (childs2.length === 0)
-                $2(el).addClass("disabled")
+            else {
+                const children2 = $2("> *:not(.disabled)", el)
+                if (children2.length === 0)
+                    $2(el).addClass("disabled")
+            }
             const speaker = $2(".rundown-speaker", el)
             if (speaker.length === 0)
                 $2(el).addClass("autonomous")
         })
         $2(".rundown-section").each((i, el) => {
-            const childs = $2(".rundown-chunk:not(.disabled)", el)
-            if (childs.length === 0)
+            const children = $2(".rundown-chunk:not(.disabled)", el)
+            if (children.length === 0)
                 $2(el).addClass("disabled")
         })
         $2(".rundown-state").each((i, el) => {
