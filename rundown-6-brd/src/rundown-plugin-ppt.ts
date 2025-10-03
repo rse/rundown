@@ -319,7 +319,9 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
     /*  INTERNAL: process commands in forward direction  */
     private processForwardCommands (state: RundownState) {
         let m: RegExpMatchArray | null
-        for (let i = this.active + 1; i <= state.active; i++) {
+        for (let i = this.active + 1; i <= state.active && i < state.kv.length; i++) {
+            if (!state.kv[i])
+                continue
             for (const key of Object.keys(state.kv[i])) {
                 if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
                     const [ , prefix, name ] = m
@@ -334,7 +336,9 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
     /*  INTERNAL: process commands in backward direction  */
     private processBackwardCommands (state: RundownState) {
         let m: RegExpMatchArray | null
-        for (let i = this.active - 1; i >= state.active; i--) {
+        for (let i = this.active - 1; i >= state.active && i >= 0; i--) {
+            if (!state.kv[i] || i >= state.kv.length)
+                continue
             for (const key of Object.keys(state.kv[i]).reverse()) {
                 if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
                     const [ , prefix, name ] = m
@@ -371,12 +375,14 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
             })
     }
 
-    /*  condense state by reducing prev/next/goto into a single trailing goto
-        in order to avoid slowing down PowerPoint after entering locked mode  */
+    /*  condense state by reducing "prev", "next", and "goto" into a single "goto"
+        in order to avoid slowing down PowerPoint after (re)entering locked mode  */
     private condensedState (state: RundownState) {
         const newState: RundownState = { id: state.id, active: state.active, kv: [] }
-        let gotoVal: number | null = null
-        for (let i = 0; i <= state.active && i < state.kv.length; i++) {
+        let gotoVal = -1
+        let gotoIdx = -1
+        let i = 0
+        while (i <= state.active && i < state.kv.length) {
             for (const key of Object.keys(state.kv[i])) {
                 const m = key.match(/^([a-zA-Z][a-zA-Z0-9-]*):(.+)$/)
                 if (m === null)
@@ -388,9 +394,12 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
                     newState.kv.push(state.kv[i])
                 else {
                     const v = state.kv[i][key]
-                    if (cmd === "goto" && typeof v === "number")
+                    if (cmd === "goto" && typeof v === "number") {
+                        gotoIdx = i
                         gotoVal = v
+                    }
                     else if (cmd === "next" || cmd === "prev") {
+                        gotoIdx = i
                         if (gotoVal === null)
                             gotoVal = (cmd === "next" ? 2 : 1)
                         else {
@@ -401,11 +410,15 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
                                 gotoVal = this.pptState.slides
                         }
                     }
+                    newState.kv.push({})
                 }
             }
+            i++
         }
-        if (gotoVal !== null)
-            newState.kv.push({ "ppt:goto": gotoVal })
+        while (i < state.kv.length)
+            newState.kv.push(state.kv[i++])
+        if (gotoIdx > -1 && gotoVal > -1)
+            newState.kv[gotoIdx] = { "ppt:goto": gotoVal }
         return newState
     }
 
