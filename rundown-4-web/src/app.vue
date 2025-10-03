@@ -420,8 +420,8 @@ export default defineComponent({
             (this.$refs.uploadInput as HTMLInputElement).click()
         },
         async uploadChange (ev: Event) {
-            const files = (ev.target as HTMLInputElement)!.files as FileList
-            if (files.length === 1) {
+            const files = (ev.target as HTMLInputElement).files
+            if (files && files.length === 1) {
                 const file = files[0]
                 this.uploadDocument(file)
             }
