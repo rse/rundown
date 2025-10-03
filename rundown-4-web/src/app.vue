@@ -372,7 +372,8 @@ import pkg                  from "../../package.json" with { type: "json" }
 </script>
 
 <script lang="ts">
-const templateMimeType = "application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+const templateMimeType = "application/msword," +
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 export default defineComponent({
     name: "app",
     data: () => ({
