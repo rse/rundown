@@ -30,20 +30,40 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
             "[-r|--rundown ws://<ip-address>:<tcp-port>] " +
             "[-p|--plugin <id>:[prefix=<prefix>,][<key>=<value>[,<key>=<value>[,...]]]]"
         )
-        .help("h").alias("h", "help").default("h", false)
-            .describe("h", "show usage help")
-        .boolean("V").alias("V", "version").default("V", false)
-            .describe("V", "show program version information")
-        .string("v").nargs("v", 1).alias("v", "log-level").default("v", "warning")
-            .describe("v", "level for verbose logging ('none', 'error', 'warning', 'info', 'debug')")
-        .string("r").nargs("r", 1).alias("r", "rundown").default("r", "ws://127.0.0.1:8888/events")
-            .describe("r", "remote HTTP/Websocket connect URL of Rundown CLI")
+        .help("help")
+        .option("help", {
+            help:        true,
+            alias:       "h",
+            type:        "boolean",
+            default:     false,
+            description: "show usage help"
+        })
+        .option("version", {
+            type:        "boolean",
+            alias:       "V",
+            default:     false,
+            description: "show program version information"
+        })
+        .option("log-level", {
+            type:        "string",
+            args:        1,
+            alias:       "v",
+            default:     "warning",
+            description: "level for verbose logging ('none', 'error', 'warning', 'info', 'debug')"
+        })
+        .option("rundown", {
+            type:        "string",
+            nargs:       1,
+            alias:       "r",
+            default:     "ws://127.0.0.1:8888/events",
+            description: "remote HTTP/Websocket connect URL of Rundown CLI"
+        })
         .option("plugin", {
-            type:    "string",
-            array:   true,
-            nargs:   1,
-            alias:   "p",
-            default: [],
+            type:        "string",
+            array:       true,
+            nargs:       1,
+            alias:       "p",
+            default:     [],
             description: "use one or more bridge plugins"
         })
         .version(false)
@@ -125,7 +145,7 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
 
     /*  connect to Rundown CLI  */
     cli.log("info", `Rundown WebSocket: connecting to ${args.rundown}`)
-    const ws = new ReconnectingWebSocket(args.rundown!, [], {
+    const ws = new ReconnectingWebSocket(args.rundown, [], {
         reconnectionDelayGrowFactor: 1.3,
         maxReconnectionDelay:        4000,
         minReconnectionDelay:        1000,
