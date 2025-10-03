@@ -20,7 +20,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
     root:     "",
     plugins: [
         tscPlugin({
-            tscArgs:        [ "--project", "etc/tsc.json" ],
+            tscArgs:        [ "--project", "etc/tsc.json", ...(mode === "development" ? [ "--sourceMap" ] : []) ],
             packageManager: "npx",
             prebuild:       true
         }),
