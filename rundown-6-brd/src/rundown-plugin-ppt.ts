@@ -271,7 +271,10 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
     }
 
     /*  INTERNAL: send an OSC message  */
-    private send (message: string | string[], ...args: Array<ConstructorParameters<typeof OSC.Message>[1]>) {
+    private send (
+        message: string | string[],
+        ...args: Array<ConstructorParameters<typeof OSC.Message>[1]>
+    ) {
         if (!this.oscS)
             throw new Error("still not connected")
         const url = new URL(this.args["connect"])
@@ -400,7 +403,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
                     }
                     else if (cmd === "next" || cmd === "prev") {
                         gotoIdx = i
-                        if (gotoVal === null)
+                        if (gotoVal === -1)
                             gotoVal = (cmd === "next" ? 2 : 1)
                         else {
                             gotoVal = gotoVal + (cmd === "next" ? 1 : -1)
