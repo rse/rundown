@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+1.5.2 (2025-10-03)
+------------------
+
+- CLEANUP: revert accidentally changed template
+
 1.5.1 (2025-10-03)
 ------------------
 
