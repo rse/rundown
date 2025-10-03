@@ -222,7 +222,7 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
         process.exit(1)
     }
     for (const signal of [ "SIGINT", "SIGTERM" ])
-        process.on(signal, () => { shutdown(signal) })
+        process.on(signal, () => { shutdown(signal).catch(() => {}) })
 })().catch((err) => {
     /*  catch fatal run-time errors  */
     process.stderr.write(`rundown: ERROR: ${err}\n`)

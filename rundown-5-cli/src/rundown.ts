@@ -195,7 +195,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             process.exit(1)
         }
         for (const signal of [ "SIGINT", "SIGTERM" ])
-            process.on(signal, () => { shutdown(signal) })
+            process.on(signal, () => { shutdown(signal).catch(() => {}) })
 
         /*  handle uncaught exceptions  */
         process.on("uncaughtException", async (err: Error) => {
