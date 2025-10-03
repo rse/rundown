@@ -86,7 +86,7 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
         encoding:  "utf8",
         logLevel:  args.logLevel,
         logTime:   true,
-        logPrefix: "rundown"
+        logPrefix: "rundown-bridge"
     })
 
     /*  handle uncaught exceptions and unhandled promise rejections  */
