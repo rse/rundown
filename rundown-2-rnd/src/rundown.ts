@@ -63,18 +63,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*  internal state  */
-    const view    = { w: 0, h: 0 }
-    const content = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
-    let stateLast = -1
-    let stateLastSent = -1
-    let stateTimer: ReturnType<typeof setTimeout> | null = null
+    const view           = { w: 0, h: 0 }
+    const content        = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
+    let stateLast        = -1
+    let stateLastSent    = -1
+    let stateTimer:      ReturnType<typeof setTimeout> | null = null
     let stateLastScrollY = -1
-    let debug = false
-    let ws: ReconnectingWebSocket | undefined
-    let locked = false
-    let paused = false
-    let speed = 0
-    let delta = 0
+    let debug            = false
+    let locked           = false
+    let paused           = false
+    let speed            = 0
+    let delta            = 0
+    let ws:              ReconnectingWebSocket | undefined
 
     /*  WebSocket send queue
         (for messages potentially queued because connection had to be still (re-)established)  */
