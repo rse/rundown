@@ -5,6 +5,7 @@ ChangeLog
 1.5.2 (2025-10-03)
 ------------------
 
+- IMPROVEMENT: add optional speech-to-text based auto-scrolling
 - CLEANUP: revert accidentally changed template
 
 1.5.1 (2025-10-03)

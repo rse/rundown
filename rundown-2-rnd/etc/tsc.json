@@ -14,7 +14,7 @@
         "skipLibCheck":            true,
         "declaration":             true,
         "noEmit":                  false,
-        "types":                   [ "vite/client", "node" ],
+        "types":                   [ "vite/client", "node", "dom-speech-recognition" ],
         "rootDir":                 "../src"
     },
 	"include": [

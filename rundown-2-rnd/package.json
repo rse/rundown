@@ -38,9 +38,11 @@
         "svgo":                                  "4.0.0",
         "@types/node":                           "24.6.2",
         "@types/csso":                           "5.0.4",
+        "@types/dom-speech-recognition":         "0.0.7",
         "nodemon":                               "3.1.10"
     },
     "dependencies": {
+        "dice-coefficient":                      "2.1.1",
         "@opensumi/reconnecting-websocket":      "4.4.0",
         "axios":                                 "1.12.2",
         "animejs":                               "4.2.0"

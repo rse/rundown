@@ -7,6 +7,42 @@
 import ReconnectingWebSocket from "@opensumi/reconnecting-websocket"
 import axios                 from "axios"
 import * as anime            from "animejs"
+import { diceCoefficient }   from "dice-coefficient"
+
+/*  helper function for determining string similarity  */
+const similarity = (s1: string, s2: string) => {
+    s1 = s1.toLowerCase()
+    s2 = s2.toLowerCase()
+    return diceCoefficient(s1, s2)
+}
+
+/*  configuration for fuzzy word matching  */
+const minMatchWordsPercent = 0.6
+const minSimilarityPercent = 0.7
+
+/*  helper function for fuzzy word matching  */
+const fuzzyWordMatch = (spokenWords: string[], prompterWords: string[], startIdx = 0) => {
+    const minMatchWords = Math.floor(spokenWords.length * minMatchWordsPercent)
+    for (let i = startIdx; i < prompterWords.length - spokenWords.length + 1; i++) {
+        let matches = 0
+
+        /*  check how many words match (order preserved, gaps allowed  */
+        let textIdx = i
+        for (const spokenWord of spokenWords) {
+            /*  look ahead within reasonable window  */
+            for (let j = textIdx; j < Math.min(textIdx + 4, prompterWords.length); j++) {
+                if (similarity(spokenWord, prompterWords[j]) > minSimilarityPercent) {
+                    matches++
+                    textIdx = j + 1
+                    break
+                }
+            }
+        }
+        if (matches >= minMatchWords)
+            return textIdx
+    }
+    return -1
+}
 
 /*  helper function to calculate tab position  */
 const calculateYPos = (container: DOMRect, box: DOMRect, pivot: number): number => {
@@ -51,7 +87,7 @@ const updateActiveElement = (elements: Element[], closestElement: Element | null
 }
 
 /*  await the DOM...  */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     /*  determine dynamic configuration options  */
     const options = new Map<string, string>()
     for (const opt of document.location.hash.replace(/^#/, "").split("&")) {
@@ -71,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let stateLastScrollY = -1
     let debug            = false
     let locked           = false
+    let autoscroll       = false
     let paused           = false
     let speed            = 0
     let delta            = 0
@@ -88,12 +125,110 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, 200)
 
+    /*  optionally wrap all text words  */
+    const wordSeq: Array<{
+        index:       number,
+        word:        string,
+        punctuation: boolean,
+        node:        HTMLSpanElement,
+        spoken:      boolean,
+        visible:     boolean,
+    }> = []
+    const wordIdx = new Map<HTMLSpanElement, number>()
+    if (options.get("autoscroll") === "yes") {
+        const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
+        for (const chunk of chunks) {
+            /*  discover all DOM text nodes below the chunk node which are spoken  */
+            const walker = document.createTreeWalker(chunk, NodeFilter.SHOW_TEXT, (node: Node) => {
+                let current = node.parentElement
+                while (current !== null) {
+                    if (   current.classList.contains("rundown-speaker")
+                        || current.classList.contains("rundown-part")
+                        || current.classList.contains("rundown-state")
+                        || current.classList.contains("rundown-state-marker")
+                        || current.classList.contains("rundown-chat")
+                        || current.classList.contains("rundown-control")
+                        || current.classList.contains("rundown-hint")
+                        || current.classList.contains("rundown-info")
+                        || current.classList.contains("rundown-display"))
+                        return NodeFilter.FILTER_REJECT
+                    current = current.parentElement
+                }
+                return NodeFilter.FILTER_ACCEPT
+            })
+            const textNodes: Text[] = []
+            let node: Text | null
+            while ((node = walker.nextNode() as Text) !== null)
+                if (node.textContent?.trim())
+                    textNodes.push(node)
+
+            /*  iterate over all found text nodes and wrap them into word elements  */
+            for (const textNode of textNodes) {
+                const words = textNode.textContent.split(/([A-Za-z]+)/)
+                const fragment = document.createDocumentFragment()
+                for (const word of words) {
+                    let node: Node
+                    if (word.match(/^[A-Za-z]+$/)) {
+                        const span = document.createElement("span")
+                        span.className = "rundown-word"
+                        span.textContent = word
+                        node = span
+
+                        /*  add word to index  */
+                        const i = wordSeq.length
+                        wordSeq.push({
+                            index: i,
+                            word,
+                            punctuation: false,
+                            node: span,
+                            spoken: false,
+                            visible: false
+                        })
+                        wordIdx.set(span, i)
+                    }
+                    else {
+                        const span = document.createElement("span")
+                        span.className = "rundown-word-other"
+                        span.textContent = word
+                        node = span
+
+                        /*  add punctuation to index  */
+                        const i = wordSeq.length
+                        wordSeq.push({
+                            index: i,
+                            word,
+                            punctuation: true,
+                            node: span,
+                            spoken: false,
+                            visible: false
+                        })
+                        wordIdx.set(span, i)
+                    }
+                    fragment.appendChild(node)
+                }
+                textNode.replaceWith(fragment)
+            }
+        }
+    }
+
     /*  update the rendering  */
     const updateRendering = () => {
         /*  ensure we can scroll to the content top and bottom
             with the focus-point still in the middle of the viewport  */
         document.body.style.marginTop    = `${view.h / 2}px`
         document.body.style.marginBottom = `${view.h / 2}px`
+
+        /*  determine visibility of all words  */
+        if (options.get("autoscroll") === "yes") {
+            for (const item of wordSeq) {
+                const word = item.node.getBoundingClientRect()
+                item.visible = (word.top >= 0 && word.bottom <= view.h)
+                if (item.visible)
+                    item.node.classList.add("rundown-word-visible")
+                else
+                    item.node.classList.remove("rundown-word-visible")
+            }
+        }
 
         /*  determine all visible rundown section  */
         const sections = Array.from(document.querySelectorAll(".rundown-section:not(.disabled)"))
@@ -467,7 +602,107 @@ document.addEventListener("DOMContentLoaded", () => {
                 wsSendQueue.push(JSON.stringify({ event: "MODE", data: { locked, debug } }))
             }
         }
+        else if (event.key === "a") {
+            if (options.get("autoscroll") === "yes") {
+                /*  toggle runtime option  */
+                autoscroll = !autoscroll
+
+                /*  animate indicator  */
+                if (autoscroll)
+                    anime.animate(".overlay7", {
+                        opacity: { from: 0.0, to: 1.0 },
+                        ease: "outSine",
+                        duration: 100
+                    })
+                else
+                    anime.animate(".overlay7", {
+                        opacity: { from: 1.0, to: 0.0 },
+                        ease: "inSine",
+                        duration: 100
+                    })
+
+                /*  reset the state  */
+                for (const item of wordSeq) {
+                    item.node.classList.remove("rundown-word-spoken")
+                    item.spoken = false
+                }
+
+                /*  toggle speech-to-text  */
+                if (s2t !== null) {
+                    if (autoscroll) {
+                        if (debug)
+                            console.log("[DEBUG]: start speech-to-text engine")
+                        s2t.start()
+                    }
+                    else {
+                        if (debug)
+                            console.log("[DEBUG]: stop speech-to-text engine")
+                        s2t.stop()
+                    }
+                }
+            }
+        }
     })
+
+    /*  receive a transcript for auto-scrolling  */
+    const autoscrollReceive = (transcript: string, final = true) => {
+        const words = transcript.split(/([A-Za-z]+)/)
+            .filter((word) => word.match(/^[A-Za-z]+$/))
+        if (!final && words.length < 3)
+            return
+        const visibleIndex = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.index)
+        const visibleWords = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.word)
+        const idx = fuzzyWordMatch(words, visibleWords, 0)
+        if (idx !== -1) {
+            const index = visibleIndex[idx]
+            for (let i = 0; i <= index; i++) {
+                const item = wordSeq[i]
+                item.node.classList.add("rundown-word-spoken")
+                item.spoken = true
+            }
+            const lastWord = [ ...wordSeq ].reverse().find((word) => word.spoken)
+            if (lastWord !== undefined) {
+                const lastSpokenWord = lastWord.node
+                lastSpokenWord.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+            }
+        }
+    }
+
+    /*  optionally perform local speech-to-text transcription for autoscrolling  */
+    let s2t: SpeechRecognition | null = null
+    if (options.get("autoscroll") === "yes") {
+        const lang = options.get("lang") ?? "en-US"
+        s2t = new window.SpeechRecognition()
+        s2t.continuous     = true
+        s2t.interimResults = true
+        s2t.lang           = lang
+        s2t.addEventListener("result", (event: SpeechRecognitionEvent) => {
+            const lastResult = event.results[event.results.length - 1]
+            const text = lastResult[0].transcript.trim()
+            if (text !== "") {
+                if (lastResult.isFinal) {
+                    if (debug)
+                        console.log(`[DEBUG]: speech-to-text: recognized final text: "${text}"`)
+                    autoscrollReceive(text, true)
+                }
+                else {
+                    if (debug)
+                        console.log(`[DEBUG]: speech-to-text: recognized interim text: "${text}"`)
+                    autoscrollReceive(text, false)
+                }
+            }
+        })
+        s2t.addEventListener("error", (event) => {
+            console.error("Speech recognition error:", event.error)
+        })
+        s2t.addEventListener("end", () => {
+            if (autoscroll && s2t !== null) {
+                if (debug)
+                    console.log("[DEBUG]: auto re-start speech-to-text engine")
+                s2t.start()
+            }
+        })
+    }
 
     /*  connect to the origin server to get notified of document changes  */
     if (options.get("live") === "yes") {
@@ -556,6 +791,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         console.error(`[ERROR]: document reload failed: ${msg}`)
                         hideOverlay()
                     }
+                }
+                else if (event?.event === "TRANSCRIPT" && typeof event.transcript === "string") {
+                    if (options.get("autoscroll") === "yes" && autoscroll)
+                        autoscrollReceive(event.transcript as string, true)
                 }
             })().catch((err) => {
                 const msg = err instanceof Error ? err.message : String(err)
