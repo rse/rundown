@@ -608,7 +608,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
         else if (event.key === "a") {
-            if (options.get("autoscroll") === "yes") {
+            if (options.get("autoscroll") === "yes" && SpeechRecognition !== undefined) {
                 /*  toggle runtime option  */
                 autoscroll = !autoscroll
 
@@ -771,13 +771,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*  optionally perform local speech-to-text transcription for autoscrolling  */
     let s2t: SpeechRecognition | null = null
-    if (options.get("autoscroll") === "yes") {
+    const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
+    if (options.get("autoscroll") === "yes" && SpeechRecognition !== undefined) {
         const lang = options.get("lang") ?? "en-US"
-        s2t = new window.SpeechRecognition()
-        s2t.continuous     = true
-        s2t.interimResults = true
-        s2t.lang           = lang
-        s2t.addEventListener("result", (event: SpeechRecognitionEvent) => {
+        s2t = new SpeechRecognition()
+        s2t.continuous      = true
+        s2t.interimResults  = true
+        s2t.maxAlternatives = 1
+        s2t.lang            = lang
+        s2t.addEventListener("error", (event) => {
+            console.error(`[ERROR]: speech-to-text error: ${event.error}`)
+        })
+        s2t.addEventListener("result", (event) => {
             const lastResult = event.results[event.results.length - 1]
             const text = lastResult[0].transcript.trim()
             if (text !== "") {
@@ -793,10 +798,41 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             }
         })
-        s2t.addEventListener("error", (event) => {
-            console.error("Speech recognition error:", event.error)
+        s2t.addEventListener("nomatch", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: recognized NO TEXT")
         })
-        s2t.addEventListener("end", () => {
+        s2t.addEventListener("audiostart", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: AUDIO start")
+        })
+        s2t.addEventListener("audioend", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: AUDIO end")
+        })
+        s2t.addEventListener("soundstart", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: SOUND start")
+        })
+        s2t.addEventListener("soundend", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: SOUND end")
+        })
+        s2t.addEventListener("speechstart", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: SPEECH start")
+        })
+        s2t.addEventListener("speechend", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: SPEECH end")
+        })
+        s2t.addEventListener("start", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: LISTEN start")
+        })
+        s2t.addEventListener("end", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: LISTEN end")
             if (autoscroll && s2t !== null) {
                 if (debug)
                     console.log("[DEBUG]: auto re-start speech-to-text engine")
