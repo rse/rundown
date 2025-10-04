@@ -24,7 +24,7 @@ const minSimilarityPercent = 0.7
 /*  helper function for fuzzy word matching  */
 const fuzzyWordMatch = (spokenWords: string[], prompterWords: string[], startIdx = 0) => {
     /*  determine minimum words which have to match  */
-    const minMatchWords = Math.floor(spokenWords.length * minMatchWordsPercent)
+    const minMatchWords = Math.max(1, Math.floor(spokenWords.length * minMatchWordsPercent))
 
     /*  iterate over all words in the prompter word list...  */
     for (let i = startIdx; i < prompterWords.length - spokenWords.length + 1; i++) {
@@ -668,8 +668,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         /*  determine transcript words  */
         const words = transcript.split(/([A-Za-z]+)/)
             .filter((word) => word.match(/^[A-Za-z]+$/))
-        if (!final && words.length < 2)
-            return
 
         /*  determine currently visible and still not spoken words  */
         const visibleNonPunct = wordSeq.filter((word) => word.visible && !word.punctuation)
