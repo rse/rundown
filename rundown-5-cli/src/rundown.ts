@@ -142,6 +142,14 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         await server.register({ plugin: Inert })
         await server.register({ plugin: HAPITraffic })
 
+        /*  add Permissions-Policy header for on-device speech recognition  */
+        server.ext("onPreResponse", (request: HAPI.Request, h: HAPI.ResponseToolkit) => {
+            const response = request.response
+            if ("header" in response && typeof response.header === "function")
+                response.header("Permissions-Policy", "on-device-speech-recognition=*")
+            return h.continue
+        })
+
         /*  hook into network service for logging  */
         server.events.on("response", (request: HAPI.Request) => {
             const traffic = request.traffic()
