@@ -14,8 +14,8 @@
         "url":                                   "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                                "9.36.0",
-        "@eslint/js":                            "9.36.0",
+        "eslint":                                "9.37.0",
+        "@eslint/js":                            "9.37.0",
         "eslint-plugin-n":                       "17.23.1",
         "eslint-plugin-promise":                 "7.2.1",
         "eslint-plugin-import":                  "2.32.0",
@@ -38,6 +38,7 @@
         "svgo":                                  "4.0.0",
         "@types/node":                           "24.6.2",
         "@types/csso":                           "5.0.4",
+        "@types/luxon":                          "3.7.1",
         "@types/dom-speech-recognition":         "0.0.7",
         "nodemon":                               "3.1.10"
     },
@@ -45,7 +46,8 @@
         "dice-coefficient":                      "2.1.1",
         "@opensumi/reconnecting-websocket":      "4.4.0",
         "axios":                                 "1.12.2",
-        "animejs":                               "4.2.0"
+        "animejs":                               "4.2.0",
+        "luxon":                                 "3.7.2"
     },
     "overrides": {
     },

@@ -8,6 +8,7 @@ import ReconnectingWebSocket from "@opensumi/reconnecting-websocket"
 import axios                 from "axios"
 import * as anime            from "animejs"
 import { diceCoefficient }   from "dice-coefficient"
+import { DateTime }          from "luxon"
 
 /*  helper function for determining string similarity  */
 const similarity = (s1: string, s2: string) => {
@@ -117,6 +118,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     let autoscrollInterval:  ReturnType<typeof setInterval> | null = null
     let lastSpokenIndex      = -1
     let autoscrollAnimation: anime.JSAnimation | null = null
+
+    /*  helper function for console logging  */
+    const log = (level: string, msg: string, data: { [ key: string ]: any } | null = null) => {
+        const timestamp = DateTime.now().toFormat("yyyy-MM-dd HH:mm:ss.SSS")
+        let epilog = ""
+        if (data !== null) {
+            epilog = ` (${Object.keys(data)
+                .map((key) => key + ": " + JSON.stringify(data[key]))
+                .join(", ")
+            })`
+        }
+        if (level === "error")
+            console.error(`${timestamp} [ERROR] ${msg}${epilog}`)
+        else if (level === "warning")
+            console.warn(`${timestamp} [WARNING] ${msg}${epilog}`)
+        else if (level === "info")
+            console.info(`${timestamp} [INFO] ${msg}${epilog}`)
+        else if (level === "debug" && debug)
+            console.log(`${timestamp} [DEBUG] ${msg}${epilog}`)
+    }
 
     /*  WebSocket send queue
         (for messages potentially queued because connection had to be still (re-)established)  */
@@ -322,21 +343,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 if (Object.keys(stateStack[j].kv).length > 0)
                                     data.kv.push(stateStack[j].kv)
                             data.active = i
-                            if (debug)
-                                console.log(`[DEBUG]: state change: detected (active: #${data.active})`)
+                            log("debug", `state change: detected (active: #${data.active})`)
                             if (stateTimer !== null)
                                 clearTimeout(stateTimer)
                             stateTimer = setTimeout(() => {
                                 stateTimer = null
                                 if (stateLastSent !== data.active) {
                                     stateLastSent = data.active
-                                    if (debug)
-                                        console.log(`[DEBUG]: state change: sending (active: #${data.active})`)
+                                    log("debug", `state change: sending (active: #${data.active})`)
                                     wsSendQueue.push(JSON.stringify({ event: "STATE", data }))
                                 }
                                 else {
-                                    if (debug)
-                                        console.log(`[DEBUG]: state change: suppressed (active: #${data.active})`)
+                                    log("debug", `state change: suppressed (active: #${data.active})`)
                                 }
                             }, 800)
                         }
@@ -565,8 +583,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             else if (!debug && content.classList.contains("debug"))
                 content.classList.remove("debug")
             if (options.get("live") === "yes") {
-                if (debug)
-                    console.log(`[DEBUG]: mode change: sending (locked: ${locked}, debug: #${debug})`)
+                log("debug", `mode change: sending (locked: ${locked}, debug: #${debug})`)
                 wsSendQueue.push(JSON.stringify({ event: "MODE", data: { locked, debug } }))
             }
         }
@@ -578,8 +595,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             else if (!locked && content.classList.contains("locked"))
                 content.classList.remove("locked")
             if (options.get("live") === "yes") {
-                if (debug)
-                    console.log(`[DEBUG]: mode change: sending (locked: ${locked}, debug: #${debug})`)
+                log("debug", `mode change: sending (locked: ${locked}, debug: #${debug})`)
                 wsSendQueue.push(JSON.stringify({ event: "MODE", data: { locked, debug } }))
             }
         }
@@ -635,13 +651,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 /*  toggle speech-to-text  */
                 if (s2t !== null) {
                     if (autoscroll) {
-                        if (debug)
-                            console.log("[DEBUG]: start speech-to-text engine")
+                        log("debug", "start speech-to-text engine")
                         s2t.start()
                     }
                     else {
-                        if (debug)
-                            console.log("[DEBUG]: stop speech-to-text engine")
+                        log("debug", "stop speech-to-text engine")
                         s2t.stop()
                     }
                 }
@@ -763,46 +777,37 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         /*  catch errors  */
         s2t.addEventListener("error", (event) => {
-            console.error(`[ERROR]: speech-to-text: ${event.error}`)
+            log("error", `speech-to-text: ${event.error}`)
         })
 
         /*  observe audio/sound/speech start/end  */
         s2t.addEventListener("audiostart", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: AUDIO start")
+            log("debug", "speech-to-text: AUDIO start")
         })
         s2t.addEventListener("audioend", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: AUDIO end")
+            log("debug", "speech-to-text: AUDIO end")
         })
         s2t.addEventListener("soundstart", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: SOUND start")
+            log("debug", "speech-to-text: SOUND start")
         })
         s2t.addEventListener("soundend", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: SOUND end")
+            log("debug", "speech-to-text: SOUND end")
         })
         s2t.addEventListener("speechstart", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: SPEECH start")
+            log("debug", "speech-to-text: SPEECH start")
         })
         s2t.addEventListener("speechend", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: SPEECH end")
+            log("debug", "speech-to-text: SPEECH end")
         })
 
         /*  observe engine start/end  */
         s2t.addEventListener("start", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: ENGINE start")
+            log("debug", "speech-to-text: ENGINE start")
         })
         s2t.addEventListener("end", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: ENGINE end")
+            log("debug", "speech-to-text: ENGINE end")
             if (autoscroll && s2t !== null) {
-                if (debug)
-                    console.log("[DEBUG]: speech-to-text: ENGINE restart")
+                log("debug", "speech-to-text: ENGINE restart")
                 s2t.start()
             }
         })
@@ -813,20 +818,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             const text = lastResult[0].transcript.trim()
             if (text !== "") {
                 if (!lastResult.isFinal) {
-                    if (debug)
-                        console.log(`[DEBUG]: speech-to-text: recognized INTERIM text: "${text}"`)
+                    log("debug", `speech-to-text: recognized INTERIM text: "${text}"`)
                     autoscrollReceive(text, false)
                 }
                 else {
-                    if (debug)
-                        console.log(`[DEBUG]: speech-to-text: recognized FINAL text: "${text}"`)
+                    log("debug", `speech-to-text: recognized FINAL text: "${text}"`)
                     autoscrollReceive(text, true)
                 }
             }
         })
         s2t.addEventListener("nomatch", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: recognized NO text")
+            log("debug", "speech-to-text: recognized NO text")
         })
     }
 
@@ -844,8 +846,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             minUptime:                   5000
         })
         ws.addEventListener("open", (ev) => {
-            if (debug)
-                console.log("[DEBUG]: WebSocket connection opened")
+            log("debug", "WebSocket connection opened")
             if (ws !== undefined) {
                 ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
                 ws.send(JSON.stringify({ event: "MODE", data: { locked, debug } }))
@@ -854,11 +855,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             tickOnce()
         })
         ws.addEventListener("close", (ev) => {
-            if (debug)
-                console.log("[DEBUG]: WebSocket connection closed")
+            log("debug", "WebSocket connection closed")
         })
         ws.addEventListener("error", (ev) => {
-            console.error(`[ERROR]: WebSocket connection error: ${ev.message}`)
+            log("error", `WebSocket connection error: ${ev.message}`)
         })
         ws.addEventListener("message", (ev) => {
             (async () => {
@@ -914,7 +914,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     }
                     catch (err) {
                         const msg = err instanceof Error ? err.message : String(err)
-                        console.error(`[ERROR]: document reload failed: ${msg}`)
+                        log("error", `document reload failed: ${msg}`)
                         hideOverlay()
                     }
                 }
@@ -924,7 +924,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             })().catch((err) => {
                 const msg = err instanceof Error ? err.message : String(err)
-                console.error(`[ERROR]: WebSocket message handler failed: ${msg}`)
+                log("error", `WebSocket message handler failed: ${msg}`)
             })
         })
     }
