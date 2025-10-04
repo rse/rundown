@@ -139,7 +139,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         spoken:      "none" | "intermediate" | "final",
         visible:     boolean,
     }> = []
-    const wordIdx = new Map<HTMLSpanElement, number>()
     if (options.get("autoscroll") === "yes") {
         const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
         for (const chunk of chunks) {
@@ -187,7 +186,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     /*  add word to index  */
                     const i = wordSeq.length
                     wordSeq.push({ index: i, word, punctuation, node, spoken: "none", visible: false })
-                    wordIdx.set(node, i)
                 }
                 textNode.replaceWith(fragment)
             }
