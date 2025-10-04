@@ -36,7 +36,7 @@ const fuzzyWordMatch = (spokenWords: string[], prompterWords: string[], startIdx
             for (let j = textIdx; j < Math.min(textIdx + 4, prompterWords.length); j++) {
                 if (similarity(spokenWord, prompterWords[j]) > minSimilarityPercent) {
                     matches++
-                    textIdx = j + 1
+                    textIdx = j
                     break
                 }
             }
