@@ -101,21 +101,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     /*  internal state  */
-    const view           = { w: 0, h: 0 }
-    const content        = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
-    let stateLast        = -1
-    let stateLastSent    = -1
-    let stateTimer:      ReturnType<typeof setTimeout> | null = null
-    let stateLastScrollY = -1
-    let debug            = false
-    let locked           = false
-    let autoscroll       = false
-    let paused           = false
-    let speed            = 0
-    let delta            = 0
-    let ws:                 ReconnectingWebSocket | undefined
-    let autoscrollInterval: ReturnType<typeof setInterval> | null = null
-    let lastSpokenIndex     = -1
+    const view               = { w: 0, h: 0 }
+    const content            = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
+    let stateLast            = -1
+    let stateLastSent        = -1
+    let stateTimer:          ReturnType<typeof setTimeout> | null = null
+    let stateLastScrollY     = -1
+    let debug                = false
+    let locked               = false
+    let autoscroll           = false
+    let paused               = false
+    let speed                = 0
+    let delta                = 0
+    let ws:                  ReconnectingWebSocket | undefined
+    let autoscrollInterval:  ReturnType<typeof setInterval> | null = null
+    let lastSpokenIndex      = -1
     let autoscrollAnimation: anime.JSAnimation | null = null
 
     /*  WebSocket send queue
