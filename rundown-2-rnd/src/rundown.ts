@@ -19,14 +19,14 @@ const similarity = (s1: string, s2: string) => {
 
     /*  compare by word character similarity  */
     let similar = diceCoefficient(s1, s2)
-    if (similar < 0.70) {
+    if (similar > 0.50 && similar < 0.70) {
         /*  compare by word phonetic similarity (pronunciation)  */
         const dm1 = doubleMetaphone(s1)
         const dm2 = doubleMetaphone(s2)
         if (dm1[0] === dm2[0])
             similar = 0.80 /* primary pronunciation matched */
         else if (dm1[1] === dm2[1])
-            similar = 0.75 /* alternative pronunciation matched */
+            similar = 0.70 /* alternative pronunciation matched */
     }
     return similar
 }
