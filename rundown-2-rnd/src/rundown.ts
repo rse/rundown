@@ -172,44 +172,22 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const words = textNode.textContent.split(/([A-Za-z]+)/)
                 const fragment = document.createDocumentFragment()
                 for (const word of words) {
-                    let node: Node
-                    if (word.match(/^[A-Za-z]+$/)) {
-                        const span = document.createElement("span")
-                        span.className = "rundown-word"
-                        span.textContent = word
-                        node = span
-
-                        /*  add word to index  */
-                        const i = wordSeq.length
-                        wordSeq.push({
-                            index: i,
-                            word,
-                            punctuation: false,
-                            node: span,
-                            spoken: "none",
-                            visible: false
-                        })
-                        wordIdx.set(span, i)
-                    }
+                    /*  wrap word with HTML "span" element  */
+                    const node = document.createElement("span")
+                    node.textContent = word
+                    let punctuation = false
+                    if (word.match(/^[A-Za-z]+$/))
+                        node.className = "rundown-word"
                     else {
-                        const span = document.createElement("span")
-                        span.className = "rundown-word-other"
-                        span.textContent = word
-                        node = span
-
-                        /*  add punctuation to index  */
-                        const i = wordSeq.length
-                        wordSeq.push({
-                            index: i,
-                            word,
-                            punctuation: true,
-                            node: span,
-                            spoken: "none",
-                            visible: false
-                        })
-                        wordIdx.set(span, i)
+                        node.className = "rundown-word-other"
+                        punctuation = true
                     }
                     fragment.appendChild(node)
+
+                    /*  add word to index  */
+                    const i = wordSeq.length
+                    wordSeq.push({ index: i, word, punctuation, node, spoken: "none", visible: false })
+                    wordIdx.set(node, i)
                 }
                 textNode.replaceWith(fragment)
             }
