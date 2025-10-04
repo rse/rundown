@@ -111,7 +111,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     let paused           = false
     let speed            = 0
     let delta            = 0
-    let ws:              ReconnectingWebSocket | undefined
+    let ws:                 ReconnectingWebSocket | undefined
+    let autoscrollInterval: ReturnType<typeof setInterval> | null = null
+    let lastSpokenIndex     = -1
 
     /*  WebSocket send queue
         (for messages potentially queued because connection had to be still (re-)established)  */
@@ -626,6 +628,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                     item.node.classList.remove("rundown-word-spoken")
                     item.spoken = false
                 }
+                lastSpokenIndex = -1
+
+                /*  clear any pending intervals  */
+                if (autoscrollInterval !== null) {
+                    clearInterval(autoscrollInterval)
+                    autoscrollInterval = null
+                }
+
+                /*  toggle auto-scrolling  */
+                if (autoscroll) {
+                    paused = false
+                    speed  = 0
+                }
+                else {
+                    paused = true
+                    speed  = 0
+                }
 
                 /*  toggle speech-to-text  */
                 if (s2t !== null) {
@@ -646,24 +665,84 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*  receive a transcript for auto-scrolling  */
     const autoscrollReceive = (transcript: string, final = true) => {
+        /*  determine transcript words  */
         const words = transcript.split(/([A-Za-z]+)/)
             .filter((word) => word.match(/^[A-Za-z]+$/))
-        if (!final && words.length < 3)
+        if (!final && words.length < 2)
             return
-        const visibleIndex = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.index)
-        const visibleWords = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.word)
+
+        /*  determine currently visible and still not spoken words  */
+        const visibleSpoken = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.spoken)
+        const k = visibleSpoken.reverse().findIndex((spoken) => spoken)
+        const j = k !== -1 ? Math.max(0, visibleSpoken.length - k - 4) : 0
+        const visibleIndex  = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.index).slice(j)
+        const visibleWords  = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.word ).slice(j)
+
+        /*  perform a fuzzy match of the transcript words in the visible words  */
         const idx = fuzzyWordMatch(words, visibleWords, 0)
         if (idx !== -1) {
             const index = visibleIndex[idx]
+
+            /*  mark all words spoken up to and including the last fuzzy matched word  */
             for (let i = 0; i <= index; i++) {
                 const item = wordSeq[i]
-                item.node.classList.add("rundown-word-spoken")
-                item.spoken = true
+                if (!item.spoken) {
+                    item.node.classList.add("rundown-word-spoken")
+                    item.spoken = true
+                }
             }
+
+            /*  find last spoken word (the above could have re-matched words)  */
             const lastWord = [ ...wordSeq ].reverse().find((word) => word.spoken)
             if (lastWord !== undefined) {
-                const lastSpokenWord = lastWord.node
-                lastSpokenWord.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+                /*  check if new words were spoken  */
+                const newWordsSpoken = (lastWord.index !== lastSpokenIndex)
+                lastSpokenIndex = lastWord.index
+
+                /*  adjust scrolling if new words were spoken  */
+                if (newWordsSpoken) {
+                    const lastSpokenWord = lastWord.node
+                    const rect = lastSpokenWord.getBoundingClientRect()
+                    const pivot = (view.h / 2) - rect.height
+                    const distance = rect.bottom - pivot
+
+                    /*  adjust scrolling speed based on distance from center  */
+                    const relativeDistance = Math.abs(distance) / (view.h / 4)
+                    speed = Math.sign(distance) * Math.max(-10, Math.min(10, Math.round(relativeDistance * 10)))
+                    paused = false
+
+                    /*  clear previous interval  */
+                    if (autoscrollInterval !== null) {
+                        clearInterval(autoscrollInterval)
+                        autoscrollInterval = null
+                    }
+
+                    /*  start continuous centering interval  */
+                    autoscrollInterval = setInterval(() => {
+                        if (!autoscroll || paused)
+                            return
+                        if (lastSpokenIndex >= 0) {
+                            const currentLastSpokenWord = wordSeq[lastSpokenIndex].node
+                            const currentRect = currentLastSpokenWord.getBoundingClientRect()
+                            const currentPivot = (view.h / 2) - currentRect.height
+                            const distance = currentRect.bottom - currentPivot
+
+                            /*  adjust scrolling speed based on distance from center  */
+                            if (Math.abs(distance) > (currentRect.height / 2)) {
+                                const relativeDistance = Math.abs(distance) / (view.h / 4)
+                                speed = Math.sign(distance) * Math.max(-10, Math.min(10, Math.round(relativeDistance * 10)))
+                            }
+                            else {
+                                if (autoscrollInterval !== null) {
+                                    clearInterval(autoscrollInterval)
+                                    autoscrollInterval = null
+                                }
+                                speed = 0
+                                paused = true
+                            }
+                        }
+                    }, 50)
+                }
             }
         }
     }
