@@ -22,12 +22,14 @@ const minSimilarityPercent = 0.7
 
 /*  helper function for fuzzy word matching  */
 const fuzzyWordMatch = (spokenWords: string[], prompterWords: string[], startIdx = 0) => {
+    /*  determine minimum words which have to match  */
     const minMatchWords = Math.floor(spokenWords.length * minMatchWordsPercent)
-    for (let i = startIdx; i < prompterWords.length - spokenWords.length + 1; i++) {
-        let matches = 0
 
-        /*  check how many words match (order preserved, gaps allowed  */
+    /*  iterate over all words in the prompter word list...  */
+    for (let i = startIdx; i < prompterWords.length - spokenWords.length + 1; i++) {
+        /*  check how many words match (order preserved, gaps allowed)  */
         let textIdx = i
+        let matches = 0
         for (const spokenWord of spokenWords) {
             /*  look ahead within reasonable window  */
             for (let j = textIdx; j < Math.min(textIdx + 4, prompterWords.length); j++) {
@@ -114,6 +116,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let ws:                 ReconnectingWebSocket | undefined
     let autoscrollInterval: ReturnType<typeof setInterval> | null = null
     let lastSpokenIndex     = -1
+    let autoscrollAnimation: anime.JSAnimation | null = null
 
     /*  WebSocket send queue
         (for messages potentially queued because connection had to be still (re-)established)  */
@@ -133,7 +136,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         word:        string,
         punctuation: boolean,
         node:        HTMLSpanElement,
-        spoken:      boolean,
+        spoken:      "none" | "intermediate" | "final",
         visible:     boolean,
     }> = []
     const wordIdx = new Map<HTMLSpanElement, number>()
@@ -183,7 +186,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             word,
                             punctuation: false,
                             node: span,
-                            spoken: false,
+                            spoken: "none",
                             visible: false
                         })
                         wordIdx.set(span, i)
@@ -201,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             word,
                             punctuation: true,
                             node: span,
-                            spoken: false,
+                            spoken: "none",
                             visible: false
                         })
                         wordIdx.set(span, i)
@@ -610,23 +613,36 @@ document.addEventListener("DOMContentLoaded", async () => {
                 autoscroll = !autoscroll
 
                 /*  animate indicator  */
-                if (autoscroll)
+                if (autoscroll) {
                     anime.animate(".overlay7", {
                         opacity: { from: 0.0, to: 1.0 },
                         ease: "outSine",
                         duration: 100
                     })
-                else
+                    autoscrollAnimation = anime.animate(".overlay7", {
+                        scale: [ 1.0, 1.1, 1.0 ],
+                        ease: "easeInOutSine",
+                        duration: 1000,
+                        loop: true
+                    })
+                }
+                else {
+                    if (autoscrollAnimation !== null) {
+                        autoscrollAnimation.pause()
+                        autoscrollAnimation = null
+                    }
                     anime.animate(".overlay7", {
                         opacity: { from: 1.0, to: 0.0 },
                         ease: "inSine",
                         duration: 100
                     })
+                }
 
                 /*  reset the state  */
                 for (const item of wordSeq) {
-                    item.node.classList.remove("rundown-word-spoken")
-                    item.spoken = false
+                    item.node.classList.remove("rundown-word-spoken-intermediate")
+                    item.node.classList.remove("rundown-word-spoken-final")
+                    item.spoken = "none"
                 }
                 lastSpokenIndex = -1
 
@@ -637,14 +653,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
 
                 /*  toggle auto-scrolling  */
-                if (autoscroll) {
-                    paused = false
-                    speed  = 0
-                }
-                else {
-                    paused = true
-                    speed  = 0
-                }
+                paused = autoscroll ? false : true
+                speed  = 0
 
                 /*  toggle speech-to-text  */
                 if (s2t !== null) {
@@ -673,7 +683,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         /*  determine currently visible and still not spoken words  */
         const visibleSpoken = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.spoken)
-        const k = visibleSpoken.reverse().findIndex((spoken) => spoken)
+        const k = visibleSpoken.reverse().findIndex((spoken) => spoken === "final")
         const j = k !== -1 ? Math.max(0, visibleSpoken.length - k - 4) : 0
         const visibleIndex  = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.index).slice(j)
         const visibleWords  = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.word ).slice(j)
@@ -686,14 +696,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             /*  mark all words spoken up to and including the last fuzzy matched word  */
             for (let i = 0; i <= index; i++) {
                 const item = wordSeq[i]
-                if (!item.spoken) {
-                    item.node.classList.add("rundown-word-spoken")
-                    item.spoken = true
+                if (item.spoken === "none") {
+                    item.node.classList.add(final ? "rundown-word-spoken-final" : "rundown-word-spoken-intermediate")
+                    item.spoken = final ? "final" : "intermediate"
+                }
+                else if (item.spoken === "intermediate" && final) {
+                    item.node.classList.remove("rundown-word-spoken-intermediate")
+                    item.node.classList.add("rundown-word-spoken-final")
+                    item.spoken = "final"
                 }
             }
 
             /*  find last spoken word (the above could have re-matched words)  */
-            const lastWord = [ ...wordSeq ].reverse().find((word) => word.spoken)
+            const lastWord = [ ...wordSeq ].reverse().find((word) => word.spoken !== "none")
             if (lastWord !== undefined) {
                 /*  check if new words were spoken  */
                 const newWordsSpoken = (lastWord.index !== lastSpokenIndex)
