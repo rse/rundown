@@ -8,13 +8,27 @@ import ReconnectingWebSocket from "@opensumi/reconnecting-websocket"
 import axios                 from "axios"
 import * as anime            from "animejs"
 import { diceCoefficient }   from "dice-coefficient"
+import { doubleMetaphone }   from "double-metaphone"
 import { DateTime }          from "luxon"
 
 /*  helper function for determining string similarity  */
 const similarity = (s1: string, s2: string) => {
+    /*  compare only lower-case variants  */
     s1 = s1.toLowerCase()
     s2 = s2.toLowerCase()
-    return diceCoefficient(s1, s2)
+
+    /*  compare by word character similarity  */
+    let similar = diceCoefficient(s1, s2)
+    if (similar < 0.70) {
+        /*  compare by word phonetic similarity (pronunciation)  */
+        const dm1 = doubleMetaphone(s1)
+        const dm2 = doubleMetaphone(s2)
+        if (dm1[0] === dm2[0])
+            similar = 0.80 /* primary pronunciation matched */
+        else if (dm1[1] === dm2[1])
+            similar = 0.75 /* alternative pronunciation matched */
+    }
+    return similar
 }
 
 /*  configuration for fuzzy word matching  */

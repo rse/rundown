@@ -44,6 +44,7 @@
     },
     "dependencies": {
         "dice-coefficient":                      "2.1.1",
+        "double-metaphone":                      "2.0.1",
         "@opensumi/reconnecting-websocket":      "4.4.0",
         "axios":                                 "1.12.2",
         "animejs":                               "4.2.0",
