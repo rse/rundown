@@ -588,7 +588,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 /*  toggle runtime option  */
                 autoscroll = !autoscroll
 
-                /*  animate indicator  */
+                /*  animate autoscroll indicator  */
                 if (autoscroll) {
                     anime.animate(".overlay7", {
                         opacity: { from: 0.0, to: 1.0 },
@@ -660,8 +660,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         /*  determine currently visible and still not spoken words  */
         const visibleNonPunct = wordSeq.filter((word) => word.visible && !word.punctuation)
         const visibleSpoken   = visibleNonPunct.map((word) => word.spoken)
-        const k = visibleSpoken.reverse().findIndex((spoken) => spoken === "final")
-        const j = k !== -1 ? Math.max(0, visibleSpoken.length - k - 4) : 0
+        const k               = visibleSpoken.reverse().findIndex((spoken) => spoken === "final")
+        const j               = (k !== -1 ? Math.max(0, visibleSpoken.length - k - 4) : 0)
         const visibleIndex    = visibleNonPunct.map((word) => word.index).slice(j)
         const visibleWords    = visibleNonPunct.map((word) => word.word ).slice(j)
 
@@ -674,7 +674,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             for (let i = 0; i <= index; i++) {
                 const item = wordSeq[i]
                 if (item.spoken === "none") {
-                    item.node.classList.add(final ? "rundown-word-spoken-final" : "rundown-word-spoken-intermediate")
+                    item.node.classList.add(final ?
+                        "rundown-word-spoken-final" : "rundown-word-spoken-intermediate")
                     item.spoken = final ? "final" : "intermediate"
                 }
                 else if (item.spoken === "intermediate" && final) {
@@ -700,13 +701,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 /*  adjust scrolling if new words were spoken  */
                 if (newWordsSpoken) {
                     const lastSpokenWord = lastWord.node
-                    const rect = lastSpokenWord.getBoundingClientRect()
-                    const pivot = (view.h / 2) - rect.height
+                    const rect     = lastSpokenWord.getBoundingClientRect()
+                    const pivot    = (view.h / 2) - rect.height
                     const distance = rect.bottom - pivot
 
                     /*  adjust scrolling speed based on distance from center  */
                     const relativeDistance = Math.abs(distance) / (view.h / 4)
-                    speed = Math.sign(distance) * Math.max(-10, Math.min(10, Math.round(relativeDistance * 10)))
+                    speed = Math.sign(distance) * Math.max(-10, Math.min(10,
+                        Math.round(relativeDistance * 10)))
                     paused = false
 
                     /*  clear previous interval  */
@@ -720,22 +722,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                         if (!autoscroll || paused)
                             return
                         if (lastSpokenIndex >= 0) {
-                            const currentLastSpokenWord = wordSeq[lastSpokenIndex].node
-                            const currentRect = currentLastSpokenWord.getBoundingClientRect()
-                            const currentPivot = (view.h / 2) - currentRect.height
-                            const distance = currentRect.bottom - currentPivot
+                            const lastSpokenWord = wordSeq[lastSpokenIndex].node
+                            const rect     = lastSpokenWord.getBoundingClientRect()
+                            const pivot    = (view.h / 2) - rect.height
+                            const distance = rect.bottom - pivot
 
                             /*  adjust scrolling speed based on distance from center  */
-                            if (Math.abs(distance) > (currentRect.height / 2)) {
+                            if (Math.abs(distance) > (rect.height / 2)) {
                                 const relativeDistance = Math.abs(distance) / (view.h / 4)
-                                speed = Math.sign(distance) * Math.max(-10, Math.min(10, Math.round(relativeDistance * 10)))
+                                speed = Math.sign(distance) * Math.max(-10, Math.min(10,
+                                    Math.round(relativeDistance * 10)))
                             }
                             else {
                                 if (autoscrollInterval !== null) {
                                     clearInterval(autoscrollInterval)
                                     autoscrollInterval = null
                                 }
-                                speed = 0
+                                speed  = 0
                                 paused = true
                             }
                         }
@@ -750,34 +753,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
     if (options.get("autoscroll") === "yes" && SpeechRecognition !== undefined) {
         const lang = options.get("lang") ?? "en-US"
+
+        /*  establish speech-to-text facility of Chromium browsers  */
         s2t = new SpeechRecognition()
         s2t.continuous      = true
         s2t.interimResults  = true
         s2t.maxAlternatives = 1
         s2t.lang            = lang
+
+        /*  catch errors  */
         s2t.addEventListener("error", (event) => {
-            console.error(`[ERROR]: speech-to-text error: ${event.error}`)
+            console.error(`[ERROR]: speech-to-text: ${event.error}`)
         })
-        s2t.addEventListener("result", (event) => {
-            const lastResult = event.results[event.results.length - 1]
-            const text = lastResult[0].transcript.trim()
-            if (text !== "") {
-                if (lastResult.isFinal) {
-                    if (debug)
-                        console.log(`[DEBUG]: speech-to-text: recognized final text: "${text}"`)
-                    autoscrollReceive(text, true)
-                }
-                else {
-                    if (debug)
-                        console.log(`[DEBUG]: speech-to-text: recognized interim text: "${text}"`)
-                    autoscrollReceive(text, false)
-                }
-            }
-        })
-        s2t.addEventListener("nomatch", (event) => {
-            if (debug)
-                console.log("[DEBUG]: speech-to-text: recognized NO TEXT")
-        })
+
+        /*  observe audio/sound/speech start/end  */
         s2t.addEventListener("audiostart", (event) => {
             if (debug)
                 console.log("[DEBUG]: speech-to-text: AUDIO start")
@@ -802,18 +791,42 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (debug)
                 console.log("[DEBUG]: speech-to-text: SPEECH end")
         })
+
+        /*  observe engine start/end  */
         s2t.addEventListener("start", (event) => {
             if (debug)
-                console.log("[DEBUG]: speech-to-text: LISTEN start")
+                console.log("[DEBUG]: speech-to-text: ENGINE start")
         })
         s2t.addEventListener("end", (event) => {
             if (debug)
-                console.log("[DEBUG]: speech-to-text: LISTEN end")
+                console.log("[DEBUG]: speech-to-text: ENGINE end")
             if (autoscroll && s2t !== null) {
                 if (debug)
-                    console.log("[DEBUG]: auto re-start speech-to-text engine")
+                    console.log("[DEBUG]: speech-to-text: ENGINE restart")
                 s2t.start()
             }
+        })
+
+        /*  retrieve speech-to-text results  */
+        s2t.addEventListener("result", (event) => {
+            const lastResult = event.results[event.results.length - 1]
+            const text = lastResult[0].transcript.trim()
+            if (text !== "") {
+                if (!lastResult.isFinal) {
+                    if (debug)
+                        console.log(`[DEBUG]: speech-to-text: recognized INTERIM text: "${text}"`)
+                    autoscrollReceive(text, false)
+                }
+                else {
+                    if (debug)
+                        console.log(`[DEBUG]: speech-to-text: recognized FINAL text: "${text}"`)
+                    autoscrollReceive(text, true)
+                }
+            }
+        })
+        s2t.addEventListener("nomatch", (event) => {
+            if (debug)
+                console.log("[DEBUG]: speech-to-text: recognized NO text")
         })
     }
 
