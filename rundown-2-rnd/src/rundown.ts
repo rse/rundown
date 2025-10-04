@@ -711,6 +711,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             }
 
+            /*  clear remaining intermediate results when final transcript arrives  */
+            if (final) {
+                for (let i = index + 1; i < wordSeq.length; i++) {
+                    const item = wordSeq[i]
+                    if (item.spoken === "intermediate") {
+                        item.node.classList.remove("rundown-word-spoken-intermediate")
+                        item.spoken = "none"
+                    }
+                }
+            }
+
             /*  find last spoken word (the above could have re-matched words)  */
             let lastWord: typeof wordSeq[0] | undefined
             for (let i = wordSeq.length - 1; i >= 0; i--) {
