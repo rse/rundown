@@ -913,7 +913,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     /*  fetch new content  */
                     try {
                         let url = document.location.href
-                        url = url.replace(/#live$/, "")
+                        url = url.replace(/#.*$/, "")
                         const response = await axios({
                             method: "GET",
                             url,
