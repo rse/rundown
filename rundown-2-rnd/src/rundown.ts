@@ -653,7 +653,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
 
                 /*  toggle auto-scrolling  */
-                paused = autoscroll ? false : true
+                paused = !autoscroll
                 speed  = 0
 
                 /*  toggle speech-to-text  */
@@ -682,11 +682,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             return
 
         /*  determine currently visible and still not spoken words  */
-        const visibleSpoken = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.spoken)
+        const visibleNonPunct = wordSeq.filter((word) => word.visible && !word.punctuation)
+        const visibleSpoken   = visibleNonPunct.map((word) => word.spoken)
         const k = visibleSpoken.reverse().findIndex((spoken) => spoken === "final")
         const j = k !== -1 ? Math.max(0, visibleSpoken.length - k - 4) : 0
-        const visibleIndex  = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.index).slice(j)
-        const visibleWords  = wordSeq.filter((word) => word.visible && !word.punctuation).map((word) => word.word ).slice(j)
+        const visibleIndex    = visibleNonPunct.map((word) => word.index).slice(j)
+        const visibleWords    = visibleNonPunct.map((word) => word.word ).slice(j)
 
         /*  perform a fuzzy match of the transcript words in the visible words  */
         const idx = fuzzyWordMatch(words, visibleWords, 0)
@@ -708,7 +709,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             /*  find last spoken word (the above could have re-matched words)  */
-            const lastWord = [ ...wordSeq ].reverse().find((word) => word.spoken !== "none")
+            let lastWord: typeof wordSeq[0] | undefined
+            for (let i = wordSeq.length - 1; i >= 0; i--) {
+                if (wordSeq[i].spoken !== "none") {
+                    lastWord = wordSeq[i]
+                    break
+                }
+            }
             if (lastWord !== undefined) {
                 /*  check if new words were spoken  */
                 const newWordsSpoken = (lastWord.index !== lastSpokenIndex)
