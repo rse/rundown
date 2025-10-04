@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let lastSpokenIndex      = -1
     let autoscrollAnimation: anime.JSAnimation | null = null
 
-    /*  helper function for console logging  */
+    /*  helper function for convenient console logging  */
     const log = (level: string, msg: string, data: { [ key: string ]: any } | null = null) => {
         const timestamp = DateTime.now().toFormat("yyyy-MM-dd HH:mm:ss.SSS")
         let epilog = ""
@@ -645,8 +645,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
 
                 /*  toggle auto-scrolling  */
-                paused = !autoscroll
-                speed  = 0
+                speedBeforePause = 0
+                adjustSpeed(0)
 
                 /*  toggle speech-to-text  */
                 if (s2t !== null) {
@@ -721,9 +721,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     /*  adjust scrolling speed based on distance from center  */
                     const relativeDistance = Math.abs(distance) / (view.h / 4)
-                    speed = Math.sign(distance) * Math.max(-10, Math.min(10,
+                    const speed = Math.sign(distance) * Math.max(-10, Math.min(10,
                         Math.round(relativeDistance * 10)))
-                    paused = false
+                    adjustSpeed(speed)
 
                     /*  clear previous interval  */
                     if (autoscrollInterval !== null) {
@@ -744,16 +744,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                             /*  adjust scrolling speed based on distance from center  */
                             if (Math.abs(distance) > (rect.height / 2)) {
                                 const relativeDistance = Math.abs(distance) / (view.h / 4)
-                                speed = Math.sign(distance) * Math.max(-10, Math.min(10,
+                                const speed = Math.sign(distance) * Math.max(-10, Math.min(10,
                                     Math.round(relativeDistance * 10)))
+                                adjustSpeed(speed)
                             }
                             else {
                                 if (autoscrollInterval !== null) {
                                     clearInterval(autoscrollInterval)
                                     autoscrollInterval = null
                                 }
-                                speed  = 0
-                                paused = true
+                                adjustSpeed(0)
                             }
                         }
                     }, 50)
