@@ -284,7 +284,7 @@ export class RundownAutoScroll {
             })
             this.autoscrollAnimation = anime.animate(".overlay7", {
                 scale: [ 1.0, 1.1, 1.0 ],
-                ease: "easeInOutSine",
+                ease: "inOutSine",
                 duration: 1000,
                 loop: true
             })
