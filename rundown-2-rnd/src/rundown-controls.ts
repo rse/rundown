@@ -12,6 +12,7 @@ import { RundownState }      from "./rundown-state"
 import { RundownUtil }       from "./rundown-util"
 import { RundownAutoScroll } from "./rundown-autoscroll"
 import { RundownWebSocket }  from "./rundown-websocket"
+import { RundownRendering }  from "./rundown-rendering"
 
 /*  helper function to find closest element by distance  */
 const findClosestElement = (elements: Element[], pivot: number) => {
@@ -41,6 +42,7 @@ export class RundownControls {
     private fontSize      = 120
     private lineHeight    = 125
     private delta         = 0
+    private rendering!:   RundownRendering
 
     constructor (
         private state:      RundownState,
@@ -48,6 +50,11 @@ export class RundownControls {
         private autoscroll: RundownAutoScroll,
         private websocket:  RundownWebSocket
     ) {}
+
+    /*  receive circular references  */
+    provideCircRefs (rendering: RundownRendering) {
+        this.rendering = rendering
+    }
 
     /*  adjust scrolling speed  */
     adjustSpeed (target: number) {
@@ -72,7 +79,7 @@ export class RundownControls {
     /*  generic helper for scrolling to sibling elements  */
     scrollToSibling (selector: string, direction: "up" | "down") {
         const elements = Array.from(document.querySelectorAll(selector))
-        const pivot = this.state.view.h / 2
+        const pivot = this.rendering.view.h / 2
         const min = findClosestElement(elements, pivot)
         if (min.element !== null) {
             let i = elements.findIndex((el) => el === min.element)
@@ -82,7 +89,7 @@ export class RundownControls {
                 i++
             const element = elements[i]
             const rect = element.getBoundingClientRect()
-            const delta = rect.top - (this.state.view.h / 2)
+            const delta = rect.top - (this.rendering.view.h / 2)
             this.state.paused = true
             this.state.speed = 0
             this.windowScrollY = window.scrollY + delta
@@ -139,7 +146,7 @@ export class RundownControls {
                 this.state.paused = true
                 this.state.speed = 0
                 if (!this.state.locked)
-                    window.scroll({ top: this.state.content.h, behavior: "smooth" })
+                    window.scroll({ top: this.rendering.content.h, behavior: "smooth" })
             }
             else if ((event.shiftKey && event.key === "PageUp")
                 || (event.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD && event.key === "1")) {
@@ -232,7 +239,7 @@ export class RundownControls {
         const doAutoScroll = () => {
             if (!this.state.paused && this.state.speed !== 0) {
                 if (   (Math.sign(this.state.speed) < 0 && window.scrollY <= 0)
-                    || (Math.sign(this.state.speed) > 0 && Math.abs(window.scrollY - this.state.content.h) < 0.5)) {
+                    || (Math.sign(this.state.speed) > 0 && Math.abs(window.scrollY - this.rendering.content.h) < 0.5)) {
                     this.state.paused = true
                     this.state.speed  = 0
                 }

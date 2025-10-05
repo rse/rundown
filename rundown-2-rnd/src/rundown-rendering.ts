@@ -56,6 +56,12 @@ const updateActiveElement = (elements: Element[], closestElement: Element | null
 export class RundownRendering {
     private ticking = false
 
+    /*  view dimensions  */
+    view                 = { w: 0, h: 0 }
+
+    /*  content dimensions and scroll position  */
+    content              = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
+
     /*  state tracking for live mode  */
     private stateLast        = -1
     private stateLastSent    = -1
@@ -79,8 +85,8 @@ export class RundownRendering {
     updateRendering () {
         /*  ensure we can scroll to the content top and bottom
             with the focus-point still in the middle of the viewport  */
-        document.body.style.marginTop    = `${this.state.view.h / 2}px`
-        document.body.style.marginBottom = `${this.state.view.h / 2}px`
+        document.body.style.marginTop    = `${this.view.h / 2}px`
+        document.body.style.marginBottom = `${this.view.h / 2}px`
 
         /*  update visibility of all words  */
         this.autoscroll.updateWordVisibility()
@@ -89,14 +95,14 @@ export class RundownRendering {
         const sections = Array.from(document.querySelectorAll(".rundown-section:not(.disabled)"))
 
         /*  adjust the position of the moving part tab (right-hand side)  */
-        const pivot = this.state.view.h / 2
+        const pivot = this.view.h / 2
         let i = 1
         for (const section of sections) {
             const sec  = section.getBoundingClientRect()
             const part = section.querySelector(".rundown-part-tab") as HTMLElement | null
             if (part !== null) {
                 const pt = part.getBoundingClientRect()
-                if (!(sec.top + sec.height < 0 || sec.top > this.state.view.h)) {
+                if (!(sec.top + sec.height < 0 || sec.top > this.view.h)) {
                     const y = calculateYPos(sec, pt, pivot)
                     part.style.top = `calc(${y}px - 0.25rem)`
                 }
@@ -108,7 +114,7 @@ export class RundownRendering {
                     what.innerHTML = `${i++}/${sections.length}`
 
                 /*  update "where" of tab  */
-                const rawPercent = this.state.content.h > 0 ? (this.state.content.scrollY / this.state.content.h * 100) : 0
+                const rawPercent = this.content.h > 0 ? (this.content.scrollY / this.content.h * 100) : 0
                 const percent = Math.max(0, Math.min(100, rawPercent))
                 const where = part.querySelector(".rundown-part-tab-where") as HTMLElement | null
                 if (where !== null)
@@ -127,7 +133,7 @@ export class RundownRendering {
             const speaker = chunk.querySelector(".rundown-speaker") as HTMLElement
             if (speaker !== null) {
                 const spk = speaker.getBoundingClientRect()
-                if (!(chk.top + chk.height < 0 || chk.top > this.state.view.h)) {
+                if (!(chk.top + chk.height < 0 || chk.top > this.view.h)) {
                     const y = calculateYPos(chk, spk, pivot)
                     speaker.style.top = `calc(${y}px - 0.25rem)`
                 }
@@ -221,17 +227,17 @@ export class RundownRendering {
     /*  update state once  */
     tickOnce () {
         /*  determine viewport size  */
-        this.state.view.w = document.documentElement.clientWidth
-        this.state.view.h = document.documentElement.clientHeight
+        this.view.w = document.documentElement.clientWidth
+        this.view.h = document.documentElement.clientHeight
 
         /*  determine content size  */
         const box = document.documentElement.getBoundingClientRect()
-        this.state.content.w = box.width
-        this.state.content.h = box.height - this.state.view.h /* re-compensate for out extra margins */
+        this.content.w = box.width
+        this.content.h = box.height - this.view.h /* re-compensate for out extra margins */
 
         /*  determine content scroll position  */
-        this.state.content.scrollX = window.scrollX
-        this.state.content.scrollY = window.scrollY
+        this.content.scrollX = window.scrollX
+        this.content.scrollY = window.scrollY
 
         /*  update rendering (on next rendering possibility)  */
         if (!this.ticking) {

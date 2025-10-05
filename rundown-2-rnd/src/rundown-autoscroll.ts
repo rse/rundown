@@ -10,9 +10,10 @@ import { diceCoefficient } from "dice-coefficient"
 import { doubleMetaphone } from "double-metaphone"
 
 /*  internal dependencies  */
-import { RundownState }    from "./rundown-state"
-import { RundownUtil }     from "./rundown-util"
-import { RundownControls } from "./rundown-controls"
+import { RundownState }     from "./rundown-state"
+import { RundownUtil }      from "./rundown-util"
+import { RundownControls }  from "./rundown-controls"
+import { RundownRendering } from "./rundown-rendering"
 
 /*  helper function for determining string similarity  */
 const similarity = (s1: string, s2: string) => {
@@ -71,6 +72,7 @@ export class RundownAutoScroll {
     private autoscrollInterval:  ReturnType<typeof setInterval> | null = null
     private autoscrollAnimation: anime.JSAnimation | null              = null
     private controls!:           RundownControls
+    private rendering!:          RundownRendering
 
     /*  word sequence for autoscroll feature  */
     private wordSeq: Array<{
@@ -92,8 +94,9 @@ export class RundownAutoScroll {
     ) {}
 
     /*  receive circular references  */
-    provideCircRefs (controls: RundownControls) {
-        this.controls = controls
+    provideCircRefs (controls: RundownControls, rendering: RundownRendering) {
+        this.controls  = controls
+        this.rendering = rendering
     }
 
     /*  initialize word sequence for autoscroll tracking  */
@@ -160,7 +163,7 @@ export class RundownAutoScroll {
 
         for (const item of this.wordSeq) {
             const word = item.node.getBoundingClientRect()
-            item.visible = (word.top >= 0 && word.bottom <= this.state.view.h)
+            item.visible = (word.top >= 0 && word.bottom <= this.rendering.view.h)
             if (item.visible)
                 item.node.classList.add("rundown-word-visible")
             else
@@ -383,11 +386,11 @@ export class RundownAutoScroll {
                 if (newWordsSpoken) {
                     const lastSpokenWord = lastWord.node
                     const rect     = lastSpokenWord.getBoundingClientRect()
-                    const pivot    = (this.state.view.h / 2) - rect.height
+                    const pivot    = (this.rendering.view.h / 2) - rect.height
                     const distance = rect.bottom - pivot
 
                     /*  adjust scrolling speed based on distance from center  */
-                    const relativeDistance = Math.abs(distance) / (this.state.view.h / 4)
+                    const relativeDistance = Math.abs(distance) / (this.rendering.view.h / 4)
                     const speed = Math.sign(distance) * Math.max(-10, Math.min(10,
                         Math.round(relativeDistance * 10)))
                     this.controls.adjustSpeed(speed)
@@ -405,12 +408,12 @@ export class RundownAutoScroll {
                         if (this.lastSpokenIndex >= 0) {
                             const lastSpokenWord = this.wordSeq[this.lastSpokenIndex].node
                             const rect     = lastSpokenWord.getBoundingClientRect()
-                            const pivot    = (this.state.view.h / 2) - rect.height
+                            const pivot    = (this.rendering.view.h / 2) - rect.height
                             const distance = rect.bottom - pivot
 
                             /*  adjust scrolling speed based on distance from center  */
                             if (Math.abs(distance) > (rect.height / 2)) {
-                                const relativeDistance = Math.abs(distance) / (this.state.view.h / 4)
+                                const relativeDistance = Math.abs(distance) / (this.rendering.view.h / 4)
                                 const speed = Math.sign(distance) * Math.max(-10, Math.min(10,
                                     Math.round(relativeDistance * 10)))
                                 this.controls.adjustSpeed(speed)

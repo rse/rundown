@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const rendering  = new RundownRendering( state, util, autoscroll, websocket, controls)
 
     /*  provide circular inter-module references  */
-    autoscroll.provideCircRefs(controls)
+    autoscroll.provideCircRefs(controls, rendering)
+    controls.provideCircRefs(rendering)
     websocket.provideCircRefs(rendering)
 
     /*  initialize auto-scrolling  */

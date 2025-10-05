@@ -6,12 +6,6 @@
 
 /*  central state management class  */
 export class RundownState {
-    /*  view dimensions  */
-    view                 = { w: 0, h: 0 }
-
-    /*  content dimensions and scroll position  */
-    content              = { w: 0, h: 0, scrollX: 0, scrollY: 0 }
-
     /*  runtime modes and settings  */
     debug                = false
     locked               = false
