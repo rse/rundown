@@ -113,7 +113,7 @@ export class RundownWebSocket {
         }, 200)
     }
 
-    /*  disconnect from WebSocket server  */
+    /*  disconnect from WebSocket server (still not used)  */
     public disconnect () {
         if (this.sendQueueInterval !== null) {
             clearInterval(this.sendQueueInterval)
