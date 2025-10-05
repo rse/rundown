@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+2.0.1 (2025-10-05)
+------------------
+
+- CLEANUP: always use latest Alpine Linux version in docker container
+
 2.0.0 (2025-10-05)
 ------------------
 
