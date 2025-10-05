@@ -191,10 +191,8 @@ export class RundownControls {
                     content.classList.add("debug")
                 else if (!this.state.debug && content.classList.contains("debug"))
                     content.classList.remove("debug")
-                if (this.state.options.get("live") === "yes") {
-                    this.util.log("debug", `mode change: sending (locked: ${this.state.locked}, debug: ${this.state.debug})`)
-                    this.websocket.send({ event: "MODE", data: { locked: this.state.locked, debug: this.state.debug } })
-                }
+                if (this.state.options.get("live") === "yes")
+                    this.websocket.sendModeUpdate(this.state.locked, this.state.debug)
             }
             else if (event.key === "l") {
                 this.state.locked = !this.state.locked
@@ -203,10 +201,8 @@ export class RundownControls {
                     content.classList.add("locked")
                 else if (!this.state.locked && content.classList.contains("locked"))
                     content.classList.remove("locked")
-                if (this.state.options.get("live") === "yes") {
-                    this.util.log("debug", `mode change: sending (locked: ${this.state.locked}, debug: ${this.state.debug})`)
-                    this.websocket.send({ event: "MODE", data: { locked: this.state.locked, debug: this.state.debug } })
-                }
+                if (this.state.options.get("live") === "yes")
+                    this.websocket.sendModeUpdate(this.state.locked, this.state.debug)
             }
             else if (event.key === "a")
                 this.autoscroll.toggle()
