@@ -15,56 +15,6 @@ import { RundownUtil }      from "./rundown-util"
 import { RundownControls }  from "./rundown-controls"
 import { RundownRendering } from "./rundown-rendering"
 
-/*  helper function for determining string similarity  */
-const similarity = (s1: string, s2: string) => {
-    /*  compare only lower-case variants  */
-    s1 = s1.toLowerCase()
-    s2 = s2.toLowerCase()
-
-    /*  compare by word character similarity  */
-    let similar = diceCoefficient(s1, s2)
-    if (similar > 0.50 && similar < 0.70) {
-        /*  compare by word phonetic similarity (pronunciation)  */
-        const dm1 = doubleMetaphone(s1)
-        const dm2 = doubleMetaphone(s2)
-        if (dm1[0] === dm2[0])
-            similar = 0.80 /* primary pronunciation matched */
-        else if (dm1[1] === dm2[1])
-            similar = 0.70 /* alternative pronunciation matched */
-    }
-    return similar
-}
-
-/*  configuration for fuzzy word matching  */
-const minMatchWordsPercent = 0.6
-const minSimilarityPercent = 0.7
-
-/*  helper function for fuzzy word matching  */
-const fuzzyWordMatch = (spokenWords: string[], prompterWords: string[], startIdx = 0) => {
-    /*  determine minimum words which have to match  */
-    const minMatchWords = Math.max(1, Math.floor(spokenWords.length * minMatchWordsPercent))
-
-    /*  iterate over all words in the prompter word list...  */
-    for (let i = startIdx; i < prompterWords.length - spokenWords.length + 1; i++) {
-        /*  check how many words match (order preserved, gaps allowed)  */
-        let textIdx = i
-        let matches = 0
-        for (const spokenWord of spokenWords) {
-            /*  look ahead within reasonable window  */
-            for (let j = textIdx; j < Math.min(textIdx + 4, prompterWords.length); j++) {
-                if (similarity(spokenWord, prompterWords[j]) > minSimilarityPercent) {
-                    matches++
-                    textIdx = j
-                    break
-                }
-            }
-        }
-        if (matches >= minMatchWords)
-            return textIdx
-    }
-    return -1
-}
-
 /*  auto-scroll management class  */
 export class RundownAutoScroll {
     /*  internal state  */
@@ -154,6 +104,58 @@ export class RundownAutoScroll {
                 textNode.replaceWith(fragment)
             }
         }
+    }
+
+    /*  helper function for determining string similarity  */
+    private similarity (s1: string, s2: string) {
+        /*  compare only lower-case variants  */
+        s1 = s1.toLowerCase()
+        s2 = s2.toLowerCase()
+
+        /*  compare by word character similarity  */
+        let similar = diceCoefficient(s1, s2)
+        if (similar > 0.50 && similar < 0.70) {
+            /*  compare by word phonetic similarity (pronunciation)  */
+            const dm1 = doubleMetaphone(s1)
+            const dm2 = doubleMetaphone(s2)
+            if (dm1[0] === dm2[0])
+                similar = 0.80 /* primary pronunciation matched */
+            else if (dm1[1] === dm2[1])
+                similar = 0.70 /* alternative pronunciation matched */
+        }
+        return similar
+    }
+
+    /*  helper function for fuzzy word matching  */
+    private fuzzyWordMatch (
+        spokenWords:   string[],
+        prompterWords: string[],
+        startIdx             = 0,
+        minMatchWordsPercent = 0.6,
+        minSimilarityPercent = 0.7
+    ) {
+        /*  determine minimum words which have to match  */
+        const minMatchWords = Math.max(1, Math.floor(spokenWords.length * minMatchWordsPercent))
+
+        /*  iterate over all words in the prompter word list...  */
+        for (let i = startIdx; i < prompterWords.length - spokenWords.length + 1; i++) {
+            /*  check how many words match (order preserved, gaps allowed)  */
+            let textIdx = i
+            let matches = 0
+            for (const spokenWord of spokenWords) {
+                /*  look ahead within reasonable window  */
+                for (let j = textIdx; j < Math.min(textIdx + 4, prompterWords.length); j++) {
+                    if (this.similarity(spokenWord, prompterWords[j]) > minSimilarityPercent) {
+                        matches++
+                        textIdx = j
+                        break
+                    }
+                }
+            }
+            if (matches >= minMatchWords)
+                return textIdx
+        }
+        return -1
     }
 
     /*  update visibility of all words  */
@@ -339,7 +341,7 @@ export class RundownAutoScroll {
         const visibleWords    = visibleNonPunct.map((word) => word.word ).slice(j)
 
         /*  perform a fuzzy match of the transcript words in the visible words  */
-        const idx = fuzzyWordMatch(words, visibleWords, 0)
+        const idx = this.fuzzyWordMatch(words, visibleWords, 0)
         if (idx !== -1) {
             const index = visibleIndex[idx]
 
