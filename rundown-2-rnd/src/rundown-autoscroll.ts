@@ -82,6 +82,8 @@ export class RundownAutoScroll {
 
             /*  iterate over all found text nodes and wrap them into word elements  */
             for (const textNode of textNodes) {
+                if (textNode.textContent === null)
+                    continue
                 const words = textNode.textContent.split(/([A-Za-z]+)/)
                 const fragment = document.createDocumentFragment()
                 for (const word of words) {
