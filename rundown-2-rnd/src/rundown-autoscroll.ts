@@ -117,9 +117,9 @@ export class RundownAutoScroll {
         const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
         if (SpeechRecognition === undefined) {
             if (interactive)
-                this.util.log("error", "your browser does not provide a Speech-to-Text facility: " +
-                    "please use a Chromium- or WebKit-based browser " +
-                    "(Google Chrome, Microsoft Edge, Apple Safari)!")
+                this.util.log("error", "Sorry, your browser does not provide a decent Speech-to-Text facility: " +
+                    "Instead, please use a Blink- or WebKit-based browser " +
+                    "(Google Chrome, Microsoft Edge, Apple Safari, etc)!")
             return false
         }
         else
@@ -163,7 +163,7 @@ export class RundownAutoScroll {
             let textIdx = i
             let matches = 0
             for (const spokenWord of spokenWords) {
-                /*  look ahead within reasonable window  */
+                /*  look ahead within a reasonable window  */
                 for (let j = textIdx; j < Math.min(textIdx + 4, prompterWords.length); j++) {
                     if (this.similarity(spokenWord, prompterWords[j]) > minSimilarityPercent) {
                         matches++
