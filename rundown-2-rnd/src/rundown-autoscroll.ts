@@ -384,6 +384,13 @@ export class RundownAutoScroll {
                 const newWordsSpoken = (lastWord.index !== this.lastSpokenIndex)
                 this.lastSpokenIndex = lastWord.index
 
+                /*  helper function to calculate speed based on distance  */
+                const calculateSpeed = (distance: number) => {
+                    const relativeDistance = Math.abs(distance) / (this.rendering.view.h / 4)
+                    return Math.sign(distance) * Math.max(-10, Math.min(10,
+                        Math.round(relativeDistance * 10)))
+                }
+
                 /*  adjust scrolling if new words were spoken  */
                 if (newWordsSpoken) {
                     const lastSpokenWord = lastWord.node
@@ -392,10 +399,7 @@ export class RundownAutoScroll {
                     const distance = rect.bottom - pivot
 
                     /*  adjust scrolling speed based on distance from center  */
-                    const relativeDistance = Math.abs(distance) / (this.rendering.view.h / 4)
-                    const speed = Math.sign(distance) * Math.max(-10, Math.min(10,
-                        Math.round(relativeDistance * 10)))
-                    this.controls.adjustSpeed(speed)
+                    this.controls.adjustSpeed(calculateSpeed(distance))
 
                     /*  clear previous interval  */
                     if (this.autoscrollInterval !== null) {
@@ -414,12 +418,8 @@ export class RundownAutoScroll {
                             const distance = rect.bottom - pivot
 
                             /*  adjust scrolling speed based on distance from center  */
-                            if (Math.abs(distance) > (rect.height / 2)) {
-                                const relativeDistance = Math.abs(distance) / (this.rendering.view.h / 4)
-                                const speed = Math.sign(distance) * Math.max(-10, Math.min(10,
-                                    Math.round(relativeDistance * 10)))
-                                this.controls.adjustSpeed(speed)
-                            }
+                            if (Math.abs(distance) > (rect.height / 2))
+                                this.controls.adjustSpeed(calculateSpeed(distance))
                             else {
                                 if (this.autoscrollInterval !== null) {
                                     clearInterval(this.autoscrollInterval)
