@@ -41,6 +41,12 @@ export class RundownWebSocket {
     private wsSendQueue: string[] = []
     private sendQueueInterval: ReturnType<typeof setInterval> | null = null
 
+    /*  initialize module  */
+    initialize () {
+        /*  connect WebSocket  */
+        this.connect()
+    }
+
     /*  connect to WebSocket server  */
     public connect () {
         if (this.state.options.get("live") !== "yes")

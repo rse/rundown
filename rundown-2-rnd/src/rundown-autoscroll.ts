@@ -54,8 +54,9 @@ export class RundownAutoScroll {
     /*  last spoken word index  */
     private lastSpokenIndex = -1
 
-    /*  initialize word sequence for autoscroll tracking  */
-    initializeWordSequence () {
+    /*  initialize module  */
+    initialize () {
+        /*  initialize word sequence for autoscroll tracking  */
         const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
         for (const chunk of chunks) {
             /*  discover all DOM text nodes below the chunk node which are spoken  */

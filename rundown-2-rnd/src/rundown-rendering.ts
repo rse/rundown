@@ -54,6 +54,26 @@ export class RundownRendering {
         this.stateLast = -1
     }
 
+    /*  initialize module  */
+    initialize () {
+        /*  initialize scroll and resize event listeners  */
+        document.addEventListener("wheel", (event: WheelEvent) => {
+            if (this.state.locked)
+                event.preventDefault()
+        }, { passive: false })
+        document.addEventListener("scroll", (event: Event) => {
+            if (this.state.speed === 0)
+                this.controls.windowScrollY = window.scrollY
+            this.tickOnce()
+        })
+        window.addEventListener("resize", (event: Event) => {
+            if (this.state.speed === 0)
+                this.controls.windowScrollY = window.scrollY
+            this.tickOnce()
+        })
+        this.tickOnce()
+    }
+
     /*  helper function to calculate tab position  */
     private calculateYPos (container: DOMRect, box: DOMRect, pivot: number): number {
         if (container.top > pivot - (box.height / 2))
@@ -245,24 +265,5 @@ export class RundownRendering {
             })
             this.ticking = true
         }
-    }
-
-    /*  initialize scroll and resize event listeners  */
-    initializeEventListeners () {
-        document.addEventListener("wheel", (event: WheelEvent) => {
-            if (this.state.locked)
-                event.preventDefault()
-        }, { passive: false })
-        document.addEventListener("scroll", (event: Event) => {
-            if (this.state.speed === 0)
-                this.controls.windowScrollY = window.scrollY
-            this.tickOnce()
-        })
-        window.addEventListener("resize", (event: Event) => {
-            if (this.state.speed === 0)
-                this.controls.windowScrollY = window.scrollY
-            this.tickOnce()
-        })
-        this.tickOnce()
     }
 }

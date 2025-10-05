@@ -115,6 +115,13 @@ export class RundownControls {
         this.scrollToSibling(".rundown-chunk:not(.disabled)", direction)
     }
 
+    /*  initialize module  */
+    initialize () {
+        this.initializeKeyboardListeners()
+        this.initializeAutoScroll()
+        this.initializeExitButton()
+    }
+
     /*  initialize keyboard controls  */
     initializeKeyboardListeners () {
         document.addEventListener("keydown", (event: KeyboardEvent) => {

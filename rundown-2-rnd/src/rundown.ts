@@ -22,24 +22,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const controls   = new RundownControls()
     const rendering  = new RundownRendering()
 
-    /*  provide inter-module references  */
+    /*  provide module references  */
     util      .references({ state                                                   })
     autoscroll.references({ state, util,             rendering, controls            })
     websocket .references({ state, util, autoscroll, rendering                      })
     controls  .references({ state, util, autoscroll, rendering,           websocket })
     rendering .references({ state, util, autoscroll,            controls, websocket })
 
-    /*  initialize auto-scrolling  */
-    autoscroll.initializeWordSequence()
-
-    /*  initialize rendering  */
-    rendering.initializeEventListeners()
-
-    /*  initialize controls  */
-    controls.initializeKeyboardListeners()
-    controls.initializeAutoScroll()
-    controls.initializeExitButton()
-
-    /*  connect WebSocket  */
-    websocket.connect()
+    /*  initialize modules  */
+    autoscroll.initialize()
+    websocket.initialize()
+    controls.initialize()
+    rendering.initialize()
 }, { once: true })
