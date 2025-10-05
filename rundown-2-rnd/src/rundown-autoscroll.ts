@@ -108,6 +108,21 @@ export class RundownAutoScroll {
         }
     }
 
+    /*  check for run-time compatibility of auto-scrolling mechanism  */
+    runtimeIsCompatible (interactive = true) {
+        /*  determine SpeechRecognition API  */
+        const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
+        if (SpeechRecognition === undefined) {
+            if (interactive)
+                this.util.log("error", "your browser does not provide a Speech-to-Text facility: " +
+                    "please use a Chromium- or WebKit-based browser " +
+                    "(Google Chrome, Microsoft Edge, Apple Safari)!")
+            return false
+        }
+        else
+            return true
+    }
+
     /*  helper function for determining string similarity  */
     private similarity (s1: string, s2: string) {
         /*  compare only lower-case variants  */
@@ -177,22 +192,23 @@ export class RundownAutoScroll {
 
     /*  initialize speech-to-text recognition  */
     initializeSpeechRecognition () {
-        /*  determine SpeechRecognition API  */
-        const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
-        if (this.state.options.get("autoscroll") !== "yes" || SpeechRecognition === undefined)
+        if (!this.runtimeIsCompatible(true))
+            return
+        if (this.state.options.get("autoscroll") !== "yes")
             return
 
-        const lang = this.state.options.get("lang") ?? "en-US"
-
         /*  establish speech-to-text facility of Chromium browsers  */
+        const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
         this.s2t = new SpeechRecognition()
         this.s2t.continuous      = true
         this.s2t.interimResults  = true
         this.s2t.maxAlternatives = 1
-        this.s2t.lang            = lang
+        this.s2t.lang            = this.state.options.get("lang") ?? "en-US"
 
         /*  catch errors  */
         this.s2t.addEventListener("error", (event) => {
+            if (event.error === "aborted")
+                return
             this.util.log("error", `speech-to-text: ${event.error}`)
         })
 
@@ -261,14 +277,15 @@ export class RundownAutoScroll {
         if (this.s2t === null)
             return
         this.util.log("debug", "stop speech-to-text engine")
+        this.s2t.abort()
         this.s2t.stop()
     }
 
     /*  toggle autoscroll mode  */
     toggle () {
-        if (this.state.options.get("autoscroll") !== "yes")
+        if (!this.runtimeIsCompatible(true))
             return
-        if (this.s2t === null)
+        if (this.state.options.get("autoscroll") !== "yes")
             return
         this.util.log("debug", "toggle speech-to-text engine")
 
@@ -330,6 +347,9 @@ export class RundownAutoScroll {
 
     /*  receive a transcript for auto-scrolling  */
     autoscrollReceive (transcript: string, final = true) {
+        if (!this.runtimeIsCompatible(false))
+            return
+
         /*  determine transcript words  */
         const words = transcript.split(/([A-Za-z]+)/)
             .filter((word) => word.match(/^[A-Za-z]+$/))
