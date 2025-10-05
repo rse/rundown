@@ -6,15 +6,52 @@
 
 /*  external dependencies  */
 import { DateTime }          from "luxon"
+import * as anime            from "animejs"
 
 /*  internal dependencies  */
 import type { RundownState } from "./rundown-state"
 
 /*  logging utility class  */
 export class RundownUtil {
+    /*  internal state  */
+    private raiseErrorTimer: ReturnType<typeof setTimeout> | null = null
+
+    /*  object construction  */
     constructor (
         private state: RundownState
     ) {}
+
+    /*  raise an error message  */
+    raiseError (msg: string) {
+        /*  update error text in DOM  */
+        const el = document.querySelector(".error-text")
+        if (el === null)
+            return
+        el.innerHTML = msg
+
+        /*  keep existing error message or raise new one  */
+        if (this.raiseErrorTimer !== null) {
+            clearTimeout(this.raiseErrorTimer)
+            this.raiseErrorTimer = null
+        }
+        else {
+            anime.animate(".overlay8", {
+                opacity:   [ 0, 1 ],
+                ease:      "outSine",
+                duration:  1000
+            })
+        }
+
+        /*  close error message after some time  */
+        this.raiseErrorTimer = setTimeout(() => {
+            this.raiseErrorTimer = null
+            anime.animate(".overlay8", {
+                opacity:  [ 1, 0 ],
+                ease:     "outSine",
+                duration: 1000
+            })
+        }, 4000)
+    }
 
     /*  log a message  */
     log (level: string, msg: string, data: { [ key: string ]: any } | null = null) {
@@ -26,8 +63,10 @@ export class RundownUtil {
                 .join(", ")
             })`
         }
-        if (level === "error")
+        if (level === "error") {
             console.error(`${timestamp} [ERROR] ${msg}${epilog}`)
+            this.raiseError(msg)
+        }
         else if (level === "warning")
             console.warn(`${timestamp} [WARNING] ${msg}${epilog}`)
         else if (level === "info")
