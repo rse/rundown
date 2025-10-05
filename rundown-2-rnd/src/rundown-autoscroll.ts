@@ -250,7 +250,7 @@ export class RundownAutoScroll {
         if (this.s2t === null)
             return
         this.util.log("debug", "start speech-to-text engine")
-        this.s2t!.start()
+        this.s2t.start()
     }
 
     /*  stop speech recognition  */
