@@ -132,7 +132,7 @@ export class RundownRendering {
                 const bb = state.getBoundingClientRect()
                 const text = (state as HTMLSpanElement).innerText
                 const kv: { [ key: string ]: string | number | boolean } = {}
-                const matches = text.matchAll(/\b([a-zA-Z][a-zA-Z0-9:-]*)(?:=(?:"([^"]*)"|(\\S+)))?\b/g)
+                const matches = text.matchAll(/\b([a-zA-Z][a-zA-Z0-9:-]*)(?:=(?:"([^"]*)"|(\S+)))?\b/g)
                 for (const match of matches) {
                     const key = match[1]
                     const val = match[2] ?? match[3] ?? undefined
