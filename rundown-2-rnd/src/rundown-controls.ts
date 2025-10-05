@@ -31,6 +31,24 @@ export class RundownControls {
     private lineHeight    = 125
     private delta         = 0
 
+    /*  adjust font size  */
+    private adjustFontSize (delta: number) {
+        this.fontSize += delta
+        if (this.fontSize < 90)  this.fontSize = 90
+        if (this.fontSize > 180) this.fontSize = 180
+        const content = document.querySelector("body > .content")! as HTMLDivElement
+        content.style.fontSize = `${this.fontSize}%`
+    }
+
+    /*  adjust line height  */
+    private adjustLineHeight (delta: number) {
+        this.lineHeight += delta
+        if (this.lineHeight < 105) this.lineHeight = 105
+        if (this.lineHeight > 145) this.lineHeight = 145
+        const content = document.querySelector("body > .content")! as HTMLDivElement
+        content.style.lineHeight = `${this.lineHeight}%`
+    }
+
     /*  adjust scrolling speed  */
     adjustSpeed (target: number) {
         if (this.adjustSpeedTimer !== null)
@@ -145,40 +163,18 @@ export class RundownControls {
                 if (!this.state.locked)
                     this.scrollToSiblingChunk("down")
             }
-            else if (event.altKey && event.key === "-") {
-                this.lineHeight -= 5
-                if (this.lineHeight < 105) this.lineHeight = 105
-                const content = document.querySelector("body > .content")! as HTMLDivElement
-                content.style.lineHeight = `${this.lineHeight}%`
-            }
-            else if (event.altKey && event.key === "+") {
-                this.lineHeight += 5
-                if (this.lineHeight > 145) this.lineHeight = 145
-                const content = document.querySelector("body > .content")! as HTMLDivElement
-                content.style.lineHeight = `${this.lineHeight}%`
-            }
-            else if (event.altKey && event.key === "0") {
-                this.lineHeight = 125
-                const content = document.querySelector("body > .content")! as HTMLDivElement
-                content.style.lineHeight = `${this.lineHeight}%`
-            }
-            else if (event.key === "-") {
-                this.fontSize -= 10
-                if (this.fontSize < 90) this.fontSize = 90
-                const content = document.querySelector("body > .content")! as HTMLDivElement
-                content.style.fontSize = `${this.fontSize}%`
-            }
-            else if (event.key === "+") {
-                this.fontSize += 10
-                if (this.fontSize > 180) this.fontSize = 180
-                const content = document.querySelector("body > .content")! as HTMLDivElement
-                content.style.fontSize = `${this.fontSize}%`
-            }
-            else if (event.key === "0") {
-                this.fontSize = 120
-                const content = document.querySelector("body > .content")! as HTMLDivElement
-                content.style.fontSize = `${this.fontSize}%`
-            }
+            else if (event.altKey && event.key === "-")
+                this.adjustLineHeight(-5)
+            else if (event.altKey && event.key === "+")
+                this.adjustLineHeight(+5)
+            else if (event.altKey && event.key === "0")
+                this.adjustLineHeight(125 - this.lineHeight)
+            else if (event.key === "-")
+                this.adjustFontSize(-10)
+            else if (event.key === "+")
+                this.adjustFontSize(+10)
+            else if (event.key === "0")
+                this.adjustFontSize(120 - this.fontSize)
             else if (event.key === "D") {
                 this.state.debug = !this.state.debug
                 const content = document.querySelector("body > .content")! as HTMLDivElement
