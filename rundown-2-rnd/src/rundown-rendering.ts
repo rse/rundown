@@ -10,28 +10,6 @@ import { RundownAutoScroll } from "./rundown-autoscroll"
 import { RundownWebSocket }  from "./rundown-websocket"
 import { RundownControls }   from "./rundown-controls"
 
-/*  helper function to calculate tab position  */
-const calculateYPos = (container: DOMRect, box: DOMRect, pivot: number): number => {
-    if (container.top > pivot - (box.height / 2))
-        return 0
-    else if (container.top + container.height < pivot + (box.height / 2))
-        return container.height - box.height
-    else
-        return (pivot - (box.height / 2)) - container.top
-}
-
-/*  helper function to update active element in a list of elements  */
-const updateActiveElement = (elements: Element[], closestElement: Element | null) => {
-    if (closestElement === null)
-        return
-    for (const element of elements) {
-        if (element === closestElement && !element.classList.contains("active"))
-            element.classList.add("active")
-        else if (element !== closestElement && element.classList.contains("active"))
-            element.classList.remove("active")
-    }
-}
-
 /*  rendering engine management class  */
 export class RundownRendering {
     private ticking = false
@@ -61,6 +39,28 @@ export class RundownRendering {
         this.stateLast = -1
     }
 
+    /*  helper function to calculate tab position  */
+    private calculateYPos (container: DOMRect, box: DOMRect, pivot: number): number {
+        if (container.top > pivot - (box.height / 2))
+            return 0
+        else if (container.top + container.height < pivot + (box.height / 2))
+            return container.height - box.height
+        else
+            return (pivot - (box.height / 2)) - container.top
+    }
+
+    /*  helper function to update active element in a list of elements  */
+    private updateActiveElement (elements: Element[], closestElement: Element | null) {
+        if (closestElement === null)
+            return
+        for (const element of elements) {
+            if (element === closestElement && !element.classList.contains("active"))
+                element.classList.add("active")
+            else if (element !== closestElement && element.classList.contains("active"))
+                element.classList.remove("active")
+        }
+    }
+
     /*  update the rendering  */
     updateRendering () {
         /*  ensure we can scroll to the content top and bottom
@@ -83,7 +83,7 @@ export class RundownRendering {
             if (part !== null) {
                 const pt = part.getBoundingClientRect()
                 if (!(sec.top + sec.height < 0 || sec.top > this.view.h)) {
-                    const y = calculateYPos(sec, pt, pivot)
+                    const y = this.calculateYPos(sec, pt, pivot)
                     part.style.top = `calc(${y}px - 0.25rem)`
                 }
             }
@@ -102,7 +102,7 @@ export class RundownRendering {
             }
         }
         const closestSection = this.util.findClosestElement(sections, pivot)
-        updateActiveElement(sections, closestSection.element)
+        this.updateActiveElement(sections, closestSection.element)
 
         /*  determine all rundown chunks  */
         const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
@@ -114,13 +114,13 @@ export class RundownRendering {
             if (speaker !== null) {
                 const spk = speaker.getBoundingClientRect()
                 if (!(chk.top + chk.height < 0 || chk.top > this.view.h)) {
-                    const y = calculateYPos(chk, spk, pivot)
+                    const y = this.calculateYPos(chk, spk, pivot)
                     speaker.style.top = `calc(${y}px - 0.25rem)`
                 }
             }
         }
         const closestChunk = this.util.findClosestElement(chunks, pivot)
-        updateActiveElement(chunks, closestChunk.element)
+        this.updateActiveElement(chunks, closestChunk.element)
 
         /*  optionally support live state emission  */
         if (this.state.options.get("live") === "yes") {
