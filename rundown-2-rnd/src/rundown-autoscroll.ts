@@ -51,9 +51,6 @@ export class RundownAutoScroll {
 
     /*  initialize word sequence for autoscroll tracking  */
     initializeWordSequence () {
-        if (this.state.options.get("autoscroll") !== "yes")
-            return
-
         const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
         for (const chunk of chunks) {
             /*  discover all DOM text nodes below the chunk node which are spoken  */
@@ -177,9 +174,6 @@ export class RundownAutoScroll {
 
     /*  update visibility of all words  */
     updateWordVisibility () {
-        if (this.state.options.get("autoscroll") !== "yes")
-            return
-
         for (const item of this.wordSeq) {
             const word = item.node.getBoundingClientRect()
             item.visible = (word.top >= 0 && word.bottom <= this.rendering.view.h)
@@ -191,12 +185,7 @@ export class RundownAutoScroll {
     }
 
     /*  initialize speech-to-text recognition  */
-    initializeSpeechRecognition () {
-        if (!this.runtimeIsCompatible(true))
-            return
-        if (this.state.options.get("autoscroll") !== "yes")
-            return
-
+    private initializeSpeechRecognition () {
         /*  establish speech-to-text facility of Chromium browsers  */
         const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
         this.s2t = new SpeechRecognition()
@@ -265,15 +254,15 @@ export class RundownAutoScroll {
     }
 
     /*  start speech recognition  */
-    start () {
+    private start () {
         if (this.s2t === null)
             return
         this.util.log("debug", "start speech-to-text engine")
-        this.s2t.start()
+        this.s2t!.start()
     }
 
     /*  stop speech recognition  */
-    stop () {
+    private stop () {
         if (this.s2t === null)
             return
         this.util.log("debug", "stop speech-to-text engine")
@@ -283,11 +272,15 @@ export class RundownAutoScroll {
 
     /*  toggle autoscroll mode  */
     toggle () {
-        if (!this.runtimeIsCompatible(true))
-            return
-        if (this.state.options.get("autoscroll") !== "yes")
-            return
         this.util.log("debug", "toggle speech-to-text engine")
+
+        /*  sanity check run-time situation  */
+        if (!this.state.autoscroll && !this.runtimeIsCompatible(true))
+            return
+
+        /*  lazy initialize run-time facility  */
+        if (this.s2t === null)
+            this.initializeSpeechRecognition()
 
         /*  toggle runtime option  */
         this.state.autoscroll = !this.state.autoscroll
@@ -337,17 +330,15 @@ export class RundownAutoScroll {
         this.controls.adjustSpeed(0)
 
         /*  toggle speech-to-text  */
-        if (this.s2t !== null) {
-            if (this.state.autoscroll)
-                this.start()
-            else
-                this.stop()
-        }
+        if (this.state.autoscroll)
+            this.start()
+        else
+            this.stop()
     }
 
     /*  receive a transcript for auto-scrolling  */
     autoscrollReceive (transcript: string, final = true) {
-        if (!this.runtimeIsCompatible(false))
+        if (this.s2t === null)
             return
 
         /*  determine transcript words  */

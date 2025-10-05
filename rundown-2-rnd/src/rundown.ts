@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*  initialize auto-scrolling  */
     autoscroll.initializeWordSequence()
-    autoscroll.initializeSpeechRecognition()
 
     /*  initialize rendering  */
     rendering.initializeEventListeners()

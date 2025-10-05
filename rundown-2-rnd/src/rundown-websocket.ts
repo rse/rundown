@@ -79,7 +79,7 @@ export class RundownWebSocket {
                     await this.handleReload()
                 }
                 else if (event?.event === "TRANSCRIPT" && typeof event.transcript === "string") {
-                    if (this.state.options.get("autoscroll") === "yes" && this.state.autoscroll)
+                    if (this.state.autoscroll)
                         this.autoscroll.autoscrollReceive(event.transcript as string, true)
                 }
             })().catch((err) => {
