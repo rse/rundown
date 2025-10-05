@@ -25,7 +25,7 @@ export class RundownUtil {
         const el = document.querySelector(".error-text")
         if (el === null)
             return
-        el.innerHTML = msg
+        el.textContent = msg
 
         /*  keep existing error message or raise new one  */
         if (this.raiseErrorTimer !== null) {
