@@ -14,26 +14,6 @@ import { RundownAutoScroll } from "./rundown-autoscroll"
 import { RundownWebSocket }  from "./rundown-websocket"
 import { RundownRendering }  from "./rundown-rendering"
 
-/*  helper function to find closest element by distance  */
-const findClosestElement = (elements: Element[], pivot: number) => {
-    const min = { element: null, distance: Number.MAX_VALUE } as
-        { element: Element | null, distance: number }
-    for (const element of elements) {
-        const rect = element.getBoundingClientRect()
-        const distance1 = Math.abs(pivot - rect.top)
-        const distance2 = Math.abs(pivot - (rect.top + rect.height))
-        if (min.distance > distance1) {
-            min.distance = distance1
-            min.element  = element
-        }
-        if (min.distance > distance2) {
-            min.distance = distance2
-            min.element  = element
-        }
-    }
-    return min
-}
-
 /*  controls management class  */
 export class RundownControls {
     windowScrollY = 0
@@ -80,7 +60,7 @@ export class RundownControls {
     scrollToSibling (selector: string, direction: "up" | "down") {
         const elements = Array.from(document.querySelectorAll(selector))
         const pivot = this.rendering.view.h / 2
-        const min = findClosestElement(elements, pivot)
+        const min = this.util.findClosestElement(elements, pivot)
         if (min.element !== null) {
             let i = elements.findIndex((el) => el === min.element)
             if (direction === "up" && i > 0)

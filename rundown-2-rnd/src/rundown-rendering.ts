@@ -20,26 +20,6 @@ const calculateYPos = (container: DOMRect, box: DOMRect, pivot: number): number 
         return (pivot - (box.height / 2)) - container.top
 }
 
-/*  helper function to find closest element by distance  */
-const findClosestElement = (elements: Element[], pivot: number) => {
-    const min = { element: null, distance: Number.MAX_VALUE } as
-        { element: Element | null, distance: number }
-    for (const element of elements) {
-        const rect = element.getBoundingClientRect()
-        const distance1 = Math.abs(pivot - rect.top)
-        const distance2 = Math.abs(pivot - (rect.top + rect.height))
-        if (min.distance > distance1) {
-            min.distance = distance1
-            min.element  = element
-        }
-        if (min.distance > distance2) {
-            min.distance = distance2
-            min.element  = element
-        }
-    }
-    return min
-}
-
 /*  helper function to update active element in a list of elements  */
 const updateActiveElement = (elements: Element[], closestElement: Element | null) => {
     if (closestElement === null)
@@ -84,7 +64,7 @@ export class RundownRendering {
     /*  update the rendering  */
     updateRendering () {
         /*  ensure we can scroll to the content top and bottom
-            with the focus-point still in the middle of the viewport  */
+            with the pivot still in the middle of the viewport  */
         document.body.style.marginTop    = `${this.view.h / 2}px`
         document.body.style.marginBottom = `${this.view.h / 2}px`
 
@@ -121,7 +101,7 @@ export class RundownRendering {
                     where.innerHTML = `${percent.toFixed(0)}%`
             }
         }
-        const closestSection = findClosestElement(sections, pivot)
+        const closestSection = this.util.findClosestElement(sections, pivot)
         updateActiveElement(sections, closestSection.element)
 
         /*  determine all rundown chunks  */
@@ -139,7 +119,7 @@ export class RundownRendering {
                 }
             }
         }
-        const closestChunk = findClosestElement(chunks, pivot)
+        const closestChunk = this.util.findClosestElement(chunks, pivot)
         updateActiveElement(chunks, closestChunk.element)
 
         /*  optionally support live state emission  */

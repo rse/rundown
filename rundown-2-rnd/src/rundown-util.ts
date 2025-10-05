@@ -35,4 +35,24 @@ export class RundownUtil {
         else if (level === "debug" && this.state.debug)
             console.log(`${timestamp} [DEBUG] ${msg}${epilog}`)
     }
+
+    /*  find closest element by distance  */
+    findClosestElement (elements: Element[], pivot: number) {
+        const min = { element: null, distance: Number.MAX_VALUE } as
+            { element: Element | null, distance: number }
+        for (const element of elements) {
+            const rect = element.getBoundingClientRect()
+            const distance1 = Math.abs(pivot - rect.top)
+            const distance2 = Math.abs(pivot - (rect.top + rect.height))
+            if (min.distance > distance1) {
+                min.distance = distance1
+                min.element  = element
+            }
+            if (min.distance > distance2) {
+                min.distance = distance2
+                min.element  = element
+            }
+        }
+        return min
+    }
 }
