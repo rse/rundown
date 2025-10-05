@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - CLEANUP: always use latest Alpine Linux version in docker container
+- REFACTOR: move wrapping of words from run-time renderer to DOM generation library
 
 2.0.0 (2025-10-05)
 ------------------
