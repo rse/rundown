@@ -33,28 +33,18 @@ export class RundownWebSocket {
         this.rendering = rendering
     }
 
-    /*  initialize WebSocket send queue processor  */
-    private initSendQueue () {
-        this.sendQueueInterval = setInterval(() => {
-            if (this.ws === undefined || this.ws.readyState !== ReconnectingWebSocket.OPEN)
-                return
-            while (this.wsSendQueue.length > 0) {
-                const msg = this.wsSendQueue.shift()!
-                this.ws.send(msg)
-            }
-        }, 200)
-    }
-
     /*  connect to WebSocket server  */
     public connect () {
         if (this.state.options.get("live") !== "yes")
             return
 
+        /*  determine server URL  */
         let url = document.location.href
         url = url.replace(/#.+$/, "")
         url = url.replace(/\/[^/]*$/, "")
         url = url + "/events"
 
+        /*  connect to server  */
         this.ws = new ReconnectingWebSocket(url, [], {
             reconnectionDelayGrowFactor: 1.3,
             maxReconnectionDelay:        4000,
@@ -63,24 +53,25 @@ export class RundownWebSocket {
             minUptime:                   5000
         })
 
+        /*  observe events  */
         this.ws.addEventListener("open", (ev) => {
             this.util.log("debug", "WebSocket connection opened")
             if (this.ws !== undefined) {
                 this.ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
-                this.ws.send(JSON.stringify({ event: "MODE", data: { locked: this.state.locked, debug: this.state.debug } }))
+                this.ws.send(JSON.stringify({
+                    event: "MODE",
+                    data: { locked: this.state.locked, debug: this.state.debug }
+                }))
             }
             this.rendering.resetState()
             this.rendering.tickOnce()
         })
-
         this.ws.addEventListener("close", (ev) => {
             this.util.log("debug", "WebSocket connection closed")
         })
-
         this.ws.addEventListener("error", (ev) => {
-            this.util.log("error", `WebSocket connection error: ${ev.message}`)
+            this.util.log("error", `WebSocket connection error: ${ev.message ?? "(unknown reason)"}`)
         })
-
         this.ws.addEventListener("message", (ev) => {
             (async () => {
                 const event = JSON.parse(ev.data)
@@ -97,7 +88,15 @@ export class RundownWebSocket {
             })
         })
 
-        this.initSendQueue()
+        /*  initialize WebSocket send queue processor  */
+        this.sendQueueInterval = setInterval(() => {
+            if (this.ws === undefined || this.ws.readyState !== ReconnectingWebSocket.OPEN)
+                return
+            while (this.wsSendQueue.length > 0) {
+                const msg = this.wsSendQueue.shift()!
+                this.ws.send(msg)
+            }
+        }, 200)
     }
 
     /*  disconnect from WebSocket server  */
