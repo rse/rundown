@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-1.6.0 (2025-10-05)
+2.0.0 (2025-10-05)
 ------------------
 
 - IMPROVEMENT: add optional speech-to-text based auto-scrolling
