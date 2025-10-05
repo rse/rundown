@@ -56,58 +56,15 @@ export class RundownAutoScroll {
 
     /*  initialize module  */
     initialize () {
-        /*  initialize word sequence for autoscroll tracking  */
-        const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
-        for (const chunk of chunks) {
-            /*  discover all DOM text nodes below the chunk node which are spoken  */
-            const walker = document.createTreeWalker(chunk, NodeFilter.SHOW_TEXT, (node: Node) => {
-                let current = node.parentElement
-                while (current !== null) {
-                    if (   current.classList.contains("rundown-speaker")
-                        || current.classList.contains("rundown-part")
-                        || current.classList.contains("rundown-state")
-                        || current.classList.contains("rundown-state-marker")
-                        || current.classList.contains("rundown-chat")
-                        || current.classList.contains("rundown-control")
-                        || current.classList.contains("rundown-hint")
-                        || current.classList.contains("rundown-info")
-                        || current.classList.contains("rundown-display"))
-                        return NodeFilter.FILTER_REJECT
-                    current = current.parentElement
-                }
-                return NodeFilter.FILTER_ACCEPT
-            })
-            const textNodes: Text[] = []
-            let node: Text | null
-            while ((node = walker.nextNode() as Text) !== null)
-                if (node.textContent?.trim())
-                    textNodes.push(node)
-
-            /*  iterate over all found text nodes and wrap them into word elements  */
-            for (const textNode of textNodes) {
-                if (textNode.textContent === null)
-                    continue
-                const words = textNode.textContent.split(/([A-Za-z]+)/)
-                const fragment = document.createDocumentFragment()
-                for (const word of words) {
-                    /*  wrap word with HTML "span" element  */
-                    const node = document.createElement("span")
-                    node.textContent = word
-                    let punctuation = false
-                    if (word.match(/^[A-Za-z]+$/))
-                        node.className = "rundown-word"
-                    else {
-                        node.className = "rundown-word-other"
-                        punctuation = true
-                    }
-                    fragment.appendChild(node)
-
-                    /*  add word to index  */
-                    const i = this.wordSeq.length
-                    this.wordSeq.push({ index: i, word, punctuation, node, spoken: "none", visible: false })
-                }
-                textNode.replaceWith(fragment)
-            }
+        /*  initialize word index  */
+        const nodes = Array.from(document.querySelectorAll(
+            ".rundown-word, .rundown-word-other")) as HTMLSpanElement[]
+        for (const node of nodes) {
+            /*  add word to index  */
+            const i = this.wordSeq.length
+            const punctuation = node.classList.contains("rundown-word-other")
+            const word = node.textContent
+            this.wordSeq.push({ index: i, word, punctuation, node, spoken: "none", visible: false })
         }
     }
 

@@ -227,6 +227,54 @@ export default class Rundown extends EventEmitter {
         $2(".rundown-state").each((i, el) => {
             $2(el).wrap($2("<div class=\"rundown-state-marker\"></div>"))
         })
+
+        /*  initialize word sequence for autoscroll tracking  */
+        const chunks = $2(".rundown-chunk:not(.disabled)")
+        chunks.each((i, chunk) => {
+            /*  discover all text nodes below the chunk node which are spoken  */
+            const processNode = (node: AnyNode) => {
+                if (node.type === "text" && node.data?.trim()) {
+                    /*  check if any parent should be rejected  */
+                    let current = node.parent
+                    while (current && current.type === "tag") {
+                        if (   $2(current).hasClass("rundown-speaker")
+                            || $2(current).hasClass("rundown-part")
+                            || $2(current).hasClass("rundown-state")
+                            || $2(current).hasClass("rundown-state-marker")
+                            || $2(current).hasClass("rundown-chat")
+                            || $2(current).hasClass("rundown-control")
+                            || $2(current).hasClass("rundown-hint")
+                            || $2(current).hasClass("rundown-info")
+                            || $2(current).hasClass("rundown-display"))
+                            return
+                        current = current.parent
+                    }
+
+                    /*  split text into words and wrap them  */
+                    const words = node.data.split(/([A-Za-z]+)/)
+                    const newNodes: AnyNode[] = []
+                    for (const word of words) {
+                        let span: ReturnType<typeof $2>
+                        if (word.match(/^[A-Za-z]+$/))
+                            span = $2("<span class=\"rundown-word\"></span>")
+                        else
+                            span = $2("<span class=\"rundown-word-other\"></span>")
+                        span.text(word)
+                        newNodes.push(span[0])
+                    }
+                    $2(node).replaceWith(newNodes)
+                }
+                else if (node.type === "tag" && node.children) {
+                    /*  process children (make copy since we'll modify the tree)  */
+                    const children = [ ...node.children ]
+                    for (const child of children)
+                        processNode(child)
+                }
+            }
+            processNode(chunk)
+        })
+
+        /*  generate HTML string from DOM  */
         output = $2("html > body").html()!
 
         /*  wrap generated HTML into stand-alone web page  */
