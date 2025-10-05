@@ -351,6 +351,11 @@ export class RundownAutoScroll {
         const words = transcript.split(/([A-Za-z]+)/)
             .filter((word) => word.match(/^[A-Za-z]+$/))
 
+        /*  for intermediate transcripts we want at least two words
+            in order to not match text too far away too easily  */
+        if (!final && words.length < 2)
+            return
+
         /*  determine currently visible and still not spoken words  */
         const visibleNonPunct = this.wordSeq.filter((word) => word.visible && !word.punctuation)
         const visibleSpoken   = visibleNonPunct.map((word) => word.spoken)
