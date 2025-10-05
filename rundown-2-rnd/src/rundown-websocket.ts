@@ -17,21 +17,16 @@ import { RundownRendering }  from "./rundown-rendering"
 
 /*  WebSocket communication management class  */
 export class RundownWebSocket {
+    /*  references  */
+    state!:      RundownState
+    util!:       RundownUtil
+    autoscroll!: RundownAutoScroll
+    rendering!:  RundownRendering
+
+    /*  internal state  */
     private ws: ReconnectingWebSocket | undefined
     private wsSendQueue: string[] = []
     private sendQueueInterval: ReturnType<typeof setInterval> | null = null
-    private rendering!: RundownRendering
-
-    constructor (
-        private state:      RundownState,
-        private util:       RundownUtil,
-        private autoscroll: RundownAutoScroll
-    ) {}
-
-    /*  receive circular references  */
-    provideCircRefs (rendering: RundownRendering) {
-        this.rendering = rendering
-    }
 
     /*  connect to WebSocket server  */
     public connect () {

@@ -12,6 +12,14 @@ import { RundownControls }   from "./rundown-controls"
 
 /*  rendering engine management class  */
 export class RundownRendering {
+    /*  references  */
+    state!:      RundownState
+    util!:       RundownUtil
+    autoscroll!: RundownAutoScroll
+    websocket!:  RundownWebSocket
+    controls!:   RundownControls
+
+    /*  internal state  */
     private ticking = false
 
     /*  view dimensions  */
@@ -25,14 +33,6 @@ export class RundownRendering {
     private stateLastSent    = -1
     private stateLastScrollY = -1
     private stateTimer:      ReturnType<typeof setTimeout> | null = null
-
-    constructor (
-        private state:      RundownState,
-        private util:       RundownUtil,
-        private autoscroll: RundownAutoScroll,
-        private websocket:  RundownWebSocket,
-        private controls:   RundownControls
-    ) {}
 
     /*  reset state  */
     resetState () {

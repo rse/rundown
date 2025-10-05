@@ -16,25 +16,20 @@ import { RundownRendering }  from "./rundown-rendering"
 
 /*  controls management class  */
 export class RundownControls {
+    /*  references  */
+    state!:      RundownState
+    util!:       RundownUtil
+    autoscroll!: RundownAutoScroll
+    websocket!:  RundownWebSocket
+    rendering!:  RundownRendering
+
+    /*  internal state  */
     windowScrollY = 0
 
     private adjustSpeedTimer: ReturnType<typeof setTimeout> | null = null
     private fontSize      = 120
     private lineHeight    = 125
     private delta         = 0
-    private rendering!:   RundownRendering
-
-    constructor (
-        private state:      RundownState,
-        private util:       RundownUtil,
-        private autoscroll: RundownAutoScroll,
-        private websocket:  RundownWebSocket
-    ) {}
-
-    /*  receive circular references  */
-    provideCircRefs (rendering: RundownRendering) {
-        this.rendering = rendering
-    }
 
     /*  adjust scrolling speed  */
     adjustSpeed (target: number) {

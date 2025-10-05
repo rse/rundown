@@ -17,12 +17,16 @@ import { RundownRendering } from "./rundown-rendering"
 
 /*  auto-scroll management class  */
 export class RundownAutoScroll {
+    /*  references  */
+    state!:     RundownState
+    util!:      RundownUtil
+    controls!:  RundownControls
+    rendering!: RundownRendering
+
     /*  internal state  */
     private s2t:                 SpeechRecognition | null              = null
     private autoscrollInterval:  ReturnType<typeof setInterval> | null = null
     private autoscrollAnimation: anime.JSAnimation | null              = null
-    private controls!:           RundownControls
-    private rendering!:          RundownRendering
 
     /*  word sequence for autoscroll feature  */
     private wordSeq: Array<{
@@ -36,18 +40,6 @@ export class RundownAutoScroll {
 
     /*  last spoken word index  */
     private lastSpokenIndex = -1
-
-    /*  object construction  */
-    constructor (
-        private state: RundownState,
-        private util:  RundownUtil
-    ) {}
-
-    /*  receive circular references  */
-    provideCircRefs (controls: RundownControls, rendering: RundownRendering) {
-        this.controls  = controls
-        this.rendering = rendering
-    }
 
     /*  initialize word sequence for autoscroll tracking  */
     initializeWordSequence () {

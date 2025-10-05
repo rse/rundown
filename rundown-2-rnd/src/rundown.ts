@@ -16,16 +16,32 @@ import { RundownWebSocket }  from "./rundown-websocket"
 document.addEventListener("DOMContentLoaded", async () => {
     /*  construct all modules  */
     const state      = new RundownState()
-    const util       = new RundownUtil(      state)
-    const autoscroll = new RundownAutoScroll(state, util)
-    const websocket  = new RundownWebSocket( state, util, autoscroll)
-    const controls   = new RundownControls(  state, util, autoscroll, websocket)
-    const rendering  = new RundownRendering( state, util, autoscroll, websocket, controls)
+    const util       = new RundownUtil()
+    const autoscroll = new RundownAutoScroll()
+    const websocket  = new RundownWebSocket()
+    const controls   = new RundownControls()
+    const rendering  = new RundownRendering()
 
-    /*  provide circular inter-module references  */
-    autoscroll.provideCircRefs(controls, rendering)
-    controls.provideCircRefs(rendering)
-    websocket.provideCircRefs(rendering)
+    /*  provide inter-module references  */
+    util.state           = state
+    autoscroll.state     = state
+    autoscroll.util      = util
+    autoscroll.controls  = controls
+    autoscroll.rendering = rendering
+    websocket.state      = state
+    websocket.util       = util
+    websocket.autoscroll = autoscroll
+    websocket.rendering  = rendering
+    controls.state       = state
+    controls.util        = util
+    controls.autoscroll  = autoscroll
+    controls.websocket   = websocket
+    controls.rendering   = rendering
+    rendering.state      = state
+    rendering.util       = util
+    rendering.autoscroll = autoscroll
+    rendering.websocket  = websocket
+    rendering.controls   = controls
 
     /*  initialize auto-scrolling  */
     autoscroll.initializeWordSequence()

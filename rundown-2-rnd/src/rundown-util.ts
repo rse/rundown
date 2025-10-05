@@ -13,13 +13,11 @@ import type { RundownState } from "./rundown-state"
 
 /*  logging utility class  */
 export class RundownUtil {
+    /*  references  */
+    state!: RundownState
+
     /*  internal state  */
     private raiseErrorTimer: ReturnType<typeof setTimeout> | null = null
-
-    /*  object construction  */
-    constructor (
-        private state: RundownState
-    ) {}
 
     /*  raise an error message  */
     raiseError (msg: string) {
