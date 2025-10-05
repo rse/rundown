@@ -19,6 +19,21 @@ export class RundownRendering {
     websocket!:  RundownWebSocket
     controls!:   RundownControls
 
+    /*  set references  */
+    references (refs: {
+        state:      RundownState,
+        util:       RundownUtil,
+        autoscroll: RundownAutoScroll,
+        websocket:  RundownWebSocket,
+        controls:   RundownControls
+    }) {
+        this.state      = refs.state
+        this.util       = refs.util
+        this.autoscroll = refs.autoscroll
+        this.websocket  = refs.websocket
+        this.controls   = refs.controls
+    }
+
     /*  internal state  */
     private ticking = false
 

@@ -59,6 +59,7 @@ export default [
             "@stylistic/brace-style":                             [ "error", "stroustrup", { allowSingleLine: true } ],
             "@stylistic/quotes":                                  [ "error", "double" ],
 
+            "@stylistic/no-whitespace-before-property":           "off",
             "@stylistic/no-multi-spaces":                         "off",
             "@stylistic/no-multiple-empty-lines":                 "off",
             "@stylistic/key-spacing":                             "off",

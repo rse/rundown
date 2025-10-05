@@ -23,6 +23,19 @@ export class RundownAutoScroll {
     controls!:  RundownControls
     rendering!: RundownRendering
 
+    /*  set references  */
+    references (refs: {
+        state:     RundownState,
+        util:      RundownUtil,
+        controls:  RundownControls,
+        rendering: RundownRendering
+    }) {
+        this.state     = refs.state
+        this.util      = refs.util
+        this.controls  = refs.controls
+        this.rendering = refs.rendering
+    }
+
     /*  internal state  */
     private s2t:                 SpeechRecognition | null              = null
     private autoscrollInterval:  ReturnType<typeof setInterval> | null = null

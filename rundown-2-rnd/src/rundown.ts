@@ -23,25 +23,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const rendering  = new RundownRendering()
 
     /*  provide inter-module references  */
-    util.state           = state
-    autoscroll.state     = state
-    autoscroll.util      = util
-    autoscroll.controls  = controls
-    autoscroll.rendering = rendering
-    websocket.state      = state
-    websocket.util       = util
-    websocket.autoscroll = autoscroll
-    websocket.rendering  = rendering
-    controls.state       = state
-    controls.util        = util
-    controls.autoscroll  = autoscroll
-    controls.websocket   = websocket
-    controls.rendering   = rendering
-    rendering.state      = state
-    rendering.util       = util
-    rendering.autoscroll = autoscroll
-    rendering.websocket  = websocket
-    rendering.controls   = controls
+    util      .references({ state                                                   })
+    autoscroll.references({ state, util,             rendering, controls            })
+    websocket .references({ state, util, autoscroll, rendering                      })
+    controls  .references({ state, util, autoscroll, rendering,           websocket })
+    rendering .references({ state, util, autoscroll,            controls, websocket })
 
     /*  initialize auto-scrolling  */
     autoscroll.initializeWordSequence()

@@ -16,6 +16,13 @@ export class RundownUtil {
     /*  references  */
     state!: RundownState
 
+    /*  set references  */
+    references (refs: {
+        state: RundownState
+    }) {
+        this.state = refs.state
+    }
+
     /*  internal state  */
     private raiseErrorTimer: ReturnType<typeof setTimeout> | null = null
 

@@ -23,6 +23,21 @@ export class RundownControls {
     websocket!:  RundownWebSocket
     rendering!:  RundownRendering
 
+    /*  set references  */
+    references (refs: {
+        state:      RundownState,
+        util:       RundownUtil,
+        autoscroll: RundownAutoScroll,
+        websocket:  RundownWebSocket,
+        rendering:  RundownRendering
+    }) {
+        this.state      = refs.state
+        this.util       = refs.util
+        this.autoscroll = refs.autoscroll
+        this.websocket  = refs.websocket
+        this.rendering  = refs.rendering
+    }
+
     /*  internal state  */
     windowScrollY = 0
 

@@ -23,6 +23,19 @@ export class RundownWebSocket {
     autoscroll!: RundownAutoScroll
     rendering!:  RundownRendering
 
+    /*  set references  */
+    references (refs: {
+        state:      RundownState,
+        util:       RundownUtil,
+        autoscroll: RundownAutoScroll,
+        rendering:  RundownRendering
+    }) {
+        this.state      = refs.state
+        this.util       = refs.util
+        this.autoscroll = refs.autoscroll
+        this.rendering  = refs.rendering
+    }
+
     /*  internal state  */
     private ws: ReconnectingWebSocket | undefined
     private wsSendQueue: string[] = []
