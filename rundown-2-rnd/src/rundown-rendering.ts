@@ -213,7 +213,7 @@ export class RundownRendering {
         /*  determine content size  */
         const box = document.documentElement.getBoundingClientRect()
         this.content.w = box.width
-        this.content.h = box.height - this.view.h /* re-compensate for out extra margins */
+        this.content.h = box.height - this.view.h /* re-compensate for our extra margins */
 
         /*  determine content scroll position  */
         this.content.scrollX = window.scrollX
