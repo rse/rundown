@@ -35,8 +35,8 @@
 
         "@vue/eslint-config-typescript":    "14.6.0",
         "vue-eslint-parser":                "10.2.0",
-        "eslint":                           "9.36.0",
-        "@eslint/js":                       "9.36.0",
+        "eslint":                           "9.37.0",
+        "@eslint/js":                       "9.37.0",
         "neostandard":                      "0.12.2",
         "eslint-plugin-import":             "2.32.0",
         "eslint-plugin-vue":                "10.5.0",
@@ -46,7 +46,7 @@
 
         "nodemon":                          "3.1.10",
         "shx":                              "0.4.0",
-        "stylelint":                        "16.24.0",
+        "stylelint":                        "16.25.0",
         "stylelint-config-html":            "1.1.0",
         "stylelint-config-recommended-vue": "1.6.1",
         "stylelint-config-standard":        "39.0.0",

@@ -8,6 +8,7 @@ ChangeLog
 - IMPROVEMENT: add optional speech-to-text based auto-scrolling
 - REFACTOR: split the rundown-2-rnd package into multiple source files
 - CLEANUP: revert accidentally changed template
+- UPDATE: upgrade NPM dependencies
 
 1.5.1 (2025-10-03)
 ------------------

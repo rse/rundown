@@ -15,8 +15,8 @@
         "url":                          "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                       "9.36.0",
-        "@eslint/js":                   "9.36.0",
+        "eslint":                       "9.37.0",
+        "@eslint/js":                   "9.37.0",
         "eslint-plugin-n":              "17.23.1",
         "eslint-plugin-promise":        "7.2.1",
         "eslint-plugin-import":         "2.32.0",
