@@ -193,7 +193,7 @@ export class RundownRendering {
                                 if (this.stateLastSent !== data.active) {
                                     this.stateLastSent = data.active
                                     this.util.log("debug", `state change: sending (active: #${data.active})`)
-                                    this.websocket.send({ event: "STATE", data })
+                                    this.websocket.sendStateUpdate(data)
                                 }
                                 else {
                                     this.util.log("debug", `state change: suppressed (active: #${data.active})`)
