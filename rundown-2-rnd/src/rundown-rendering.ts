@@ -125,7 +125,7 @@ export class RundownRendering {
         /*  optionally support live state emission  */
         if (this.state.options.get("live") === "yes") {
             /*  determine all invisible state information  */
-            const states = document.querySelectorAll(".rundown-state")
+            const states = Array.from(document.querySelectorAll(".rundown-state"))
             const stateStack: Array<{ pos: number, kv: { [ key: string ]: string | number | boolean } }> =
                 [ { pos: Number.MIN_SAFE_INTEGER, kv: {} } ]
             for (const state of states) {
