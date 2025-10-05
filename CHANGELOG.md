@@ -2,10 +2,11 @@
 ChangeLog
 =========
 
-1.5.2 (2025-10-03)
+1.6.0 (2025-10-05)
 ------------------
 
 - IMPROVEMENT: add optional speech-to-text based auto-scrolling
+- REFACTOR: split the rundown-2-rnd package into multiple source files
 - CLEANUP: revert accidentally changed template
 
 1.5.1 (2025-10-03)
