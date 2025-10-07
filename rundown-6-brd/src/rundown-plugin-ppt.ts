@@ -178,7 +178,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         }
     }
     private id = ""
-    private active = 0
+    private active = -1
 
     /*  configure plugin  */
     configure (args: { [ key: string ]: string }) {
@@ -385,7 +385,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         let gotoVal = -1
         let gotoIdx = -1
         let i = 0
-        while (i <= state.active && i < state.kv.length) {
+        while (i < state.kv.length) {
             for (const key of Object.keys(state.kv[i])) {
                 const m = key.match(/^([a-zA-Z][a-zA-Z0-9-]*):(.+)$/)
                 if (m === null)
@@ -396,21 +396,23 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
                 if (cmd.match(/^(?:start|end|black)$/))
                     newState.kv.push(state.kv[i])
                 else {
-                    const v = state.kv[i][key]
-                    if (cmd === "goto" && typeof v === "number") {
-                        gotoIdx = i
-                        gotoVal = v
-                    }
-                    else if (cmd === "next" || cmd === "prev") {
-                        gotoIdx = i
-                        if (gotoVal === -1)
-                            gotoVal = (cmd === "next" ? 2 : 1)
-                        else {
-                            gotoVal = gotoVal + (cmd === "next" ? 1 : -1)
-                            if (gotoVal < 1)
-                                gotoVal = 1
-                            else if (this.pptState.slides > 0 && gotoVal > this.pptState.slides)
-                                gotoVal = this.pptState.slides
+                    if (i <= state.active) {
+                        const v = state.kv[i][key]
+                        if (cmd === "goto" && typeof v === "number") {
+                            gotoIdx = i
+                            gotoVal = v
+                        }
+                        else if (cmd === "next" || cmd === "prev") {
+                            gotoIdx = i
+                            if (gotoVal === -1)
+                                gotoVal = (cmd === "next" ? 2 : 1)
+                            else {
+                                gotoVal = gotoVal + (cmd === "next" ? 1 : -1)
+                                if (gotoVal < 1)
+                                    gotoVal = 1
+                                else if (this.pptState.slides > 0 && gotoVal > this.pptState.slides)
+                                    gotoVal = this.pptState.slides
+                            }
                         }
                     }
                     newState.kv.push({})
@@ -418,8 +420,6 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
             }
             i++
         }
-        while (i < state.kv.length)
-            newState.kv.push(state.kv[i++])
         if (gotoIdx > -1 && gotoVal > -1)
             newState.kv[gotoIdx] = { "ppt:goto": gotoVal }
         return newState
@@ -429,7 +429,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
     async reflectState (state: RundownState) {
         if (state.id !== this.id) {
             this.id = state.id
-            this.active = 0
+            this.active = -1
         }
         this.lastState = state
         if (this.mode.locked && state.active !== this.active) {
