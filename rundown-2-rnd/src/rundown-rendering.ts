@@ -161,8 +161,7 @@ export class RundownRendering {
         if (this.state.options.get("live") === "yes") {
             /*  determine all invisible state information  */
             const states = Array.from(document.querySelectorAll(".rundown-state"))
-            const stateStack: Array<{ pos: number, kv: { [ key: string ]: string | number | boolean } }> =
-                [ { pos: Number.MIN_SAFE_INTEGER, kv: {} } ]
+            const stateStack: Array<{ pos: number, kv: { [ key: string ]: string | number | boolean } }> = []
             for (const state of states) {
                 const bb = state.getBoundingClientRect()
                 const text = (state as HTMLSpanElement).innerText
@@ -184,7 +183,7 @@ export class RundownRendering {
             }
 
             /*  track state changes  */
-            if (stateStack.length > 1) {
+            if (stateStack.length > 0) {
                 /*  under a locked situation, prevent from scroll backwards over a state  */
                 if (this.state.locked) {
                     if (window.scrollY < this.stateLastScrollY) {
@@ -202,14 +201,18 @@ export class RundownRendering {
 
                 /*  determine which state is currently active  */
                 for (let i = 0; i < stateStack.length; i++) {
-                    const isFirst           = (i === 0)
                     const isLast            = (i === stateStack.length - 1)
                     const isPivotAfterCurr  = (pivot >= stateStack[i].pos)
-                    const isPivotBeforeNext = (pivot < stateStack[i + 1].pos)
+                    const isPivotBeforeNext = (i + 1) < stateStack.length ? (pivot < stateStack[i + 1].pos) : false
                     const inRange = (
-                        (    isFirst && !isLast &&                     isPivotBeforeNext)
-                        || (!isFirst && !isLast && isPivotAfterCurr && isPivotBeforeNext)
-                        || ( isLast             && isPivotAfterCurr                     )
+                        isPivotAfterCurr
+                        && (
+                            isLast
+                            || (
+                                !isLast
+                                && isPivotBeforeNext
+                            )
+                        )
                     )
                     if (inRange) {
                         if (this.stateLast !== i) {
