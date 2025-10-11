@@ -39,7 +39,7 @@
         "@rse/stx":                     "1.1.2",
         "markdownlint":                 "0.38.0",
         "markdownlint-cli2":            "0.18.1",
-        "@types/node":                  "24.7.0",
+        "@types/node":                  "24.7.1",
         "@types/yargs":                 "17.0.33",
         "serve":                        "14.2.5",
         "nodemon":                      "3.1.10",
