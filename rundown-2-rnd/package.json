@@ -36,7 +36,7 @@
         "typopro-web":                           "4.2.7",
         "csso":                                  "5.0.5",
         "svgo":                                  "4.0.0",
-        "@types/node":                           "24.7.1",
+        "@types/node":                           "24.7.2",
         "@types/csso":                           "5.0.4",
         "@types/luxon":                          "3.7.1",
         "@types/dom-speech-recognition":         "0.0.7",
