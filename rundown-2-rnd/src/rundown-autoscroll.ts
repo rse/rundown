@@ -63,7 +63,7 @@ export class RundownAutoScroll {
             /*  add word to index  */
             const i = this.wordSeq.length
             const punctuation = node.classList.contains("rundown-word-other")
-            const word = node.textContent
+            const word = node.textContent ?? ""
             this.wordSeq.push({ index: i, word, punctuation, node, spoken: "none", visible: false })
         }
     }
