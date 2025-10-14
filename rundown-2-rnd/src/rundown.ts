@@ -12,8 +12,13 @@ import { RundownRendering }  from "./rundown-rendering"
 import { RundownControls }   from "./rundown-controls"
 import { RundownWebSocket }  from "./rundown-websocket"
 
-/*  await the DOM...  */
-document.addEventListener("DOMContentLoaded", async () => {
+/*  bootstrap once the DOM is ready  */
+let initialized = false
+const bootstrap = () => {
+    if (initialized)
+        return
+    initialized = true
+
     /*  construct all modules  */
     const state      = new RundownState()
     const util       = new RundownUtil()
@@ -34,4 +39,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     websocket.initialize()
     controls.initialize()
     rendering.initialize()
-}, { once: true })
+}
+
+if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", bootstrap, { once: true })
+else
+    bootstrap()
