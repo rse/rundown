@@ -107,8 +107,9 @@ export class RundownWebSocket {
             if (this.ws === undefined || this.ws.readyState !== ReconnectingWebSocket.OPEN)
                 return
             while (this.wsSendQueue.length > 0) {
-                const msg = this.wsSendQueue.shift()!
-                this.ws.send(msg)
+                const msg = this.wsSendQueue.shift()
+                if (msg !== undefined)
+                    this.ws.send(msg)
             }
         }, 200)
     }
