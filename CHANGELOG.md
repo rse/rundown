@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-2.0.3 (2025-10-08)
+2.1.0 (2025-10-15)
 ------------------
 
 - IMPROVEMENT: switch to requestAnimationFrame for smoother auto-scrolling
