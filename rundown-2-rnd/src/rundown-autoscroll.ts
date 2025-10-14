@@ -56,7 +56,13 @@ export class RundownAutoScroll {
 
     /*  initialize module  */
     initialize () {
-        /*  initialize word index  */
+        this.buildWordIndex()
+    }
+
+    /*  rebuild the cached word index from DOM  */
+    private buildWordIndex () {
+        this.wordSeq = []
+        this.lastSpokenIndex = -1
         const nodes = Array.from(document.querySelectorAll(
             ".rundown-word, .rundown-word-other")) as HTMLSpanElement[]
         for (const node of nodes) {
@@ -66,6 +72,11 @@ export class RundownAutoScroll {
             const word = node.textContent ?? ""
             this.wordSeq.push({ index: i, word, punctuation, node, spoken: "none", visible: false })
         }
+    }
+
+    /*  reinitialize cached DOM references after content updates  */
+    refreshContent () {
+        this.buildWordIndex()
     }
 
     /*  check for run-time compatibility of auto-scrolling mechanism  */

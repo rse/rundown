@@ -169,6 +169,8 @@ export class RundownWebSocket {
             const contentOld = document.querySelector(".content")!
             const contentNew = response.data.querySelector(".content")!
             contentOld.innerHTML = contentNew.innerHTML
+            this.autoscroll.refreshContent()
+            this.rendering.resetState()
 
             /*  update once  */
             setTimeout(() => {
