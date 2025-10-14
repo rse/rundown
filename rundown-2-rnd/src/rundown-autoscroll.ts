@@ -329,8 +329,9 @@ export class RundownAutoScroll {
         const visibleSpoken   = visibleNonPunct.map((word) => word.spoken)
         const k               = visibleSpoken.reverse().findIndex((spoken) => spoken === "final")
         const j               = (k !== -1 ? Math.max(0, visibleSpoken.length - k) : 0)
-        const visibleIndex    = visibleNonPunct.map((word) => word.index).slice(j)
-        const visibleWords    = visibleNonPunct.map((word) => word.word ).slice(j)
+        const visibleSlice    = visibleNonPunct.slice(j)
+        const visibleIndex    = visibleSlice.map((word) => word.index)
+        const visibleWords    = visibleSlice.map((word) => word.word)
 
         /*  perform a fuzzy match of the transcript words in the visible words  */
         const idx = this.fuzzyWordMatch(words, visibleWords, 0)
