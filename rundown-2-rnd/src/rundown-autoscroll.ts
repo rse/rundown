@@ -37,9 +37,10 @@ export class RundownAutoScroll {
     }
 
     /*  internal state  */
-    private s2t:                 SpeechRecognition | null              = null
-    private autoscrollInterval:  ReturnType<typeof setInterval> | null = null
-    private autoscrollAnimation: anime.JSAnimation | null              = null
+    private s2t:                   SpeechRecognition | null              = null
+    private autoscrollInterval:    ReturnType<typeof setInterval> | null = null
+    private autoscrollAnimation:   anime.JSAnimation | null              = null
+    private autoscrollAnimationId: number | null                         = null
 
     /*  word sequence for autoscroll feature  */
     private wordSeq: Array<{
@@ -293,10 +294,14 @@ export class RundownAutoScroll {
         }
         this.lastSpokenIndex = -1
 
-        /*  clear any pending intervals  */
+        /*  clear any pending intervals and animation frames  */
         if (this.autoscrollInterval !== null) {
             clearInterval(this.autoscrollInterval)
             this.autoscrollInterval = null
+        }
+        if (this.autoscrollAnimationId !== null) {
+            cancelAnimationFrame(this.autoscrollAnimationId)
+            this.autoscrollAnimationId = null
         }
 
         /*  toggle auto-scrolling  */
@@ -394,16 +399,22 @@ export class RundownAutoScroll {
                     /*  adjust scrolling speed based on distance from center  */
                     this.controls.adjustSpeed(calculateSpeed(distance))
 
-                    /*  clear previous interval  */
+                    /*  clear previous interval or animation frame  */
                     if (this.autoscrollInterval !== null) {
                         clearInterval(this.autoscrollInterval)
                         this.autoscrollInterval = null
                     }
+                    if (this.autoscrollAnimationId !== null) {
+                        cancelAnimationFrame(this.autoscrollAnimationId)
+                        this.autoscrollAnimationId = null
+                    }
 
-                    /*  start continuous centering interval  */
-                    this.autoscrollInterval = setInterval(() => {
-                        if (!this.state.autoscroll || this.state.paused)
+                    /*  start continuous centering animation frame loop  */
+                    const centerLastWord = () => {
+                        if (!this.state.autoscroll || this.state.paused) {
+                            this.autoscrollAnimationId = null
                             return
+                        }
                         if (this.lastSpokenIndex >= 0) {
                             const lastSpokenWord = this.wordSeq[this.lastSpokenIndex].node
                             const rect     = lastSpokenWord.getBoundingClientRect()
@@ -411,17 +422,19 @@ export class RundownAutoScroll {
                             const distance = rect.bottom - pivot
 
                             /*  adjust scrolling speed based on distance from center  */
-                            if (Math.abs(distance) > (rect.height / 2))
+                            if (Math.abs(distance) > (rect.height / 2)) {
                                 this.controls.adjustSpeed(calculateSpeed(distance))
+                                this.autoscrollAnimationId = requestAnimationFrame(centerLastWord)
+                            }
                             else {
-                                if (this.autoscrollInterval !== null) {
-                                    clearInterval(this.autoscrollInterval)
-                                    this.autoscrollInterval = null
-                                }
                                 this.controls.adjustSpeed(0)
+                                this.autoscrollAnimationId = null
                             }
                         }
-                    }, 50)
+                        else
+                            this.autoscrollAnimationId = null
+                    }
+                    this.autoscrollAnimationId = requestAnimationFrame(centerLastWord)
                 }
             }
         }
