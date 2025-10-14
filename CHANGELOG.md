@@ -5,6 +5,10 @@ ChangeLog
 2.0.3 (2025-10-08)
 ------------------
 
+- IMPROVEMENT: switch to requestAnimationFrame for smoother auto-scrolling
+- IMPROVEMENT: make DOM loading and rendering more robust
+- IMPROVEMENT: improve rendering performance
+- IMPROVEMENT: use black with only alpha for the top/bottom overlay colors
 - UPDATE: upgrade NPM dependencies
 
 2.0.2 (2025-10-08)
