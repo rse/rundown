@@ -321,8 +321,8 @@ export class RundownAutoScroll {
             return
 
         /*  determine transcript words  */
-        const words = transcript.split(/([A-Za-z]+)/)
-            .filter((word) => word.match(/^[A-Za-z]+$/))
+        const words = transcript.split(/([A-Za-zÄÖÜäöüß]+)/)
+            .filter((word) => word.match(/^[A-Za-zÄÖÜäöüß]+$/))
 
         /*  for intermediate transcripts we want at least two words
             in order to not match text too far away too easily  */

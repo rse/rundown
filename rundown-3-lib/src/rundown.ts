@@ -251,11 +251,11 @@ export default class Rundown extends EventEmitter {
                     }
 
                     /*  split text into words and wrap them  */
-                    const words = node.data.split(/([A-Za-z]+)/)
+                    const words = node.data.split(/([A-Za-zÄÖÜäöüß]+)/)
                     const newNodes: AnyNode[] = []
                     for (const word of words) {
                         let span: ReturnType<typeof $2>
-                        if (word.match(/^[A-Za-z]+$/))
+                        if (word.match(/^[A-Za-zÄÖÜäöüß]+$/))
                             span = $2("<span class=\"rundown-word\"></span>")
                         else
                             span = $2("<span class=\"rundown-word-other\"></span>")
