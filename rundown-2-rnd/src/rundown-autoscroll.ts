@@ -8,6 +8,8 @@
 import * as anime          from "animejs"
 import { diceCoefficient } from "dice-coefficient"
 import { doubleMetaphone } from "double-metaphone"
+import * as tinyld         from "tinyld/heavy"
+import * as franc          from "franc"
 
 /*  internal dependencies  */
 import { RundownState }     from "./rundown-state"
@@ -95,6 +97,60 @@ export class RundownAutoScroll {
             return true
     }
 
+    /*  language identification  */
+    langIdentify (text: string) {
+        /*  predict with TinyLD (best)  */
+        const p1 = { en: 0, de: 0 } as { [ lid: string ]: number }
+        const r1 = tinyld.detectAll(text, { only: [ "en", "de" ] })
+        for (const r of r1)
+            if ((r.lang === "en" || r.lang === "de") && r.accuracy)
+                p1[r.lang] = r.accuracy
+
+        /*  predict with Franc (decent)  */
+        const p2 = { en: 0, de: 0 } as { [ lid: string ]: number }
+        const r2 = franc.francAll(text, { only: [ "eng", "deu" ], minLength: 10 })
+        for (const r of r2)
+            if (r[0] === "eng" && typeof r[1] === "number")
+                p2.en = r[1]
+            else if (r[0] === "deu" && typeof r[1] === "number")
+                p2.de = r[1]
+
+        /*  calculate weighted prediction  */
+        const p: { [ lid: string ]: number } = {}
+        for (const lid of Object.keys(p1))
+            p[lid] = (2 * p1[lid] + p2[lid]) / 3
+
+        /*  calculate decision  */
+        const d = { language: "", accuracy: 0, offset: 0, confidence: 0 }
+        const round = (num: number, digits: number) =>
+            Math.round(num * Math.pow(10, digits)) / Math.pow(10, digits)
+        if (p.en > p.de) {
+            d.language = "en"
+            d.accuracy = round(p.en, 4)
+            d.offset   = round(p.en - p.de, 4)
+        }
+        else {
+            d.language = "de"
+            d.accuracy = round(p.de, 4)
+            d.offset   = round(p.de - p.en, 4)
+        }
+
+        /*  calculate derived confidence  */
+        if      (d.accuracy > 0.75 && d.offset > 0.45) d.confidence = 1.0
+        else if (d.accuracy > 0.75 && d.offset > 0.30) d.confidence = 0.9
+        else if (d.accuracy > 0.75 && d.offset > 0.15) d.confidence = 0.8
+        else if (d.accuracy > 0.75)                    d.confidence = 0.7
+        else if (d.accuracy > 0.50 && d.offset > 0.45) d.confidence = 0.8
+        else if (d.accuracy > 0.50 && d.offset > 0.30) d.confidence = 0.7
+        else if (d.accuracy > 0.50 && d.offset > 0.15) d.confidence = 0.6
+        else if (d.accuracy > 0.50)                    d.confidence = 0.5
+        else if (d.accuracy > 0.25 && d.offset > 0.10) d.confidence = 0.4
+        else if (d.accuracy > 0.25)                    d.confidence = 0.3
+        else if (d.accuracy > 0.10                   ) d.confidence = 0.2
+        else                                           d.confidence = 0.1
+        return d
+    }
+
     /*  helper function for determining string similarity  */
     private similarity (s1: string, s2: string) {
         /*  compare only lower-case variants  */
@@ -161,13 +217,28 @@ export class RundownAutoScroll {
 
     /*  initialize speech-to-text recognition  */
     private initializeSpeechRecognition () {
+        /*  determine language  */
+        let lang = this.state.options.get("lang") ?? "auto"
+        if (lang === "auto") {
+            /*  guess the language  */
+            let text = ""
+            for (const item of this.wordSeq)
+                text += item.word
+            const ident = this.langIdentify(text)
+            if (ident.confidence >= 0.7)
+                lang = ident.language
+        }
+        if (lang === "en")
+            lang = "en-US"
+
         /*  establish speech-to-text facility of Chromium browsers  */
+        this.util.log("debug", `speech-to-text: initialization (language: ${lang})`)
         const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
         this.s2t = new SpeechRecognition()
         this.s2t.continuous      = true
         this.s2t.interimResults  = true
         this.s2t.maxAlternatives = 1
-        this.s2t.lang            = this.state.options.get("lang") ?? "en-US"
+        this.s2t.lang            = lang
 
         /*  catch errors  */
         this.s2t.addEventListener("error", (event) => {
