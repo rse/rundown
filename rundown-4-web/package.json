@@ -35,11 +35,11 @@
 
         "@vue/eslint-config-typescript":    "14.6.0",
         "vue-eslint-parser":                "10.2.0",
-        "eslint":                           "9.37.0",
-        "@eslint/js":                       "9.37.0",
+        "eslint":                           "9.38.0",
+        "@eslint/js":                       "9.38.0",
         "neostandard":                      "0.12.2",
         "eslint-plugin-import":             "2.32.0",
-        "eslint-plugin-vue":                "10.5.0",
+        "eslint-plugin-vue":                "10.5.1",
 
         "htmllint":                         "0.8.0",
         "htmllint-cli":                     "0.0.7",

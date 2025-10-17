@@ -14,8 +14,8 @@
         "url":                                   "http://engelschall.com"
     },
     "devDependencies": {
-        "eslint":                                "9.37.0",
-        "@eslint/js":                            "9.37.0",
+        "eslint":                                "9.38.0",
+        "@eslint/js":                            "9.38.0",
         "eslint-plugin-n":                       "17.23.1",
         "eslint-plugin-promise":                 "7.2.1",
         "eslint-plugin-import":                  "2.32.0",
@@ -24,7 +24,7 @@
         "shx":                                   "0.4.0",
         "mkdirp":                                "3.0.1",
         "vite":                                  "7.1.10",
-        "vite-plugin-static-copy":               "3.1.3",
+        "vite-plugin-static-copy":               "3.1.4",
         "vite-plugin-singlefile":                "2.3.0",
         "vite-plugin-node-polyfills":            "0.24.0",
         "@m5nv/vite-plugin-run-task":            "1.0.2",
@@ -36,7 +36,7 @@
         "typopro-web":                           "4.2.7",
         "csso":                                  "5.0.5",
         "svgo":                                  "4.0.0",
-        "@types/node":                           "24.7.2",
+        "@types/node":                           "24.8.1",
         "@types/csso":                           "5.0.4",
         "@types/luxon":                          "3.7.1",
         "@types/dom-speech-recognition":         "0.0.7",
