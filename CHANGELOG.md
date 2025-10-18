@@ -7,6 +7,7 @@ ChangeLog
 
 - IMPROVEMENT: support German language (words with umlauts) for autoscrolling
 - IMPROVEMENT: support auto-guessing the language for autoscrolling
+- CLEANUP: added missing keystrokes to CONTROL tab on Web UI
 - UPDATE: upgrade NPM dependencies
 
 2.1.0 (2025-10-15)
