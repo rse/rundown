@@ -16,9 +16,9 @@
         <div v-show="tab === 'content'" class="content">
             <div class="intro">
                 Here you can download the <b>Rundown</b> template
-                for <b>Microsoft&reg; Word&reg;</b>, and once filled with your content,
-                uploaded (or dragged and dropped) again for rendering in the prompter format.
-                See under the tab CONTROL for details how to interactively control this prompter rendering.
+                for <b>Microsoft&reg; Word&reg;</b>, and, once filled with your content,
+                upload (or dragg &amp; drop) it again for rendering in the prompter format.
+                See the tab CONTROL for details how to then interactively control this prompter rendering.
             </div>
             <div class="content-row">
                 <div class="content-left"
