@@ -46,12 +46,30 @@ export class RundownControls {
     private lineHeight    = 125
     private delta         = 0
 
+    /*  cached DOM references  */
+    private contentElement: HTMLDivElement  | null = null
+    private bodyElement:    HTMLBodyElement | null = null
+
+    /*  get cached content element  */
+    private getContentElement (): HTMLDivElement {
+        if (this.contentElement === null)
+            this.contentElement = document.querySelector("body > .content")! as HTMLDivElement
+        return this.contentElement
+    }
+
+    /*  get cached body element  */
+    private getBodyElement (): HTMLBodyElement {
+        if (this.bodyElement === null)
+            this.bodyElement = document.querySelector("body")! as HTMLBodyElement
+        return this.bodyElement
+    }
+
     /*  adjust font size  */
     private adjustFontSize (delta: number) {
         this.fontSize += delta
         if (this.fontSize < 90)  this.fontSize = 90
         if (this.fontSize > 180) this.fontSize = 180
-        const content = document.querySelector("body > .content")! as HTMLDivElement
+        const content = this.getContentElement()
         content.style.fontSize = `${this.fontSize}%`
     }
 
@@ -60,7 +78,7 @@ export class RundownControls {
         this.lineHeight += delta
         if (this.lineHeight < 105) this.lineHeight = 105
         if (this.lineHeight > 145) this.lineHeight = 145
-        const content = document.querySelector("body > .content")! as HTMLDivElement
+        const content = this.getContentElement()
         content.style.lineHeight = `${this.lineHeight}%`
     }
 
