@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-2.1.1 (2025-10-17)
+2.2.0 (2025-10-18)
 ------------------
 
 - IMPROVEMENT: support German language (words with umlauts) for autoscrolling
