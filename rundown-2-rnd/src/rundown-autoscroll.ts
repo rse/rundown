@@ -225,8 +225,10 @@ export class RundownAutoScroll {
             for (const item of this.wordSeq)
                 text += item.word
             const ident = this.langIdentify(text)
-            if (ident.confidence >= 0.7)
+            if (ident.confidence >= 0.5)
                 lang = ident.language
+            else
+                lang = "en"
         }
         if (lang === "en")
             lang = "en-US"
