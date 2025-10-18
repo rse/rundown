@@ -72,153 +72,181 @@
                 The primary keystrokes (blue) are for combined keyboard and controller usage.
                 The secondary keystrokes (grey) are additional ones to complement the controller support.
             </div>
-            <div class="actions">
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary"><i class="fa fa-solid fa-arrow-up"></i></span>,&nbsp;
-                        <span class="key">S</span>
+            <div class="actions-row">
+                <div class="actions">
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary"><i class="fa fa-solid fa-arrow-up"></i></span>,&nbsp;
+                            <span class="key">S</span>
+                        </div>
+                        <div class="description">
+                            <i>increase</i> scroll speed
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>increase</i> scroll speed
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary"><i class="fa fa-solid fa-arrow-down"></i></span>,&nbsp;
+                            <span class="key">W</span>
+                        </div>
+                        <div class="description">
+                            <i>decrease</i> scroll speed
+                        </div>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary"><i class="fa fa-solid fa-arrow-down"></i></span>,&nbsp;
-                        <span class="key">W</span>
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary">SPACE</span>
+                        </div>
+                        <div class="description">
+                            <i>pause/resume</i> scrolling
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>decrease</i> scroll speed
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary">ESC</span>,&nbsp;
+                            <span class="key">Alt</span>+<span class="key"><i class="fa fa-solid fa-arrow-up"></i></span>
+                        </div>
+                        <div class="description">
+                            <i>stop</i> scrolling
+                        </div>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary">SPACE</span>
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary">T</span>,&nbsp;
+                            <span class="key">1</span>
+                        </div>
+                        <div class="description">
+                            scroll to <i>top</i>
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>pause/resume</i> scrolling
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary">B</span>,&nbsp;
+                            <span class="key">2</span>
+                        </div>
+                        <div class="description">
+                            scroll to <i>bottom</i>
+                        </div>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary">ESC</span>,&nbsp;
-                        <span class="key">Alt</span>+<span class="key"><i class="fa fa-solid fa-arrow-up"></i></span>
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary">Shift</span>+<span class="key primary">PageUp</span>,&nbsp;
+                            <span class="key">Num1</span>
+                        </div>
+                        <div class="description">
+                            scroll to <i>previous</i> sibling section
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>stop</i> scrolling
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary">Shift</span>+<span class="key primary">PageDown</span>,&nbsp;
+                            <span class="key">Num2</span>
+                        </div>
+                        <div class="description">
+                            scroll to <i>next</i> sibling section
+                        </div>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary">T</span>,&nbsp;
-                        <span class="key">1</span>
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary">PageUp</span>,&nbsp;
+                            <span class="key"><i class="fa fa-solid fa-arrow-left"></i></span>
+                        </div>
+                        <div class="description">
+                            scroll to <i>previous</i> sibling chunk
+                        </div>
                     </div>
-                    <div class="description">
-                        scroll to <i>top</i>
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary">B</span>,&nbsp;
-                        <span class="key">2</span>
-                    </div>
-                    <div class="description">
-                        scroll to <i>bottom</i>
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary">Shift</span>+<span class="key primary">PageUp</span>,&nbsp;
-                        <span class="key">Num1</span>
-                    </div>
-                    <div class="description">
-                        scroll to <i>previous</i> sibling section
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary">Shift</span>+<span class="key primary">PageDown</span>,&nbsp;
-                        <span class="key">Num2</span>
-                    </div>
-                    <div class="description">
-                        scroll to <i>next</i> sibling section
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary">PageUp</span>,&nbsp;
-                        <span class="key"><i class="fa fa-solid fa-arrow-left"></i></span>
-                    </div>
-                    <div class="description">
-                        scroll to <i>previous</i> sibling chunk
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key primary">PageDown</span>,&nbsp;
-                        <span class="key"><i class="fa fa-solid fa-arrow-right"></i></span>
-                    </div>
-                    <div class="description">
-                        scroll to <i>next</i> sibling chunk
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key">L</span>
-                    </div>
-                    <div class="description">
-                        lock interactions for production
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key primary">PageDown</span>,&nbsp;
+                            <span class="key"><i class="fa fa-solid fa-arrow-right"></i></span>
+                        </div>
+                        <div class="description">
+                            scroll to <i>next</i> sibling chunk
+                        </div>
                     </div>
                 </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key"><b>&ndash;</b></span>
+                <div class="actions">
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">A</span>
+                        </div>
+                        <div class="description">
+                            <i>toggle</i> auto-scrolling engine
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>decrease</i> font-size
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">Shift</span>+<span class="key">A</span>
+                        </div>
+                        <div class="description">
+                            <i>switch</i> auto-scrolling language
+                        </div>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key">+</span>
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">L</span>
+                        </div>
+                        <div class="description">
+                            toggle <i>locking</i> mode (production)
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>increase</i> font-size
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">Shift</span>+<span class="key">D</span>
+                        </div>
+                        <div class="description">
+                            toggle <i>debugging</i> mode (development)
+                        </div>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key">0</span>
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key"><b>&ndash;</b></span>
+                        </div>
+                        <div class="description">
+                            <i>decrease</i> font-size
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>reset</i> font-size
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">+</span>
+                        </div>
+                        <div class="description">
+                            <i>increase</i> font-size
+                        </div>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key">Alt</span>+
-                        <span class="key"><b>&ndash;</b></span>
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">0</span>
+                        </div>
+                        <div class="description">
+                            <i>reset</i> font-size
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>decrease</i> line-height
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">Alt</span>+
+                            <span class="key"><b>&ndash;</b></span>
+                        </div>
+                        <div class="description">
+                            <i>decrease</i> line-height
+                        </div>
                     </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key">Alt</span>+
-                        <span class="key">+</span>
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">Alt</span>+
+                            <span class="key">+</span>
+                        </div>
+                        <div class="description">
+                            <i>increase</i> line-height
+                        </div>
                     </div>
-                    <div class="description">
-                        <i>increase</i> line-height
-                    </div>
-                </div>
-                <div class="action">
-                    <div class="keystroke">
-                        <span class="key">Alt</span>+
-                        <span class="key">0</span>
-                    </div>
-                    <div class="description">
-                        <i>reset</i> line-height
+                    <div class="action">
+                        <div class="keystroke">
+                            <span class="key">Alt</span>+
+                            <span class="key">0</span>
+                        </div>
+                        <div class="description">
+                            <i>reset</i> line-height
+                        </div>
                     </div>
                 </div>
             </div>
@@ -334,32 +362,38 @@
         height: calc(80vh - 2rem)
         border-top: 0.1rem solid var(--color-acc-bg-5)
         padding-top: 2rem
-        .actions
-            background-color: var(--color-std-bg-2)
-            border-radius: 1rem
-            padding: 1rem 2rem 1rem 2rem
-            .action
-                font-size: 1.75rem
-                display: flex
-                flex-direction: row
-                justify-content: center
-                align-items: center
-                .keystroke
-                    font-size: 1.5rem
-                    width: 25rem
-                    .key
-                        border-radius: 0.75rem
-                        background-color: var(--color-std-bg-5)
-                        color: var(--color-std-fg-5)
-                        padding: 0 0.75rem 0 0.75rem
-                        display: inline-block
-                        text-align: center
-                        &.primary
+        .actions-row
+            display: flex
+            flex-direction: row
+            justify-content: center
+            align-items: flex-start
+            gap: 1rem
+            .actions
+                background-color: var(--color-std-bg-2)
+                border-radius: 1rem
+                padding: 1rem 1rem 1rem 2rem
+                .action
+                    font-size: 1.75rem
+                    display: flex
+                    flex-direction: row
+                    justify-content: center
+                    align-items: center
+                    .keystroke
+                        font-size: 1.5rem
+                        width: 22rem
+                        .key
                             border-radius: 0.75rem
-                            background-color: var(--color-acc-bg-3)
+                            background-color: var(--color-std-bg-5)
                             color: var(--color-std-fg-5)
-                .description
-                    width: 30rem
+                            padding: 0 0.75rem 0 0.75rem
+                            display: inline-block
+                            text-align: center
+                            &.primary
+                                border-radius: 0.75rem
+                                background-color: var(--color-acc-bg-3)
+                                color: var(--color-std-fg-5)
+                    .description
+                        width: 30rem
 </style>
 
 <script setup lang="ts">
