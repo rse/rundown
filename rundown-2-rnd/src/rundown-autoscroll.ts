@@ -215,9 +215,8 @@ export class RundownAutoScroll {
         }
     }
 
-    /*  initialize speech-to-text recognition  */
-    private initializeSpeechRecognition () {
-        /*  determine language  */
+    /*  determine language for speech recognition  */
+    private determineLanguage () {
         let lang = this.state.options.get("lang") ?? "auto"
         if (lang === "auto") {
             /*  guess the language  */
@@ -230,17 +229,24 @@ export class RundownAutoScroll {
             else
                 lang = "en"
         }
-        if (lang === "en")
-            lang = "en-US"
+        return lang
+    }
+
+    /*  initialize speech-to-text recognition  */
+    private initializeSpeechRecognition () {
+        /*  determine language  */
+        if (this.state.language === "auto")
+            this.state.language = this.determineLanguage()
+        this.updateLanguageIndicator()
 
         /*  establish speech-to-text facility of Chromium browsers  */
-        this.util.log("debug", `speech-to-text: initialization (language: ${lang})`)
+        this.util.log("debug", `speech-to-text: initialization (language: "${this.state.language}")`)
         const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
         this.s2t = new SpeechRecognition()
         this.s2t.continuous      = true
         this.s2t.interimResults  = true
         this.s2t.maxAlternatives = 1
-        this.s2t.lang            = lang
+        this.s2t.lang            = this.state.language === "en" ? "en-US" : this.state.language
 
         /*  catch errors  */
         this.s2t.addEventListener("error", (event) => {
@@ -316,6 +322,34 @@ export class RundownAutoScroll {
         this.util.log("debug", "stop speech-to-text engine")
         this.s2t.abort()
         this.s2t.stop()
+    }
+
+    /*  update language indicator display  */
+    updateLanguageIndicator () {
+        const overlay = document.querySelector(".overlay7 .lang")!
+        overlay.textContent = this.state.language.toUpperCase()
+    }
+
+    /*  switch to next language  */
+    async switchLanguage () {
+        /*  toggle between EN and DE  */
+        if (this.state.language === "en")
+            this.state.language = "de"
+        else
+            this.state.language = "en"
+
+        /*  update indicator  */
+        this.updateLanguageIndicator()
+
+        /*  if autoscroll is active, reinitialize speech recognition  */
+        if (this.state.autoscroll && this.s2t !== null) {
+            this.util.log("debug", `speech-to-text: switching language to: "${this.state.language}"`)
+            this.stop()
+            this.s2t = null
+            await new Promise((resolve, _reject) => { setTimeout(resolve, 500) })
+            this.initializeSpeechRecognition()
+            this.start()
+        }
     }
 
     /*  toggle autoscroll mode  */

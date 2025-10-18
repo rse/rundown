@@ -245,6 +245,8 @@ export class RundownControls {
             }
             else if (event.key === "a")
                 this.autoscroll.toggle()
+            else if (event.key === "A")
+                this.autoscroll.switchLanguage()
         })
     }
 
