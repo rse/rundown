@@ -50,6 +50,12 @@ export class RundownControls {
     private contentElement: HTMLDivElement  | null = null
     private bodyElement:    HTMLBodyElement | null = null
 
+    /*  clear cached DOM references  */
+    clearCache () {
+        this.contentElement = null
+        this.bodyElement    = null
+    }
+
     /*  get cached content element  */
     private getContentElement (): HTMLDivElement {
         if (this.contentElement === null)

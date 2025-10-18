@@ -14,6 +14,7 @@ import { RundownState }      from "./rundown-state"
 import { RundownUtil }       from "./rundown-util"
 import { RundownAutoScroll } from "./rundown-autoscroll"
 import { RundownRendering }  from "./rundown-rendering"
+import { RundownControls }   from "./rundown-controls"
 
 /*  WebSocket communication management class  */
 export class RundownWebSocket {
@@ -22,18 +23,21 @@ export class RundownWebSocket {
     util!:       RundownUtil
     autoscroll!: RundownAutoScroll
     rendering!:  RundownRendering
+    controls!:   RundownControls
 
     /*  set references  */
     references (refs: {
         state:      RundownState,
         util:       RundownUtil,
         autoscroll: RundownAutoScroll,
-        rendering:  RundownRendering
+        rendering:  RundownRendering,
+        controls:   RundownControls
     }) {
         this.state      = refs.state
         this.util       = refs.util
         this.autoscroll = refs.autoscroll
         this.rendering  = refs.rendering
+        this.controls   = refs.controls
     }
 
     /*  internal state  */
@@ -171,6 +175,7 @@ export class RundownWebSocket {
             const contentNew = response.data.querySelector(".content")!
             contentOld.innerHTML = contentNew.innerHTML
             this.autoscroll.refreshContent()
+            this.controls.clearCache()
             this.rendering.resetState()
 
             /*  update once  */

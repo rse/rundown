@@ -30,7 +30,7 @@ const bootstrap = () => {
     /*  provide module references  */
     util      .references({ state                                                   })
     autoscroll.references({ state, util,             rendering, controls            })
-    websocket .references({ state, util, autoscroll, rendering                      })
+    websocket .references({ state, util, autoscroll, rendering, controls            })
     controls  .references({ state, util, autoscroll, rendering,           websocket })
     rendering .references({ state, util, autoscroll,            controls, websocket })
 
