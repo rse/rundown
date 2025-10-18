@@ -131,7 +131,7 @@ export class RundownWebSocket {
     }
 
     /*  send a message to the WebSocket server  */
-    public send (message: any) {
+    public send (message: { event: string, data?: any }) {
         this.wsSendQueue.push(JSON.stringify(message))
     }
 
@@ -196,7 +196,7 @@ export class RundownWebSocket {
     }
 
     /*  send state update to server  */
-    public sendStateUpdate (data: any) {
+    public sendStateUpdate (data: { active: number, kv: Array<{ [ key: string ]: string | number | boolean }> }) {
         this.send({ event: "STATE", data })
     }
 
