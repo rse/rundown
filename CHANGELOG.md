@@ -5,6 +5,8 @@ ChangeLog
 2.1.1 (2025-10-17)
 ------------------
 
+- IMPROVEMENT: support German language (words with umlauts) for autoscrolling
+- IMPROVEMENT: support auto-guessing the language for autoscrolling
 - UPDATE: upgrade NPM dependencies
 
 2.1.0 (2025-10-15)
