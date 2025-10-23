@@ -88,14 +88,6 @@ export class RundownControls {
         content.style.lineHeight = `${this.lineHeight}%`
     }
 
-    /*  toggle CSS class on element based on condition  */
-    private toggleClass (element: HTMLElement, className: string, condition: boolean) {
-        if (condition && !element.classList.contains(className))
-            element.classList.add(className)
-        else if (!condition && element.classList.contains(className))
-            element.classList.remove(className)
-    }
-
     /*  adjust scrolling speed  */
     adjustSpeed (target: number) {
         if (this.adjustSpeedTimer !== null)
@@ -232,14 +224,14 @@ export class RundownControls {
             else if (event.key === "D") {
                 this.state.debug = !this.state.debug
                 const content = this.getContentElement()
-                this.toggleClass(content, "debug", this.state.debug)
+                this.util.toggleClass(content, "debug", this.state.debug)
                 if (this.state.options.get("live") === "yes")
                     this.websocket.sendModeUpdate(this.state.locked, this.state.debug)
             }
             else if (event.key === "l") {
                 this.state.locked = !this.state.locked
                 const body = this.getBodyElement()
-                this.toggleClass(body, "locked", this.state.locked)
+                this.util.toggleClass(body, "locked", this.state.locked)
                 if (this.state.options.get("live") === "yes")
                     this.websocket.sendModeUpdate(this.state.locked, this.state.debug)
             }

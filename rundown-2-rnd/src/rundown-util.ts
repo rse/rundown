@@ -80,6 +80,14 @@ export class RundownUtil {
             console.log(`${timestamp} [DEBUG] ${msg}${epilog}`)
     }
 
+    /*  toggle CSS class on element based on condition  */
+    toggleClass (element: HTMLElement, className: string, condition: boolean) {
+        if (condition && !element.classList.contains(className))
+            element.classList.add(className)
+        else if (!condition && element.classList.contains(className))
+            element.classList.remove(className)
+    }
+
     /*  find closest element by distance  */
     findClosestElement (elements: Element[], pivot: number) {
         const min = { element: null, distance: Number.MAX_VALUE } as
