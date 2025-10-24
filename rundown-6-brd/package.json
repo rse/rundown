@@ -40,7 +40,7 @@
         "markdownlint":                 "0.39.0",
         "markdownlint-cli2":            "0.18.1",
         "@types/node":                  "24.9.1",
-        "@types/yargs":                 "17.0.33",
+        "@types/yargs":                 "17.0.34",
         "serve":                        "14.2.5",
         "nodemon":                      "3.1.10",
         "patch-package":                "8.0.1"
