@@ -108,35 +108,101 @@ export class RundownControls {
             this.state.paused = true
     }
 
-    /*  generic helper for scrolling to sibling elements  */
-    scrollToSibling (selector: string, direction: "up" | "down") {
+    /*  helper function for performing smooth scrolling to target position  */
+    private performScroll (position: number) {
+        this.state.paused = true
+        this.state.speed  = 0
+        this.windowScrollY = position
+        window.scroll({ top: position, behavior: "smooth" })
+    }
+
+    /*  helper function for scrolling to sibling element  */
+    private scrollToSibling (
+        selector: string,
+        direction: "up" | "down",
+        isNearStart: (element: Element, rect: DOMRect, pivot: number) => boolean
+    ) {
+        /*  find the relevant DOM elements  */
         const elements = Array.from(document.querySelectorAll(selector))
+        if (elements.length === 0)
+            return
+
+        /*  determine closest element to our pivot position  */
         const pivot = this.rendering.view.h / 2
         const min = this.util.findClosestElement(elements, pivot)
-        if (min.element !== null) {
-            let i = elements.findIndex((el) => el === min.element)
-            if (direction === "up" && i > 0)
-                i--
-            else if (direction === "down" && i < elements.length - 1)
-                i++
-            const element = elements[i]
-            const rect = element.getBoundingClientRect()
-            const delta = rect.top - (this.rendering.view.h / 2)
-            this.state.paused = true
-            this.state.speed = 0
-            this.windowScrollY = window.scrollY + delta
-            window.scroll({ top: window.scrollY + delta, behavior: "smooth" })
+        if (min.element === null)
+            return
+
+        /*  determine index and boundary of closest element  */
+        const currentEl    = min.element
+        const currentIndex = elements.findIndex((el) => el === currentEl)
+        const currentRect  = currentEl.getBoundingClientRect()
+
+        /*  dispatch according to the direction...  */
+        if (direction === "down") {
+            /*  scrolling down  */
+            if (currentIndex === elements.length - 1)
+                /*  already at last element, go to end of document  */
+                this.performScroll(this.rendering.content.h)
+            else {
+                /*  go to start of next element  */
+                const element = elements[currentIndex + 1]
+                const rect    = element.getBoundingClientRect()
+                const delta   = rect.top - pivot
+                this.performScroll(window.scrollY + delta)
+            }
+        }
+        else {
+            /*  scrolling up  */
+            if (currentIndex > 0 && isNearStart(currentEl, currentRect, pivot)) {
+                /*  within threshold of start of element,
+                    so go to start of previous element  */
+                const element = elements[currentIndex - 1]
+                const rect    = element.getBoundingClientRect()
+                const delta   = rect.top - pivot
+                this.performScroll(window.scrollY + delta)
+            }
+            else {
+                /*  not within threshold of start of element,
+                    so just go to beginning of current element  */
+                const delta = currentRect.top - pivot
+                this.performScroll(window.scrollY + delta)
+            }
         }
     }
 
     /*  scroll to previous/next sibling section upwards/downwards  */
     scrollToSiblingSection (direction: "up" | "down") {
-        this.scrollToSibling(".rundown-section:not(.disabled)", direction)
+        this.scrollToSibling(
+            ".rundown-section:not(.disabled)",
+            direction,
+            (element, rect, pivot) => {
+                /*  check if pivot is within top 10px of section start or its first chunk  */
+                const distanceFromSectionTop = pivot - rect.top
+                if (distanceFromSectionTop >= 0 && distanceFromSectionTop < 10)
+                    return true
+                const firstChunk = element.querySelector(".rundown-chunk:not(.disabled)")
+                if (firstChunk !== null) {
+                    const firstChunkRect = firstChunk.getBoundingClientRect()
+                    const distanceFromChunkTop = pivot - firstChunkRect.top
+                    if (distanceFromChunkTop >= 0 && distanceFromChunkTop < 10)
+                        return true
+                }
+                return false
+            }
+        )
     }
 
     /*  scroll to previous/next sibling chunk upwards/downwards  */
     scrollToSiblingChunk (direction: "up" | "down") {
-        this.scrollToSibling(".rundown-chunk:not(.disabled)", direction)
+        this.scrollToSibling(
+            ".rundown-chunk:not(.disabled)",
+            direction,
+            (element, rect, pivot) => {
+                /*  check if chunk start is near the pivot  */
+                return Math.abs(pivot - rect.top) < 10
+            }
+        )
     }
 
     /*  initialize module  */

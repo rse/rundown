@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+2.2.1 (2025-10-25)
+------------------
+
+- IMPROVEMENT: improve chunk/section jumping behaviour
+
 2.2.0 (2025-10-18)
 ------------------
 
