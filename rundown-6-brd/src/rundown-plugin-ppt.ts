@@ -15,6 +15,8 @@ import { RundownPlugin }                       from "./rundown-plugin"
 /*  the Rundown bridge to PowerPoint OSCPoint  */
 export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
     /*  internal state  */
+    private id = ""
+    private active = -1
     private mode: RundownMode = { locked: false, debug: false }
     private lastState: RundownState | null = null
     private oscR: OSC | undefined
@@ -177,8 +179,6 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
             action: (...args: any[]) => void
         }
     }
-    private id = ""
-    private active = -1
 
     /*  configure plugin  */
     configure (args: { [ key: string ]: string }) {
