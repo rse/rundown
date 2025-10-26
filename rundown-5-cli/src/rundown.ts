@@ -570,7 +570,8 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         throw new Error(`invalid operation mode: ${args.mode}`)
 })().catch((err) => {
     /*  catch fatal run-time errors  */
-    process.stderr.write(`rundown: ERROR: ${err}\n`)
+    const message = err instanceof Error ? err.message : String(err)
+    process.stderr.write(`rundown: ERROR: ${message}\n`)
     process.exit(1)
 })
 
