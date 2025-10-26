@@ -55,7 +55,7 @@
         "postcss-html":                     "1.8.0",
         "stylus":                           "0.64.0",
         "typescript":                       "5.9.3",
-        "vue-tsc":                          "3.1.1",
+        "vue-tsc":                          "3.1.2",
         "delay-cli":                        "2.0.0",
         "@rse/stx":                         "1.1.2",
         "cross-env":                        "10.1.0",
