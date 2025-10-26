@@ -28,6 +28,7 @@ export class RundownPluginBFC extends EventEmitter implements RundownPlugin {
     private mode: RundownMode                 = { locked: false, debug: false }
     private args: { [ key: string ]: string } = {}
     private aliases                           = new Map<string, Array<Coord>>()
+    private lastState: RundownState | null    = null
 
     /*  configure plugin  */
     configure (args: { [ key: string ]: string }) {
@@ -129,6 +130,8 @@ export class RundownPluginBFC extends EventEmitter implements RundownPlugin {
         /*  send OSC message(s) to press button(s)  */
         for (const coord of coords) {
             /*  send OSC press command to Bitfocus Companion  */
+            this.emit("log", "info", `Bitfocus Companion: [${this.args.prefix}]: ` +
+                `press button: page=${coord.page} row=${coord.row} column=${coord.column}`)
             this.send(`/location/${coord.page}/${coord.row}/${coord.column}/press`)
 
             /*  give Bitfocus Companion some time to operate between button presses  */
@@ -176,6 +179,7 @@ export class RundownPluginBFC extends EventEmitter implements RundownPlugin {
             this.id = state.id
             this.active = -1
         }
+        this.lastState = state
         if (this.mode.locked && state.active !== this.active) {
             if (state.active > this.active)
                 this.processForwardCommands(state)
@@ -191,6 +195,8 @@ export class RundownPluginBFC extends EventEmitter implements RundownPlugin {
         if (this.mode.locked !== data.locked) {
             this.mode.locked = data.locked
             changed = true
+            if (data.locked && this.lastState !== null)
+                this.reflectState(this.lastState)
         }
         if (this.mode.debug !== data.debug) {
             this.mode.debug  = data.debug
