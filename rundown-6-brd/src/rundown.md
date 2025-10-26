@@ -33,7 +33,26 @@ The following command-line options and arguments exist:
   Connect to **Rundown**.
 
 - \[`-p`|`--plugin` *id*`\[`:prefix=`*prefix*`,`\]\[*key*`=`*value*\[,...\]\]\]:
-  Connect to **PowerPoint OSCPoint**.
+  Activate plugin of id *id*. Currently the following plugins are supported:
+
+  - `ppt` (Microsoft PowerPoint):
+    This plugin accepts the following key/value configurations:
+    `prefix=`*prefix*, `connect=udp://`*ip*`:`*port*, and
+    `listen=udp://`*ip*`:`*port*. This plugin then reacts on the
+    following run-time states: *prefix*`:start` (start presentation),
+    *prefix*`:end` (end presentation), *prefix*`:next` (goto next
+    slide), *prefix*`:prev` (goto previous slide), *prefix*`:goto=`*N*
+    (goto particular slide *N*), and *prefix*`:black` (toggle
+    presentation blank).
+
+  - `bfc` (Bitfocus Companion):
+    This plugin accepts the following key/value configurations:
+    `prefix=`*prefix*, `connect=udp://`*ip*`:`*port*, and
+    `alias=`*alias*`:`*coords*[`;`*alias*`:`*coords*[;...]] where
+    *coords* is a *coord*[`+`*coord*,[`+`...]] and *coord* is
+    *page*`/`*row*`/`*colum*. This plugin then reacts on the
+    follwing states: *prefix*`:press=`*page*`/`*row*`/`*colum* and
+    *prefix*`:`*alias*.
 
 ## HISTORY
 

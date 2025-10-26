@@ -2,10 +2,12 @@
 ChangeLog
 =========
 
-2.2.1 (2025-10-25)
+2.2.1 (2025-10-26)
 ------------------
 
 - IMPROVEMENT: improve chunk/section jumping behaviour
+- IMPROVEMENT: add Bitfocus Companion plugin to Rundown Brige
+- UPDATE: upgrade NPM dependencies
 
 2.2.0 (2025-10-18)
 ------------------

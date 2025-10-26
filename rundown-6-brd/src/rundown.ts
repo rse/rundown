@@ -16,6 +16,7 @@ import pkgJSON                     from "../../package.json?raw" with { type: "j
 import { RundownStateSchema, RundownModeSchema } from "./rundown-state"
 import { type RundownPlugin }      from "./rundown-plugin"
 import { RundownPluginPPT }        from "./rundown-plugin-ppt"
+import { RundownPluginBFC }        from "./rundown-plugin-bfc"
 
 /*  establish asynchronous environment  */
 ;(async () => {
@@ -108,7 +109,8 @@ import { RundownPluginPPT }        from "./rundown-plugin-ppt"
 
     /*  establish bridge plugins  */
     const plugins = {
-        "ppt": { make: () => new RundownPluginPPT(), ref: [] }
+        "ppt": { make: () => new RundownPluginPPT(), ref: [] },
+        "bfc": { make: () => new RundownPluginBFC(), ref: [] }
     } as {
         [ key: string ]: {
             make: () => RundownPlugin,
