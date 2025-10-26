@@ -73,9 +73,11 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
         .demand(0)
         .parse(process.argv.slice(2))
 
+    /*  parse package information  */
+    const pkg = JSON.parse(pkgJSON)
+
     /*  short-circuit version request  */
     if (args.version) {
-        const pkg = JSON.parse(pkgJSON)
         process.stderr.write(`Rundown Bridge ${pkg.version} <${pkg.homepage}>\n`)
         process.stderr.write(`Copyright (c) 2023-2025 ${pkg.author.name} <${pkg.author.url}>\n`)
         process.stderr.write(`Licensed under ${pkg.license} <http://spdx.org/licenses/${pkg.license}.html>\n`)
@@ -104,7 +106,6 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
     })
 
     /*  log program information  */
-    const pkg = JSON.parse(pkgJSON)
     cli.log("info", `starting Rundown Bridge ${pkg.version}\n`)
 
     /*  establish bridge plugins  */
@@ -166,7 +167,7 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
     })
     ws.addEventListener("message", (ev) => {
         (async () => {
-            let data: any
+            let data: unknown
             try {
                 data = JSON.parse(ev.data)
             }
@@ -224,10 +225,16 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
         process.exit(1)
     }
     for (const signal of [ "SIGINT", "SIGTERM" ])
-        process.on(signal, () => { shutdown(signal).catch(() => {}) })
+        process.on(signal, () => {
+            shutdown(signal).catch((err) => {
+                const message = err instanceof Error ? err.message : String(err)
+                process.stderr.write(`rundown: ERROR (during shutdown): ${message}\n`)
+            })
+        })
 })().catch((err) => {
     /*  catch fatal run-time errors  */
-    process.stderr.write(`rundown: ERROR: ${err}\n`)
+    const message = err instanceof Error ? err.message : String(err)
+    process.stderr.write(`rundown: ERROR: ${message}\n`)
     process.exit(1)
 })
 
