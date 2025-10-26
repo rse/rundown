@@ -52,8 +52,8 @@ export class RundownPluginBFC extends EventEmitter implements RundownPlugin {
         }
     }
 
-    /*  parse coordinates  */
-    private parseCoord = (coord: string): Coord => {
+    /*  INTERNAL: parse coordinates  */
+    private parseCoord (coord: string): Coord {
         const m = coord.match(/^(\d+)\/(\d+)\/(\d+)$/)
         if (m === null)
             throw new Error(`invalid coordinates: ${coord}`)
