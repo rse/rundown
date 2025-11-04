@@ -26,10 +26,16 @@ the functionality. The teleprompting view can be rendered ad-hoc in batch,
 continuously in batch, or interactively.
 
 Additionally, **Rundown** can remote control *Microsoft PowerPoint* for
-driving a companion slideset, or remote control *Bitfocus Companion*
-for driving dependent aspects of an event, like audio and video.
-Finally, **Rundown** optionally provides a cool Speech-to-Text-based
-auto-scrolling functionality.
+driving a companion slideset, or remote control *Bitfocus Companion* for
+driving dependent aspects of an event, like audio and video. Finally,
+**Rundown** optionally provides a cool client-side Speech-to-Text-based
+auto-scrolling functionality for local presenter dry-runs.
+
+**Rundown** is a rather opinionated solution from *Dr. Ralf S.
+Engelschall*, CTO of the msg group, based on years of experience
+with live events at his *msg Filmstudio*. It is provided as
+[Open Source](https://opensource.org/) software under the
+[General Public License](LICENSE.txt).
 
 Impressions
 -----------
