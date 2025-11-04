@@ -17,11 +17,18 @@ Abstract
 teleprompting. It reads a *Microsoft Word* format file (`*.docx`) as
 its "single source of truth", extracts columns of a particular table
 from it, and renders typographically strong and smooth scrolling HTML
-output for use in a browser-based teleprompting scenario. It consists
-of a library, providing the base functionality, and both a command-line
-interface and Web user interface for driving the functionality. The
-teleprompting view can be ad-hoc in batch, continuously in batch, or
-interactively rendered.
+output for use in a browser-based teleprompting scenario.
+
+*Rundown* consists of a library, providing the base functionality, and
+both a command-line interface and Web user interface for driving
+the functionality. The teleprompting view can be ad-hoc in batch,
+continuously in batch, or interactively rendered.
+
+Additionally, *Rundown* can remote control *Microsoft PowerPoint* for
+aligning a companion slideset, or remote control *Bitfocus Companion*
+for driving dependent aspects of an event, like audio and video.
+Finally, *Rundown* supports an optional, cool Speech-to-Text-based
+auto-scrolling functionality.
 
 Impressions
 -----------
