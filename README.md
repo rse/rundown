@@ -16,18 +16,18 @@ Abstract
 **Rundown** is a toolkit for rendering *rundown scripts* for
 teleprompting. It reads a *Microsoft Word* format file (`*.docx`) as
 its "single source of truth", extracts columns of a particular table
-from it, and renders typographically strong and smooth scrolling HTML
+from it, and renders a typographically strong and smooth scrolling HTML
 output for use in a browser-based teleprompting scenario.
 
 **Rundown** consists of a library, providing the base functionality, and
 both a command-line interface and Web user interface for driving
-the functionality. The teleprompting view can be ad-hoc in batch,
-continuously in batch, or interactively rendered.
+the functionality. The teleprompting view can be rendered ad-hoc in batch,
+continuously in batch, or interactively.
 
 Additionally, **Rundown** can remote control *Microsoft PowerPoint* for
-aligning a companion slideset, or remote control *Bitfocus Companion*
+driving a companion slideset, or remote control *Bitfocus Companion*
 for driving dependent aspects of an event, like audio and video.
-Finally, **Rundown** supports an optional, cool Speech-to-Text-based
+Finally, **Rundown** optionally provides a cool Speech-to-Text-based
 auto-scrolling functionality.
 
 Impressions
