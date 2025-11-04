@@ -28,8 +28,8 @@ continuously in batch, or interactively.
 Additionally, **Rundown** can remote control *Microsoft PowerPoint* for
 driving a companion slideset, or remote control *Bitfocus Companion* for
 driving dependent aspects of an event, like audio and video. Finally,
-**Rundown** optionally provides a cool client-side Speech-to-Text-based
-auto-scrolling functionality for local presenter dry-runs.
+**Rundown** optionally provides a auto-scrolling functionality, based on
+client-side Speech-to-Text conversion and fuzzy text matching.
 
 **Rundown** is a rather opinionated solution from *Dr. Ralf S.
 Engelschall*, CTO of the msg group, based on years of experience
@@ -164,7 +164,7 @@ Design Criterias
 ----------------
 
 The design of **Rundown** strictly followed the following particular design criterias, driven by
-the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
+the experiences and demands at the *msg Filmstudio* of the author *Dr. Ralf S. Engelschall*:
 
 - **Input**:
     - **Collaborative Input Editing**:
@@ -176,7 +176,7 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
       Consistently use Microsoft Word *styles* in rundown script for
       unambiguous semantics and conversion.
     - **Experience-Driven Markups**:
-      Support all *necessary markups* from the years of event experience.
+      Support all *necessary markups* from the years of live event experience.
     - **Distinguished Control & Content**:
       Distinguish between control (left side of table) and content
       (right side of table) in rundown script.
@@ -202,7 +202,8 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
       Optically align light-mode rundown script and dark-mode
       teleprompter view as close as possible.
     - **Strong Typography**:
-      Use strong typographic conventions in both rundown script and teleprompter view.
+      Use strong typographic conventions in both rundown script and teleprompter view
+      for a pleasant optical appearance.
 
 - **Rendering**:
     - **Speaker Indicators**:
@@ -228,6 +229,9 @@ the experiences and demands in the *msg Filmstudio* of Dr. Ralf S. Engelschall:
       Support optional controlling of external applications through embedded state styles.
     - **Locked Production**:
       Support a locked production mode where certain dangerous interactions are disabled.
+    - **Automatic Scrolling**:
+      Support the automatic scrolling of English and German teleprompting texts
+      through client-side Speech-to-Text conversion and fuzzy text matching.
 
 Architecture
 ------------
