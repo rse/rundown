@@ -14,10 +14,11 @@ Abstract
 --------
 
 **Rundown** is a toolkit for rendering *rundown scripts* for
-teleprompting. It reads a *Microsoft Word* format file (`*.docx`) as
-its "single source of truth", extracts columns of a particular table
-from it, and renders a typographically strong and smooth scrolling HTML
-output for use in a browser-based teleprompting scenario.
+teleprompting. It reads a style-driven *Microsoft Word* format file
+(`*.docx`) as its "single source of truth", extracts columns of a
+particular table from it, and renders a typographically strong and
+smooth scrolling HTML output for use in a browser-based teleprompting
+scenario.
 
 **Rundown** consists of a library, providing the base functionality, and
 both a command-line interface and Web user interface for driving
