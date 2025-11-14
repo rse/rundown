@@ -5,6 +5,7 @@ ChangeLog
 2.2.2 (2025-11-14)
 ------------------
 
+- IMPROVEMENT: add automatic dependency checking to lint targets
 - UPDATE: upgrade NPM dependencies
 
 2.2.1 (2025-10-26)
