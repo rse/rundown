@@ -43,7 +43,8 @@
         "@types/yargs":                 "17.0.35",
         "serve":                        "14.2.5",
         "nodemon":                      "3.1.11",
-        "patch-package":                "8.0.1"
+        "patch-package":                "8.0.1",
+        "check-dependencies":           "2.0.0"
     },
     "dependencies": {
         "cli-io":                       "0.9.13",
