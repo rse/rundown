@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-2.2.2 (2025-11-14)
+2.2.2 (2025-12-05)
 ------------------
 
 - IMPROVEMENT: add automatic dependency checking to lint targets
