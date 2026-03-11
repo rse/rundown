@@ -104,7 +104,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
             entry:    "dst-stage1/rundown.js",
             formats:  [ "umd" ],
             name:     "Rundown",
-            fileName: (format) => "rundown.umd.js"
+            fileName: (_format) => "rundown.umd.js"
         },
         target:                 "es2022",
         outDir:                 "dst-stage2",
