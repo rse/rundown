@@ -2,7 +2,7 @@
 ChangeLog
 =========
 
-2.2.3 (2026-03-11)
+2.3.0 (2026-03-11)
 ------------------
 
 - IMPROVEMENT: remove doubled WORKDIR and add USER to run as non-root in Docker container
