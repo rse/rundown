@@ -395,10 +395,10 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             const filesSorted = Array.from(clonedFiles.keys()).sort((a, b) => {
                 const statA = clonedFiles.get(a) as fs.Stats
                 const statB = clonedFiles.get(b) as fs.Stats
-                return (statB.mtime as Date).getTime() - (statA.mtime as Date).getTime()
+                return statB.mtime.getTime() - statA.mtime.getTime()
             })
             const modifiedFile = filesSorted[0]
-            const modifiedTime = (clonedFiles.get(modifiedFile)!.mtime as Date).getTime()
+            const modifiedTime = clonedFiles.get(modifiedFile)!.mtime.getTime()
             if (modifiedFile !== convertedFile || modifiedTime > convertedTime) {
                 await convertDocument(modifiedFile, tmpfile)
                 convertedFile = modifiedFile
