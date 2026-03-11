@@ -33,7 +33,7 @@ RUN         chmod 644 /app/rundown-cli.js /app/rundown-bridge.js
 RUN         rm -rf /var/cache/apk/*
 
 #   provide entrypoint
-WORKDIR     /app
+USER        app
 ENTRYPOINT  [ "/app/entrypoint" ]
 CMD         []
 
