@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-		"outDir":                  "../dst",
+        "outDir":                  "../dst",
         "target":                  "ESNext",
         "module":                  "ESNext",
         "moduleResolution":        "Bundler",
@@ -21,8 +21,8 @@
     },
     "include": [
         "../src/**/*.d.ts",
-		"../src/**/*.ts",
-		"../src/**/*.vue"
+        "../src/**/*.ts",
+        "../src/**/*.vue"
     ],
     "references": [
         { "path": "./tsc.node.json" }
