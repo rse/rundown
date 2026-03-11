@@ -451,31 +451,23 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             binaryInterval: 300
         })
         const unlinkTimers = new Map<string, ReturnType<typeof setTimeout>>()
-        watcher.on("add", (path: string, stats?: fs.Stats) => {
-            if (stats === undefined)
-                return
+        const clearUnlinkTimer = (path: string) => {
             if (unlinkTimers.has(path)) {
                 clearTimeout(unlinkTimers.get(path))
                 unlinkTimers.delete(path)
             }
-            files.set(path, stats)
-            updateDelivery()
-        })
-        watcher.on("change", (path: string, stats?: fs.Stats) => {
-            if (stats === undefined)
-                return
-            if (unlinkTimers.has(path)) {
-                clearTimeout(unlinkTimers.get(path))
-                unlinkTimers.delete(path)
-            }
-            files.set(path, stats)
-            updateDelivery()
-        })
+        }
+        for (const event of [ "add", "change" ] as const) {
+            watcher.on(event, (path: string, stats?: fs.Stats) => {
+                if (stats === undefined)
+                    return
+                clearUnlinkTimer(path)
+                files.set(path, stats)
+                updateDelivery()
+            })
+        }
         watcher.on("unlink", (path: string) => {
-            if (unlinkTimers.has(path)) {
-                clearTimeout(unlinkTimers.get(path))
-                unlinkTimers.delete(path)
-            }
+            clearUnlinkTimer(path)
             unlinkTimers.set(path, setTimeout(() => {
                 files.delete(path)
                 updateDelivery()
