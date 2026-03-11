@@ -253,6 +253,6 @@ Those parts form an architecture which allows various use cases:
 License
 -------
 
-Copyright &copy; 2023-2025 Dr. Ralf S. Engelschall (http://engelschall.com/)<br/>
+Copyright &copy; 2023-2026 Dr. Ralf S. Engelschall (http://engelschall.com/)<br/>
 Licensed under [GPL 3.0](https://spdx.org/licenses/GPL-3.0-only)
 

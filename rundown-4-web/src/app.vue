@@ -1,7 +1,7 @@
 <!--
 **
 **  Rundown - Render Rundown Scripts for Teleprompting
-**  Copyright (c) 2023-2025 Dr. Ralf S. Engelschall <rse@engelschall.com>
+**  Copyright (c) 2023-2026 Dr. Ralf S. Engelschall <rse@engelschall.com>
 **  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
 **
 -->
@@ -61,7 +61,7 @@
                 <a href="https://github.com/rse/rundown"><b>Rundown</b></a>&nbsp;
                 <a v-bind:href="'https://github.com/rse/rundown/releases/tag/' + version">{{ version }}</a>
                 &mdash; Rendering Rundown Scripts for Teleprompting<br/>
-                Copyright &copy; 2023-2025 <a href="mailto:rse@engelschall.com">Dr. Ralf S. Engelschall</a>,
+                Copyright &copy; 2023-2026 <a href="mailto:rse@engelschall.com">Dr. Ralf S. Engelschall</a>,
                 Licensed under <a href="https://spdx.org/licenses/GPL-3.0-only">GPL 3.0</a>
             </div>
         </div>
