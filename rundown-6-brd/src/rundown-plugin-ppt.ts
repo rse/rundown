@@ -391,7 +391,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
                 if (m === null)
                     continue
                 const [ , ns, cmd ] = m
-                if (ns !== "ppt")
+                if (ns !== this.args.prefix)
                     continue
                 if (cmd.match(/^(?:start|end|black)$/))
                     newState.kv.push(state.kv[i])
@@ -421,7 +421,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
             i++
         }
         if (gotoIdx > -1 && gotoVal > -1)
-            newState.kv[gotoIdx] = { "ppt:goto": gotoVal }
+            newState.kv[gotoIdx] = { [`${this.args.prefix}:goto`]: gotoVal }
         return newState
     }
 
