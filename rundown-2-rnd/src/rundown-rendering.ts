@@ -4,6 +4,7 @@
 **  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
 */
 
+/*  internal dependencies  */
 import { RundownState }      from "./rundown-state"
 import { RundownUtil }       from "./rundown-util"
 import { RundownAutoScroll } from "./rundown-autoscroll"
@@ -106,7 +107,7 @@ export class RundownRendering {
         /*  update visibility of all words  */
         this.autoscroll.updateWordVisibility()
 
-        /*  determine all visible rundown section  */
+        /*  determine all visible rundown sections  */
         const sections = Array.from(document.querySelectorAll(".rundown-section:not(.disabled)"))
 
         /*  adjust the position of the moving part tab (right-hand side)  */

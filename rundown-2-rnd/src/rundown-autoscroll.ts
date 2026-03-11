@@ -146,7 +146,7 @@ export class RundownAutoScroll {
         else if (d.accuracy > 0.50)                    d.confidence = 0.5
         else if (d.accuracy > 0.25 && d.offset > 0.10) d.confidence = 0.4
         else if (d.accuracy > 0.25)                    d.confidence = 0.3
-        else if (d.accuracy > 0.10                   ) d.confidence = 0.2
+        else if (d.accuracy > 0.10)                    d.confidence = 0.2
         else                                           d.confidence = 0.1
         return d
     }
