@@ -97,7 +97,7 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
         cli.log("error", `process crashed with a fatal error: ${err}: ${err.stack}`)
         process.exit(1)
     })
-    process.on("unhandledRejection", async (reason, promise) => {
+    process.on("unhandledRejection", async (reason, _promise) => {
         const message = reason instanceof Error ?
             `promise rejection not handled: ${reason.message}: ${reason.stack}` :
             `promise rejection not handled: ${reason}`
@@ -158,11 +158,11 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
     ws.addEventListener("error", (ev) => {
         cli.log("error", `Rundown WebSocket: error: ${ev.message}`)
     })
-    ws.addEventListener("open", (ev) => {
+    ws.addEventListener("open", (_ev) => {
         cli.log("info", "Rundown WebSocket: connected")
         ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
     })
-    ws.addEventListener("close", (ev) => {
+    ws.addEventListener("close", (_ev) => {
         cli.log("info", "Rundown WebSocket: disconnected")
     })
     ws.addEventListener("message", (ev) => {
