@@ -4,7 +4,6 @@
 **  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
 */
 
-import fs                    from "node:fs"
 import * as Vite             from "vite"
 import { tscPlugin }         from "@wroud/vite-plugin-tsc"
 import { viteStaticCopy }    from "vite-plugin-static-copy"
