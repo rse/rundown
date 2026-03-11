@@ -317,6 +317,7 @@ export class RundownControls {
                     || (Math.sign(this.state.speed) > 0 && Math.abs(window.scrollY - this.rendering.content.h) < 0.5)) {
                     this.state.paused = true
                     this.state.speed  = 0
+                    this.delta        = 0
                 }
                 else {
                     if (this.windowScrollY !== window.scrollY)
@@ -326,6 +327,8 @@ export class RundownControls {
                     window.scroll({ top: window.scrollY + this.delta })
                 }
             }
+            else
+                this.delta = 0
             window.requestAnimationFrame(doAutoScroll)
         }
         window.requestAnimationFrame(doAutoScroll)

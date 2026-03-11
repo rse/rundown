@@ -192,7 +192,7 @@ export class RundownAutoScroll {
                 for (let j = textIdx; j < Math.min(textIdx + 4, prompterWords.length); j++) {
                     if (this.similarity(spokenWord, prompterWords[j]) > minSimilarityPercent) {
                         matches++
-                        textIdx = j
+                        textIdx = j + 1
                         break
                     }
                 }
@@ -220,9 +220,7 @@ export class RundownAutoScroll {
         let lang = this.state.options.get("lang") ?? "auto"
         if (lang === "auto") {
             /*  guess the language  */
-            let text = ""
-            for (const item of this.wordSeq)
-                text += item.word
+            const text = this.wordSeq.map((item) => item.word).join(" ")
             const ident = this.langIdentify(text)
             if (ident.confidence >= 0.5)
                 lang = ident.language

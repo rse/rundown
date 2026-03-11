@@ -17,7 +17,10 @@
         "skipLibCheck":            true,
         "noEmit":                  true,
         "types":                   [ "vite/client" ],
-        "rootDir":                 "../src"
+        "baseUrl":                 ".",
+        "paths": {
+            "rundown-3-lib":       [ "../../rundown-3-lib/src/rundown.ts" ]
+        }
     },
     "include": [
         "../src/**/*.d.ts",

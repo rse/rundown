@@ -7,10 +7,13 @@ ChangeLog
 
 - IMPROVEMENT: remove doubled WORKDIR and add USER to run as non-root in Docker container
 - IMPROVEMENT: do not hard-code plugin prefix in Companion plugin
+- IMPROVEMENT: fix build procedure when doing a "lint" step before "build" on a fresh working copy
+- BUGFIX: fix auto-re-scrolling on pause and jumping
 - BUGFIX: fix MIME type checking
-- BUGFIX: fix typo
+- BUGFIX: fix key/value parsing
 - UPDATE: upgrade NPM dependencies
 - UPDATE: update year in all copyright messages
+- CLEANUP: fix typos in comments and code
 - CLEANUP: modernize and simplify code across all components
 - CLEANUP: replace tabs with spaces across all components
 - CLEANUP: remove unnecessary type casts, unused imports, and obsolete global definitions
