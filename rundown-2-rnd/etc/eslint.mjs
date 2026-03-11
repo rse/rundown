@@ -39,10 +39,7 @@ export default [
             globals: {
                 ...globals.node,
                 ...globals.browser,
-                ...globals.commonjs,
-                ReconnectingWebSocket: true,
-                axios: true,
-                anime: true
+                ...globals.commonjs
             }
         },
         rules: {
