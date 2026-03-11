@@ -24,26 +24,26 @@
         }
     },
     "devDependencies": {
-        "eslint":                        "9.39.1",
-        "@eslint/js":                    "9.39.1",
-        "eslint-plugin-n":               "17.23.1",
+        "eslint":                        "9.39.4",
+        "@eslint/js":                    "9.39.4",
+        "eslint-plugin-n":               "17.24.0",
         "eslint-plugin-promise":         "7.2.1",
         "eslint-plugin-import":          "2.32.0",
-        "neostandard":                   "0.12.2",
-        "globals":                       "16.5.0",
+        "neostandard":                   "0.13.0",
+        "globals":                       "17.4.0",
         "npm-run-all":                   "4.1.5",
         "shx":                           "0.4.0",
         "mkdirp":                        "3.0.1",
-        "vite":                          "7.2.6",
-        "vite-plugin-static-copy":       "3.1.4",
+        "vite":                          "7.3.1",
+        "vite-plugin-static-copy":       "3.2.0",
         "vite-plugin-singlefile":        "2.3.0",
-        "vite-plugin-node-polyfills":    "0.24.0",
+        "vite-plugin-node-polyfills":    "0.25.0",
         "@m5nv/vite-plugin-run-task":    "1.0.2",
         "@wroud/vite-plugin-tsc":        "0.12.2",
         "typescript":                    "5.9.3",
-        "@rse/stx":                      "1.1.2",
-        "@types/node":                   "24.10.1",
-        "nodemon":                       "3.1.11",
+        "@rse/stx":                      "1.1.4",
+        "@types/node":                   "25.4.0",
+        "nodemon":                       "3.1.14",
         "cross-env":                     "10.1.0",
         "check-dependencies":            "2.0.0",
 
@@ -52,10 +52,13 @@
     "dependencies": {                   
         "eventemitter2":                 "6.4.9",
         "@shy1118/mammoth":              "1.6.3",
-        "cheerio":                       "1.1.2",
+        "cheerio":                       "1.2.0",
         "domhandler":                    "5.0.3"
     },
     "overrides": {
+        "eslint-plugin-promise":         { "eslint": ">=9.0.0" },
+        "eslint-plugin-import":          { "eslint": ">=9.0.0" },
+        "neostandard":                   { "eslint": ">=9.0.0" }
     },
     "engines" : {
         "npm":                           ">=10.0.0",

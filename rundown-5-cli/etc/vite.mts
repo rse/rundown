@@ -17,7 +17,7 @@ export default Vite.defineConfig(({ command, mode }) => ({
     plugins: [
         arraybuffer(),
         tscPlugin({
-            tscArgs: [ "--project", "etc/tsc.json", ...(mode === "development" ? [ "--sourceMap" ] : []) ],
+            tscArgs: [ "--build", "etc/tsc.json", ...(mode === "development" ? [ "--sourceMap" ] : []) ],
             packageManager: "npx" as "npm",
             prebuild: true
         }),
@@ -52,6 +52,8 @@ export default Vite.defineConfig(({ command, mode }) => ({
         rollupOptions: {
             onwarn (warning, warn) {
                 if (warning.message.match(/Use of eval.*?is strongly discouraged/))
+                    return
+                if (warning.code === "UNUSED_EXTERNAL_IMPORT" && warning.exporter === "node:fs")
                     return
                 warn(warning)
             }
