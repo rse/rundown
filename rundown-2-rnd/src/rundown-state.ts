@@ -20,7 +20,7 @@ export class RundownState {
 
     constructor () {
         /*  parse configuration options from URL hash  */
-        for (const opt of document.location.hash.replace(/^#/, "").split("&")) {
+        for (const opt of document.location.hash.replace(/^#/, "").split("&").filter((s) => s !== "")) {
             let m
             if ((m = opt.match(/^(.+?)=(.+)$/)) !== null)
                 this.options.set(m[1], m[2])
