@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - UPDATE: upgrade NPM dependencies
+- UPDATE: update year in all copyright messages
 
 2.2.2 (2025-12-05)
 ------------------
