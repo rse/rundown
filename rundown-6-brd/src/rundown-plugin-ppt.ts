@@ -356,7 +356,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
     /*  INTERNAL: execute a single command  */
     private executeCommand (name: string, value: string | number | boolean, reverse: boolean) {
         const names = Object.keys(this.commands) as Array<keyof typeof this.commands>
-        if (!names.find((_) => _ === name)) {
+        if (!names.includes(name)) {
             this.emit("log", "warning", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
                 `invalid command "${name}"`)
             return

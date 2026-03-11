@@ -125,7 +125,7 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
         if (m1 === null)
             throw new Error(`invalid plugin specification: "${spec}"`)
         const [ , id, kvs ] = m1
-        if (!Object.keys(plugins).find((_) => _ === id))
+        if (!Object.keys(plugins).includes(id))
             throw new Error(`invalid plugin with id "${id}"`)
         const m2 = kvs.matchAll(/\b([a-z][a-zA-Z0-9:-]+)(?:=(?:"((?:\\.|[^"])*)"|([^,]+)))?,?/g)
         if (m2 === null)
