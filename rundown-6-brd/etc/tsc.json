@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-		"outDir":                  "../dst-stage1",
+        "outDir":                  "../dst-stage1",
         "target":                  "esnext",
         "module":                  "esnext",
         "moduleResolution":        "bundler",
@@ -16,9 +16,9 @@
         "types":                   [ "vite/client", "node", "vite-plugin-arraybuffer/types" ],
         "rootDir":                 "../src"
     },
-	"include": [
-		"../src/**/*.ts",
-		"../src/**/*.d.ts",
-		"../package.json"
+    "include": [
+        "../src/**/*.ts",
+        "../src/**/*.d.ts",
+        "../package.json"
     ]
 }
