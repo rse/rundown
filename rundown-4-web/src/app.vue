@@ -462,7 +462,7 @@ export default defineComponent({
             }
         },
         async uploadDocument (file: File) {
-            if (file.type === templateMimeType
+            if (templateMimeType.split(",").includes(file.type)
                 || file.name.match(/.+\.docx$/i)) {
                 try {
                     this.uploadProgress = true
