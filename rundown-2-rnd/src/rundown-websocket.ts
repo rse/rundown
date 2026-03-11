@@ -98,7 +98,7 @@ export class RundownWebSocket {
                 }
                 else if (event?.event === "TRANSCRIPT" && typeof event.transcript === "string") {
                     if (this.state.autoscroll)
-                        this.autoscroll.autoscrollReceive(event.transcript as string, true)
+                        this.autoscroll.autoscrollReceive(event.transcript, true)
                 }
             })().catch((err) => {
                 const msg = err instanceof Error ? err.message : String(err)
