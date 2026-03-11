@@ -124,13 +124,16 @@ export default class Rundown extends EventEmitter {
                 $(node).remove()
         })
 
+        /*  helper for checking whether a node contains non-whitespace text  */
+        const hasTextContent = (node: AnyNode & { childNodes: Iterable<AnyNode> }) =>
+            Array.from(node.childNodes).some((child) =>
+                child.nodeType === 3 /* Node.TEXT_NODE */ && child.nodeValue && /\S/.test(child.nodeValue))
+
         /*  post-adjust HTML: mark ghost bullet points
             (i.e. bullets points at level-1 which immediately contain level-2 ones
             and which get generated when a paragraph style is between level-2 styles)  */
         $("li:has(> ul, > ol)").each((i, node) => {
-            const hasTextContent = Array.from(node.childNodes).some((node) =>
-                node.nodeType === 3 /* Node.TEXT_NODE */ && node.nodeValue && /\S/.test(node.nodeValue))
-            if (!hasTextContent)
+            if (!hasTextContent(node))
                 $(node).addClass("rundown-ghost")
         })
 
@@ -200,10 +203,8 @@ export default class Rundown extends EventEmitter {
         /*  post-adjust generated HTML  */
         const $2 = cheerio.load(output)
         $2("li, p").each((i, el) => {
-            const hasTextContent = Array.from(el.childNodes).some((node) =>
-                node.nodeType === 3 /* Node.TEXT_NODE */ && node.nodeValue && /\S/.test(node.nodeValue))
             const children = $2("*:not(.rundown-chat, .rundown-info, .rundown-control)", el)
-            if (!hasTextContent && children.length === 0)
+            if (!hasTextContent(el) && children.length === 0)
                 $2(el).addClass("disabled")
         })
         $2(".rundown-chunk").each((i, el) => {
