@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-		"outDir":                  "../dst-stage1",
+        "outDir":                  "../dst-stage1",
         "target":                  "ESNext",
         "module":                  "ESNext",
         "moduleResolution":        "Bundler",
@@ -17,9 +17,9 @@
         "types":                   [ "vite/client", "node", "dom-speech-recognition" ],
         "rootDir":                 "../src"
     },
-	"include": [
-		"../src/**/*.ts",
-		"../src/**/*.d.ts",
-		"../package.json"
+    "include": [
+        "../src/**/*.ts",
+        "../src/**/*.d.ts",
+        "../package.json"
     ]
 }
