@@ -5,8 +5,16 @@ ChangeLog
 2.2.3 (2026-03-11)
 ------------------
 
+- IMPROVEMENT: remove doubled WORKDIR and add USER to run as non-root in Docker container
+- IMPROVEMENT: do not hard-code plugin prefix in Companion plugin
+- BUGFIX: fix MIME type checking
+- BUGFIX: fix typo
 - UPDATE: upgrade NPM dependencies
 - UPDATE: update year in all copyright messages
+- CLEANUP: modernize and simplify code across all components
+- CLEANUP: replace tabs with spaces across all components
+- CLEANUP: remove unnecessary type casts, unused imports, and obsolete global definitions
+- CLEANUP: flag unused parameters
 
 2.2.2 (2025-12-05)
 ------------------
