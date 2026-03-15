@@ -22,13 +22,13 @@ scenario.
 
 **Rundown** consists of a library, providing the base functionality, and
 both a command-line interface and Web user interface for driving
-the functionality. The teleprompting view can be rendered ad-hoc in batch,
-continuously in batch, or interactively.
+the functionality. The teleprompting view can be rendered ad-hoc in batch (API),
+continuously in batch (CLI), or interactively (Web UI).
 
 Additionally, **Rundown** can remote control *Microsoft PowerPoint* for
 driving a companion slideset, or remote control *Bitfocus Companion* for
 driving dependent aspects of an event, like audio and video. Finally,
-**Rundown** optionally provides a auto-scrolling functionality, based on
+**Rundown** optionally provides an AI-based auto-scrolling functionality, based on
 client-side Speech-to-Text conversion and fuzzy text matching.
 
 **Rundown** is a rather opinionated solution from *Dr. Ralf S.
