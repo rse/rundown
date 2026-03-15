@@ -57,6 +57,17 @@
                         v-on:change="uploadChange"/>
                 </div>
             </div>
+            <div class="content-demo"
+                v-on:click="demoClick">
+                <div v-show="!demoProgress">
+                    <div class="info">
+                        Click to render the <b>Rundown</b> template document for quick <i>demonstration</i>.
+                    </div>
+                </div>
+                <div v-show="demoProgress">
+                    <div class="info">Converting <b>Rundown</b> template for demo.</div>
+                </div>
+            </div>
             <div class="footer">
                 <a href="https://github.com/rse/rundown"><b>Rundown</b></a>&nbsp;
                 <a v-bind:href="'https://github.com/rse/rundown/releases/tag/' + version">{{ version }}</a>
@@ -332,7 +343,7 @@
                     font-size: 10rem
                 .icon2
                     margin-top: -2rem
-                    font-size: 5rem
+                    font-size: 3rem
             .content-right:hover
                 background-color: var(--color-sig-bg-3)
                 color: var(--color-sig-fg-5)
@@ -341,6 +352,26 @@
             .content-right.dragging
                 background-color: var(--color-sig-bg-3)
                 color: var(--color-sig-fg-5)
+        .content-demo
+            margin-top: 4rem
+            cursor: pointer
+            background-color: var(--color-std-bg-3)
+            color: var(--color-std-fg-3)
+            padding: 1rem 4rem
+            border-radius: 1rem
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            &:hover
+                background-color: var(--color-sig-bg-3)
+                color: var(--color-sig-fg-5)
+            .info
+                font-size: 2.0rem
+                text-align: center
+            .icon
+                font-size: 5rem
+                margin-top: 0.5rem
     .footer
         margin-top: 3rem
         font-size: 1.75rem
@@ -415,6 +446,7 @@ export default defineComponent({
         downloadProgress: false,
         uploadDragOver: false,
         uploadProgress: false,
+        demoProgress: false,
         logo,
         templateMimeType,
         version: pkg.version
@@ -461,6 +493,22 @@ export default defineComponent({
                 this.uploadDocument(file)
             }
         },
+        async convertAndRender (input: ArrayBuffer) {
+            const rundown = new Rundown()
+            rundown.on("warning", (message: string) => {
+                this.log("warning", message)
+            })
+            rundown.on("error", (message: string) => {
+                this.log("error", message)
+            })
+            const selector = "table:has(tr:first-child:has(*:contains('Control/Video'))) tr:gt(0) td:nth-last-child(-n+2)"
+            const output = await rundown.convert(input, selector)
+
+            history.replaceState(null, document.title, "#with-exit")
+            document.open()
+            document.write(output)
+            document.close()
+        },
         async uploadDocument (file: File) {
             if (templateMimeType.split(",").includes(file.type)
                 || file.name.match(/.+\.docx$/i)) {
@@ -472,20 +520,7 @@ export default defineComponent({
                         reader.onerror = (ev: ProgressEvent<FileReader>) => { reject(new Error("failed to load")) }
                         reader.readAsArrayBuffer(file)
                     })
-                    const rundown = new Rundown()
-                    rundown.on("warning", (message: string) => {
-                        this.log("warning", message)
-                    })
-                    rundown.on("error", (message: string) => {
-                        this.log("error", message)
-                    })
-                    const selector = "table:has(tr:first-child:has(*:contains('Control/Video'))) tr:gt(0) td:nth-last-child(-n+2)"
-                    const output = await rundown.convert(input, selector)
-
-                    history.replaceState(null, document.title, "#with-exit")
-                    document.open()
-                    document.write(output)
-                    document.close()
+                    await this.convertAndRender(input)
                     this.uploadProgress = false
                 }
                 catch (err) {
@@ -495,6 +530,22 @@ export default defineComponent({
                     })
                 }
             }
+        },
+        async demoClick () {
+            if (this.demoProgress)
+                return
+            this.demoProgress = true
+            try {
+                const response = await fetch(template)
+                const input    = await response.arrayBuffer()
+                await this.convertAndRender(input)
+            }
+            catch (err) {
+                this.log("error", "demo conversion failed", {
+                    reason: err instanceof Error ? err.message : String(err)
+                })
+            }
+            this.demoProgress = false
         },
         downloadClick () {
             if (this.downloadProgress)

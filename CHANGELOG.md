@@ -2,6 +2,11 @@
 ChangeLog
 =========
 
+2.3.1 (2026-03-15)
+------------------
+
+- IMPROVEMENT: add convenient demo button to Web UI for directly rendering template as a demo
+
 2.3.0 (2026-03-11)
 ------------------
 
