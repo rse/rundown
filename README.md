@@ -40,18 +40,24 @@ with live events at his *msg Filmstudio*. It is provided as
 Impressions
 -----------
 
-The following is the rundown script input in Microsoft Word:
+The following is the rundown script input in Microsoft Word, providing a
+flexible editing experience, especially in the *collaborative* editing
+case where this document is located on Microsoft Onedrive or on a
+Microsoft Sharepoint document folder.
 
 ![screenshot](rundown-1-doc/rundown-screenshot-5.png)
 
 The following is a side-by-side view of the Microsoft Word rundown
 script input on the left, and the rendered teleprompter view on the
-right:
+right. This rendering can even be automatically updated in case
+the Microsoft Word document is changed.
 
 ![screenshot](rundown-1-doc/rundown-screenshot-1.png)
 
-The following is the rendered prompting view in the original 16:9 aspect ratio,
-as shown in the studio on the teleprompters:
+The following is the rendered prompting view in the original 16:9 aspect
+ratio, as shown in the studio on the teleprompters monitors. Especially,
+notice the professional and typographically strong rendering which
+pleases the eye of the presenters on stage.
 
 ![screenshot](rundown-1-doc/rundown-screenshot-4.png)
 
