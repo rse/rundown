@@ -6,6 +6,7 @@ ChangeLog
 ------------------
 
 - IMPROVEMENT: add convenient demo button to Web UI for directly rendering template as a demo
+- BUGFIX: fix rendering of EXIT button
 
 2.3.0 (2026-03-11)
 ------------------
