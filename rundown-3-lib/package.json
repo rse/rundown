@@ -69,6 +69,7 @@
     },
     "allowScripts": {
         "esbuild":                       true,
+        "fsevents":                      true,
         "typopro-web":                   true
     }
 }

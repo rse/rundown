@@ -59,7 +59,8 @@
         "@liuli-util/vite-plugin-node":     { "vite": ">=6.0.0" },
         "eslint-plugin-promise":            { "eslint": ">=9.0.0" },
         "eslint-plugin-import":             { "eslint": ">=9.0.0" },
-        "neostandard":                      { "eslint": ">=9.0.0" }
+        "neostandard":                      { "eslint": ">=9.0.0" },
+        "glob":                             ">=13.0.0"
     },
     "engines" : {
         "npm":                          ">=10.0.0",

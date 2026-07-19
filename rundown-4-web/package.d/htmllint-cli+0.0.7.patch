@@ -1,7 +1,16 @@
 diff --git a/node_modules/htmllint-cli/bin/cli.js b/node_modules/htmllint-cli/bin/cli.js
-index 69b1f34..d28644e 100755
+index 69b1f34..1909328 100755
 --- a/node_modules/htmllint-cli/bin/cli.js
 +++ b/node_modules/htmllint-cli/bin/cli.js
+@@ -9,7 +9,7 @@ var chalk = require('chalk'),
+     Promise = require('bluebird');
+ 
+ var readFilePromise = Promise.promisify(fs.readFile),
+-    globPromise = Promise.promisify(glob);
++    globPromise = glob.glob;
+ 
+ var app = new Liftoff({
+     processTitle: 'htmllint',
 @@ -52,15 +52,7 @@ app.launch({
          var acceptedRange = cliPackage.dependencies.htmllint,
              localVersion = env.modulePackage.version;

@@ -76,7 +76,8 @@
     "overrides" : {
         "ws":                           "8.19.0",
         "@liuli-util/vite-plugin-node": { "vite": ">=6.0.0" },
-        "neostandard":                  { "eslint": ">=9.0.0" }
+        "neostandard":                  { "eslint": ">=9.0.0" },
+        "glob":                         ">=13.0.0"
     },
     "engines" : {
         "npm":                          ">=10.0.0",
@@ -88,6 +89,7 @@
     },
     "allowScripts": {
         "esbuild":                      true,
+        "fsevents":                     true,
         "typopro-web":                  true,
         "file:../../rundown-4-web":     true
     }
