@@ -78,5 +78,9 @@
     "scripts": {
         "postinstall":                      "npm start patch-apply",
         "start":                            "stx -v4 -c etc/stx.conf"
+    },
+    "allowScripts": {
+        "esbuild":                          true,
+        "typopro-web":                      true
     }
 }

@@ -64,5 +64,9 @@
     },
     "scripts": {
         "start":                                 "stx -v4 -c etc/stx.conf"
+    },
+    "allowScripts": {
+        "esbuild":                               true,
+        "typopro-web":                           true
     }
 }
