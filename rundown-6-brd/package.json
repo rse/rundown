@@ -60,7 +60,8 @@
         "eslint-plugin-promise":            { "eslint": ">=9.0.0" },
         "eslint-plugin-import":             { "eslint": ">=9.0.0" },
         "neostandard":                      { "eslint": ">=9.0.0" },
-        "glob":                             ">=13.0.0"
+        "glob":                             ">=13.0.0",
+        "prebuild-install":                 "npm:@scrypted/prebuild-install@>=7.1.10"
     },
     "engines" : {
         "npm":                          ">=10.0.0",

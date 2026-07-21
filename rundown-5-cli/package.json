@@ -77,7 +77,11 @@
         "ws":                           "8.19.0",
         "@liuli-util/vite-plugin-node": { "vite": ">=6.0.0" },
         "neostandard":                  { "eslint": ">=9.0.0" },
-        "glob":                         ">=13.0.0"
+        "postcss-styl":                 { "stylus": ">=0.64.0" },
+        "glob":                         ">=13.0.0",
+        "encoding-sniffer":             ">=1.0.0",
+        "findup-sync":                  ">=5.0.0",
+        "prebuild-install":             "npm:@scrypted/prebuild-install@>=7.1.10"
     },
     "engines" : {
         "npm":                          ">=10.0.0",
