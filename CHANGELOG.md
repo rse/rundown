@@ -5,9 +5,14 @@ ChangeLog
 2.4.0 (2026-07-22)
 ------------------
 
-- IMPROVEMENT: estimate and display wall-clock durations of chunks, sections and the entire event
-- IMPROVEMENT: allow the duration display to be toggled on/off with the Shift+T keystroke (default: off)
-- IMPROVEMENT: support explicit extra durations via "[hh:mm:ss]" markers in Control, Display, Hint and Info content
+- FEATURE [othr]: estimate and display wall-clock durations of chunks, sections and the entire event
+- FEATURE [othr]: allow the duration display to be toggled on/off with the Shift+T keystroke (default: off)
+- FEATURE [othr]: support explicit extra durations via "[hh:mm:ss]" markers in Control, Display, Hint and Info content
+- IMPROVEMENT [othr]: improve descriptions in top-level README.md
+- UPDATE [infr]: use new execa to be able to place allowScripts configuration into sub-packages
+- CLEANUP [infr, othr]: allow NPM scripts in all sub-packages and get rid of NPM installation and glob warnings
+- CLEANUP [infr]: replace no longer existing "npm shrinkwrap" in the build process
+- CLEANUP [infr]: ignore the .ase directory in Git
 
 2.3.1 (2026-03-15)
 ------------------
