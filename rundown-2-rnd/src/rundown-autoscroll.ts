@@ -65,8 +65,8 @@ export class RundownAutoScroll {
     private buildWordIndex () {
         this.wordSeq = []
         this.lastSpokenIndex = -1
-        const nodes = Array.from(document.querySelectorAll(
-            ".rundown-word, .rundown-word-other")) as HTMLSpanElement[]
+        const nodes = Array.from(document.querySelectorAll<HTMLSpanElement>(
+            ".rundown-word, .rundown-word-other"))
         for (const node of nodes) {
             /*  add word to index  */
             const i = this.wordSeq.length
@@ -99,14 +99,14 @@ export class RundownAutoScroll {
     /*  language identification  */
     langIdentify (text: string) {
         /*  predict with TinyLD (best)  */
-        const p1 = { en: 0, de: 0 } as { [ lid: string ]: number }
+        const p1: { [ lid: string ]: number } = { en: 0, de: 0 }
         const r1 = tinyld.detectAll(text, { only: [ "en", "de" ] })
         for (const r of r1)
             if ((r.lang === "en" || r.lang === "de") && r.accuracy)
                 p1[r.lang] = r.accuracy
 
         /*  predict with Franc (decent)  */
-        const p2 = { en: 0, de: 0 } as { [ lid: string ]: number }
+        const p2: { [ lid: string ]: number } = { en: 0, de: 0 }
         const r2 = franc.francAll(text, { only: [ "eng", "deu" ], minLength: 10 })
         for (const r of r2)
             if (r[0] === "eng" && typeof r[1] === "number")

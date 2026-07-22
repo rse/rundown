@@ -59,14 +59,14 @@ export class RundownControls {
     /*  get cached content element  */
     private getContentElement (): HTMLDivElement {
         if (this.contentElement === null)
-            this.contentElement = document.querySelector("body > .content")! as HTMLDivElement
+            this.contentElement = document.querySelector<HTMLDivElement>("body > .content")!
         return this.contentElement
     }
 
     /*  get cached body element  */
     private getBodyElement (): HTMLBodyElement {
         if (this.bodyElement === null)
-            this.bodyElement = document.querySelector("body")! as HTMLBodyElement
+            this.bodyElement = document.querySelector<HTMLBodyElement>("body")!
         return this.bodyElement
     }
 
