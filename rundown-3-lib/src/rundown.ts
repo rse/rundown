@@ -291,12 +291,13 @@ export default class Rundown extends EventEmitter {
         const estimateDuration = (chunk: AnyNode) => {
             /*  gather all spoken texts below the chunk node,
                 grouped into bullet point texts and remaining texts  */
-            const bullets = new Map<AnyNode, string>()
+            const bullets = new Map<AnyNode, { text: string, keyword: boolean }>()
             const rest: string[] = []
             const gather = (node: AnyNode) => {
                 if (node.type === "text" && node.data?.trim()) {
                     /*  check if any parent should be rejected  */
                     let li: AnyNode | null = null
+                    let keyword = false
                     let current = node.parent
                     while (current && current.type === "tag") {
                         if (   $2(current).hasClass("rundown-speaker")
@@ -310,14 +311,24 @@ export default class Rundown extends EventEmitter {
                             || $2(current).hasClass("rundown-display")
                             || $2(current).hasClass("rundown-duration"))
                             return
+                        if ($2(current).hasClass("rundown-keyword"))
+                            keyword = true
                         if (current.name === "li" && li === null)
                             li = current
                         current = current.parent
                     }
 
-                    /*  group text by its nearest bullet point, if any  */
-                    if (li !== null)
-                        bullets.set(li, (bullets.get(li) ?? "") + node.data)
+                    /*  group text by its nearest bullet point, if any, and
+                        track whether the bullet point consists exclusively of
+                        "KeyWord" marked-up words (word-less text between the
+                        marked-up words, like separators, is tolerated)  */
+                    if (li !== null) {
+                        const bullet = bullets.get(li) ?? { text: "", keyword: true }
+                        bullet.text += node.data
+                        if (!keyword && node.data.match(/[\p{L}\p{N}]/u))
+                            bullet.keyword = false
+                        bullets.set(li, bullet)
+                    }
                     else
                         rest.push(node.data)
                 }
@@ -327,23 +338,25 @@ export default class Rundown extends EventEmitter {
             }
             gather(chunk)
 
-            /*  count the number of sentences and words: a chunk consisting
-                exclusively of bullet points with 1-4 words each counts as 3
-                improvised sentences of 15 words per bullet point, otherwise
+            /*  count the number of sentences and words: a bullet point
+                consisting exclusively of "KeyWord" marked-up words counts
+                as 3 improvised sentences of 15 words each, otherwise
                 the exact wording is used  */
             const words    = (text: string) => text.split(/\s+/).filter((word) => word !== "").length
-            const texts    = Array.from(bullets.values()).filter((text) => text.trim() !== "")
             const restText = rest.join("")
-            let n = 0
-            let w = 0
-            if (restText.trim() === "" && texts.length > 0
-                && texts.every((text) => words(text) <= 4)) {
-                n = texts.length * 3
-                w = n * 15
-            }
-            else {
-                n = sentences(restText) + texts.reduce((sum, text) => sum + sentences(text), 0)
-                w = words(restText)     + texts.reduce((sum, text) => sum + words(text), 0)
+            let n = sentences(restText)
+            let w = words(restText)
+            for (const bullet of bullets.values()) {
+                if (bullet.text.trim() === "")
+                    continue
+                if (bullet.keyword) {
+                    n += 3
+                    w += 3 * 15
+                }
+                else {
+                    n += sentences(bullet.text)
+                    w += words(bullet.text)
+                }
             }
 
             /*  determine explicitly given extra durations via "[hh:mm:ss]" markers
