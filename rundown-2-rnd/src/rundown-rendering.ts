@@ -63,12 +63,12 @@ export class RundownRendering {
             if (this.state.locked)
                 event.preventDefault()
         }, { passive: false })
-        document.addEventListener("scroll", (event: Event) => {
+        document.addEventListener("scroll", (_event: Event) => {
             if (this.state.speed === 0)
                 this.controls.windowScrollY = window.scrollY
             this.tickOnce()
         })
-        window.addEventListener("resize", (event: Event) => {
+        window.addEventListener("resize", (_event: Event) => {
             if (this.state.speed === 0)
                 this.controls.windowScrollY = window.scrollY
             this.tickOnce()
