@@ -344,21 +344,21 @@ export class RundownControls {
         if (this.state.options.get("with-exit") !== "yes")
             return
         const overlay = document.querySelector(".overlay6")!
-        overlay.addEventListener("mouseenter", (ev: Event) => {
+        overlay.addEventListener("mouseenter", (_ev: Event) => {
             anime.animate(".overlay6", {
                 opacity: { from: 0.0, to: 1.0 },
                 ease: "outSine",
                 duration: 100
             })
         })
-        overlay.addEventListener("mouseleave", (ev: Event) => {
+        overlay.addEventListener("mouseleave", (_ev: Event) => {
             anime.animate(".overlay6", {
                 opacity: { from: 1.0, to: 0.0 },
                 ease: "inSine",
                 duration: 100
             })
         })
-        overlay.addEventListener("click", (ev: Event) => {
+        overlay.addEventListener("click", (_ev: Event) => {
             window.location.reload()
         })
     }

@@ -267,10 +267,10 @@ export class RundownAutoScroll {
             })
 
         /*  observe engine start/end  */
-        this.s2t.addEventListener("start", (event) => {
+        this.s2t.addEventListener("start", (_event) => {
             this.util.log("debug", "speech-to-text: ENGINE start")
         })
-        this.s2t.addEventListener("end", (event) => {
+        this.s2t.addEventListener("end", (_event) => {
             this.util.log("debug", "speech-to-text: ENGINE end")
             if (this.state.autoscroll && this.s2t !== null) {
                 this.util.log("debug", "speech-to-text: ENGINE restart")
@@ -293,7 +293,7 @@ export class RundownAutoScroll {
                 }
             }
         })
-        this.s2t.addEventListener("nomatch", (event) => {
+        this.s2t.addEventListener("nomatch", (_event) => {
             this.util.log("debug", "speech-to-text: recognized NO text")
         })
     }
