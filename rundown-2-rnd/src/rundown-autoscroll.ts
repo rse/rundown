@@ -197,7 +197,7 @@ export class RundownAutoScroll {
                 }
             }
             if (matches >= minMatchWords)
-                return textIdx
+                return textIdx - 1
         }
         return -1
     }
