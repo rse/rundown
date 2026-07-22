@@ -52,7 +52,8 @@ export class RundownRendering {
 
     /*  reset state  */
     resetState () {
-        this.stateLast = -1
+        this.stateLast     = -1
+        this.stateLastSent = -1
     }
 
     /*  initialize module  */
