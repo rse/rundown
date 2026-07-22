@@ -241,18 +241,6 @@ export class RundownControls {
                 this.state.speed += 1
                 if (this.state.speed > 10) this.state.speed = 10
             }
-            else if (event.key === "1" || event.key === "t") {
-                this.state.paused = true
-                this.state.speed = 0
-                if (!this.state.locked)
-                    window.scroll({ top: 0, behavior: "smooth" })
-            }
-            else if (event.key === "2" || event.key === "b") {
-                this.state.paused = true
-                this.state.speed = 0
-                if (!this.state.locked)
-                    window.scroll({ top: this.rendering.content.h, behavior: "smooth" })
-            }
             else if ((event.shiftKey && event.key === "PageUp")
                 || (event.location === KeyboardEvent.DOM_KEY_LOCATION_NUMPAD && event.key === "1")) {
                 event.preventDefault()
@@ -264,6 +252,18 @@ export class RundownControls {
                 event.preventDefault()
                 if (!this.state.locked)
                     this.scrollToSiblingSection("down")
+            }
+            else if (event.key === "1" || event.key === "t") {
+                this.state.paused = true
+                this.state.speed = 0
+                if (!this.state.locked)
+                    window.scroll({ top: 0, behavior: "smooth" })
+            }
+            else if (event.key === "2" || event.key === "b") {
+                this.state.paused = true
+                this.state.speed = 0
+                if (!this.state.locked)
+                    window.scroll({ top: this.rendering.content.h, behavior: "smooth" })
             }
             else if (event.key === "ArrowLeft" || event.key === "PageUp") {
                 event.preventDefault()
