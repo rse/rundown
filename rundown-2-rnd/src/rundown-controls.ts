@@ -305,6 +305,11 @@ export class RundownControls {
                 this.autoscroll.toggle()
             else if (event.key === "A")
                 this.autoscroll.switchLanguage()
+            else if (event.key === "T") {
+                this.state.durations = !this.state.durations
+                const content = this.getContentElement()
+                this.util.toggleClass(content, "durations", this.state.durations)
+            }
         })
     }
 

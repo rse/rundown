@@ -137,6 +137,62 @@ export default class Rundown extends EventEmitter {
                 $(node).addClass("rundown-ghost")
         })
 
+        /*  determine speaking speed of the presenters from the "Event Presenters" table
+            (speaking speed in words per minute, pause per sentence in seconds)  */
+        const speeds: { [ speed: string ]: { wpm: number, pause: number } } = {
+            "slow":   { wpm: 100, pause: 1.00 },
+            "normal": { wpm: 135, pause: 0.70 },
+            "fast":   { wpm: 170, pause: 0.40 },
+            "rapid":  { wpm: 195, pause: 0.20 }
+        }
+        const pauseOfWPM = (wpm: number) => {
+            /*  linearly interpolate the pause between the anchors of the named speeds  */
+            const anchors = Object.values(speeds).sort((a, b) => a.wpm - b.wpm)
+            let pause = anchors[0].pause
+            for (let k = 0; k < anchors.length - 1; k++) {
+                const a = anchors[k]
+                const b = anchors[k + 1]
+                if (wpm >= b.wpm)
+                    pause = b.pause
+                else if (wpm >= a.wpm) {
+                    pause = a.pause + (b.pause - a.pause) * ((wpm - a.wpm) / (b.wpm - a.wpm))
+                    break
+                }
+            }
+            return pause
+        }
+        const speedOfSpeaker = new Map<string, { wpm: number, pause: number }>()
+        $("table").each((i, table) => {
+            /*  determine the "Speaker" and "Speaking Speed" columns from the header row  */
+            let colSpeaker = -1
+            let colSpeed   = -1
+            $("td, th", $("tr", table).first()).each((j, cell) => {
+                const text = $(cell).text().trim()
+                if (text.match(/^Speaker$/))
+                    colSpeaker = j
+                else if (text.match(/^Speaking\s+Speed$/))
+                    colSpeed = j
+            })
+            if (colSpeaker < 0 || colSpeed < 0)
+                return
+
+            /*  map each speaker onto its speaking speed  */
+            $("tr", table).slice(1).each((j, row) => {
+                const cols    = $("td, th", row)
+                const speaker = $(cols.get(colSpeaker)).text().trim()
+                const speed   = $(cols.get(colSpeed)).text().trim().toLowerCase()
+                if (speaker === "")
+                    return
+                if (speeds[speed] !== undefined)
+                    speedOfSpeaker.set(speaker, speeds[speed])
+                else if (speed.match(/^[0-9]+$/)) {
+                    /*  numeric speed: exact WPM with interpolated pause  */
+                    const wpm = parseInt(speed, 10)
+                    speedOfSpeaker.set(speaker, { wpm, pause: pauseOfWPM(wpm) })
+                }
+            })
+        })
+
         /*  extract information from HTML via recursive CSS selector chaining  */
         const extract = (
             entries:   BasicAcceptedElems<AnyNode>[],
@@ -229,6 +285,104 @@ export default class Rundown extends EventEmitter {
             $2(el).wrap($2("<div class=\"rundown-state-marker\"></div>"))
         })
 
+        /*  estimate speaking durations of the chunks, the sections and the entire event  */
+        const sentences = (text: string) =>
+            text.split(/[.!?…]+/).filter((piece) => piece.match(/\S/)).length
+        const estimateDuration = (chunk: AnyNode) => {
+            /*  gather all spoken texts below the chunk node,
+                grouped into bullet point texts and remaining texts  */
+            const bullets = new Map<AnyNode, string>()
+            const rest: string[] = []
+            const gather = (node: AnyNode) => {
+                if (node.type === "text" && node.data?.trim()) {
+                    /*  check if any parent should be rejected  */
+                    let li: AnyNode | null = null
+                    let current = node.parent
+                    while (current && current.type === "tag") {
+                        if (   $2(current).hasClass("rundown-speaker")
+                            || $2(current).hasClass("rundown-part")
+                            || $2(current).hasClass("rundown-state")
+                            || $2(current).hasClass("rundown-state-marker")
+                            || $2(current).hasClass("rundown-chat")
+                            || $2(current).hasClass("rundown-control")
+                            || $2(current).hasClass("rundown-hint")
+                            || $2(current).hasClass("rundown-info")
+                            || $2(current).hasClass("rundown-display")
+                            || $2(current).hasClass("rundown-duration"))
+                            return
+                        if (current.name === "li" && li === null)
+                            li = current
+                        current = current.parent
+                    }
+
+                    /*  group text by its nearest bullet point, if any  */
+                    if (li !== null)
+                        bullets.set(li, (bullets.get(li) ?? "") + node.data)
+                    else
+                        rest.push(node.data)
+                }
+                else if (node.type === "tag" && node.children)
+                    for (const child of node.children)
+                        gather(child)
+            }
+            gather(chunk)
+
+            /*  count the number of sentences and words: a chunk consisting
+                exclusively of bullet points with 1-4 words each counts as 3
+                improvised sentences of 15 words per bullet point, otherwise
+                the exact wording is used  */
+            const words    = (text: string) => text.split(/\s+/).filter((word) => word !== "").length
+            const texts    = Array.from(bullets.values()).filter((text) => text.trim() !== "")
+            const restText = rest.join("")
+            let n = 0
+            let w = 0
+            if (restText.trim() === "" && texts.length > 0
+                && texts.every((text) => words(text) <= 4)) {
+                n = texts.length * 3
+                w = n * 15
+            }
+            else {
+                n = sentences(restText) + texts.reduce((sum, text) => sum + sentences(text), 0)
+                w = words(restText)     + texts.reduce((sum, text) => sum + words(text), 0)
+            }
+
+            /*  determine explicitly given extra durations via "[hh:mm:ss]" markers
+                in Control, Display, Hint and Info content  */
+            let extra = 0
+            $2(".rundown-control, .rundown-display, .rundown-hint, .rundown-info", chunk).each((k, el) => {
+                if ($2(el).parents(".rundown-control, .rundown-display, .rundown-hint, .rundown-info").length > 0)
+                    return
+                const matches = $2(el).text().matchAll(/\[(\d{2}):(\d{2}):(\d{2})\]/g)
+                for (const match of matches)
+                    extra += parseInt(match[1], 10) * 3600 + parseInt(match[2], 10) * 60 + parseInt(match[3], 10)
+            })
+
+            /*  calculate the duration based on the speaking speed of the speaker  */
+            const speaker = $2(".rundown-speaker", chunk).first().text().trim()
+            const speed   = speedOfSpeaker.get(speaker) ?? speeds.normal
+            return (w / speed.wpm) * 60 + n * speed.pause + extra
+        }
+        const formatDuration = (seconds: number) => {
+            const secs = Math.round(seconds)
+            const hh = Math.floor(secs / 3600).toString().padStart(2, "0")
+            const mm = Math.floor((secs % 3600) / 60).toString().padStart(2, "0")
+            const ss = (secs % 60).toString().padStart(2, "0")
+            return `${hh}:${mm}:${ss}`
+        }
+        let durationEvent = 0
+        $2(".rundown-section:not(.disabled)").each((i, section) => {
+            let durationSection = 0
+            $2(".rundown-chunk:not(.disabled)", section).each((j, chunk) => {
+                const durationChunk = estimateDuration(chunk)
+                durationSection += durationChunk
+                if ($2(".rundown-speaker", chunk).length > 0)
+                    $2(chunk).prepend(`<div class="rundown-duration">${formatDuration(durationChunk)}</div>`)
+            })
+            durationEvent += durationSection
+            $2(section).append(`<div class="rundown-duration">${formatDuration(durationSection)}</div>`)
+        })
+        $2("html > body").prepend(`<div class="rundown-duration-event">${formatDuration(durationEvent)}</div>`)
+
         /*  initialize word sequence for autoscroll tracking  */
         const chunks = $2(".rundown-chunk:not(.disabled)")
         chunks.each((i, chunk) => {
@@ -246,7 +400,8 @@ export default class Rundown extends EventEmitter {
                             || $2(current).hasClass("rundown-control")
                             || $2(current).hasClass("rundown-hint")
                             || $2(current).hasClass("rundown-info")
-                            || $2(current).hasClass("rundown-display"))
+                            || $2(current).hasClass("rundown-display")
+                            || $2(current).hasClass("rundown-duration"))
                             return
                         current = current.parent
                     }

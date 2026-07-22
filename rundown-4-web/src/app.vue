@@ -210,6 +210,14 @@
                     </div>
                     <div class="action">
                         <div class="keystroke">
+                            <span class="key">Shift</span>+<span class="key">T</span>
+                        </div>
+                        <div class="description">
+                            toggle <i>real-time duration</i> estimations
+                        </div>
+                    </div>
+                    <div class="action">
+                        <div class="keystroke">
                             <span class="key"><b>&ndash;</b></span>
                         </div>
                         <div class="description">

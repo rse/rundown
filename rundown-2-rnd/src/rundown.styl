@@ -211,6 +211,64 @@ body::-webkit-scrollbar
     margin-top: 0.5rem
     margin-bottom: 0.5rem
 
+.rundown-duration
+    display: none
+    position: absolute
+    top: 0.25rem
+    right: 0
+    color: var(--color-std-fg-1)
+    border: 0.05rem solid currentColor
+    border-radius: 0.25rem
+    padding: 0.05rem 0.40rem
+    font-size: 35%
+    font-weight: normal
+    letter-spacing: 0
+    line-height: 100%
+
+.rundown-section > .rundown-duration
+    top: 0
+    right: 0
+    border: 0
+    border-radius: 0 0 0 0.5rem
+    color: var(--color-std-fg-3)
+    background-color: var(--color-std-bg-3)
+    padding: 0.02rem 0.40rem 0.20rem 0.80rem
+
+.rundown-section.active > .rundown-duration
+    background-color: var(--color-std-bg-5)
+
+.rundown-chunk > .rundown-duration
+    top: 0
+    left: 0
+    right: auto
+    border: 0
+    border-radius: 0 0 0.5rem 0
+    background-color: var(--color-acc-bg-3)
+    color: var(--color-acc-fg-5)
+    padding: 0.02rem 0.80rem 0.20rem 0.40rem
+
+.rundown-chunk.active > .rundown-duration
+    background-color: var(--color-sig-bg-3)
+    color: var(--color-sig-fg-5)
+
+.rundown-duration-event
+    display: none
+    position: absolute
+    top: -2.0rem
+    left: 50%
+    transform: translate(-50%, -100%)
+    width: fit-content
+    background-color: var(--color-std-bg-5)
+    color: var(--color-std-fg-3)
+    border-radius: 0.50rem
+    padding: 0.40rem 0.80rem
+    font-size: 70%
+    line-height: 100%
+
+.durations .rundown-duration,
+.durations .rundown-duration-event
+    display: block
+
 .rundown-chat,
 .rundown-control
     display: none

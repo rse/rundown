@@ -14,6 +14,7 @@ export class RundownState {
     speed                = 0
     speedBeforePause     = 0
     language             = "auto"
+    durations            = false
 
     /*  configuration options  */
     options              = new Map<string, string>()
