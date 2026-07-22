@@ -40,7 +40,6 @@ export class RundownAutoScroll {
 
     /*  internal state  */
     private s2t:                   SpeechRecognition | null              = null
-    private autoscrollInterval:    ReturnType<typeof setInterval> | null = null
     private autoscrollAnimation:   anime.JSAnimation | null              = null
     private autoscrollAnimationId: number | null                         = null
 
@@ -399,11 +398,7 @@ export class RundownAutoScroll {
         }
         this.lastSpokenIndex = -1
 
-        /*  clear any pending intervals and animation frames  */
-        if (this.autoscrollInterval !== null) {
-            clearInterval(this.autoscrollInterval)
-            this.autoscrollInterval = null
-        }
+        /*  clear any pending animation frames  */
         if (this.autoscrollAnimationId !== null) {
             cancelAnimationFrame(this.autoscrollAnimationId)
             this.autoscrollAnimationId = null
@@ -504,11 +499,7 @@ export class RundownAutoScroll {
                     /*  adjust scrolling speed based on distance from center  */
                     this.controls.adjustSpeed(calculateSpeed(distance))
 
-                    /*  clear previous interval or animation frame  */
-                    if (this.autoscrollInterval !== null) {
-                        clearInterval(this.autoscrollInterval)
-                        this.autoscrollInterval = null
-                    }
+                    /*  clear previous animation frame  */
                     if (this.autoscrollAnimationId !== null) {
                         cancelAnimationFrame(this.autoscrollAnimationId)
                         this.autoscrollAnimationId = null
