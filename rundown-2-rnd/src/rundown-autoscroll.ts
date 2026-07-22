@@ -253,24 +253,18 @@ export class RundownAutoScroll {
         })
 
         /*  observe audio/sound/speech start/end  */
-        this.s2t.addEventListener("audiostart", (event) => {
-            this.util.log("debug", "speech-to-text: AUDIO start")
-        })
-        this.s2t.addEventListener("audioend", (event) => {
-            this.util.log("debug", "speech-to-text: AUDIO end")
-        })
-        this.s2t.addEventListener("soundstart", (event) => {
-            this.util.log("debug", "speech-to-text: SOUND start")
-        })
-        this.s2t.addEventListener("soundend", (event) => {
-            this.util.log("debug", "speech-to-text: SOUND end")
-        })
-        this.s2t.addEventListener("speechstart", (event) => {
-            this.util.log("debug", "speech-to-text: SPEECH start")
-        })
-        this.s2t.addEventListener("speechend", (event) => {
-            this.util.log("debug", "speech-to-text: SPEECH end")
-        })
+        const phases = [
+            [ "audiostart",  "AUDIO start"  ],
+            [ "audioend",    "AUDIO end"    ],
+            [ "soundstart",  "SOUND start"  ],
+            [ "soundend",    "SOUND end"    ],
+            [ "speechstart", "SPEECH start" ],
+            [ "speechend",   "SPEECH end"   ]
+        ] as const
+        for (const [ type, name ] of phases)
+            this.s2t.addEventListener(type, () => {
+                this.util.log("debug", `speech-to-text: ${name}`)
+            })
 
         /*  observe engine start/end  */
         this.s2t.addEventListener("start", (event) => {
