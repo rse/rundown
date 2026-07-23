@@ -436,7 +436,10 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             options: {
                 auth: false
             },
-            handler: async (req: HAPI.Request, h: HAPI.ResponseToolkit) => {
+            handler: async (_req: HAPI.Request, h: HAPI.ResponseToolkit) => {
+                const available = await fs.promises.access(tmpfile).then(() => true, () => false)
+                if (!available)
+                    return Boom.serverUnavailable("no Rundown document converted yet")
                 return h.file(tmpfile, { confine: false })
             }
         })
