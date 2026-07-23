@@ -284,6 +284,15 @@ export default class Rundown extends EventEmitter {
             $2(el).wrap($2("<div class=\"rundown-state-marker\"></div>"))
         })
 
+        /*  helper for checking whether a node is a non-spoken container  */
+        const rejectedClasses = [
+            "rundown-speaker", "rundown-part", "rundown-state", "rundown-state-marker",
+            "rundown-chat", "rundown-control", "rundown-hint", "rundown-info",
+            "rundown-display", "rundown-duration"
+        ]
+        const isRejected = (node: AnyNode) =>
+            rejectedClasses.some((cls) => $2(node).hasClass(cls))
+
         /*  estimate speaking durations of the chunks, the sections and the entire event  */
         const sentences = (text: string) =>
             text.split(/[.!?…]+/).filter((piece) => piece.match(/\S/)).length
@@ -299,16 +308,7 @@ export default class Rundown extends EventEmitter {
                     let keyword = false
                     let current = node.parent
                     while (current && current.type === "tag") {
-                        if (   $2(current).hasClass("rundown-speaker")
-                            || $2(current).hasClass("rundown-part")
-                            || $2(current).hasClass("rundown-state")
-                            || $2(current).hasClass("rundown-state-marker")
-                            || $2(current).hasClass("rundown-chat")
-                            || $2(current).hasClass("rundown-control")
-                            || $2(current).hasClass("rundown-hint")
-                            || $2(current).hasClass("rundown-info")
-                            || $2(current).hasClass("rundown-display")
-                            || $2(current).hasClass("rundown-duration"))
+                        if (isRejected(current))
                             return
                         if ($2(current).hasClass("rundown-keyword"))
                             keyword = true
@@ -404,16 +404,7 @@ export default class Rundown extends EventEmitter {
                     /*  check if any parent should be rejected  */
                     let current = node.parent
                     while (current && current.type === "tag") {
-                        if (   $2(current).hasClass("rundown-speaker")
-                            || $2(current).hasClass("rundown-part")
-                            || $2(current).hasClass("rundown-state")
-                            || $2(current).hasClass("rundown-state-marker")
-                            || $2(current).hasClass("rundown-chat")
-                            || $2(current).hasClass("rundown-control")
-                            || $2(current).hasClass("rundown-hint")
-                            || $2(current).hasClass("rundown-info")
-                            || $2(current).hasClass("rundown-display")
-                            || $2(current).hasClass("rundown-duration"))
+                        if (isRejected(current))
                             return
                         current = current.parent
                     }
