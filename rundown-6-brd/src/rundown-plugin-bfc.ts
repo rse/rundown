@@ -22,6 +22,7 @@ export class RundownPluginBFC extends RundownPluginBase implements RundownPlugin
     /*  internal state  */
     private osc: OSC | undefined = undefined
     private aliases              = new Map<string, Array<Coord>>()
+    private commandQueue         = Promise.resolve()
 
     /*  configure plugin  */
     configure (args: { [ key: string ]: string }) {
@@ -87,8 +88,19 @@ export class RundownPluginBFC extends RundownPluginBase implements RundownPlugin
         })
     }
 
+    /*  INTERNAL: enqueue a single command for strictly sequential execution  */
+    protected executeCommand (name: string, value: string | number | boolean, reverse: boolean) {
+        this.commandQueue = this.commandQueue
+            .then(() => this.executeCommandNow(name, value, reverse))
+            .catch((err) => {
+                const message = err instanceof Error ? err.message : String(err)
+                this.emit("log", "error", `Bitfocus Companion: [${this.args.prefix}]: ` +
+                    `command "${name}" failed: ${message}`)
+            })
+    }
+
     /*  INTERNAL: execute a single command  */
-    protected async executeCommand (name: string, value: string | number | boolean, reverse: boolean) {
+    private async executeCommandNow (name: string, value: string | number | boolean, reverse: boolean) {
         let coords: Array<Coord> = []
 
         /*  dispatch according to command  */
