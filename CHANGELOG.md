@@ -2,17 +2,35 @@
 ChangeLog
 =========
 
-2.4.0 (2026-07-22)
+2.4.0 (2026-07-23)
 ------------------
 
 - FEATURE [othr]: estimate and display wall-clock durations of chunks, sections and the entire event
 - FEATURE [othr]: allow the duration display to be toggled on/off with the Shift+T keystroke (default: off)
 - FEATURE [othr]: support explicit extra durations via "[hh:mm:ss]" markers in Control, Display, Hint and Info content
 - IMPROVEMENT [othr]: improve descriptions in top-level README.md
+- IMPROVEMENT [othr]: improve CLI performance by moving out arktype validation of WebSocket messages
+- IMPROVEMENT [othr]: log more problem situations: shutdown failures, unsupported file types, language switching
+- BUGFIX [othr]: avoid concurrency issues in CLI conversions, bridge WebSocket messages and Companion key presses
+- BUGFIX [othr]: ensure that PowerPoint state condensing in the bridge does not lose entries
+- BUGFIX [othr]: fix Shift+PageUp handling by accepting the distance from the pivot in both directions
+- BUGFIX [othr]: match numpad keystroke variants before generic variants so they are no longer dead keys
+- BUGFIX [othr]: do not autoscroll beyond the last matched word in speech-to-text tracking
+- BUGFIX [othr]: treat bullet points containing only keywords still as keyword bullet points
+- BUGFIX [othr]: correctly reset rendering states and cancel still pending state timer
+- BUGFIX [othr]: avoid division by zero for a numeric speaker speed of zero WPM
+- BUGFIX [othr]: fix 24-hour time format in Web UI logging timestamps
+- BUGFIX [othr]: detect edge case of no converted DOCX file in CLI
 - UPDATE [infr]: use new execa to be able to place allowScripts configuration into sub-packages
 - CLEANUP [infr, othr]: allow NPM scripts in all sub-packages and get rid of NPM installation and glob warnings
 - CLEANUP [infr]: replace no longer existing "npm shrinkwrap" in the build process
 - CLEANUP [infr]: ignore the .ase directory in Git
+- CLEANUP [othr]: improve and strengthen TypeScript typing across all components
+- CLEANUP [othr]: mark unused variables and parameters as such across all components
+- CLEANUP [othr]: simplify code, remove dead code and redundant constructs across all components
+- CLEANUP [othr]: use native DOM APIs (.textContent, classList.toggle) in the renderer
+- REFACTOR [othr]: move common bridge plugin code into a new plugin base class
+- REFACTOR [othr]: remove redundancies by factoring out shared utility functions
 
 2.3.1 (2026-03-15)
 ------------------
