@@ -462,7 +462,7 @@ export default defineComponent({
     },
     methods: {
         log (level: string, msg: string, data: { [ key: string ]: any } | null = null) {
-            const timestamp = moment().format("YYYY-MM-DD hh:mm:ss.SSS")
+            const timestamp = moment().format("YYYY-MM-DD HH:mm:ss.SSS")
             let output = `${timestamp} [${level}]: ${msg}`
             if (data !== null)
                 output += ` (${Object.keys(data)
