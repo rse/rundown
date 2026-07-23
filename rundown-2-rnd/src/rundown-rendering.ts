@@ -54,6 +54,10 @@ export class RundownRendering {
     resetState () {
         this.stateLast     = -1
         this.stateLastSent = -1
+        if (this.stateTimer !== null) {
+            clearTimeout(this.stateTimer)
+            this.stateTimer = null
+        }
     }
 
     /*  initialize module  */
