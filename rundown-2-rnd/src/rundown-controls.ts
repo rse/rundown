@@ -301,7 +301,10 @@ export class RundownControls {
             else if (event.key === "a")
                 this.autoscroll.toggle()
             else if (event.key === "A")
-                this.autoscroll.switchLanguage()
+                this.autoscroll.switchLanguage().catch((err: unknown) => {
+                    const msg = err instanceof Error ? err.message : String(err)
+                    this.util.log("error", `switching language failed: ${msg}`)
+                })
             else if (event.key === "T") {
                 this.state.durations = !this.state.durations
                 const content = this.getContentElement()
