@@ -61,7 +61,7 @@ export class RundownWebSocket {
 
         /*  determine server URL  */
         let url = document.location.href
-        url = url.replace(/#.+$/, "")
+        url = url.replace(/#.*$/, "")
         url = url.replace(/\/[^/]*$/, "")
         url = url + "/events"
 
