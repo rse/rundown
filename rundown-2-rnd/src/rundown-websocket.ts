@@ -56,6 +56,9 @@ export class RundownWebSocket {
         if (this.state.options.get("live") !== "yes")
             return
 
+        /*  release potentially existing connection  */
+        this.disconnect()
+
         /*  determine server URL  */
         let url = document.location.href
         url = url.replace(/#.+$/, "")
@@ -118,7 +121,7 @@ export class RundownWebSocket {
         }, 200)
     }
 
-    /*  disconnect from WebSocket server (still not used)  */
+    /*  disconnect from WebSocket server  */
     public disconnect () {
         if (this.sendQueueInterval !== null) {
             clearInterval(this.sendQueueInterval)
