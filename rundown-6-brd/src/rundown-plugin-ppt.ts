@@ -386,6 +386,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         let gotoIdx = -1
         let i = 0
         while (i < state.kv.length) {
+            const entry: RundownState["kv"][number] = {}
             for (const key of Object.keys(state.kv[i])) {
                 const m = key.match(/^([a-zA-Z][a-zA-Z0-9-]*):(.+)$/)
                 if (m === null)
@@ -394,34 +395,32 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
                 if (ns !== this.args.prefix)
                     continue
                 if (cmd.match(/^(?:start|end|black)$/))
-                    newState.kv.push(state.kv[i])
-                else {
-                    if (i <= state.active) {
-                        const v = state.kv[i][key]
-                        if (cmd === "goto" && typeof v === "number") {
-                            gotoIdx = i
-                            gotoVal = v
-                        }
-                        else if (cmd === "next" || cmd === "prev") {
-                            gotoIdx = i
-                            if (gotoVal === -1)
-                                gotoVal = (cmd === "next" ? 2 : 1)
-                            else {
-                                gotoVal = gotoVal + (cmd === "next" ? 1 : -1)
-                                if (gotoVal < 1)
-                                    gotoVal = 1
-                                else if (this.pptState.slides > 0 && gotoVal > this.pptState.slides)
-                                    gotoVal = this.pptState.slides
-                            }
+                    entry[key] = state.kv[i][key]
+                else if (i <= state.active) {
+                    const v = state.kv[i][key]
+                    if (cmd === "goto" && typeof v === "number") {
+                        gotoIdx = i
+                        gotoVal = v
+                    }
+                    else if (cmd === "next" || cmd === "prev") {
+                        gotoIdx = i
+                        if (gotoVal === -1)
+                            gotoVal = (cmd === "next" ? 2 : 1)
+                        else {
+                            gotoVal = gotoVal + (cmd === "next" ? 1 : -1)
+                            if (gotoVal < 1)
+                                gotoVal = 1
+                            else if (this.pptState.slides > 0 && gotoVal > this.pptState.slides)
+                                gotoVal = this.pptState.slides
                         }
                     }
-                    newState.kv.push({})
                 }
             }
+            newState.kv.push(entry)
             i++
         }
         if (gotoIdx > -1 && gotoVal > -1)
-            newState.kv[gotoIdx] = { [`${this.args.prefix}:goto`]: gotoVal }
+            newState.kv[gotoIdx][`${this.args.prefix}:goto`] = gotoVal
         return newState
     }
 
