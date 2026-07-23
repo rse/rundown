@@ -86,6 +86,17 @@ export class RundownRendering {
             return (pivot - (box.height / 2)) - container.top
     }
 
+    /*  helper function to position a moving tab within its container  */
+    private positionTab (container: Element, selector: string, pivot: number): HTMLElement | null {
+        const box = container.getBoundingClientRect()
+        const tab = container.querySelector(selector) as HTMLElement | null
+        if (tab !== null && !(box.top + box.height < 0 || box.top > this.view.h)) {
+            const y = this.calculateYPos(box, tab.getBoundingClientRect(), pivot)
+            tab.style.top = `calc(${y}px - 0.25rem)`
+        }
+        return tab
+    }
+
     /*  helper function to update active element in a list of elements  */
     private updateActiveElement (elements: Element[], closestElement: Element | null) {
         if (closestElement === null)
@@ -115,15 +126,7 @@ export class RundownRendering {
         const pivot = this.view.h / 2
         let i = 1
         for (const section of sections) {
-            const sec  = section.getBoundingClientRect()
-            const part = section.querySelector(".rundown-part-tab") as HTMLElement | null
-            if (part !== null) {
-                const pt = part.getBoundingClientRect()
-                if (!(sec.top + sec.height < 0 || sec.top > this.view.h)) {
-                    const y = this.calculateYPos(sec, pt, pivot)
-                    part.style.top = `calc(${y}px - 0.25rem)`
-                }
-            }
+            const part = this.positionTab(section, ".rundown-part-tab", pivot)
             if (part !== null) {
                 /*  update "what" of tab  */
                 const what = part.querySelector(".rundown-part-tab-what") as HTMLElement | null
@@ -145,17 +148,8 @@ export class RundownRendering {
         const chunks = Array.from(document.querySelectorAll(".rundown-chunk:not(.disabled)"))
 
         /*  calculate the position of the moving speaker tab (left-hand side)  */
-        for (const chunk of chunks) {
-            const chk     = chunk.getBoundingClientRect()
-            const speaker = chunk.querySelector(".rundown-speaker") as HTMLElement
-            if (speaker !== null) {
-                const spk = speaker.getBoundingClientRect()
-                if (!(chk.top + chk.height < 0 || chk.top > this.view.h)) {
-                    const y = this.calculateYPos(chk, spk, pivot)
-                    speaker.style.top = `calc(${y}px - 0.25rem)`
-                }
-            }
-        }
+        for (const chunk of chunks)
+            this.positionTab(chunk, ".rundown-speaker", pivot)
         const closestChunk = this.util.findClosestElement(chunks, pivot)
         this.updateActiveElement(chunks, closestChunk.element)
 
