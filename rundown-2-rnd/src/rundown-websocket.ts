@@ -75,7 +75,7 @@ export class RundownWebSocket {
         })
 
         /*  observe events  */
-        this.ws.addEventListener("open", (ev) => {
+        this.ws.addEventListener("open", (_ev) => {
             this.util.log("debug", "WebSocket connection opened")
             if (this.ws !== undefined) {
                 this.ws.send(JSON.stringify({ event: "SUBSCRIBE" }))
@@ -87,7 +87,7 @@ export class RundownWebSocket {
             this.rendering.resetState()
             this.rendering.tickOnce()
         })
-        this.ws.addEventListener("close", (ev) => {
+        this.ws.addEventListener("close", (_ev) => {
             this.util.log("debug", "WebSocket connection closed")
         })
         this.ws.addEventListener("error", (ev) => {
