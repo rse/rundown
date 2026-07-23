@@ -134,7 +134,7 @@ export class RundownWebSocket {
     }
 
     /*  send a message to the WebSocket server  */
-    public send (message: { event: string, data?: any }) {
+    public send (message: { event: string, data?: unknown }) {
         this.wsSendQueue.push(JSON.stringify(message))
     }
 
