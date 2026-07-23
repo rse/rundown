@@ -96,8 +96,8 @@ export class RundownUtil {
 
     /*  find closest element by distance  */
     findClosestElement (elements: Element[], pivot: number) {
-        const min = { element: null, distance: Number.MAX_VALUE } as
-            { element: Element | null, distance: number }
+        const min: { element: Element | null, distance: number } =
+            { element: null, distance: Number.MAX_VALUE }
         for (const element of elements) {
             const rect = element.getBoundingClientRect()
             const distance1 = Math.abs(pivot - rect.top)
