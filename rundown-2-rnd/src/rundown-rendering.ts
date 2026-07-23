@@ -161,7 +161,7 @@ export class RundownRendering {
                 const matches = text.matchAll(/\b([a-zA-Z][a-zA-Z0-9:-]*)(?:=(?:"([^"]*)"|(\S+)))?(?=\s|$)/g)
                 for (const match of matches) {
                     const key = match[1]
-                    const val = match[2] ?? match[3] ?? undefined
+                    const val = match[2] ?? match[3]
                     if (val === undefined)
                         kv[key] = true
                     else if (val.match(/^[0-9]+$/))
