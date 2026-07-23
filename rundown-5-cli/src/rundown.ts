@@ -269,6 +269,23 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         /*  serve WebSocket connections  */
         const wsPeers = new Map<string, wsPeerInfo>()
         const wsLastMsg = new Map<string, string>()
+
+        /*  request payload validators  */
+        const payloadValidator = arktype.type({
+            event:   "string",
+            "data?": "unknown"
+        })
+        const stateValidator = arktype.type({
+            active: "number",
+            kv: arktype.type({
+                "[ string ]": "string | number | boolean"
+            }).array()
+        })
+        const modeValidator = arktype.type({
+            locked: "boolean",
+            debug:  "boolean"
+        })
+
         server.route({
             method: "POST",
             path:   "/events",
@@ -301,11 +318,6 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             handler: (request: HAPI.Request, h: HAPI.ResponseToolkit) => {
                 /*  on WebSocket message transfer  */
                 const { ctx, ws } = request.websocket()
-
-                const payloadValidator = arktype.type({
-                    event:   "string",
-                    "data?": "unknown"
-                })
                 const payload = payloadValidator(request.payload)
                 if (payload instanceof arktype.type.errors)
                     return Boom.badRequest(`invalid request: ${payload.summary}`)
@@ -328,13 +340,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                 }
                 else if (payload.event === "STATE" && typeof payload.data === "object") {
                     /*  validate request  */
-                    const dataValidator = arktype.type({
-                        active: "number",
-                        kv: arktype.type({
-                            "[ string ]": "string | number | boolean"
-                        }).array()
-                    })
-                    const data = dataValidator(payload.data)
+                    const data = stateValidator(payload.data)
                     if (data instanceof arktype.type.errors)
                         return Boom.badRequest(`invalid request: ${data.summary}`)
 
@@ -353,11 +359,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                 }
                 else if (payload.event === "MODE" && typeof payload.data === "object") {
                     /*  validate request  */
-                    const dataValidator = arktype.type({
-                        locked: "boolean",
-                        debug:  "boolean"
-                    })
-                    const data = dataValidator(payload.data)
+                    const data = modeValidator(payload.data)
                     if (data instanceof arktype.type.errors)
                         return Boom.badRequest(`invalid request: ${data.summary}`)
 
