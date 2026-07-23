@@ -59,7 +59,7 @@ export class RundownUtil {
     }
 
     /*  log a message  */
-    log (level: string, msg: string, data: { [ key: string ]: any } | null = null) {
+    log (level: "error" | "warning" | "info" | "debug", msg: string, data: { [ key: string ]: unknown } | null = null) {
         const timestamp = DateTime.now().toFormat("yyyy-MM-dd HH:mm:ss.SSS")
         let epilog = ""
         if (data !== null) {
