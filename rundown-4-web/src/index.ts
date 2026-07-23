@@ -15,7 +15,7 @@ import               "@fortawesome/fontawesome-free/css/all.min.css"
 import App      from "./app.vue"
 import               "./app.styl"
 
-document.addEventListener("DOMContentLoaded", (ev: Event) => {
+document.addEventListener("DOMContentLoaded", (_ev: Event) => {
     (async () => {
         const app = Vue.createApp(App)
         app.mount("#app")
