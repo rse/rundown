@@ -4,9 +4,6 @@
 **  Licensed under GPL 3.0 <https://spdx.org/licenses/GPL-3.0-only>
 */
 
-/*  external dependencies  */
-import * as anime            from "animejs"
-
 /*  internal dependencies  */
 import { RundownState }      from "./rundown-state"
 import { RundownUtil }       from "./rundown-util"
@@ -345,18 +342,10 @@ export class RundownControls {
             return
         const overlay = document.querySelector(".overlay6")!
         overlay.addEventListener("mouseenter", (_ev: Event) => {
-            anime.animate(".overlay6", {
-                opacity: { from: 0.0, to: 1.0 },
-                ease: "outSine",
-                duration: 100
-            })
+            this.util.fadeOverlay(".overlay6", true)
         })
         overlay.addEventListener("mouseleave", (_ev: Event) => {
-            anime.animate(".overlay6", {
-                opacity: { from: 1.0, to: 0.0 },
-                ease: "inSine",
-                duration: 100
-            })
+            this.util.fadeOverlay(".overlay6", false)
         })
         overlay.addEventListener("click", (_ev: Event) => {
             window.location.reload()

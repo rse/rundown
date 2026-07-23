@@ -80,6 +80,15 @@ export class RundownUtil {
             console.log(`${timestamp} [DEBUG] ${msg}${epilog}`)
     }
 
+    /*  animate overlay fade in/out  */
+    fadeOverlay (selector: string, show: boolean) {
+        anime.animate(selector, {
+            opacity:  show ? { from: 0.0, to: 1.0 } : { from: 1.0, to: 0.0 },
+            ease:     show ? "outSine" : "inSine",
+            duration: 100
+        })
+    }
+
     /*  toggle CSS class on element based on condition  */
     toggleClass (element: HTMLElement, className: string, condition: boolean) {
         element.classList.toggle(className, condition)

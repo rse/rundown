@@ -360,11 +360,7 @@ export class RundownAutoScroll {
 
         /*  animate autoscroll indicator  */
         if (this.state.autoscroll) {
-            anime.animate(".overlay7", {
-                opacity: { from: 0.0, to: 1.0 },
-                ease: "outSine",
-                duration: 100
-            })
+            this.util.fadeOverlay(".overlay7", true)
             this.autoscrollAnimation = anime.animate(".overlay7", {
                 scale: [ 1.0, 1.1, 1.0 ],
                 ease: "inOutSine",
@@ -377,11 +373,7 @@ export class RundownAutoScroll {
                 this.autoscrollAnimation.pause()
                 this.autoscrollAnimation = null
             }
-            anime.animate(".overlay7", {
-                opacity: { from: 1.0, to: 0.0 },
-                ease: "inSine",
-                duration: 100
-            })
+            this.util.fadeOverlay(".overlay7", false)
         }
 
         /*  reset the state  */
