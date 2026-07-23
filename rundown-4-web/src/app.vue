@@ -536,6 +536,8 @@ export default defineComponent({
                     this.uploadProgress = false
                 }
             }
+            else
+                this.log("warning", "ignoring document with unsupported file type", { name: file.name, type: file.type })
         },
         async demoClick () {
             if (this.demoProgress)
