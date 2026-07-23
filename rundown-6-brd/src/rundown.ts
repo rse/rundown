@@ -164,8 +164,9 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
     ws.addEventListener("close", (_ev) => {
         cli.log("info", "Rundown WebSocket: disconnected")
     })
+    let wsMsgQueue: Promise<void> = Promise.resolve()
     ws.addEventListener("message", (ev) => {
-        (async () => {
+        wsMsgQueue = wsMsgQueue.then(async () => {
             let data: unknown
             try {
                 data = JSON.parse(ev.data)
@@ -206,7 +207,10 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
                     for (const ref of plugins[id].ref)
                         await ref.reflectMode(data)
             }
-        })()
+        }).catch((err) => {
+            const message = err instanceof Error ? err.message : String(err)
+            cli.log("error", `Rundown WebSocket: message processing failed: ${message}`)
+        })
     })
 
     /*  await graceful shutdown  */
