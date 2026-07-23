@@ -62,10 +62,9 @@ export default class Rundown extends EventEmitter {
             includeDefaultStyleMap:  true,
             ignoreEmptyParagraphs:   true
         })
-        if (result.messages.length > 0)
-            for (const message of result.messages)
-                if (!message.message.match(/Unrecognised run style: 'normaltextrun'/))
-                    this.emit(message.type === "warning" ? "warning" : "error", `mammoth: ${message.message}`)
+        for (const message of result.messages)
+            if (!message.message.match(/Unrecognised run style: 'normaltextrun'/))
+                this.emit(message.type === "warning" ? "warning" : "error", `mammoth: ${message.message}`)
 
         /*  wrap HTML to be a proper document  */
         const html = `<!DOCTYPE html>
