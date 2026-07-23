@@ -82,10 +82,7 @@ export class RundownUtil {
 
     /*  toggle CSS class on element based on condition  */
     toggleClass (element: HTMLElement, className: string, condition: boolean) {
-        if (condition && !element.classList.contains(className))
-            element.classList.add(className)
-        else if (!condition && element.classList.contains(className))
-            element.classList.remove(className)
+        element.classList.toggle(className, condition)
     }
 
     /*  find closest element by distance  */

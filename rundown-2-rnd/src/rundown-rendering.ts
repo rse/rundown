@@ -101,12 +101,8 @@ export class RundownRendering {
     private updateActiveElement (elements: Element[], closestElement: Element | null) {
         if (closestElement === null)
             return
-        for (const element of elements) {
-            if (element === closestElement && !element.classList.contains("active"))
-                element.classList.add("active")
-            else if (element !== closestElement && element.classList.contains("active"))
-                element.classList.remove("active")
-        }
+        for (const element of elements)
+            element.classList.toggle("active", element === closestElement)
     }
 
     /*  update the rendering  */
