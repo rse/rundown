@@ -5,12 +5,10 @@
 */
 
 /*  import external dependencies  */
-import { EventEmitter } from "node:events"
-import OSC              from "osc-js"
+import OSC from "osc-js"
 
 /*  import internal dependencies  */
-import { type RundownState, type RundownMode } from "./rundown-state"
-import { RundownPlugin }                       from "./rundown-plugin"
+import { RundownPlugin, RundownPluginBase } from "./rundown-plugin"
 
 /*  internal coordinates for pressing a button  */
 type Coord = {
@@ -20,15 +18,10 @@ type Coord = {
 }
 
 /*  the Rundown bridge to Bitfocus Companion  */
-export class RundownPluginBFC extends EventEmitter implements RundownPlugin {
+export class RundownPluginBFC extends RundownPluginBase implements RundownPlugin {
     /*  internal state  */
-    private id                                = ""
-    private active                            = -1
-    private osc: OSC | undefined              = undefined
-    private mode: RundownMode                 = { locked: false, debug: false }
-    private args: { [ key: string ]: string } = {}
-    private aliases                           = new Map<string, Array<Coord>>()
-    private lastState: RundownState | null    = null
+    private osc: OSC | undefined = undefined
+    private aliases              = new Map<string, Array<Coord>>()
 
     /*  configure plugin  */
     configure (args: { [ key: string ]: string }) {
@@ -95,7 +88,7 @@ export class RundownPluginBFC extends EventEmitter implements RundownPlugin {
     }
 
     /*  INTERNAL: execute a single command  */
-    private async executeCommand (name: string, value: string | number | boolean, reverse: boolean) {
+    protected async executeCommand (name: string, value: string | number | boolean, reverse: boolean) {
         let coords: Array<Coord> = []
 
         /*  dispatch according to command  */
@@ -137,72 +130,5 @@ export class RundownPluginBFC extends EventEmitter implements RundownPlugin {
             /*  give Bitfocus Companion some time to operate between button presses  */
             await new Promise((resolve, _reject) => setTimeout(resolve, 50))
         }
-    }
-
-    /*  INTERNAL: process commands in forward direction  */
-    private processForwardCommands (state: RundownState) {
-        let m: RegExpMatchArray | null
-        for (let i = this.active + 1; i <= state.active && i < state.kv.length; i++) {
-            if (!state.kv[i])
-                continue
-            for (const key of Object.keys(state.kv[i])) {
-                if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
-                    const [ , prefix, name ] = m
-                    const value = state.kv[i][key]
-                    if (prefix === this.args.prefix)
-                        this.executeCommand(name, value, false)
-                }
-            }
-        }
-    }
-
-    /*  INTERNAL: process commands in backward direction  */
-    private processBackwardCommands (state: RundownState) {
-        let m: RegExpMatchArray | null
-        for (let i = this.active - 1; i >= state.active && i >= 0; i--) {
-            if (!state.kv[i] || i >= state.kv.length)
-                continue
-            for (const key of Object.keys(state.kv[i]).reverse()) {
-                if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
-                    const [ , prefix, name ] = m
-                    const value = state.kv[i][key]
-                    if (prefix === this.args.prefix)
-                        this.executeCommand(name, value, true)
-                }
-            }
-        }
-    }
-
-    /*  reflect current Rundown state  */
-    async reflectState (state: RundownState) {
-        if (state.id !== this.id) {
-            this.id = state.id
-            this.active = -1
-        }
-        this.lastState = state
-        if (this.mode.locked && state.active !== this.active) {
-            if (state.active > this.active)
-                this.processForwardCommands(state)
-            else if (state.active < this.active)
-                this.processBackwardCommands(state)
-            this.active = state.active
-        }
-    }
-
-    /*  reflect current Rundown mode  */
-    async reflectMode (data: RundownMode) {
-        let changed = false
-        if (this.mode.locked !== data.locked) {
-            this.mode.locked = data.locked
-            changed = true
-            if (data.locked && this.lastState !== null)
-                this.reflectState(this.lastState)
-        }
-        if (this.mode.debug !== data.debug) {
-            this.mode.debug  = data.debug
-            changed = true
-        }
-        if (changed)
-            this.emit("mode-changed")
     }
 }

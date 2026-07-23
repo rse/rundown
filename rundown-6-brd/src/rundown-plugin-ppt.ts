@@ -5,20 +5,15 @@
 */
 
 /*  import external dependencies  */
-import { EventEmitter }       from "node:events"
-import OSC                    from "osc-js"
+import OSC from "osc-js"
 
 /*  import internal dependencies  */
-import { type RundownState, type RundownMode } from "./rundown-state"
-import { RundownPlugin }                       from "./rundown-plugin"
+import { type RundownState }                from "./rundown-state"
+import { RundownPlugin, RundownPluginBase } from "./rundown-plugin"
 
 /*  the Rundown bridge to PowerPoint OSCPoint  */
-export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
+export class RundownPluginPPT extends RundownPluginBase implements RundownPlugin {
     /*  internal state  */
-    private id = ""
-    private active = -1
-    private mode: RundownMode = { locked: false, debug: false }
-    private lastState: RundownState | null = null
     private oscR: OSC | undefined
     private oscS: OSC | undefined
     private pptState = {
@@ -29,7 +24,6 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         build:  0,
         builds: 0
     }
-    private args: { [ key: string ]: string } = {}
     private commandQueue: Promise<void> = Promise.resolve()
     private commands = {
         /*  action: start slide-show  */
@@ -319,42 +313,8 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         })
     }
 
-    /*  INTERNAL: process commands in forward direction  */
-    private processForwardCommands (state: RundownState) {
-        let m: RegExpMatchArray | null
-        for (let i = this.active + 1; i <= state.active && i < state.kv.length; i++) {
-            if (!state.kv[i])
-                continue
-            for (const key of Object.keys(state.kv[i])) {
-                if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
-                    const [ , prefix, name ] = m
-                    const value = state.kv[i][key]
-                    if (prefix === this.args.prefix)
-                        this.executeCommand(name, value, false)
-                }
-            }
-        }
-    }
-
-    /*  INTERNAL: process commands in backward direction  */
-    private processBackwardCommands (state: RundownState) {
-        let m: RegExpMatchArray | null
-        for (let i = this.active - 1; i >= state.active && i >= 0; i--) {
-            if (!state.kv[i] || i >= state.kv.length)
-                continue
-            for (const key of Object.keys(state.kv[i]).reverse()) {
-                if ((m = key.match(/^([^:]+):(.+)$/)) !== null) {
-                    const [ , prefix, name ] = m
-                    const value = state.kv[i][key]
-                    if (prefix === this.args.prefix)
-                        this.executeCommand(name, value, true)
-                }
-            }
-        }
-    }
-
     /*  INTERNAL: execute a single command  */
-    private executeCommand (name: string, value: string | number | boolean, reverse: boolean) {
+    protected executeCommand (name: string, value: string | number | boolean, reverse: boolean) {
         const names = Object.keys(this.commands) as Array<keyof typeof this.commands>
         if (!names.includes(name)) {
             this.emit("log", "warning", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
@@ -380,7 +340,7 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
 
     /*  condense state by reducing "prev", "next", and "goto" into a single "goto"
         in order to avoid slowing down PowerPoint after (re)entering locked mode  */
-    private condensedState (state: RundownState) {
+    protected condenseState (state: RundownState): RundownState {
         const newState: RundownState = { id: state.id, active: state.active, kv: [] }
         let gotoVal = -1
         let gotoIdx = -1
@@ -422,40 +382,5 @@ export class RundownPluginPPT extends EventEmitter implements RundownPlugin {
         if (gotoIdx > -1 && gotoVal > -1)
             newState.kv[gotoIdx][`${this.args.prefix}:goto`] = gotoVal
         return newState
-    }
-
-    /*  reflect current Rundown state  */
-    async reflectState (state: RundownState) {
-        if (state.id !== this.id) {
-            this.id = state.id
-            this.active = -1
-        }
-        this.lastState = state
-        if (this.mode.locked && state.active !== this.active) {
-            if (state.active > this.active)
-                this.processForwardCommands(state)
-            else if (state.active < this.active)
-                this.processBackwardCommands(state)
-            this.active = state.active
-        }
-    }
-
-    /*  reflect current Rundown mode  */
-    async reflectMode (data: RundownMode) {
-        let changed = false
-        if (this.mode.locked !== data.locked) {
-            this.mode.locked = data.locked
-            changed = true
-            if (data.locked && this.lastState !== null) {
-                const condensedState = this.condensedState(this.lastState)
-                this.reflectState(condensedState)
-            }
-        }
-        if (this.mode.debug !== data.debug) {
-            this.mode.debug  = data.debug
-            changed = true
-        }
-        if (changed)
-            this.emit("mode-changed")
     }
 }
