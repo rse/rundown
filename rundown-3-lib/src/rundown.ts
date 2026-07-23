@@ -117,8 +117,8 @@ export default class Rundown extends EventEmitter {
         /*  post-adjust HTML: remove empty list items
             (which still can contain whitespace text nodes)  */
         $("li").each((i, node) => {
-            const hasNonTextContent = Array.from(node.childNodes).some((node) =>
-                !(node.nodeType === 3 /* Node.TEXT_NODE */ && node.nodeValue && /^\s*$/.test(node.nodeValue)))
+            const hasNonTextContent = Array.from(node.childNodes).some((child) =>
+                !(child.nodeType === 3 /* Node.TEXT_NODE */ && child.nodeValue && /^\s*$/.test(child.nodeValue)))
             if (!hasNonTextContent)
                 $(node).remove()
         })
