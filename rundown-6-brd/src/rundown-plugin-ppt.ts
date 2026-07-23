@@ -141,7 +141,7 @@ export class RundownPluginPPT extends RundownPluginBase implements RundownPlugin
         "goto": {
             reverse: "",
             absolute: true,
-            action: async (...args: any[]) => {
+            action: async (...args: Array<string | number | boolean>) => {
                 const slide = args.length === 1 ? Number(args[0]) : 1
                 if (this.pptState.slide !== slide) {
                     this.emit("log", "info", `PowerPoint OSCPoint: [${this.args.prefix}]: ` +
@@ -170,7 +170,7 @@ export class RundownPluginPPT extends RundownPluginBase implements RundownPlugin
         [ command: string ]: {
             reverse: string,
             absolute: boolean,
-            action: (...args: any[]) => void
+            action: (...args: Array<string | number | boolean>) => Promise<void>
         }
     }
 
