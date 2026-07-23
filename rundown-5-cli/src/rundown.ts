@@ -409,15 +409,18 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
             }
         }
         let updateDeliveryTimer: ReturnType<typeof setTimeout> | null = null
+        let updateDeliveryChain: Promise<void> = Promise.resolve()
         const updateDelivery = () => {
             if (updateDeliveryTimer !== null)
                 clearTimeout(updateDeliveryTimer)
             updateDeliveryTimer = setTimeout(() => {
                 updateDeliveryTimer = null
-                updateDeliveryOnce().catch((err) => {
-                    const reason = err instanceof Error ? err.message : String(err)
-                    cli.log("error", `failed to convert and refresh Rundown document: ${reason}`)
-                })
+                updateDeliveryChain = updateDeliveryChain
+                    .then(() => updateDeliveryOnce())
+                    .catch((err) => {
+                        const reason = err instanceof Error ? err.message : String(err)
+                        cli.log("error", `failed to convert and refresh Rundown document: ${reason}`)
+                    })
             }, 500)
         }
 
