@@ -127,14 +127,14 @@ export class RundownRendering {
                 /*  update "what" of tab  */
                 const what = part.querySelector(".rundown-part-tab-what") as HTMLElement | null
                 if (what !== null)
-                    what.innerHTML = `${i++}/${sections.length}`
+                    what.textContent = `${i++}/${sections.length}`
 
                 /*  update "where" of tab  */
                 const rawPercent = this.content.h > 0 ? (this.content.scrollY / this.content.h * 100) : 0
                 const percent = Math.max(0, Math.min(100, rawPercent))
                 const where = part.querySelector(".rundown-part-tab-where") as HTMLElement | null
                 if (where !== null)
-                    where.innerHTML = `${percent.toFixed(0)}%`
+                    where.textContent = `${percent.toFixed(0)}%`
             }
         }
         const closestSection = this.util.findClosestElement(sections, pivot)
