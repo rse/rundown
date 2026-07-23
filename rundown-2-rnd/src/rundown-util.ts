@@ -11,7 +11,7 @@ import * as anime            from "animejs"
 /*  internal dependencies  */
 import type { RundownState } from "./rundown-state"
 
-/*  logging utility class  */
+/*  general utility class  */
 export class RundownUtil {
     /*  references  */
     state!: RundownState
