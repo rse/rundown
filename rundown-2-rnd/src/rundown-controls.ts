@@ -177,15 +177,15 @@ export class RundownControls {
             ".rundown-section:not(.disabled)",
             direction,
             (element, rect, pivot) => {
-                /*  check if pivot is within top 10px of section start or its first chunk  */
-                const distanceFromSectionTop = pivot - rect.top
-                if (distanceFromSectionTop >= 0 && distanceFromSectionTop < 10)
+                /*  check if pivot is within 10px of section start or its first chunk  */
+                const distanceFromSectionTop = Math.abs(pivot - rect.top)
+                if (distanceFromSectionTop < 10)
                     return true
                 const firstChunk = element.querySelector(".rundown-chunk:not(.disabled)")
                 if (firstChunk !== null) {
                     const firstChunkRect = firstChunk.getBoundingClientRect()
-                    const distanceFromChunkTop = pivot - firstChunkRect.top
-                    if (distanceFromChunkTop >= 0 && distanceFromChunkTop < 10)
+                    const distanceFromChunkTop = Math.abs(pivot - firstChunkRect.top)
+                    if (distanceFromChunkTop < 10)
                         return true
                 }
                 return false
