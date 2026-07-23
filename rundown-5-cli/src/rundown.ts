@@ -173,7 +173,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
                 "duration=" + traffic.timeDuration
             cli.log("info", `HAPI: HTTP: request: ${msg}`)
         })
-        server.events.on({ name: "request", channels: [ "error" ] }, (request: HAPI.Request, event: HAPI.RequestEvent, tags: { [key: string]: true }) => {
+        server.events.on({ name: "request", channels: [ "error" ] }, (_request: HAPI.Request, event: HAPI.RequestEvent, _tags: { [key: string]: true }) => {
             if (event.error instanceof Error)
                 cli.log("error", `HAPI: HTTP: request-error: ${event.error.message}`)
             else
@@ -213,7 +213,7 @@ type wsPeerInfo = { ctx: wsPeerCtx, ws: WebSocket }
         })
 
         /*  handle unhandled promise rejections  */
-        process.on("unhandledRejection", async (reason, promise) => {
+        process.on("unhandledRejection", async (reason, _promise) => {
             if (reason instanceof Error)
                 cli.log("error", `promise rejection not handled: ${reason.message}: ${reason.stack}`)
             else
