@@ -526,13 +526,14 @@ export default defineComponent({
                         reader.readAsArrayBuffer(file)
                     })
                     await this.convertAndRender(input)
-                    this.uploadProgress = false
                 }
                 catch (err) {
-                    this.uploadProgress = false
                     this.log("error", "uploading document failed", {
                         reason: err instanceof Error ? err.message : String(err)
                     })
+                }
+                finally {
+                    this.uploadProgress = false
                 }
             }
         },
