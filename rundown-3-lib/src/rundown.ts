@@ -184,7 +184,7 @@ export default class Rundown extends EventEmitter {
                     return
                 if (speeds[speed] !== undefined)
                     speedOfSpeaker.set(speaker, speeds[speed])
-                else if (speed.match(/^[0-9]+$/)) {
+                else if (speed.match(/^[1-9][0-9]*$/)) {
                     /*  numeric speed: exact WPM with interpolated pause  */
                     const wpm = parseInt(speed, 10)
                     speedOfSpeaker.set(speaker, { wpm, pause: pauseOfWPM(wpm) })
