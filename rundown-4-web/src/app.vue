@@ -471,13 +471,13 @@ export default defineComponent({
                 })`
             console.log(output)
         },
-        dragEnter (ev: DragEvent) {
+        dragEnter (_ev: DragEvent) {
             this.uploadDragOver = true
         },
-        dragOver (ev: DragEvent) {
+        dragOver (_ev: DragEvent) {
             this.uploadDragOver = true
         },
-        dragLeave (ev: DragEvent) {
+        dragLeave (_ev: DragEvent) {
             this.uploadDragOver = false
         },
         drop (ev: DragEvent) {
