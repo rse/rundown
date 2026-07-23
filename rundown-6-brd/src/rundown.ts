@@ -33,7 +33,6 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
         )
         .help("help")
         .option("help", {
-            help:        true,
             alias:       "h",
             type:        "boolean",
             default:     false,
@@ -47,7 +46,7 @@ import { RundownPluginBFC }        from "./rundown-plugin-bfc"
         })
         .option("log-level", {
             type:        "string",
-            args:        1,
+            nargs:       1,
             alias:       "v",
             default:     "warning",
             description: "level for verbose logging ('none', 'error', 'warning', 'info', 'debug')"
