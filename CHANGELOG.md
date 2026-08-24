@@ -2,6 +2,12 @@
 ChangeLog
 =========
 
+2.4.1 (2026-08-24)
+------------------
+
+- FEATURE [infr]: add AGENTS.md for Agentic AI Coding tools and hook it into Claude Code
+- CLEANUP [othr]: fix typos in the rundown-template.docx document
+
 2.4.0 (2026-07-23)
 ------------------
 
